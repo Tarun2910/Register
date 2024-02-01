@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Card from '@mui/material/Card';
 import Button from '@mui/material/Button';
 import {Checkbox, useTheme} from '@mui/material';
@@ -31,6 +31,7 @@ const validationSchema = yup.object({
 const Signup = () => {
   const theme = useTheme();
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   return (
     <AppAnimate animation='transition.slideUpIn' delay={200}>
       <Box
@@ -106,6 +107,7 @@ const Signup = () => {
                 // validationSchema={validationSchema}
                 onSubmit={(data, {setErrors, resetForm}) => {
                   console.log(data, 'data');
+                  setLoading(true);
                   // if (data.password !== data.confirmPassword) {
                   //   setErrors({
                   //     confirmPassword: (
@@ -118,7 +120,7 @@ const Signup = () => {
                   let formdata = new FormData();
                   formdata.append('orgName', data.Orgname);
                   formdata.append('adminName', data.adminName);
-                  formdata.append('adminemail', data.adminemail);
+                  formdata.append('adminEmail', data.adminemail);
                   formdata.append('password', data.password);
 
                   let config = {
@@ -132,11 +134,13 @@ const Signup = () => {
                   axios
                     .request(config)
                     .then((response) => {
+                      setLoading(false);
                       console.log(JSON.stringify(response.data));
                       navigate('/signin');
                     })
                     .catch((error) => {
                       console.log(error);
+                      setLoading(false);
                     });
                 }}
               >
@@ -223,7 +227,7 @@ const Signup = () => {
                     <Button
                       variant='contained'
                       color='primary'
-                      // disabled={isSubmitting}
+                      disabled={loading}
                       sx={{
                         width: '100%',
                         height: 44,
@@ -231,7 +235,11 @@ const Signup = () => {
                       }}
                       type='submit'
                     >
-                      <IntlMessages id='common.signup' />
+                      {loading ? (
+                        'Loading...'
+                      ) : (
+                        <IntlMessages id='common.signup' />
+                      )}
                     </Button>
                   </Form>
                 )}

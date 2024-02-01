@@ -46,6 +46,7 @@ export const AddChapter = ({selectedProd}) => {
   ]);
   const [chapterId, setChapterId] = useState('');
   const [difficulty, setDifficulty] = useState('');
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (selectedProd) {
@@ -132,6 +133,7 @@ export const AddChapter = ({selectedProd}) => {
             //     toast.error('error');
             //   });
           } else {
+            setLoading(true);
             const formData = new FormData();
             const metaData = productSpec.map((item) => ({
               name: item.Question,
@@ -177,10 +179,13 @@ export const AddChapter = ({selectedProd}) => {
             axios
               .request(config)
               .then((response) => {
+                setLoading(false);
                 console.log(JSON.stringify(response.data));
+                navigate('/dashboards');
               })
               .catch((error) => {
                 console.log(error);
+                setLoading(false);
               });
           }
           setSubmitting(false);
@@ -203,6 +208,7 @@ export const AddChapter = ({selectedProd}) => {
                 setChapterId={setChapterId}
                 chapterId={chapterId}
                 setDifficulty={setDifficulty}
+                loading={loading}
               />
             </AppGridContainer>
           </Form>

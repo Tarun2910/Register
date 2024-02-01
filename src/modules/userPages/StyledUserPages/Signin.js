@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Card from '@mui/material/Card';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import TwitterIcon from '@mui/icons-material/Twitter';
@@ -35,6 +35,7 @@ const Signin = () => {
   const theme = useTheme();
   const {messages} = useIntl();
   const {logInWithEmailAndPassword} = useAuthMethod();
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   return (
     <AppAnimate animation='transition.slideUpIn' delay={200}>
@@ -114,6 +115,7 @@ const Signin = () => {
                 validationSchema={validationSchema}
                 onSubmit={(data, {resetForm}) => {
                   // resetForm();
+                  setLoading(true);
                   let formdata = new FormData();
                   formdata.append('username', data.email);
                   formdata.append('password', data.password);
@@ -130,13 +132,15 @@ const Signin = () => {
                     .request(config)
                     .then((response) => {
                       console.log(JSON.stringify(response.data));
+                      setLoading(false);
                       sessionStorage.setItem(
                         'jwt_token',
-                        response.data.refresh_token,
+                        response.data.access_token,
                       );
                       navigate('/dashboards');
                     })
                     .catch((error) => {
+                      setLoading(false);
                       console.log(error);
                     });
                 }}
@@ -224,13 +228,17 @@ const Signin = () => {
                       variant='contained'
                       color='primary'
                       type='submit'
-                      // disabled={isSubmitting}
+                      disabled={loading}
                       sx={{
                         width: '100%',
                         height: 44,
                       }}
                     >
-                      <IntlMessages id='common.login' />
+                      {loading ? (
+                        'Loading...'
+                      ) : (
+                        <IntlMessages id='common.login' />
+                      )}
                     </Button>
                   </Form>
                 )}

@@ -26,10 +26,7 @@ const ProductListing = () => {
   });
 
   const [page, setPage] = useState(0);
-  const [list, setList] = useState([
-    {name: 'tarun', email: 'Tarun@costcloud.com', status: 'active'},
-    {name: 'Sharma', email: 'Sharma@gamil.com', status: 'unactive'},
-  ]);
+  const [list, setList] = useState([]);
   const [thumbnailUrls, setThumbnailUrls] = useState([]);
   const [total, setTotal] = useState(0);
   const [{apiData, loading}, {setQueryParams}] = useGetDataApi(

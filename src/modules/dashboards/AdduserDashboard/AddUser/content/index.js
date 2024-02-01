@@ -53,6 +53,7 @@ const ProductContent = ({
   setChapterId,
   chapterId,
   setDifficulty,
+  loading,
 }) => {
   const fileInputRef = useRef(null);
   const navigate = useNavigate();
@@ -280,8 +281,9 @@ const ProductContent = ({
               color='primary'
               variant='contained'
               type='submit'
+              disabled={loading}
             >
-              Add
+              {loading ? 'Loading...' : 'ADD'}
             </Button>
           </Stack>
         </AppScrollbar>
@@ -305,4 +307,5 @@ ProductContent.propTypes = {
   setChapterId: PropTypes.func,
   chapterId: PropTypes.any,
   setDifficulty: PropTypes.any,
+  loading: PropTypes.any,
 };
