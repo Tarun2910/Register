@@ -82,7 +82,7 @@ const TableItem = ({data, thumbnailUrls, setTotal, setPage, setList, list}) => {
         </Box>
       </StyledTableCell>
       <StyledTableCell align='left'>{data.email}</StyledTableCell>
-      <StyledTableCell align='left'>{data.status}</StyledTableCell>
+      <StyledTableCell align='left'>{data.active_status}</StyledTableCell>
       <StyledTableCell align='center'>
         <Box
         // sx={{
