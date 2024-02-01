@@ -1,0 +1,20 @@
+{
+  "sidebar.app.dashboard.academy": "डैशबोर्ड",
+  "sidebar.application": "आवेदन",
+  "sidebar.apps": "ऐप्स",
+  "sidebar.ecommerce": "उपयोगकर्ता क्रिया",
+  "sidebar.ecommerce.products": "पाठ्यक्रम",
+  "sidebar.ecommerceAdmin": "व्यवस्थापक कार्रवाई",
+  "sidebar.ecommerceAdmin.productListing": "पाठ्यक्रम सूची",
+  "sidebar.ecommerceAdmin.addProducts": "पाठ्यक्रम जोड़ें",
+  "sidebar.coordinator.action": "समन्वयक कार्रवाई",
+  "sidebar.coordinator": "समन्वयक",
+  "sidebar.creator.action": "निर्माता कार्रवाई",
+  "sidebar.creator": "निर्माता",
+  "common.noRecordFound": "कोई रिकॉर्ड नहीं मिला",
+  "validation.passwordRequired": "कृपया पासवर्ड दर्ज करें!",
+  "common.username": "उपयोगकर्ता नाम",
+  "common.password": "पासवर्ड",
+  "common.login": "लॉग इन करें",
+  "validation.usernameRequired": "कृपया उपयोगकर्ता नाम दर्ज करें!"
+}

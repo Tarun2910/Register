@@ -1,0 +1,148 @@
+.list {
+  margin-left: 10px;
+}
+
+.content1 {
+  color: black;
+}
+
+.content {
+  color: var(--para-clr);
+}
+
+.custom_list {
+  list-style-type: none;
+  /* Remove the default bullet point */
+  padding: 0;
+  /* Remove any default padding */
+}
+
+.custom_list div {
+  margin-left: 18px;
+  margin-bottom: 10px;
+}
+
+.number {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+/* Style for the numbers */
+.number::before {
+  content: counter(my-counter) '. ';
+  /* Use a counter to display numbers */
+  counter-increment: my-counter;
+}
+
+.playlist_container {
+  /* padding: 0rem 1rem 0rem 1rem; */
+  /* margin-top: 5rem; */
+  /* overflow-y: scroll; */
+  max-height: 80vh;
+  overflow-x: hidden;
+  /* position: fixed; */
+  scrollbar-width: none;
+}
+
+.playlist-header {
+  margin-bottom: 10px;
+  padding: 1rem;
+  /* background-color: red; */
+}
+
+.List {
+  background-color: var(--form);
+}
+
+.custom_list {
+  padding: 0;
+  list-style-type: none;
+  margin: 0;
+  /* background-color: var(--form); */
+}
+
+.custom_list li {
+  padding: 0.5rem;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+}
+
+.custom_list li:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.custom_list .number {
+  margin-right: 1rem;
+  font-weight: bold;
+  min-width: 1.5rem;
+}
+
+.accord {
+  background-color: red;
+}
+
+.custom_list .video_title {
+  font-size: 1rem;
+}
+
+.playlist-video.playing {
+  background-color: #e0e0e0;
+}
+
+/* Additional styling for better appearance */
+.playlist-video {
+  transition: background-color 0.3s ease-in-out;
+}
+
+/* PlayList Css */
+
+.header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.accord.locked .MuiAccordionSummary-root {
+  /* background-color: #eee;  */
+  cursor: not-allowed;
+}
+
+.playlist_video.locked {
+  /* background-color: #f7f7f7;  */
+  cursor: not-allowed;
+}
+
+.progress {
+  height: 10px;
+  background-color: #ddd;
+  margin-top: 5px;
+}
+
+.progressBar {
+  height: 100%;
+  background-color: #4caf50;
+}
+
+.progress_line {
+  height: 3px;
+  background-color: #2196f3;
+  border: none;
+  /* margin-top: 5px; */
+}
+
+.title_container {
+  display: flex;
+  align-items: center;
+}
+
+.lock_icon {
+  margin-left: auto;
+  margin-right: 10px; /* Adjust the margin as needed */
+}
+
+.progress_line_container {
+  margin-top: 5px; /* Adjust the margin as needed */
+}
