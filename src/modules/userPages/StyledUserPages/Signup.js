@@ -167,7 +167,7 @@ const Signup = () => {
                     <Box sx={{mb: {xs: 3, xl: 4}}}>
                       <AppTextField
                         label={<IntlMessages id='common.adminemail' />}
-                        name=' adminemail'
+                        name='adminemail'
                         type='email'
                         variant='outlined'
                         sx={{
