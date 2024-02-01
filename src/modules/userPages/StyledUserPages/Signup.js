@@ -11,7 +11,7 @@ import {Fonts} from '@crema/constants/AppEnums';
 import AppAnimate from '@crema/components/AppAnimate';
 import AppTextField from '@crema/components/AppFormComponents/AppTextField';
 import {ReactComponent as Logo} from '../../../assets/user/signup.svg';
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import axios from 'axios';
 
 const validationSchema = yup.object({
@@ -30,6 +30,7 @@ const validationSchema = yup.object({
 
 const Signup = () => {
   const theme = useTheme();
+  const navigate = useNavigate();
   return (
     <AppAnimate animation='transition.slideUpIn' delay={200}>
       <Box
@@ -132,6 +133,7 @@ const Signup = () => {
                     .request(config)
                     .then((response) => {
                       console.log(JSON.stringify(response.data));
+                      navigate('/signin');
                     })
                     .catch((error) => {
                       console.log(error);
