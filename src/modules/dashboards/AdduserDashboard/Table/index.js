@@ -8,7 +8,13 @@ import TableItem from './TableItem';
 import AppTableContainer from '@crema/components/AppTableContainer';
 import AppLoader from '@crema/components/AppLoader';
 
-const ProductTable = ({productData, loading, onItemsStateUpdate}) => {
+const ProductTable = ({
+  productData,
+  loading,
+  onItemsStateUpdate,
+  onButtonDisable,
+  setTableData,
+}) => {
   return (
     <AppTableContainer>
       <Table stickyHeader className='table'>
@@ -24,6 +30,8 @@ const ProductTable = ({productData, loading, onItemsStateUpdate}) => {
               productData={productData}
               // key={data.id}
               onItemsStateUpdate={onItemsStateUpdate}
+              onButtonDisable={onButtonDisable}
+              setTableData={setTableData}
             />
             // ))
           )}
@@ -43,4 +51,6 @@ ProductTable.propTypes = {
   productData: PropTypes.array,
   loading: PropTypes.bool,
   onItemsStateUpdate: PropTypes.any,
+  onButtonDisable: PropTypes.any,
+  setTableData: PropTypes.any,
 };

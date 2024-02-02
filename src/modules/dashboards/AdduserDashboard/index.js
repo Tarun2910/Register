@@ -40,8 +40,36 @@ const ProductListing = () => {
     false,
   );
   const [updatedItemsState, setUpdatedItemsState] = useState([]);
+  const [disable, setDisable] = useState(false);
+  const [license, setLicense] = useState(0);
+  const [tableData, setTableData] = useState([]);
 
-  // const {list, total} = apiData;
+  const activeUsersCount = updatedItemsState.filter(
+    (item) => item.active_status === true,
+  ).length;
+
+  console.log(activeUsersCount, tableData, 'tableData');
+
+  useEffect(() => {
+    let config = {
+      method: 'get',
+      maxBodyLength: Infinity,
+      url: 'http://localhost:8081/tenants',
+      headers: {
+        Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
+      },
+    };
+
+    axios
+      .request(config)
+      .then((response) => {
+        console.log(JSON.stringify(response.data));
+        setLicense(response?.data?.usersRemaining);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
 
   const onPageChange = (event, value) => {
     setPage(value);
@@ -75,58 +103,28 @@ const ProductListing = () => {
     setFilterData({...filterData, title});
   };
 
-  const searchCourseData = async (searchQuery) => {
-    // try {
-    //   const response = await axios.get(`/kms/courses/by-everything`, {
-    //     headers: {
-    //       Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
-    //       keyword: searchQuery,
-    //       tags: null,
-    //     },
-    //   });
-    //   const courseLength = response.headers['totalcourses'];
-    //   setTotal(courseLength);
-    //   setList(response?.data);
-    //   const thumbnails = response?.data
-    //     ?.map((course) => course.courseThumbnail)
-    //     .filter(Boolean);
-    //   const urlPromises = thumbnails?.map(async (thumbnail) => {
-    //     try {
-    //       const responsethumbnail = await axios.get(
-    //         `/kms/courses/file/${thumbnail}?fileType=thumbnail`,
-    //         {
-    //           headers: {
-    //             Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
-    //           },
-    //           responseType: 'arraybuffer',
-    //         },
-    //       );
-    //       const blob = new Blob([responsethumbnail.data], {
-    //         type: 'image/jpeg',
-    //       });
-    //       const dataUrl = URL.createObjectURL(blob);
-    //       return {[thumbnail]: dataUrl};
-    //     } catch (err) {
-    //       console.log(err);
-    //     }
-    //   });
-    //   const urls = await Promise.all(urlPromises);
-    //   const mergedUrls = Object.assign({}, ...urls.filter(Boolean));
-    //   console.log(mergedUrls, 'mergedUrls');
-    //   // Set the obtained URLs
-    //   setThumbnailUrls(mergedUrls);
-    // } catch (err) {
-    //   console.log(err);
-    // }
-  };
-
   const HandleNavigate = () => {
     Navigate('/addUser');
   };
 
   const handlesaveChanges = () => {
-    let data = '';
+    // Check if remaining license is less than the count of active users
+    const activeUsersCount = updatedItemsState.filter(
+      (item) => item.active_status === true,
+    ).length;
 
+    console.log(activeUsersCount, license, 'activeuserCount');
+
+    if (license < activeUsersCount) {
+      // Show a dialog or handle the validation error here
+      // For example, you can set a state to trigger the dialog in your component
+      // setValidationError(true);
+      alert(
+        "'Validation Error: Remaining license is insufficient for active users.',",
+      );
+
+      return;
+    }
     let config = {
       method: 'post',
       maxBodyLength: Infinity,
@@ -142,6 +140,8 @@ const ProductListing = () => {
       .request(config)
       .then((response) => {
         console.log(JSON.stringify(response.data));
+        const RemainingUsers = response.headers['usersRemaining'];
+        setLicense(RemainingUsers);
       })
       .catch((error) => {
         console.log(error);
@@ -154,6 +154,8 @@ const ProductListing = () => {
         component='h2'
         variant='h2'
         sx={{
+          display: 'flex',
+          justifyContent: 'space-between', // This will position 'users.list' and 'remainingLicense' at the extremes
           fontSize: 16,
           color: 'text.primary',
           fontWeight: Fonts.SEMI_BOLD,
@@ -163,7 +165,9 @@ const ProductListing = () => {
           },
         }}
       >
-        {messages['users.list']}
+        <span>{messages['users.list']}</span>
+
+        <span> Remaining License: {license}</span>
       </Box>
       <AppGridContainer spacing={7}>
         <Slide direction='right' in mountOnEnter unmountOnExit>
@@ -181,7 +185,7 @@ const ProductListing = () => {
                     <AppSearchBar
                       iconPosition='right'
                       overlap={false}
-                      onChange={(event) => searchCourseData(event.target.value)}
+                      // onChange={(event) => searchCourseData(event.target.value)}
                       placeholder={messages['common.searchHere']}
                     />
                     <Box
@@ -196,6 +200,7 @@ const ProductListing = () => {
                         variant='contained'
                         size='small'
                         onClick={handlesaveChanges}
+                        disabled={disable}
                       >
                         Save Changes
                       </Button>
@@ -239,6 +244,8 @@ const ProductListing = () => {
                   setList={setList}
                   list={list}
                   onItemsStateUpdate={setUpdatedItemsState}
+                  onButtonDisable={setDisable}
+                  setTableData={setTableData}
                 />
               </AppsContent>
               <Hidden smUp>
