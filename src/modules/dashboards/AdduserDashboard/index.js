@@ -26,7 +26,11 @@ const ProductListing = () => {
   });
 
   const [page, setPage] = useState(0);
-  const [list, setList] = useState([]);
+  const [list, setList] = useState([
+    {id: '1', name: 'tarun', email: 'tarun@costacloud', active_status: false},
+    {id: '2', name: 'new', email: 'new@costacloud', active_status: true},
+    {id: '3', name: 'demo', email: 'new@costacloud', active_status: true},
+  ]);
   const [thumbnailUrls, setThumbnailUrls] = useState([]);
   const [total, setTotal] = useState(0);
   const [{apiData, loading}, {setQueryParams}] = useGetDataApi(
@@ -35,6 +39,7 @@ const ProductListing = () => {
     {},
     false,
   );
+  const [updatedItemsState, setUpdatedItemsState] = useState([]);
 
   // const {list, total} = apiData;
 
@@ -59,7 +64,7 @@ const ProductListing = () => {
       .request(config)
       .then((response) => {
         console.log(JSON.stringify(response.data));
-        setList(response.data);
+        // setList(response.data);
       })
       .catch((error) => {
         console.log(error);
@@ -119,6 +124,30 @@ const ProductListing = () => {
     Navigate('/addUser');
   };
 
+  const handlesaveChanges = () => {
+    let data = '';
+
+    let config = {
+      method: 'post',
+      maxBodyLength: Infinity,
+      url: 'http://localhost:8081/tenants/users/status',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
+      },
+      data: updatedItemsState,
+    };
+
+    axios
+      .request(config)
+      .then((response) => {
+        console.log(JSON.stringify(response.data));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   return (
     <>
       <Box
@@ -161,6 +190,15 @@ const ProductListing = () => {
                       alignItems='center'
                       justifyContent='flex-end'
                     >
+                      <Button
+                        sx={{marginRight: '10px'}}
+                        color='primary'
+                        variant='contained'
+                        size='small'
+                        onClick={handlesaveChanges}
+                      >
+                        Save Changes
+                      </Button>
                       <Tooltip title='ADD USER' onClick={HandleNavigate}>
                         <AddCircleRoundedIcon
                           sx={{
@@ -200,6 +238,7 @@ const ProductListing = () => {
                   setPage={setPage}
                   setList={setList}
                   list={list}
+                  onItemsStateUpdate={setUpdatedItemsState}
                 />
               </AppsContent>
               <Hidden smUp>
@@ -213,11 +252,6 @@ const ProductListing = () => {
             </AppCard>
           </Grid>
         </Slide>
-        {/* <Slide direction='left' in mountOnEnter unmountOnExit>
-          <Grid item xs={12} lg={3}>
-            <FilterItem filterData={filterData} setFilterData={setFilterData} />
-          </Grid>
-        </Slide> */}
       </AppGridContainer>
     </>
   );

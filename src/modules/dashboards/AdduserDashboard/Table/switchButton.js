@@ -5,6 +5,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
+import PropTypes from 'prop-types';
 
 const IOSSwitch = styled((props) => (
   <Switch focusVisibleClassName='.Mui-focusVisible' disableRipple {...props} />
@@ -57,13 +58,21 @@ const IOSSwitch = styled((props) => (
   },
 }));
 
-export default function CustomizedSwitches() {
+export default function CustomizedSwitches({checked, onChange}) {
+  console.log(checked, 'checked');
   return (
     <FormGroup>
       <FormControlLabel
-        control={<IOSSwitch sx={{m: 2}} defaultChecked />}
+        control={
+          <IOSSwitch sx={{m: 2}} checked={checked} onChange={onChange} />
+        }
         // label='Active licence'
       />
     </FormGroup>
   );
 }
+
+CustomizedSwitches.propTypes = {
+  checked: PropTypes.any,
+  onChange: PropTypes.any,
+};

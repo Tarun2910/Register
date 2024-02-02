@@ -1,11 +1,100 @@
-import React from 'react';
+// import React, {useState} from 'react';
+// import TableCell from '@mui/material/TableCell';
+// import TableRow from '@mui/material/TableRow';
+// import PropTypes from 'prop-types';
+// import Box from '@mui/material/Box';
+// import {styled} from '@mui/material/styles';
+// import {ellipsisLines} from '@crema/helpers/StringHelper';
+// import CustomizedSwitches from './switchButton';
+
+// const StyledTableCell = styled(TableCell)(() => ({
+//   fontSize: 14,
+//   padding: 8,
+//   '&:first-of-type': {
+//     paddingLeft: 20,
+//   },
+//   '&:last-of-type': {
+//     paddingRight: 20,
+//   },
+// }));
+
+// const TableItem = ({productData}) => {
+//   const [itemsState, setItemsState] = useState([]);
+
+//   // Find the index of the item in the state array
+//   const index = itemsState.findIndex((item) => item.id === productData.id);
+
+//   // Get the active_status from the state or the original data if not found
+//   const activeStatus =
+//     index !== -1 ? itemsState[index].active_status : productData.active_status;
+
+//   const handleSwitchChange = (data) => {
+//     const id = data.id;
+//     const itemIndex = itemsState.findIndex((item) => item.id === id);
+
+//     setItemsState((prevItemsState) => {
+//       const updatedItemsState = [...prevItemsState];
+
+//       if (itemIndex !== -1) {
+//         // If the item is already in the state, update its active_status
+//         updatedItemsState[itemIndex].active_status =
+//           !updatedItemsState[itemIndex].active_status;
+//       } else {
+//         // If the item is not in the state, add it with the updated active_status
+//         updatedItemsState.push({id, active_status: !data.active_status});
+//       }
+
+//       return updatedItemsState;
+//     });
+//   };
+
+//   console.log(itemsState, 'itemsState');
+
+//   return productData.map((data) => (
+//     <TableRow key={data.name} className='item-hover'>
+//       <StyledTableCell align='left' sx={{width: 400}}>
+//         <Box
+//           sx={{
+//             display: 'flex',
+//             alignItems: 'center',
+//             cursor: 'pointer',
+//             color: 'primary.main',
+//           }}
+//         >
+//           {ellipsisLines(data.name)}
+//         </Box>
+//       </StyledTableCell>
+//       <StyledTableCell align='left'>{data.email}</StyledTableCell>
+//       <StyledTableCell align='left'>{data.active_status}</StyledTableCell>
+//       <StyledTableCell align='center'>
+//         <Box>
+//           <CustomizedSwitches
+//             checked={
+//               itemsState.length > 0
+//                 ? itemsState.find((item) => item.id === data.id)
+//                     ?.active_status || false
+//                 : data.active_status
+//             }
+//             onChange={() => handleSwitchChange(data)}
+//           />
+//         </Box>
+//       </StyledTableCell>
+//     </TableRow>
+//   ));
+// };
+
+// export default TableItem;
+
+// TableItem.propTypes = {
+//   productData: PropTypes.arrayOf(PropTypes.object),
+// };
+
+import React, {useState, useEffect} from 'react';
 import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
 import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
-import OrderActions from './Actions';
 import {styled} from '@mui/material/styles';
-import {useNavigate} from 'react-router-dom';
 import {ellipsisLines} from '@crema/helpers/StringHelper';
 import CustomizedSwitches from './switchButton';
 
@@ -19,45 +108,48 @@ const StyledTableCell = styled(TableCell)(() => ({
     paddingRight: 20,
   },
 }));
-const TableItem = ({data, thumbnailUrls, setTotal, setPage, setList, list}) => {
-  const navigate = useNavigate();
-  const getPaymentStatusColor = () => {
-    switch (data.inStock) {
-      case true: {
-        return '#43C888';
+
+const TableItem = ({productData, onItemsStateUpdate}) => {
+  const [itemsState, setItemsState] = useState([]);
+
+  // useEffect(() => {
+  //   // Initialize itemsState with default values from productData
+  //   const initialItemsState = productData.map((data) => ({
+  //     id: data.id,
+  //     active_status: data.active_status,
+  //   }));
+  //   setItemsState(initialItemsState);
+  // }, [productData]);
+
+  useEffect(() => {
+    // Call the callback function to send the updated state to the parent
+    onItemsStateUpdate(itemsState);
+  }, [itemsState, onItemsStateUpdate]);
+
+  const handleSwitchChange = (data) => {
+    const id = data.id;
+    const itemIndex = itemsState.findIndex((item) => item.id === id);
+
+    setItemsState((prevItemsState) => {
+      const updatedItemsState = [...prevItemsState];
+
+      if (itemIndex !== -1) {
+        // If the item is already in the state, update only the specific item
+        updatedItemsState[itemIndex].active_status =
+          !updatedItemsState[itemIndex].active_status;
+      } else {
+        // If the item is not in the state, add it to the state
+        updatedItemsState.push({id, active_status: !data.active_status});
       }
-      case false: {
-        return '#F84E4E';
-      }
-    }
+
+      return updatedItemsState;
+    });
   };
 
-  const formatDate = (dateString) => {
-    const months = [
-      'Jan',
-      'Feb',
-      'Mar',
-      'Apr',
-      'May',
-      'Jun',
-      'Jul',
-      'Aug',
-      'Sep',
-      'Oct',
-      'Nov',
-      'Dec',
-    ];
+  console.log(itemsState, 'itemsState');
 
-    const date = new Date(dateString);
-    const day = date.getDate();
-    const month = months[date.getMonth()];
-    const year = date.getFullYear();
-
-    return `${day} ${month} ${year}`;
-  };
-
-  return (
-    <TableRow key={data.name} className='item-hover'>
+  return productData.map((data) => (
+    <TableRow key={data.id} className='item-hover'>
       <StyledTableCell align='left' sx={{width: 400}}>
         <Box
           sx={{
@@ -66,58 +158,30 @@ const TableItem = ({data, thumbnailUrls, setTotal, setPage, setList, list}) => {
             cursor: 'pointer',
             color: 'primary.main',
           }}
-          // onClick={() => navigate(`/ecommerce/product_detail/${data?.id}`)}
         >
-          {/* <img
-            style={{
-              width: '40px',
-              height: '40px',
-              objectFit: 'contain',
-              marginRight: 10,
-            }}
-            src={thumbnailUrls[data.courseThumbnail]}
-            alt='image'
-          /> */}
           {ellipsisLines(data.name)}
         </Box>
       </StyledTableCell>
       <StyledTableCell align='left'>{data.email}</StyledTableCell>
       <StyledTableCell align='left'>{data.active_status}</StyledTableCell>
       <StyledTableCell align='center'>
-        <Box
-        // sx={{
-        //   color: getPaymentStatusColor(),
-        //   backgroundColor: getPaymentStatusColor() + '44',
-        //   padding: '3px 5px',
-        //   borderRadius: 1,
-        //   fontSize: 14,
-        //   display: 'inline-block',
-        // }}
-        >
-          <CustomizedSwitches />
+        <Box>
+          <CustomizedSwitches
+            checked={
+              itemsState.find((item) => item.id === data.id)?.active_status ??
+              data.active_status
+            }
+            onChange={() => handleSwitchChange(data)}
+          />
         </Box>
       </StyledTableCell>
-      {/* <StyledTableCell align='left'>{data.mrp}</StyledTableCell> */}
-      {/* <TableCell align='right'>
-        <OrderActions
-          id={data.id}
-          setTotal={setTotal}
-          setPage={setPage}
-          setList={setList}
-          list={list}
-        />
-      </TableCell> */}
     </TableRow>
-  );
+  ));
 };
 
 export default TableItem;
 
 TableItem.propTypes = {
-  data: PropTypes.object.isRequired,
-  thumbnailUrls: PropTypes.object,
-  setTotal: PropTypes.any,
-  setPage: PropTypes.any,
-  setList: PropTypes.any,
-  list: PropTypes.any,
+  productData: PropTypes.arrayOf(PropTypes.object),
+  onItemsStateUpdate: PropTypes.any,
 };
