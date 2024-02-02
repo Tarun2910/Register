@@ -14,6 +14,9 @@ const ProductTable = ({
   onItemsStateUpdate,
   onButtonDisable,
   setTableData,
+  setList,
+  setItemsState,
+  itemsState,
 }) => {
   return (
     <AppTableContainer>
@@ -32,6 +35,9 @@ const ProductTable = ({
               onItemsStateUpdate={onItemsStateUpdate}
               onButtonDisable={onButtonDisable}
               setTableData={setTableData}
+              setList={setList}
+              setItemsState={setItemsState}
+              itemsState={itemsState}
             />
             // ))
           )}
@@ -53,4 +59,7 @@ ProductTable.propTypes = {
   onItemsStateUpdate: PropTypes.any,
   onButtonDisable: PropTypes.any,
   setTableData: PropTypes.any,
+  setList: PropTypes.any,
+  setItemsState: PropTypes.any,
+  itemsState: PropTypes.any,
 };

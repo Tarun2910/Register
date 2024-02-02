@@ -23,8 +23,10 @@ const TableItem = ({
   onItemsStateUpdate,
   onButtonDisable,
   setTableData,
+  itemsState,
+  setItemsState,
 }) => {
-  const [itemsState, setItemsState] = useState([]);
+  // const [itemsState, setItemsState] = useState([]);
 
   useEffect(() => {
     // Initialize itemsState with default values from productData
@@ -44,6 +46,20 @@ const TableItem = ({
       onButtonDisable(false);
     }
   }, [itemsState, onItemsStateUpdate]);
+
+  // useEffect(() => {
+  //   // Call the callback function to send the updated state to the parent
+  //   onItemsStateUpdate(itemsState);
+
+  //   // Check if there are any items with different active_status
+  //   const hasDifferentActiveStatus = itemsState.some((item) => {
+  //     const originalItem = productData.find((data) => data.id === item.id);
+  //     return originalItem && originalItem.active_status !== item.active_status;
+  //   });
+
+  //   // Disable the button if there are differences
+  //   onButtonDisable(hasDifferentActiveStatus);
+  // }, [itemsState, onItemsStateUpdate, onButtonDisable, productData]);
 
   const handleSwitchChange = (data) => {
     const id = data.id;

@@ -44,6 +44,7 @@ const ProductListing = () => {
   const [disable, setDisable] = useState(false);
   const [license, setLicense] = useState(0);
   const [tableData, setTableData] = useState([]);
+  const [itemsState, setItemsState] = useState([]);
 
   const activeUsersCount = updatedItemsState.filter(
     (item) => item.active_status === true,
@@ -93,7 +94,7 @@ const ProductListing = () => {
       .request(config)
       .then((response) => {
         console.log(JSON.stringify(response.data));
-        setList(response.data);
+        setList(response?.data);
       })
       .catch((error) => {
         console.log(error);
@@ -141,8 +142,10 @@ const ProductListing = () => {
       .request(config)
       .then((response) => {
         console.log(JSON.stringify(response.data));
-        const RemainingUsers = response.headers['usersRemaining'];
-        setLicense(RemainingUsers);
+        // const RemainingUsers = response.headers['usersRemaining'];
+        setLicense(response?.data?.usersRemaining);
+        setList(response?.data?.allUsers);
+        setItemsState([]);
       })
       .catch((error) => {
         console.log(error);
@@ -247,6 +250,8 @@ const ProductListing = () => {
                   onItemsStateUpdate={setUpdatedItemsState}
                   onButtonDisable={setDisable}
                   setTableData={setTableData}
+                  setItemsState={setItemsState}
+                  itemsState={itemsState}
                 />
               </AppsContent>
               <Hidden smUp>
