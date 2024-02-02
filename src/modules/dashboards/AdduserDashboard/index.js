@@ -26,11 +26,12 @@ const ProductListing = () => {
   });
 
   const [page, setPage] = useState(0);
-  const [list, setList] = useState([
-    {id: '1', name: 'tarun', email: 'tarun@costacloud', active_status: false},
-    {id: '2', name: 'new', email: 'new@costacloud', active_status: true},
-    {id: '3', name: 'demo', email: 'new@costacloud', active_status: true},
-  ]);
+  // const [list, setList] = useState([
+  //   {id: '1', name: 'tarun', email: 'tarun@costacloud', active_status: false},
+  //   {id: '2', name: 'new', email: 'new@costacloud', active_status: true},
+  //   {id: '3', name: 'demo', email: 'new@costacloud', active_status: true},
+  // ]);
+  const [list, setList] = useState([]);
   const [thumbnailUrls, setThumbnailUrls] = useState([]);
   const [total, setTotal] = useState(0);
   const [{apiData, loading}, {setQueryParams}] = useGetDataApi(
@@ -92,7 +93,7 @@ const ProductListing = () => {
       .request(config)
       .then((response) => {
         console.log(JSON.stringify(response.data));
-        // setList(response.data);
+        setList(response.data);
       })
       .catch((error) => {
         console.log(error);
