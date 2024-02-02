@@ -36,7 +36,7 @@ const AppLogo = () => {
         }}
       >
         {/* <Kms fill={alpha(theme.palette.text.primary, 0.8)} /> */}
-        <h1>KMS</h1>
+        <h1></h1>
         {/* <LogoText fill={alpha(theme.palette.text.primary, 0.8)} /> */}
       </Box>
     </Box>

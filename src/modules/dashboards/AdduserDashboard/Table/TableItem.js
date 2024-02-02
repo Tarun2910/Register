@@ -40,26 +40,24 @@ const TableItem = ({
   useEffect(() => {
     // Call the callback function to send the updated state to the parent
     onItemsStateUpdate(itemsState);
-    if (itemsState.length <= 0) {
-      onButtonDisable(true);
-    } else {
+    // if (itemsState.length <= 0) {
+    //   onButtonDisable(true);
+    // } else {
+    //   onButtonDisable(false);
+    // }
+    console.log(itemsState, productData, 'productData');
+    const isAnyItemInactive = itemsState.some(
+      (item) =>
+        item.active_status !==
+        productData.find((d) => d.id === item.id).active_status,
+    );
+
+    if (isAnyItemInactive) {
       onButtonDisable(false);
+    } else {
+      onButtonDisable(true);
     }
   }, [itemsState, onItemsStateUpdate]);
-
-  // useEffect(() => {
-  //   // Call the callback function to send the updated state to the parent
-  //   onItemsStateUpdate(itemsState);
-
-  //   // Check if there are any items with different active_status
-  //   const hasDifferentActiveStatus = itemsState.some((item) => {
-  //     const originalItem = productData.find((data) => data.id === item.id);
-  //     return originalItem && originalItem.active_status !== item.active_status;
-  //   });
-
-  //   // Disable the button if there are differences
-  //   onButtonDisable(hasDifferentActiveStatus);
-  // }, [itemsState, onItemsStateUpdate, onButtonDisable, productData]);
 
   const handleSwitchChange = (data) => {
     const id = data.id;
