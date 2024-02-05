@@ -192,7 +192,8 @@ const ProductListing = () => {
         console.log(JSON.stringify(response.data));
         // const RemainingUsers = response.headers['usersRemaining'];
         setLicense(response?.data?.usersRemaining);
-        setList(response?.data?.allUsers);
+        setList(response?.data?.allUsers?.content);
+        setTotal(response?.data?.totalElements);
         setItemsState([]);
       })
       .catch((error) => {
@@ -226,6 +227,10 @@ const ProductListing = () => {
       });
   };
 
+  const handlegotoupgrade = () => {
+    Navigate('/upgrade');
+  };
+
   return (
     <>
       <Box
@@ -245,7 +250,10 @@ const ProductListing = () => {
       >
         <span>{messages['users.list']}</span>
 
-        <span> Remaining License: {license}</span>
+        <span>
+          {' '}
+          Remaining License: {license} of {'5'}
+        </span>
       </Box>
       <AppGridContainer spacing={7}>
         <Slide direction='right' in mountOnEnter unmountOnExit>
@@ -277,11 +285,21 @@ const ProductListing = () => {
                         color='primary'
                         variant='contained'
                         size='small'
+                        onClick={handlegotoupgrade}
+                      >
+                        Activate new plan
+                      </Button>
+                      <Button
+                        sx={{marginRight: '10px'}}
+                        color='primary'
+                        variant='contained'
+                        size='small'
                         onClick={handlesaveChanges}
                         disabled={disable}
                       >
                         Save Changes
                       </Button>
+
                       <Tooltip title='ADD USER' onClick={HandleNavigate}>
                         <AddCircleRoundedIcon
                           sx={{
@@ -350,8 +368,9 @@ const ProductListing = () => {
         <DialogTitle>{'Upgrade your plan'}</DialogTitle>
         <DialogContent>
           <DialogContentText id='alert-dialog-slide-description'>
-            Let Google help apps determine location. This means sending
-            anonymous location data to Google, even when no apps are running.
+            Your current plan is limited to a certain number of users. To
+            accommodate more users, you may need to consider upgrading your
+            plan.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -359,7 +378,6 @@ const ProductListing = () => {
           <Button onClick={navigatetoUpgrade}>Upgrade</Button>
         </DialogActions>
       </Dialog>
-      ;
     </>
   );
 };
