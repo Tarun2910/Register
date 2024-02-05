@@ -193,7 +193,7 @@ const ProductListing = () => {
         // const RemainingUsers = response.headers['usersRemaining'];
         setLicense(response?.data?.usersRemaining);
         setList(response?.data?.allUsers?.content);
-        setTotal(response?.data?.totalElements);
+        setTotal(response?.data?.allUsers?.totalElements);
         setItemsState([]);
       })
       .catch((error) => {
@@ -231,6 +231,16 @@ const ProductListing = () => {
     Navigate('/upgrade');
   };
 
+  const handletiername = () => {
+    if (licensetier === 'growth') {
+      return 20;
+    } else if (licensetier === 'pro') {
+      return 30;
+    } else {
+      return 5;
+    }
+  };
+
   return (
     <>
       <Box
@@ -252,7 +262,7 @@ const ProductListing = () => {
 
         <span>
           {' '}
-          Remaining License: {license} of {'5'}
+          Remaining License: {license} of {handletiername}
         </span>
       </Box>
       <AppGridContainer spacing={7}>
