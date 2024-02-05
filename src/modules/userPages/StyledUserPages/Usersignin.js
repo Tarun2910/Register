@@ -20,6 +20,7 @@ import {ReactComponent as Logo} from '../../../assets/user/login.svg';
 import {Link, useNavigate} from 'react-router-dom';
 import {useAuthMethod} from '@crema/hooks/AuthHooks';
 import axios from 'axios';
+import {toast} from 'react-toastify';
 
 const validationSchema = yup.object({
   email: yup
@@ -31,7 +32,7 @@ const validationSchema = yup.object({
     .required(<IntlMessages id='validation.passwordRequired' />),
 });
 
-const UserSignin = () => {
+const Usersignin = () => {
   const theme = useTheme();
   const {messages} = useIntl();
   const {logInWithEmailAndPassword} = useAuthMethod();
@@ -115,38 +116,40 @@ const UserSignin = () => {
                 validationSchema={validationSchema}
                 onSubmit={(data, {resetForm}) => {
                   // resetForm();
-                  // setLoading(true);
-                  // let formdata = new FormData();
-                  // formdata.append('username', data.email);
-                  // formdata.append('password', data.password);
+                  setLoading(true);
+                  let formdata = new FormData();
+                  formdata.append('username', data.email);
+                  formdata.append('password', data.password);
 
-                  // let config = {
-                  //   method: 'post',
-                  //   maxBodyLength: Infinity,
-                  //   url: 'http://localhost:8081/tenants/login',
-                  //   headers: {},
-                  //   data: formdata,
-                  // };
+                  let config = {
+                    method: 'post',
+                    maxBodyLength: Infinity,
+                    url: 'http://localhost:8081/tenants/users/login',
+                    headers: {},
+                    data: formdata,
+                  };
 
-                  // axios
-                  //   .request(config)
-                  //   .then((response) => {
-                  //     console.log(JSON.stringify(response.data));
-                  //     setLoading(false);
-                  //     sessionStorage.setItem(
-                  //       'jwt_token',
-                  //       response.data.access_token,
-                  //     );
-                  //     navigate('/dashboards');
-                  //   })
-                  //   .catch((error) => {
-                  //     setLoading(false);
-                  //     console.log(error);
-                  //   });
+                  axios
+                    .request(config)
+                    .then((response) => {
+                      console.log(JSON.stringify(response.data));
+                      setLoading(false);
+                      sessionStorage.setItem(
+                        'jwt_token',
+                        response.data.access_token,
+                      );
+                      //   navigate('/dashboards');
+                      toast.success('Login sucessfully');
+                    })
+                    .catch((error) => {
+                      setLoading(false);
+                      toast.error('Login unsucessfully');
+                      console.log(error);
+                    });
 
-                  // for testing
-                  sessionStorage.setItem('jwt_token', 'hello');
-                  navigate('/dashboards');
+                  //   // for testing
+                  //   sessionStorage.setItem('jwt_token', 'hello');
+                  //   navigate('/dashboards');
                 }}
               >
                 {({isSubmitting}) => (
@@ -281,7 +284,7 @@ const UserSignin = () => {
                 </Box>
               </Box> */}
 
-              <Box
+              {/* <Box
                 sx={{
                   mt: {xs: 6, xl: 8},
                   mb: 3,
@@ -309,7 +312,7 @@ const UserSignin = () => {
                     <IntlMessages id='common.signup' />
                   </Link>
                 </Box>
-              </Box>
+              </Box> */}
             </Grid>
           </Grid>
         </Card>
@@ -318,4 +321,4 @@ const UserSignin = () => {
   );
 };
 
-export default UserSignin;
+export default Usersignin;
