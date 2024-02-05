@@ -328,6 +328,7 @@
   "common.none": "None",
   "common.emailAddress": "Email Address",
   "common.login": "Login",
+  "common.userlogin": " User Login",
   "common.confirmOtp": "Confirm OTP",
   "common.scanned": "I have Scanned the QR",
   "common.rememberMe": "Remember Me",

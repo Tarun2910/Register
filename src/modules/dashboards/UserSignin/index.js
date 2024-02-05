@@ -31,7 +31,7 @@ const validationSchema = yup.object({
     .required(<IntlMessages id='validation.passwordRequired' />),
 });
 
-const Signin = () => {
+const UserSignin = () => {
   const theme = useTheme();
   const {messages} = useIntl();
   const {logInWithEmailAndPassword} = useAuthMethod();
@@ -103,7 +103,7 @@ const Signin = () => {
                   fontSize: 20,
                 }}
               >
-                <IntlMessages id='common.login' />
+                <IntlMessages id='common.userlogin' />
               </Box>
 
               <Formik
@@ -115,38 +115,38 @@ const Signin = () => {
                 validationSchema={validationSchema}
                 onSubmit={(data, {resetForm}) => {
                   // resetForm();
-                  setLoading(true);
-                  let formdata = new FormData();
-                  formdata.append('username', data.email);
-                  formdata.append('password', data.password);
+                  // setLoading(true);
+                  // let formdata = new FormData();
+                  // formdata.append('username', data.email);
+                  // formdata.append('password', data.password);
 
-                  let config = {
-                    method: 'post',
-                    maxBodyLength: Infinity,
-                    url: 'http://localhost:8081/tenants/login',
-                    headers: {},
-                    data: formdata,
-                  };
+                  // let config = {
+                  //   method: 'post',
+                  //   maxBodyLength: Infinity,
+                  //   url: 'http://localhost:8081/tenants/login',
+                  //   headers: {},
+                  //   data: formdata,
+                  // };
 
-                  axios
-                    .request(config)
-                    .then((response) => {
-                      console.log(JSON.stringify(response.data));
-                      setLoading(false);
-                      sessionStorage.setItem(
-                        'jwt_token',
-                        response.data.access_token,
-                      );
-                      navigate('/dashboards');
-                    })
-                    .catch((error) => {
-                      setLoading(false);
-                      console.log(error);
-                    });
+                  // axios
+                  //   .request(config)
+                  //   .then((response) => {
+                  //     console.log(JSON.stringify(response.data));
+                  //     setLoading(false);
+                  //     sessionStorage.setItem(
+                  //       'jwt_token',
+                  //       response.data.access_token,
+                  //     );
+                  //     navigate('/dashboards');
+                  //   })
+                  //   .catch((error) => {
+                  //     setLoading(false);
+                  //     console.log(error);
+                  //   });
 
-                  // // for testing
-                  // sessionStorage.setItem('jwt_token', 'hello');
-                  // navigate('/dashboards');
+                  // for testing
+                  sessionStorage.setItem('jwt_token', 'hello');
+                  navigate('/dashboards');
                 }}
               >
                 {({isSubmitting}) => (
@@ -318,4 +318,4 @@ const Signin = () => {
   );
 };
 
-export default Signin;
+export default UserSignin;
