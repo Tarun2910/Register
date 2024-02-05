@@ -25,13 +25,32 @@ const ProductListing = () => {
     mrp: {start: 0, end: 30000},
   });
 
-  const [page, setPage] = useState(0);
-  // const [list, setList] = useState([
-  //   {id: '1', name: 'tarun', email: 'tarun@costacloud', active_status: false},
-  //   {id: '2', name: 'new', email: 'new@costacloud', active_status: true},
-  //   {id: '3', name: 'demo', email: 'new@costacloud', active_status: true},
-  // ]);
-  const [list, setList] = useState([]);
+  const [page, setPage] = useState(5);
+  const [list, setList] = useState([
+    {id: '1', name: 'tarun', email: 'tarun@costacloud', active_status: false},
+    {
+      id: '2',
+      name: 'dheeraj',
+      email: 'dheeraj@costacloud',
+      active_status: true,
+    },
+    {id: '3', name: 'vishal', email: 'vishal@costacloud', active_status: false},
+    {
+      id: '4',
+      name: 'rishabh',
+      email: 'rishabh@costacloud',
+      active_status: true,
+    },
+    {id: '5', name: 'aman', email: 'aman@costacloud', active_status: false},
+    {id: '6', name: 'ajay', email: 'ajay@costacloud', active_status: false},
+    {
+      id: '7',
+      name: 'amardeep',
+      email: 'amardeep@costacloud',
+      active_status: true,
+    },
+  ]);
+  // const [list, setList] = useState([]);
   const [thumbnailUrls, setThumbnailUrls] = useState([]);
   const [total, setTotal] = useState(0);
   const [{apiData, loading}, {setQueryParams}] = useGetDataApi(
@@ -94,7 +113,7 @@ const ProductListing = () => {
       .request(config)
       .then((response) => {
         console.log(JSON.stringify(response.data));
-        setList(response?.data);
+        // setList(response?.data);
       })
       .catch((error) => {
         console.log(error);
@@ -115,9 +134,15 @@ const ProductListing = () => {
       (item) => item.active_status === true,
     ).length;
 
-    console.log(activeUsersCount, license, 'activeuserCount');
+    const inactiveUsersCount = updatedItemsState.filter(
+      (item) => item.active_status === false,
+    ).length;
 
-    if (license < activeUsersCount) {
+    const TotalLength = activeUsersCount - inactiveUsersCount;
+
+    console.log(TotalLength, license, 'activeuserCount');
+
+    if (license < TotalLength) {
       // Show a dialog or handle the validation error here
       // For example, you can set a state to trigger the dialog in your component
       // setValidationError(true);
@@ -144,7 +169,7 @@ const ProductListing = () => {
         console.log(JSON.stringify(response.data));
         // const RemainingUsers = response.headers['usersRemaining'];
         setLicense(response?.data?.usersRemaining);
-        setList(response?.data?.allUsers);
+        // setList(response?.data?.allUsers);
         setItemsState([]);
       })
       .catch((error) => {
