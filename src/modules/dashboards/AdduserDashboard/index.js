@@ -32,31 +32,31 @@ const ProductListing = () => {
   });
 
   const [page, setPage] = useState(0);
-  const [list, setList] = useState([
-    {id: '1', name: 'tarun', email: 'tarun@costacloud', active_status: false},
-    {
-      id: '2',
-      name: 'dheeraj',
-      email: 'dheeraj@costacloud',
-      active_status: true,
-    },
-    {id: '3', name: 'vishal', email: 'vishal@costacloud', active_status: false},
-    {
-      id: '4',
-      name: 'rishabh',
-      email: 'rishabh@costacloud',
-      active_status: true,
-    },
-    {id: '5', name: 'aman', email: 'aman@costacloud', active_status: false},
-    {id: '6', name: 'ajay', email: 'ajay@costacloud', active_status: false},
-    {
-      id: '7',
-      name: 'amardeep',
-      email: 'amardeep@costacloud',
-      active_status: true,
-    },
-  ]);
-  // const [list, setList] = useState([]);
+  // const [list, setList] = useState([
+  //   {id: '1', name: 'tarun', email: 'tarun@costacloud', active_status: false},
+  //   {
+  //     id: '2',
+  //     name: 'dheeraj',
+  //     email: 'dheeraj@costacloud',
+  //     active_status: true,
+  //   },
+  //   {id: '3', name: 'vishal', email: 'vishal@costacloud', active_status: false},
+  //   {
+  //     id: '4',
+  //     name: 'rishabh',
+  //     email: 'rishabh@costacloud',
+  //     active_status: true,
+  //   },
+  //   {id: '5', name: 'aman', email: 'aman@costacloud', active_status: false},
+  //   {id: '6', name: 'ajay', email: 'ajay@costacloud', active_status: false},
+  //   {
+  //     id: '7',
+  //     name: 'amardeep',
+  //     email: 'amardeep@costacloud',
+  //     active_status: true,
+  //   },
+  // ]);
+  const [list, setList] = useState([]);
   const [thumbnailUrls, setThumbnailUrls] = useState([]);
   const [total, setTotal] = useState(0);
   const [{apiData, loading}, {setQueryParams}] = useGetDataApi(
