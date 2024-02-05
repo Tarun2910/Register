@@ -12,8 +12,32 @@ import CardWrapper from './CardWrapper';
 import {Fonts} from '@crema/constants/AppEnums';
 import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined';
 import PackageWrapper from './PackageWrapper';
+import {useNavigate} from 'react-router-dom';
+import axios from 'axios';
 
 const PackageCard = ({pricing}) => {
+  const Navigate = useNavigate();
+  const handleChangeTier = () => {
+    let config = {
+      method: 'post',
+      maxBodyLength: Infinity,
+      url: `http://localhost:8081/tenants/upgrade?tier=${pricing.tag.toLowerCase()}`,
+      headers: {
+        Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
+      },
+    };
+
+    axios
+      .request(config)
+      .then((response) => {
+        console.log(JSON.stringify(response.data));
+        Navigate('/dashboards');
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   return (
     <PackageWrapper>
       <Box
@@ -94,6 +118,7 @@ const PackageCard = ({pricing}) => {
                 borderWidth: 2,
               },
             }}
+            onClick={handleChangeTier}
           >
             Start Trial
           </Button>

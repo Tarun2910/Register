@@ -15,6 +15,12 @@ import axios from 'axios';
 import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
 import {blue} from '@mui/material/colors';
 import {useNavigate} from 'react-router-dom';
+import AlertDialogSlide from 'modules/muiComponents/feedback/Dialog/AlertDialogSlide';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 
 const ProductListing = () => {
   const {messages} = useIntl();
@@ -25,32 +31,32 @@ const ProductListing = () => {
     mrp: {start: 0, end: 30000},
   });
 
-  const [page, setPage] = useState(5);
-  // const [list, setList] = useState([
-  //   {id: '1', name: 'tarun', email: 'tarun@costacloud', active_status: false},
-  //   {
-  //     id: '2',
-  //     name: 'dheeraj',
-  //     email: 'dheeraj@costacloud',
-  //     active_status: true,
-  //   },
-  //   {id: '3', name: 'vishal', email: 'vishal@costacloud', active_status: false},
-  //   {
-  //     id: '4',
-  //     name: 'rishabh',
-  //     email: 'rishabh@costacloud',
-  //     active_status: true,
-  //   },
-  //   {id: '5', name: 'aman', email: 'aman@costacloud', active_status: false},
-  //   {id: '6', name: 'ajay', email: 'ajay@costacloud', active_status: false},
-  //   {
-  //     id: '7',
-  //     name: 'amardeep',
-  //     email: 'amardeep@costacloud',
-  //     active_status: true,
-  //   },
-  // ]);
-  const [list, setList] = useState([]);
+  const [page, setPage] = useState(0);
+  const [list, setList] = useState([
+    {id: '1', name: 'tarun', email: 'tarun@costacloud', active_status: false},
+    {
+      id: '2',
+      name: 'dheeraj',
+      email: 'dheeraj@costacloud',
+      active_status: true,
+    },
+    {id: '3', name: 'vishal', email: 'vishal@costacloud', active_status: false},
+    {
+      id: '4',
+      name: 'rishabh',
+      email: 'rishabh@costacloud',
+      active_status: true,
+    },
+    {id: '5', name: 'aman', email: 'aman@costacloud', active_status: false},
+    {id: '6', name: 'ajay', email: 'ajay@costacloud', active_status: false},
+    {
+      id: '7',
+      name: 'amardeep',
+      email: 'amardeep@costacloud',
+      active_status: true,
+    },
+  ]);
+  // const [list, setList] = useState([]);
   const [thumbnailUrls, setThumbnailUrls] = useState([]);
   const [total, setTotal] = useState(0);
   const [{apiData, loading}, {setQueryParams}] = useGetDataApi(
@@ -62,8 +68,23 @@ const ProductListing = () => {
   const [updatedItemsState, setUpdatedItemsState] = useState([]);
   const [disable, setDisable] = useState(false);
   const [license, setLicense] = useState(0);
+  const [licensetier, setLicenseTier] = useState('');
   const [tableData, setTableData] = useState([]);
   const [itemsState, setItemsState] = useState([]);
+  const [open, setOpen] = React.useState(false);
+  const [searchData, setsearchData] = useState('');
+
+  const Transition = React.forwardRef(function Transition(props, ref) {
+    return <Slide direction='up' ref={ref} {...props} />;
+  });
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   const activeUsersCount = updatedItemsState.filter(
     (item) => item.active_status === true,
@@ -75,7 +96,7 @@ const ProductListing = () => {
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: 'http://localhost:8081/tenants',
+      url: `http://localhost:8081/tenants`,
       headers: {
         Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
       },
@@ -86,6 +107,7 @@ const ProductListing = () => {
       .then((response) => {
         console.log(JSON.stringify(response.data));
         setLicense(response?.data?.usersRemaining);
+        setLicenseTier(response?.data?.licenseTier);
       })
       .catch((error) => {
         console.log(error);
@@ -103,7 +125,7 @@ const ProductListing = () => {
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: 'http://localhost:8081/tenants/users',
+      url: `http://localhost:8081/tenants/users?pageNum=${page}&keyword=${searchData}`,
       headers: {
         Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
       },
@@ -113,12 +135,13 @@ const ProductListing = () => {
       .request(config)
       .then((response) => {
         console.log(JSON.stringify(response.data));
-        setList(response?.data);
+        setList(response?.data?.content);
+        setTotal(response?.data?.totalElements);
       })
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  }, [searchData]);
 
   const searchProduct = (title) => {
     setFilterData({...filterData, title});
@@ -146,9 +169,10 @@ const ProductListing = () => {
       // Show a dialog or handle the validation error here
       // For example, you can set a state to trigger the dialog in your component
       // setValidationError(true);
-      alert(
-        "'Validation Error: Remaining license is insufficient for active users.',",
-      );
+      // alert(
+      //   "'Validation Error: Remaining license is insufficient for active users.',",
+      // );
+      handleClickOpen();
 
       return;
     }
@@ -175,6 +199,14 @@ const ProductListing = () => {
       .catch((error) => {
         console.log(error);
       });
+  };
+
+  const navigatetoUpgrade = () => {
+    Navigate('/upgrade');
+  };
+
+  const searchCourseData = (searchQuery) => {
+    setsearchData(searchQuery);
   };
 
   return (
@@ -214,7 +246,7 @@ const ProductListing = () => {
                     <AppSearchBar
                       iconPosition='right'
                       overlap={false}
-                      // onChange={(event) => searchCourseData(event.target.value)}
+                      onChange={(event) => searchCourseData(event.target.value)}
                       placeholder={messages['common.searchHere']}
                     />
                     <Box
@@ -291,6 +323,26 @@ const ProductListing = () => {
           </Grid>
         </Slide>
       </AppGridContainer>
+      <Dialog
+        open={open}
+        TransitionComponent={Transition}
+        keepMounted
+        onClose={handleClose}
+        aria-describedby='alert-dialog-slide-description'
+      >
+        <DialogTitle>{'Upgrade your plan'}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id='alert-dialog-slide-description'>
+            Let Google help apps determine location. This means sending
+            anonymous location data to Google, even when no apps are running.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Cancel</Button>
+          <Button onClick={navigatetoUpgrade}>Upgrade</Button>
+        </DialogActions>
+      </Dialog>
+      ;
     </>
   );
 };

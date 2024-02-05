@@ -94,7 +94,7 @@ export const extraPagesConfigs = [
   },
   {
     permittedRole: RoutePermittedRole.User,
-    path: '/extra-pages/pricing-listing',
+    path: '/upgrade',
     element: <PricingListing />,
   },
   {
