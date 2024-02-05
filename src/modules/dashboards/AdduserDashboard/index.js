@@ -209,7 +209,7 @@ const ProductListing = () => {
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: `http://localhost:8081/tenants/users?keyword=${searchQuery}`,
+      url: `http://localhost:8081/tenants/users?keyword=${searchQuery}&pageNum=${'1'}`,
       headers: {
         Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
       },
@@ -262,7 +262,7 @@ const ProductListing = () => {
 
         <span>
           {' '}
-          Remaining License: {license} of {handletiername}
+          Remaining License: {license} of {handletiername()}
         </span>
       </Box>
       <AppGridContainer spacing={7}>
