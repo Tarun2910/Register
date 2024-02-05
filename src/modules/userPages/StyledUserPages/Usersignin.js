@@ -143,7 +143,9 @@ const Usersignin = () => {
                     })
                     .catch((error) => {
                       setLoading(false);
-                      toast.error('Login unsucessfully');
+                      toast.error(
+                        'This user has not been activated.Please contact your organization administrator',
+                      );
                       console.log(error);
                     });
 
