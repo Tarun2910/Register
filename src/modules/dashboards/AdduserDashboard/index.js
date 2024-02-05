@@ -72,7 +72,6 @@ const ProductListing = () => {
   const [tableData, setTableData] = useState([]);
   const [itemsState, setItemsState] = useState([]);
   const [open, setOpen] = React.useState(false);
-  const [searchData, setsearchData] = useState('');
 
   const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction='up' ref={ref} {...props} />;
@@ -125,7 +124,7 @@ const ProductListing = () => {
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: `http://localhost:8081/tenants/users?pageNum=${page}&keyword=${searchData}`,
+      url: `http://localhost:8081/tenants/users?pageNum=${page}`,
       headers: {
         Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
       },
@@ -141,7 +140,7 @@ const ProductListing = () => {
       .catch((error) => {
         console.log(error);
       });
-  }, [searchData]);
+  }, [page]);
 
   const searchProduct = (title) => {
     setFilterData({...filterData, title});
@@ -205,8 +204,26 @@ const ProductListing = () => {
     Navigate('/upgrade');
   };
 
-  const searchCourseData = (searchQuery) => {
-    setsearchData(searchQuery);
+  const searchData = (searchQuery) => {
+    let config = {
+      method: 'get',
+      maxBodyLength: Infinity,
+      url: `http://localhost:8081/tenants/users?keyword=${searchQuery}`,
+      headers: {
+        Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
+      },
+    };
+
+    axios
+      .request(config)
+      .then((response) => {
+        console.log(JSON.stringify(response.data));
+        setList(response?.data?.content);
+        setTotal(response?.data?.totalElements);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
@@ -246,7 +263,7 @@ const ProductListing = () => {
                     <AppSearchBar
                       iconPosition='right'
                       overlap={false}
-                      onChange={(event) => searchCourseData(event.target.value)}
+                      onChange={(event) => searchData(event.target.value)}
                       placeholder={messages['common.searchHere']}
                     />
                     <Box
