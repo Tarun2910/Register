@@ -12,6 +12,7 @@ import dayjs from 'dayjs';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import {toast} from 'react-toastify';
+import CustomizedBreadcrumbs from 'modules/muiComponents/navigation/Breadcrumbs/CustomizedBreadcrumbs';
 
 export const AddChapter = ({selectedProd}) => {
   const {id} = useParams();
@@ -74,16 +75,22 @@ export const AddChapter = ({selectedProd}) => {
         component='h2'
         variant='h2'
         sx={{
-          fontSize: 16,
+          fontSize: 15,
           color: 'text.primary',
           fontWeight: Fonts.SEMI_BOLD,
           mb: {
-            xs: 2,
-            lg: 4,
+            xs: 3,
+            lg: 6,
           },
         }}
       >
-        {selectedProd ? 'Edit Chapter' : 'Add Users'}
+        <span>
+          <CustomizedBreadcrumbs
+            label='Adduser'
+            link={`/addUser`}
+            showComponentName={window.location.pathname === `/addUser`}
+          />
+        </span>
       </Box>
 
       <Formik
@@ -168,7 +175,7 @@ export const AddChapter = ({selectedProd}) => {
             let config = {
               method: 'post',
               maxBodyLength: Infinity,
-              url: 'http://localhost:8081/tenants/users',
+              url: '/tenants/users',
               headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,

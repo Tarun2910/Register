@@ -21,6 +21,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import CustomizedBreadcrumbs from 'modules/muiComponents/navigation/Breadcrumbs/CustomizedBreadcrumbs';
 
 const ProductListing = () => {
   const {messages} = useIntl();
@@ -32,30 +33,6 @@ const ProductListing = () => {
   });
 
   const [page, setPage] = useState(0);
-  // const [list, setList] = useState([
-  //   {id: '1', name: 'tarun', email: 'tarun@costacloud', active_status: false},
-  //   {
-  //     id: '2',
-  //     name: 'dheeraj',
-  //     email: 'dheeraj@costacloud',
-  //     active_status: true,
-  //   },
-  //   {id: '3', name: 'vishal', email: 'vishal@costacloud', active_status: false},
-  //   {
-  //     id: '4',
-  //     name: 'rishabh',
-  //     email: 'rishabh@costacloud',
-  //     active_status: true,
-  //   },
-  //   {id: '5', name: 'aman', email: 'aman@costacloud', active_status: false},
-  //   {id: '6', name: 'ajay', email: 'ajay@costacloud', active_status: false},
-  //   {
-  //     id: '7',
-  //     name: 'amardeep',
-  //     email: 'amardeep@costacloud',
-  //     active_status: true,
-  //   },
-  // ]);
   const [list, setList] = useState([]);
   const [thumbnailUrls, setThumbnailUrls] = useState([]);
   const [total, setTotal] = useState(0);
@@ -95,7 +72,7 @@ const ProductListing = () => {
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: `http://localhost:8081/tenants`,
+      url: `/tenants/info`,
       headers: {
         Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
       },
@@ -115,6 +92,7 @@ const ProductListing = () => {
 
   const onPageChange = (event, value) => {
     setPage(value);
+    console.log(value, 'value');
   };
   useEffect(() => {
     setQueryParams({filterData, page});
@@ -124,7 +102,7 @@ const ProductListing = () => {
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: `http://localhost:8081/tenants/users?pageNum=${page}`,
+      url: `/tenants/users?pageNum=${page}`,
       headers: {
         Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
       },
@@ -165,20 +143,12 @@ const ProductListing = () => {
     console.log(TotalLength, license, 'activeuserCount');
 
     if (license < TotalLength) {
-      // Show a dialog or handle the validation error here
-      // For example, you can set a state to trigger the dialog in your component
-      // setValidationError(true);
-      // alert(
-      //   "'Validation Error: Remaining license is insufficient for active users.',",
-      // );
       handleClickOpen();
-
-      return;
     }
     let config = {
       method: 'post',
       maxBodyLength: Infinity,
-      url: 'http://localhost:8081/tenants/users/status',
+      url: '/tenants/users/status',
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
@@ -209,7 +179,7 @@ const ProductListing = () => {
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: `http://localhost:8081/tenants/users?keyword=${searchQuery}&pageNum=${'1'}`,
+      url: `/tenants/users?keyword=${searchQuery}&pageNum=${'0'}`,
       headers: {
         Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
       },
@@ -243,22 +213,27 @@ const ProductListing = () => {
 
   return (
     <>
+      {/* <div style={{marginBottom: '1rem'}}>
+        <CustomizedBreadcrumbs label='Home' showComponentName={false} />
+      </div> */}
       <Box
         component='h2'
         variant='h2'
         sx={{
           display: 'flex',
           justifyContent: 'space-between', // This will position 'users.list' and 'remainingLicense' at the extremes
-          fontSize: 16,
+          fontSize: 15,
           color: 'text.primary',
           fontWeight: Fonts.SEMI_BOLD,
           mb: {
-            xs: 2,
-            lg: 4,
+            xs: 3,
+            lg: 6,
           },
         }}
       >
-        <span>{messages['users.list']}</span>
+        <span>
+          <CustomizedBreadcrumbs label='Home' showComponentName={false} />
+        </span>
 
         <span>
           {' '}
@@ -370,7 +345,7 @@ const ProductListing = () => {
       </AppGridContainer>
       <Dialog
         open={open}
-        TransitionComponent={Transition}
+        // TransitionComponent={Transition}
         keepMounted
         onClose={handleClose}
         aria-describedby='alert-dialog-slide-description'

@@ -4,7 +4,7 @@ import GitHubIcon from '@mui/icons-material/GitHub';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import Button from '@mui/material/Button';
-import {Checkbox, useTheme} from '@mui/material';
+import {Checkbox, InputAdornment, TextField, useTheme} from '@mui/material';
 import {Form, Formik} from 'formik';
 import * as yup from 'yup';
 import Grid from '@mui/material/Grid';
@@ -20,6 +20,7 @@ import {ReactComponent as Logo} from '../../../assets/user/login.svg';
 import {Link, useNavigate} from 'react-router-dom';
 import {useAuthMethod} from '@crema/hooks/AuthHooks';
 import axios from 'axios';
+import {Visibility, VisibilityOff} from '@mui/icons-material';
 
 const validationSchema = yup.object({
   email: yup
@@ -34,9 +35,14 @@ const validationSchema = yup.object({
 const Signin = () => {
   const theme = useTheme();
   const {messages} = useIntl();
-  const {logInWithEmailAndPassword} = useAuthMethod();
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+
+  const togglePasswordVisibility = () => {
+    setShowPassword((prevShowPassword) => !prevShowPassword);
+  };
+
   return (
     <AppAnimate animation='transition.slideUpIn' delay={200}>
       <Box
@@ -114,6 +120,7 @@ const Signin = () => {
                 }}
                 validationSchema={validationSchema}
                 onSubmit={(data, {resetForm}) => {
+                  console.log(data, 'data');
                   // resetForm();
                   setLoading(true);
                   let formdata = new FormData();
@@ -123,7 +130,7 @@ const Signin = () => {
                   let config = {
                     method: 'post',
                     maxBodyLength: Infinity,
-                    url: 'http://localhost:8081/tenants/login',
+                    url: '/tenants/login',
                     headers: {},
                     data: formdata,
                   };
@@ -144,9 +151,9 @@ const Signin = () => {
                       console.log(error);
                     });
 
-                  //   // for testing
-                  //   sessionStorage.setItem('jwt_token', 'hello');
-                  //   navigate('/dashboards');
+                  // // for testing
+                  // sessionStorage.setItem('jwt_token', 'hello');
+                  // navigate('/dashboards');
                 }}
               >
                 {({isSubmitting}) => (
@@ -172,13 +179,29 @@ const Signin = () => {
 
                     <Box sx={{mb: {xs: 5, xl: 8}}}>
                       <AppTextField
-                        type='password'
+                        type={showPassword ? 'text' : 'password'}
                         placeholder={messages['common.password']}
                         label={<IntlMessages id='common.password' />}
                         name='password'
                         variant='outlined'
                         sx={{
                           width: '100%',
+                        }}
+                        InputProps={{
+                          endAdornment: (
+                            <InputAdornment position='end'>
+                              <IconButton
+                                onClick={togglePasswordVisibility}
+                                edge='end'
+                              >
+                                {showPassword ? (
+                                  <VisibilityOff />
+                                ) : (
+                                  <Visibility />
+                                )}
+                              </IconButton>
+                            </InputAdornment>
+                          ),
                         }}
                       />
                     </Box>

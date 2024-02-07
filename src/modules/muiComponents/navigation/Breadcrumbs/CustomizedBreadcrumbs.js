@@ -27,25 +27,41 @@ const StyledBreadcrumb = styled(Chip)(({theme}) => {
   };
 }); // TypeScript only: need a type cast here because https://github.com/Microsoft/TypeScript/issues/26591
 
-const CustomizedBreadcrumbs = ({showComponentName}) => {
+const CustomizedBreadcrumbs = ({label, link, showComponentName}) => {
+  const roles = sessionStorage.getItem('roles');
+  const userRoles = roles ? JSON.parse(roles) : [];
+
   const navigate = useNavigate();
+
+  let targetURL = null;
+
+  const handleNavigation = () => {
+    targetURL = '/dashboards';
+  };
+
   function handleClick(event) {
     event.preventDefault();
-    console.info('You clicked a breadcrumb.');
-    navigate('/signin/dashboards/academy');
+    handleNavigation();
+    navigate(targetURL);
   }
+
+  // const handlelink = (value) => {
+  //   navigate(value);
+  // };
   return (
     <div role='presentation'>
       <Breadcrumbs aria-label='breadcrumb'>
         <StyledBreadcrumb
-          component='a'
-          href='/signin/dashboards/academy'
           label='Home'
           icon={<HomeIcon fontSize='small' />}
           onClick={handleClick}
         />
         {showComponentName && (
-          <StyledBreadcrumb component='span' label='Course Detail' />
+          <StyledBreadcrumb
+            component='span'
+            label={label}
+            // onClick={() => handlelink(link)}
+          />
         )}
       </Breadcrumbs>
     </div>
@@ -54,6 +70,8 @@ const CustomizedBreadcrumbs = ({showComponentName}) => {
 
 CustomizedBreadcrumbs.propTypes = {
   showComponentName: PropTypes.bool,
+  label: PropTypes.string,
+  link: PropTypes.any,
 };
 
 export default CustomizedBreadcrumbs;

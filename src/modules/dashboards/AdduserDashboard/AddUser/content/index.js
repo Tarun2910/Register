@@ -96,76 +96,77 @@ const ProductContent = ({
   };
 
   return (
-    <Slide direction='right' in mountOnEnter unmountOnExit>
-      <Grid item xs={12} lg={12}>
-        <AppScrollbar>
-          <AppCard
-            title='Add Users via Excel '
-            sx={{
-              width: '100%',
-              my: 4,
-            }}
-            action={
-              <>
+    <>
+      <Slide direction='right' in mountOnEnter unmountOnExit>
+        <Grid item xs={12} lg={12}>
+          <AppScrollbar>
+            <AppCard
+              title='Add Users via Excel '
+              sx={{
+                width: '100%',
+                // my: 4,
+              }}
+              action={
+                <>
+                  <Button
+                    sx={{marginRight: 2}}
+                    variant='contained'
+                    color='primary'
+                    onClick={handleDownloadClick}
+                  >
+                    Download
+                  </Button>
+                  <Button
+                    variant='contained'
+                    color='primary'
+                    onClick={handleUploadClick}
+                  >
+                    Upload
+                  </Button>
+                </>
+              }
+            ></AppCard>
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                my: 4,
+              }}
+            >
+              <Divider sx={{width: '45%', height: '1px'}} />
+              <Typography variant='subtitle1' sx={{mx: 2}}>
+                OR
+              </Typography>
+              <Divider sx={{width: '45%', height: '1px'}} />
+            </Box>
+            <AppCard
+              title='Add Users'
+              action={
                 <Button
-                  sx={{marginRight: 2}}
                   variant='contained'
                   color='primary'
-                  onClick={handleDownloadClick}
+                  onClick={() => {
+                    setProductSpec([
+                      ...productSpec,
+                      {
+                        id: productSpec.length + 1,
+                        Question: '',
+                        choice1: '',
+                        choice2: '',
+                        choice3: '',
+                        choice4: '',
+                        correct: '',
+                      },
+                    ]);
+                  }}
                 >
-                  Download
+                  Add New
                 </Button>
-                <Button
-                  variant='contained'
-                  color='primary'
-                  onClick={handleUploadClick}
-                >
-                  Upload
-                </Button>
-              </>
-            }
-          ></AppCard>
-          <Box
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              my: 4,
-            }}
-          >
-            <Divider sx={{width: '45%', height: '1px'}} />
-            <Typography variant='subtitle1' sx={{mx: 2}}>
-              OR
-            </Typography>
-            <Divider sx={{width: '45%', height: '1px'}} />
-          </Box>
-          <AppCard
-            title='Add Users'
-            action={
-              <Button
-                variant='contained'
-                color='primary'
-                onClick={() => {
-                  setProductSpec([
-                    ...productSpec,
-                    {
-                      id: productSpec.length + 1,
-                      Question: '',
-                      choice1: '',
-                      choice2: '',
-                      choice3: '',
-                      choice4: '',
-                      correct: '',
-                    },
-                  ]);
-                }}
-              >
-                Add New
-              </Button>
-            }
-          >
-            <AppGridContainer spacing={4}>
-              {/* <Grid item xs={12} sm={12}>
+              }
+            >
+              <AppGridContainer spacing={4}>
+                {/* <Grid item xs={12} sm={12}>
                 <Autocomplete
                   id='tags-outlined'
                   sx={{
@@ -194,101 +195,102 @@ const ProductContent = ({
                   )}
                 />
               </Grid> */}
-              {productSpec.map((productItem, index) => {
-                return (
-                  <React.Fragment key={index}>
-                    <Grid item xs={12} sm={6}>
-                      <TextField
-                        variant='outlined'
-                        value={productItem.Question}
-                        sx={{
-                          width: '100%',
-                          my: 2,
-                        }}
-                        onChange={(event) => {
-                          const {value} = event.target;
-                          const newProductInfo = [...productSpec];
-                          newProductInfo[index].Question = value;
-                          setProductInfo(newProductInfo);
-                        }}
-                        label={'User Name'}
-                      />
-                    </Grid>
-
-                    <Grid item xs={12} sm={5}>
-                      <TextField
-                        variant='outlined'
-                        value={productItem.choice1}
-                        sx={{
-                          width: '100%',
-                          my: 2,
-                        }}
-                        onChange={(event) => {
-                          const {value} = event.target;
-                          const newProductInfo = [...productSpec];
-                          newProductInfo[index].choice1 = value;
-                          setProductInfo(newProductInfo);
-                        }}
-                        label='User Email'
-                      />
-                    </Grid>
-
-                    {index > 0 && (
-                      <Grid item xs={12} sm={1}>
-                        <Button
-                          variant='contained'
-                          color='secondary'
+                {productSpec.map((productItem, index) => {
+                  return (
+                    <React.Fragment key={index}>
+                      <Grid item xs={12} sm={6}>
+                        <TextField
+                          variant='outlined'
+                          value={productItem.Question}
                           sx={{
+                            width: '100%',
                             my: 2,
                           }}
-                          onClick={() => {
+                          onChange={(event) => {
+                            const {value} = event.target;
                             const newProductInfo = [...productSpec];
-                            newProductInfo.splice(index, 1);
-                            setProductSpec(newProductInfo);
+                            newProductInfo[index].Question = value;
+                            setProductInfo(newProductInfo);
                           }}
-                        >
-                          Remove
-                        </Button>
+                          label={'User Name'}
+                        />
                       </Grid>
-                    )}
-                  </React.Fragment>
-                );
-              })}
-            </AppGridContainer>
-          </AppCard>
 
-          <Stack
-            spacing={3}
-            direction='row'
-            sx={{justifyContent: 'flex-end', mt: 4}}
-          >
-            <Button
-              sx={{
-                minWidth: 100,
-                color: 'text.secondary',
-              }}
-              variant='text'
-              onClick={() => navigate(-1)}
-            >
-              Cancel
-            </Button>
+                      <Grid item xs={12} sm={5}>
+                        <TextField
+                          variant='outlined'
+                          value={productItem.choice1}
+                          sx={{
+                            width: '100%',
+                            my: 2,
+                          }}
+                          onChange={(event) => {
+                            const {value} = event.target;
+                            const newProductInfo = [...productSpec];
+                            newProductInfo[index].choice1 = value;
+                            setProductInfo(newProductInfo);
+                          }}
+                          label='User Email'
+                        />
+                      </Grid>
 
-            <Button
-              sx={{
-                display: 'block',
-                minWidth: 100,
-              }}
-              color='primary'
-              variant='contained'
-              type='submit'
-              disabled={loading}
+                      {index > 0 && (
+                        <Grid item xs={12} sm={1}>
+                          <Button
+                            variant='contained'
+                            color='secondary'
+                            sx={{
+                              my: 2,
+                            }}
+                            onClick={() => {
+                              const newProductInfo = [...productSpec];
+                              newProductInfo.splice(index, 1);
+                              setProductSpec(newProductInfo);
+                            }}
+                          >
+                            Remove
+                          </Button>
+                        </Grid>
+                      )}
+                    </React.Fragment>
+                  );
+                })}
+              </AppGridContainer>
+            </AppCard>
+
+            <Stack
+              spacing={3}
+              direction='row'
+              sx={{justifyContent: 'flex-end', mt: 4}}
             >
-              {loading ? 'Loading...' : 'ADD'}
-            </Button>
-          </Stack>
-        </AppScrollbar>
-      </Grid>
-    </Slide>
+              <Button
+                sx={{
+                  minWidth: 100,
+                  color: 'text.secondary',
+                }}
+                variant='text'
+                onClick={() => navigate(-1)}
+              >
+                Cancel
+              </Button>
+
+              <Button
+                sx={{
+                  display: 'block',
+                  minWidth: 100,
+                }}
+                color='primary'
+                variant='contained'
+                type='submit'
+                disabled={loading}
+              >
+                {loading ? 'Loading...' : 'ADD'}
+              </Button>
+            </Stack>
+          </AppScrollbar>
+        </Grid>
+      </Slide>
+    </>
   );
 };
 

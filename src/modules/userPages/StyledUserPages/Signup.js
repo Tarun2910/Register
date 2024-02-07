@@ -1,7 +1,13 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Card from '@mui/material/Card';
 import Button from '@mui/material/Button';
-import {Checkbox, useTheme} from '@mui/material';
+import {
+  Checkbox,
+  IconButton,
+  InputAdornment,
+  TextField,
+  useTheme,
+} from '@mui/material';
 import {Form, Formik} from 'formik';
 import * as yup from 'yup';
 import Grid from '@mui/material/Grid';
@@ -13,17 +19,24 @@ import AppTextField from '@crema/components/AppFormComponents/AppTextField';
 import {ReactComponent as Logo} from '../../../assets/user/signup.svg';
 import {Link, useNavigate} from 'react-router-dom';
 import axios from 'axios';
+import {Visibility, VisibilityOff} from '@mui/icons-material';
+import {debounce} from 'lodash';
+import DoneIcon from '@mui/icons-material/Done';
+import CloseIcon from '@mui/icons-material/Close';
 
 const validationSchema = yup.object({
   Orgname: yup.string().required(<IntlMessages id='validation.nameRequired' />),
   adminemail: yup
     .string()
-    .email(<IntlMessages id='validation.emailFormat' />)
+    // .email(<IntlMessages id='validation.emailFormat' />)
     .required(<IntlMessages id='validation.emailRequired' />),
   password: yup
     .string()
     .required(<IntlMessages id='validation.passwordRequired' />),
   adminName: yup
+    .string()
+    .required(<IntlMessages id='validation.adminnameRequired' />),
+  confirmPassword: yup
     .string()
     .required(<IntlMessages id='validation.reTypePassword' />),
 });
@@ -32,6 +45,61 @@ const Signup = () => {
   const theme = useTheme();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [domain, setDomain] = useState('');
+  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
+  const [domainStatus, setDomainStatus] = useState(null);
+  const [showPassword, setShowPassword] = useState(false);
+  const [confirmshowPassword, setConfirmShowPassword] = useState(false);
+
+  const updateDomain = (event) => {
+    const {value} = event.target;
+    setDomain(value);
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword((prevShowPassword) => !prevShowPassword);
+  };
+  const toggleComfirmPasswordVisibility = () => {
+    setConfirmShowPassword((prevShowPassword) => !prevShowPassword);
+  };
+
+  useEffect(() => {
+    if (domain === '') {
+      setDomainStatus(null);
+    }
+  }, [domain]);
+
+  useEffect(() => {
+    const checkDomainAvailability = debounce(() => {
+      setLoading(true);
+      axios
+        .get(`/tenants/domains?emailDomain=${domain}`)
+        .then((response) => {
+          setLoading(false);
+          console.log(response, 'response');
+          if (response.status === 200) {
+            setDomainStatus('available');
+          } else if (response.status === 409) {
+            setDomainStatus('unavailable');
+          }
+        })
+        .catch((error) => {
+          setLoading(false);
+          setDomainStatus('unavailable');
+        });
+    }, 500); // Debounce time in milliseconds
+
+    if (domain) {
+      checkDomainAvailability();
+    }
+
+    return () => {
+      checkDomainAvailability.cancel();
+    };
+  }, [domain]);
+
+  console.log(domain, 'domain');
   return (
     <AppAnimate animation='transition.slideUpIn' delay={200}>
       <Box
@@ -97,51 +165,55 @@ const Signup = () => {
               </Box>
 
               <Formik
-                validateOnChange={true}
                 initialValues={{
                   Orgname: '',
+                  Domain: '',
                   adminName: '',
                   password: '',
                   adminemail: '',
+                  confirmPassword: '',
                 }}
-                // validationSchema={validationSchema}
+                validationSchema={validationSchema}
                 onSubmit={(data, {setErrors, resetForm}) => {
-                  console.log(data, 'data');
                   setLoading(true);
-                  // if (data.password !== data.confirmPassword) {
-                  //   setErrors({
-                  //     confirmPassword: (
-                  //       <IntlMessages id='validation.passwordMisMatch' />
-                  //     ),
-                  //   });
-                  // } else {
-                  //   resetForm();
-                  // }
-                  let formdata = new FormData();
-                  formdata.append('orgName', data.Orgname);
-                  formdata.append('adminName', data.adminName);
-                  formdata.append('adminEmail', data.adminemail);
-                  formdata.append('password', data.password);
-
-                  let config = {
-                    method: 'post',
-                    maxBodyLength: Infinity,
-                    url: 'http://localhost:8081/tenants/register',
-                    headers: {},
-                    data: formdata,
-                  };
-
-                  axios
-                    .request(config)
-                    .then((response) => {
-                      setLoading(false);
-                      console.log(JSON.stringify(response.data));
-                      navigate('/signin');
-                    })
-                    .catch((error) => {
-                      console.log(error);
-                      setLoading(false);
+                  if (password !== data.confirmPassword) {
+                    setLoading(false);
+                    setErrors({
+                      confirmPassword: (
+                        <IntlMessages id='validation.passwordMisMatch' />
+                      ),
                     });
+                  } else {
+                    // resetForm();
+                    let formdata = new FormData();
+                    formdata.append('orgName', data.Orgname);
+                    formdata.append('adminName', data.adminName);
+                    formdata.append(
+                      'adminEmail',
+                      `${data.adminemail}${domain}`,
+                    );
+                    formdata.append('password', data.password);
+
+                    let config = {
+                      method: 'post',
+                      maxBodyLength: Infinity,
+                      url: '/tenants/register',
+                      headers: {},
+                      data: formdata,
+                    };
+
+                    axios
+                      .request(config)
+                      .then((response) => {
+                        setLoading(false);
+                        console.log(JSON.stringify(response.data));
+                        navigate('/signin');
+                      })
+                      .catch((error) => {
+                        console.log(error);
+                        setLoading(false);
+                      });
+                  }
                 }}
               >
                 {({isSubmitting}) => (
@@ -154,6 +226,31 @@ const Signup = () => {
                         sx={{
                           width: '100%',
                         }}
+                      />
+                    </Box>
+
+                    <Box sx={{mb: {xs: 3, xl: 4}}}>
+                      <TextField
+                        label={<IntlMessages id='common.domain' />}
+                        name='Domain'
+                        variant='outlined'
+                        sx={{
+                          width: '100%',
+                        }}
+                        InputProps={{
+                          endAdornment: (
+                            <InputAdornment position='end'>
+                              {domainStatus === 'available' && (
+                                <DoneIcon color='success' />
+                              )}
+                              {domainStatus === 'unavailable' && (
+                                <CloseIcon color='error' />
+                              )}
+                              {domainStatus === null && ''}
+                            </InputAdornment>
+                          ),
+                        }}
+                        onChange={updateDomain}
                       />
                     </Box>
 
@@ -177,6 +274,13 @@ const Signup = () => {
                         sx={{
                           width: '100%',
                         }}
+                        InputProps={{
+                          endAdornment: (
+                            <InputAdornment position='end'>
+                              {domain}
+                            </InputAdornment>
+                          ),
+                        }}
                       />
                     </Box>
 
@@ -184,10 +288,54 @@ const Signup = () => {
                       <AppTextField
                         label={<IntlMessages id='common.password' />}
                         name='password'
-                        type='password'
+                        type={showPassword ? 'text' : 'password'}
                         variant='outlined'
                         sx={{
                           width: '100%',
+                        }}
+                        InputProps={{
+                          endAdornment: (
+                            <InputAdornment position='end'>
+                              <IconButton
+                                onClick={togglePasswordVisibility}
+                                edge='end'
+                              >
+                                {showPassword ? (
+                                  <VisibilityOff />
+                                ) : (
+                                  <Visibility />
+                                )}
+                              </IconButton>
+                            </InputAdornment>
+                          ),
+                        }}
+                      />
+                    </Box>
+
+                    <Box sx={{mb: {xs: 3, xl: 4}}}>
+                      <AppTextField
+                        label={<IntlMessages id='common.retypePassword' />}
+                        name='confirmPassword'
+                        type={confirmshowPassword ? 'text' : 'password'}
+                        variant='outlined'
+                        sx={{
+                          width: '100%',
+                        }}
+                        InputProps={{
+                          endAdornment: (
+                            <InputAdornment position='end'>
+                              <IconButton
+                                onClick={toggleComfirmPasswordVisibility}
+                                edge='end'
+                              >
+                                {confirmshowPassword ? (
+                                  <VisibilityOff />
+                                ) : (
+                                  <Visibility />
+                                )}
+                              </IconButton>
+                            </InputAdornment>
+                          ),
                         }}
                       />
                     </Box>
@@ -227,7 +375,7 @@ const Signup = () => {
                     <Button
                       variant='contained'
                       color='primary'
-                      disabled={loading}
+                      disabled={loading || domainStatus === 'unavailable'}
                       sx={{
                         width: '100%',
                         height: 44,
@@ -235,11 +383,7 @@ const Signup = () => {
                       }}
                       type='submit'
                     >
-                      {loading ? (
-                        'Loading...'
-                      ) : (
-                        <IntlMessages id='common.signup' />
-                      )}
+                      <IntlMessages id='common.signup' />
                     </Button>
                   </Form>
                 )}

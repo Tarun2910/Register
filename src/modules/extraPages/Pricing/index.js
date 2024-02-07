@@ -7,6 +7,7 @@ import PackageTwo from './PackageTwo';
 import AppGridContainer from '@crema/components/AppGridContainer';
 import {pricingData} from '@crema/mockapi/fakedb/extraPages';
 import {Fonts} from '@crema/constants/AppEnums';
+import CustomizedBreadcrumbs from 'modules/muiComponents/navigation/Breadcrumbs/CustomizedBreadcrumbs';
 
 const PricingListing = () => {
   return (
@@ -15,16 +16,22 @@ const PricingListing = () => {
         component='h2'
         variant='h2'
         sx={{
-          fontSize: 16,
+          fontSize: 15,
           color: 'text.primary',
           fontWeight: Fonts.SEMI_BOLD,
           mb: {
-            xs: 2,
-            lg: 4,
+            xs: 3,
+            lg: 6,
           },
         }}
       >
-        <span>{'Upgrade your plan'}</span>
+        <span>
+          <CustomizedBreadcrumbs
+            label='Upgrade Your Plan'
+            link={`/upgrade`}
+            showComponentName={window.location.pathname === `/upgrade`}
+          />
+        </span>
       </Box>
       <AppGridContainer>
         <Grid item xs={12}>
