@@ -13,4 +13,10 @@ module.exports = function (app) {
       changeOrigin: true,
     }),
   );
+  app.use(
+    createProxyMiddleware('/adminportal', {
+      target: 'http://gateway-test.apps.ocp4.pacosta.com',
+      changeOrigin: true,
+    }),
+  );
 };

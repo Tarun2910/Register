@@ -3,6 +3,7 @@ import Card from '@mui/material/Card';
 import Button from '@mui/material/Button';
 import {
   Checkbox,
+  CircularProgress,
   IconButton,
   InputAdornment,
   TextField,
@@ -22,7 +23,8 @@ import axios from 'axios';
 import {Visibility, VisibilityOff} from '@mui/icons-material';
 import {debounce} from 'lodash';
 import DoneIcon from '@mui/icons-material/Done';
-import CloseIcon from '@mui/icons-material/Close';
+import WarningAmberIcon from '@mui/icons-material/WarningAmber';
+import {toast} from 'react-toastify';
 
 const validationSchema = yup.object({
   Orgname: yup.string().required(<IntlMessages id='validation.nameRequired' />),
@@ -74,7 +76,7 @@ const Signup = () => {
     const checkDomainAvailability = debounce(() => {
       setLoading(true);
       axios
-        .get(`/tenants/domains?emailDomain=${domain}`)
+        .get(`/tenants/domains?emailDomain=@${domain}`)
         .then((response) => {
           setLoading(false);
           console.log(response, 'response');
@@ -176,7 +178,7 @@ const Signup = () => {
                 validationSchema={validationSchema}
                 onSubmit={(data, {setErrors, resetForm}) => {
                   setLoading(true);
-                  if (password !== data.confirmPassword) {
+                  if (data.password !== data.confirmPassword) {
                     setLoading(false);
                     setErrors({
                       confirmPassword: (
@@ -190,7 +192,7 @@ const Signup = () => {
                     formdata.append('adminName', data.adminName);
                     formdata.append(
                       'adminEmail',
-                      `${data.adminemail}${domain}`,
+                      `${data.adminemail.toLowerCase()}@${domain}`,
                     );
                     formdata.append('password', data.password);
 
@@ -210,6 +212,7 @@ const Signup = () => {
                         navigate('/signin');
                       })
                       .catch((error) => {
+                        toast.error(error.message);
                         console.log(error);
                         setLoading(false);
                       });
@@ -240,14 +243,61 @@ const Signup = () => {
                         InputProps={{
                           endAdornment: (
                             <InputAdornment position='end'>
-                              {domainStatus === 'available' && (
-                                <DoneIcon color='success' />
+                              {loading && (
+                                <div
+                                  style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                  }}
+                                >
+                                  <CircularProgress
+                                    size={24}
+                                    color='inherit'
+                                    style={{marginRight: '5px'}}
+                                  />
+                                  <span style={{color: 'grey'}}>
+                                    Checking Availability ...
+                                  </span>
+                                </div>
                               )}
-                              {domainStatus === 'unavailable' && (
-                                <CloseIcon color='error' />
+
+                              {domainStatus === 'available' && !loading && (
+                                <div
+                                  style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                  }}
+                                >
+                                  <DoneIcon
+                                    fontSize='small'
+                                    style={{marginRight: '5px', color: 'green'}}
+                                  />
+                                  <span style={{color: 'green'}}>
+                                    Domain available
+                                  </span>
+                                </div>
+                              )}
+                              {domainStatus === 'unavailable' && !loading && (
+                                <div
+                                  style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                  }}
+                                >
+                                  <WarningAmberIcon
+                                    fontSize='small'
+                                    style={{marginRight: '5px', color: 'red'}}
+                                  />
+                                  <span style={{color: 'red'}}>
+                                    Domain already Registered
+                                  </span>
+                                </div>
                               )}
                               {domainStatus === null && ''}
                             </InputAdornment>
+                          ),
+                          startAdornment: (
+                            <InputAdornment position='start'>@</InputAdornment>
                           ),
                         }}
                         onChange={updateDomain}
@@ -277,7 +327,7 @@ const Signup = () => {
                         InputProps={{
                           endAdornment: (
                             <InputAdornment position='end'>
-                              {domain}
+                              {`@${domain}`}
                             </InputAdornment>
                           ),
                         }}
@@ -301,9 +351,9 @@ const Signup = () => {
                                 edge='end'
                               >
                                 {showPassword ? (
-                                  <VisibilityOff />
-                                ) : (
                                   <Visibility />
+                                ) : (
+                                  <VisibilityOff />
                                 )}
                               </IconButton>
                             </InputAdornment>
@@ -314,7 +364,7 @@ const Signup = () => {
 
                     <Box sx={{mb: {xs: 3, xl: 4}}}>
                       <AppTextField
-                        label={<IntlMessages id='common.retypePassword' />}
+                        label={<IntlMessages id='common.confirmPassword' />}
                         name='confirmPassword'
                         type={confirmshowPassword ? 'text' : 'password'}
                         variant='outlined'
@@ -329,9 +379,9 @@ const Signup = () => {
                                 edge='end'
                               >
                                 {confirmshowPassword ? (
-                                  <VisibilityOff />
-                                ) : (
                                   <Visibility />
+                                ) : (
+                                  <VisibilityOff />
                                 )}
                               </IconButton>
                             </InputAdornment>
@@ -340,38 +390,6 @@ const Signup = () => {
                       />
                     </Box>
 
-                    {/* <Box
-                      sx={{
-                        mb: {xs: 5, xl: 6},
-                        display: 'flex',
-                        flexWrap: 'wrap',
-                        alignItems: 'center',
-                      }}
-                    >
-                      <Box sx={{ml: -3}}>
-                        <Checkbox />
-                      </Box>
-                      <Box
-                        component='span'
-                        sx={{
-                          mr: 2,
-                          fontSize: 14,
-                        }}
-                      >
-                        <IntlMessages id='common.iAgreeTo' />
-                      </Box>
-                      <Box
-                        sx={{
-                          cursor: 'pointer',
-                          component: 'span',
-                          color: 'primary.main',
-                          fontWeight: Fonts.BOLD,
-                          fontSize: 14,
-                        }}
-                      >
-                        <IntlMessages id='common.termConditions' />
-                      </Box>
-                    </Box> */}
                     <Button
                       variant='contained'
                       color='primary'

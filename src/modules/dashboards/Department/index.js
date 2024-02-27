@@ -42,7 +42,6 @@ import CloseIcon from '@mui/icons-material/Close';
 import {debounce} from 'lodash';
 import DoneIcon from '@mui/icons-material/Done';
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
-import AddDomain from './AddDomain';
 import {toast} from 'react-toastify';
 
 const ProductListing = () => {
@@ -168,20 +167,27 @@ const ProductListing = () => {
 
   useEffect(() => {
     let config = {
-      method: 'get',
+      method: 'post',
       maxBodyLength: Infinity,
-      url: `/tenants/users?pageNum=${page}`,
+      url: `/adminportal/api/getAllDept`,
+
       headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json; charset=utf8',
         Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
+        pageSize: '10',
+        pageNumber: page,
+        userName: sessionStorage.getItem('AdminName'),
       },
+      data: {filter: null},
     };
 
     axios
       .request(config)
       .then((response) => {
-        console.log(JSON.stringify(response.data));
-        setList(response?.data?.content);
-        setTotal(response?.data?.totalElements);
+        console.log(response.data);
+        setList(response?.data?.data);
+        setTotal(response?.data?.lenght);
       })
       .catch((error) => {
         console.log(error);
@@ -193,7 +199,7 @@ const ProductListing = () => {
   };
 
   const HandleNavigate = () => {
-    Navigate('/addUser');
+    Navigate('/add-department');
   };
 
   const handlesaveChanges = () => {
@@ -314,19 +320,6 @@ const ProductListing = () => {
         <span>
           <CustomizedBreadcrumbs label='Home' showComponentName={false} />
         </span>
-
-        <span>
-          <Button
-            sx={{marginRight: '10px'}}
-            color='primary'
-            variant='outlined'
-            size='small'
-            onClick={handlegotoupgrade}
-          >
-            Activate new plan
-          </Button>
-          Remaining License: {license} of {handletiername()}{' '}
-        </span>
       </Box>
       <AppGridContainer spacing={7}>
         <Slide direction='right' in mountOnEnter unmountOnExit>
@@ -353,7 +346,7 @@ const ProductListing = () => {
                       alignItems='center'
                       justifyContent='flex-end'
                     >
-                      <Button
+                      {/* <Button
                         sx={{marginRight: '10px'}}
                         color='primary'
                         variant='contained'
@@ -371,9 +364,9 @@ const ProductListing = () => {
                         disabled={disable}
                       >
                         Save Changes
-                      </Button>
+                      </Button> */}
 
-                      <Tooltip title='ADD USER' onClick={HandleNavigate}>
+                      <Tooltip title='ADD Department' onClick={HandleNavigate}>
                         <AddCircleRoundedIcon
                           sx={{
                             color: blue[500],
@@ -453,7 +446,7 @@ const ProductListing = () => {
         </DialogActions>
       </Dialog>
 
-      <Dialog
+      {/* <Dialog
         open={opendomain}
         keepMounted
         aria-labelledby='draggable-dialog-title'
@@ -506,7 +499,7 @@ const ProductListing = () => {
             Save
           </Button>
         </DialogActions>
-      </Dialog>
+      </Dialog> */}
     </>
   );
 };

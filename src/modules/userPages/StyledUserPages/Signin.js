@@ -121,10 +121,10 @@ const Signin = () => {
                 validationSchema={validationSchema}
                 onSubmit={(data, {resetForm}) => {
                   console.log(data, 'data');
-                  // resetForm();
+                  resetForm();
                   setLoading(true);
                   let formdata = new FormData();
-                  formdata.append('username', data.email);
+                  formdata.append('username', data.email.toLowerCase());
                   formdata.append('password', data.password);
 
                   let config = {
@@ -195,9 +195,9 @@ const Signin = () => {
                                 edge='end'
                               >
                                 {showPassword ? (
-                                  <VisibilityOff />
-                                ) : (
                                   <Visibility />
+                                ) : (
+                                  <VisibilityOff />
                                 )}
                               </IconButton>
                             </InputAdornment>

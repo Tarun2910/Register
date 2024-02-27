@@ -5,8 +5,10 @@ import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import {styled} from '@mui/material/styles';
 import {ellipsisLines} from '@crema/helpers/StringHelper';
-import CustomizedSwitches from './switchButton';
-import OrderActions from './Actions';
+import OrderActions from './Action';
+import EditIcon from '@mui/icons-material/Edit';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import {RiSplitCellsHorizontal} from 'react-icons/ri';
 
 const StyledTableCell = styled(TableCell)(() => ({
   fontSize: 14,
@@ -93,25 +95,20 @@ const TableItem = ({
             color: 'primary.main',
           }}
         >
-          {ellipsisLines(data.name)}
+          {ellipsisLines(data.deptName)}
         </Box>
       </StyledTableCell>
-      <StyledTableCell align='left'>{data.email}</StyledTableCell>
-      <StyledTableCell align='left'>{data.active_status}</StyledTableCell>
-      <StyledTableCell align='center'>
-        <Box>
-          <CustomizedSwitches
-            checked={
-              itemsState.find((item) => item.id === data.id)?.active_status ??
-              data.active_status
-            }
-            onChange={() => handleSwitchChange(data)}
-          />
-        </Box>
-      </StyledTableCell>
+      <StyledTableCell align='left'>{data.deptDisplayName}</StyledTableCell>
+      <StyledTableCell align='left'>{data.branch}</StyledTableCell>
+      <StyledTableCell align='left'>{data.cau}</StyledTableCell>
       <TableCell align='right'>
+        {/* <EditIcon />
+        <VisibilityIcon />
+        <RiSplitCellsHorizontal /> */}
         <OrderActions
           id={data.id}
+          displayname={data.deptDisplayName}
+          deptName={data.deptName}
           // setTotal={setTotal}
           // setPage={setPage}
           // setList={setList}

@@ -36,13 +36,13 @@ const CustomizedBreadcrumbs = ({label, link, showComponentName}) => {
   let targetURL = null;
 
   const handleNavigation = () => {
-    targetURL = '/dashboards';
+    navigate(-1);
   };
 
   function handleClick(event) {
     event.preventDefault();
     handleNavigation();
-    navigate(targetURL);
+    // navigate(targetURL);
   }
 
   // const handlelink = (value) => {

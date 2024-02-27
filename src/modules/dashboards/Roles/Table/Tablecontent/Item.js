@@ -5,8 +5,10 @@ import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import {styled} from '@mui/material/styles';
 import {ellipsisLines} from '@crema/helpers/StringHelper';
-import CustomizedSwitches from './switchButton';
-import OrderActions from './Actions';
+import OrderActions from './Action';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import {Tooltip} from '@mui/material';
+import PersonAddOutlinedIcon from '@mui/icons-material/PersonAddOutlined';
 
 const StyledTableCell = styled(TableCell)(() => ({
   fontSize: 14,
@@ -26,6 +28,7 @@ const TableItem = ({
   setTableData,
   itemsState,
   setItemsState,
+  handleDeleteSubordinate,
 }) => {
   // const [itemsState, setItemsState] = useState([]);
 
@@ -83,7 +86,7 @@ const TableItem = ({
   console.log(itemsState, 'itemsState');
 
   return productData.map((data) => (
-    <TableRow key={data.id} className='item-hover'>
+    <TableRow key={data.id} className='item-hover' style={{height: '4rem'}}>
       <StyledTableCell align='left' sx={{width: 400}}>
         <Box
           sx={{
@@ -93,31 +96,20 @@ const TableItem = ({
             color: 'primary.main',
           }}
         >
-          {ellipsisLines(data.name)}
+          {ellipsisLines(data.displayRoleName)}
         </Box>
       </StyledTableCell>
-      <StyledTableCell align='left'>{data.email}</StyledTableCell>
-      <StyledTableCell align='left'>{data.active_status}</StyledTableCell>
-      <StyledTableCell align='center'>
-        <Box>
-          <CustomizedSwitches
-            checked={
-              itemsState.find((item) => item.id === data.id)?.active_status ??
-              data.active_status
-            }
-            onChange={() => handleSwitchChange(data)}
-          />
-        </Box>
+      <StyledTableCell align='left'>{data.roleName}</StyledTableCell>
+      <StyledTableCell align='left'>{data.id}</StyledTableCell>
+
+      <StyledTableCell
+        align='left'
+        onClick={() => handleDeleteSubordinate(data.id)}
+      >
+        <Tooltip title='Assign User'>
+          <PersonAddOutlinedIcon style={{cursor: 'pointer'}} />
+        </Tooltip>
       </StyledTableCell>
-      <TableCell align='right'>
-        <OrderActions
-          id={data.id}
-          // setTotal={setTotal}
-          // setPage={setPage}
-          // setList={setList}
-          // list={list}
-        />
-      </TableCell>
     </TableRow>
   ));
 };
@@ -128,4 +120,5 @@ TableItem.propTypes = {
   productData: PropTypes.arrayOf(PropTypes.object),
   onItemsStateUpdate: PropTypes.any,
   setTableData: PropTypes.any,
+  handleDeleteSubordinate: PropTypes.any,
 };

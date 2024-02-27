@@ -2,6 +2,7 @@ import React from 'react';
 import {FaRegCalendarAlt, FaRegHospital} from 'react-icons/fa';
 import {FiMap, FiUsers} from 'react-icons/fi';
 import {HiOutlineAcademicCap, HiOutlineChartSquareBar} from 'react-icons/hi';
+import {MdOutlineLocalFireDepartment} from 'react-icons/md';
 import {
   RiCustomerService2Line,
   RiDashboardLine,
@@ -49,10 +50,25 @@ const routesConfig = [
     title: 'Academy',
     messageId: 'sidebar.app.dashboard.academy',
     type: 'item',
-    // permittedRole: [RoutePermittedRole.User],
     icon: <HiOutlineAcademicCap />,
     url: '/dashboards',
   },
+  {
+    id: 'academy',
+    title: 'Academy',
+    messageId: 'sidebar.app.department',
+    type: 'item',
+    icon: <MdOutlineLocalFireDepartment />,
+    url: '/department',
+  },
+  // {
+  //   id: 'academy',
+  //   title: 'Academy',
+  //   messageId: 'sidebar.app.organ.heriarchy',
+  //   type: 'item',
+  //   icon: <HiOutlineAcademicCap />,
+  //   url: '/hierarchy',
+  // },
   // ],
   // },
 ];

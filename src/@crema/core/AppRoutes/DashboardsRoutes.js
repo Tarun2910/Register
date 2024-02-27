@@ -12,8 +12,18 @@ const Crypto = React.lazy(() => import('../../../modules/dashboards/Crypto'));
 const DashBoard = React.lazy(() =>
   import('../../../modules/dashboards/AdduserDashboard'),
 );
+const Department = React.lazy(() =>
+  import('../../../modules/dashboards/Department'),
+);
+const Organizationhierarchy = React.lazy(() =>
+  import('../../../modules/dashboards/Organizationhierarchy'),
+);
+const Roles = React.lazy(() => import('../../../modules/dashboards/Roles'));
 const AddUser = React.lazy(() =>
   import('../../../modules/dashboards/AdduserDashboard/AddUser'),
+);
+const AddDepartment = React.lazy(() =>
+  import('../../../modules/dashboards/Department/AddDepartment'),
 );
 const Analytics = React.lazy(() =>
   import('../../../modules/dashboards/Analytics'),
@@ -27,6 +37,26 @@ export const dashBoardConfigs = [
     permittedRole: [RoutePermittedRole.User, RoutePermittedRole.Admin],
     path: '/dashboards',
     element: <DashBoard />,
+  },
+  {
+    permittedRole: [RoutePermittedRole.User, RoutePermittedRole.Admin],
+    path: '/department',
+    element: <Department />,
+  },
+  {
+    permittedRole: [RoutePermittedRole.User, RoutePermittedRole.Admin],
+    path: '/add-department',
+    element: <AddDepartment />,
+  },
+  {
+    permittedRole: [RoutePermittedRole.User, RoutePermittedRole.Admin],
+    path: '/hierarchy/:id',
+    element: <Organizationhierarchy />,
+  },
+  {
+    permittedRole: [RoutePermittedRole.User, RoutePermittedRole.Admin],
+    path: '/roles/:id',
+    element: <Roles />,
   },
   {
     permittedRole: [RoutePermittedRole.User, RoutePermittedRole.Admin],

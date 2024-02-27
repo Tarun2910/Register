@@ -10,7 +10,7 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 import {toast} from 'react-toastify';
 
-const OrderActions = ({id, setTotal, setList, list}) => {
+const OrderActions = ({id, setTotal, setList, list, displayname, deptName}) => {
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -41,6 +41,11 @@ const OrderActions = ({id, setTotal, setList, list}) => {
     }
   };
 
+  const handlestate = (id, displayname) => {
+    // Navigate to the specific id route and pass data through state
+    navigate(`/roles/${id}`, {state: {displayname, deptName}});
+  };
+
   return (
     <Box>
       <IconButton
@@ -62,7 +67,19 @@ const OrderActions = ({id, setTotal, setList, list}) => {
           style={{fontSize: 14}}
           onClick={() => navigate(`/hierarchy/${id}`)}
         >
-          Add and View Subordinates
+          Edit Department
+        </MenuItem>
+        <MenuItem
+          style={{fontSize: 14}}
+          onClick={() => handlestate(id, displayname, deptName)}
+        >
+          Add and View Roles
+        </MenuItem>
+        <MenuItem
+          style={{fontSize: 14}}
+          onClick={() => navigate(`/hierarchy/${id}`)}
+        >
+          Spilt Department
         </MenuItem>
         {/* <MenuItem
           style={{fontSize: 14}}
@@ -81,4 +98,6 @@ OrderActions.propTypes = {
   setTotal: PropTypes.any,
   setList: PropTypes.any,
   list: PropTypes.any,
+  displayname: PropTypes.any,
+  deptName: PropTypes.any,
 };

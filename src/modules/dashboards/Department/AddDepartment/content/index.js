@@ -39,19 +39,23 @@ const ReactQuillWrapper = styled(ReactQuill)(() => {
 });
 
 const ProductContent = ({
-  content,
-  uploadedFiles,
-  setUploadedFiles,
-  setFieldValue,
-  productInfo,
   productSpec,
   setProductInfo,
   setProductSpec,
-  courseId,
-  setChapterId,
-  chapterId,
   setDifficulty,
   loading,
+  setFromBlock,
+  fromblock,
+  setToBlock,
+  toblock,
+  setDeptDisplayName,
+  deptDisplayName,
+  setDepartment,
+  department,
+  setCau,
+  cau,
+  setBranch,
+  branch,
 }) => {
   const fileInputRef = useRef(null);
   const navigate = useNavigate();
@@ -98,7 +102,7 @@ const ProductContent = ({
       <Slide direction='right' in mountOnEnter unmountOnExit>
         <Grid item xs={12} lg={12}>
           <AppScrollbar>
-            <AppCard
+            {/* <AppCard
               title='Add Users via Excel '
               sx={{
                 width: '100%',
@@ -137,9 +141,9 @@ const ProductContent = ({
                 OR
               </Typography>
               <Divider sx={{width: '45%', height: '1px'}} />
-            </Box>
+            </Box> */}
             <AppCard
-              title='Add Users'
+              title='Add Department'
               action={
                 <Button
                   variant='contained'
@@ -164,6 +168,96 @@ const ProductContent = ({
               }
             >
               <AppGridContainer spacing={4}>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    variant='outlined'
+                    value={branch}
+                    sx={{
+                      width: '100%',
+                      my: 2,
+                    }}
+                    onChange={(event) => {
+                      const {value} = event.target;
+                      setBranch(value);
+                    }}
+                    label={'Branch'}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    variant='outlined'
+                    value={cau}
+                    sx={{
+                      width: '100%',
+                      my: 2,
+                    }}
+                    onChange={(event) => {
+                      const {value} = event.target;
+                      setCau(value);
+                    }}
+                    label={'Cau'}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    variant='outlined'
+                    value={department}
+                    sx={{
+                      width: '100%',
+                      my: 2,
+                    }}
+                    onChange={(event) => {
+                      const {value} = event.target;
+                      setDepartment(value);
+                    }}
+                    label={'Department/Section'}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    variant='outlined'
+                    value={deptDisplayName}
+                    sx={{
+                      width: '100%',
+                      my: 2,
+                    }}
+                    onChange={(event) => {
+                      const {value} = event.target;
+                      setDeptDisplayName(value);
+                    }}
+                    label={'Department Display Name'}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    variant='outlined'
+                    value={fromblock}
+                    sx={{
+                      width: '100%',
+                      my: 2,
+                    }}
+                    onChange={(event) => {
+                      const {value} = event.target;
+                      setFromBlock(value);
+                    }}
+                    label={'From Block'}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    variant='outlined'
+                    value={toblock}
+                    sx={{
+                      width: '100%',
+                      my: 2,
+                    }}
+                    onChange={(event) => {
+                      const {value} = event.target;
+                      setToBlock(value);
+                    }}
+                    label={'To Block'}
+                  />
+                </Grid>
                 {productSpec.map((productItem, index) => {
                   return (
                     <React.Fragment key={index}>
@@ -181,7 +275,7 @@ const ProductContent = ({
                             newProductInfo[index].Question = value;
                             setProductInfo(newProductInfo);
                           }}
-                          label={'Name'}
+                          label={'Subsection'}
                         />
                       </Grid>
 
@@ -203,7 +297,7 @@ const ProductContent = ({
                             newProductInfo[index].choice1 = value;
                             setProductInfo(newProductInfo);
                           }}
-                          label='User Email'
+                          label='Range'
                         />
                       </Grid>
 
@@ -283,4 +377,16 @@ ProductContent.propTypes = {
   chapterId: PropTypes.any,
   setDifficulty: PropTypes.any,
   loading: PropTypes.any,
+  setFromBlock: PropTypes.any,
+  fromblock: PropTypes.any,
+  setToBlock: PropTypes.any,
+  toblock: PropTypes.any,
+  setDeptDisplayName: PropTypes.any,
+  deptDisplayName: PropTypes.any,
+  setDepartment: PropTypes.any,
+  department: PropTypes.any,
+  setCau: PropTypes.any,
+  cau: PropTypes.any,
+  setBranch: PropTypes.any,
+  branch: PropTypes.any,
 };
