@@ -17,6 +17,11 @@ import {
   Divider,
   CircularProgress,
   InputAdornment,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
+  Typography,
 } from '@mui/material';
 import React, {useEffect, useState} from 'react';
 import {Form, Formik} from 'formik';
@@ -70,6 +75,25 @@ const ProductListing = () => {
   const [opendomain, setOpenDomain] = useState(false);
   const [domainStatus, setDomainStatus] = useState(null);
   const [domain, setDomain] = useState('');
+  const [product, setProduct] = useState(10);
+  const [applicationName, setApplicationName] = useState('OmniLearn');
+
+  const handleChange = (event) => {
+    setProduct(event.target.value);
+    switch (event.target.value) {
+      case 10:
+        setApplicationName('OmniLearn');
+        break;
+      case 20:
+        setApplicationName('TeamSync');
+        break;
+      case 30:
+        setApplicationName('Claros');
+        break;
+      default:
+        setApplicationName('');
+    }
+  };
 
   function PaperComponent(props) {
     return (
@@ -166,6 +190,8 @@ const ProductListing = () => {
     console.log(value, 'value');
   };
 
+  console.log(product, 'valueofproduct');
+
   useEffect(() => {
     let config = {
       method: 'get',
@@ -173,6 +199,7 @@ const ProductListing = () => {
       url: `/tenants/users?pageNum=${page}`,
       headers: {
         Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
+        ApplicationName: applicationName,
       },
     };
 
@@ -186,7 +213,88 @@ const ProductListing = () => {
       .catch((error) => {
         console.log(error);
       });
-  }, [page]);
+  }, [page, product, applicationName]);
+
+  // useEffect(() => {
+  //   if (product === 20) {
+  //     setList([
+  //       {
+  //         id: '65d46a043c24ef0fcc7e5047',
+  //         email: 'tarun@apple.com',
+  //         name: 'Tarun',
+  //         tenantId: '65d46a043c24ef0fcc7e5046',
+  //         reportsTo: null,
+  //         subordinates: [],
+  //         roles: [],
+  //         active_status: false,
+  //       },
+  //       {
+  //         id: '65d46b1d3c24ef0fcc7e5048',
+  //         email: 'vishal@apple.com',
+  //         name: 'Vishal',
+  //         tenantId: '65d46a043c24ef0fcc7e5046',
+  //         reportsTo: null,
+  //         subordinates: ['65d46b1f3c24ef0fcc7e504a'],
+  //         roles: ['admin'],
+  //         active_status: false,
+  //       },
+  //       {
+  //         id: '65d46b1e3c24ef0fcc7e5049',
+  //         email: 'rishabh@apple.com',
+  //         name: 'Rishabh',
+  //         tenantId: '65d46a043c24ef0fcc7e5046',
+  //         reportsTo: null,
+  //         subordinates: [],
+  //         roles: [],
+  //         active_status: false,
+  //       },
+  //       {
+  //         id: '65d46b1f3c24ef0fcc7e504a',
+  //         email: 'aman@apple.com',
+  //         name: 'Aman',
+  //         tenantId: '65d46a043c24ef0fcc7e5046',
+  //         reportsTo: '65d46b1d3c24ef0fcc7e5048',
+  //         subordinates: [],
+  //         roles: [],
+  //         active_status: false,
+  //       },
+  //       {
+  //         id: '65d474ff3c24ef0fcc7e504b',
+  //         email: 'dheeraj@amazon.com',
+  //         name: 'Dheeraj',
+  //         tenantId: '65d46a043c24ef0fcc7e5046',
+  //         reportsTo: null,
+  //         subordinates: [],
+  //         roles: [],
+  //         active_status: false,
+  //       },
+  //     ]);
+  //   }
+  //   if (product === 30) {
+  //     setList([
+  //       {
+  //         id: '65d46a043c24ef0fcc7e5047',
+  //         email: 'rishabh@apple.com',
+  //         name: 'Rishabh',
+  //         tenantId: '65d46a043c24ef0fcc7e5046',
+  //         reportsTo: null,
+  //         subordinates: [],
+  //         roles: [],
+  //         active_status: true,
+  //       },
+  //       {
+  //         id: '65d46b1d3c24ef0fcc7e5048',
+  //         email: 'aman@apple.com',
+  //         name: 'Aman',
+  //         tenantId: '65d46a043c24ef0fcc7e5046',
+  //         reportsTo: null,
+  //         subordinates: ['65d46b1f3c24ef0fcc7e504a'],
+  //         roles: ['admin'],
+  //         active_status: false,
+  //       },
+  //     ]);
+  //   }
+  // }, [product]);
 
   const searchProduct = (title) => {
     setFilterData({...filterData, title});
@@ -265,6 +373,27 @@ const ProductListing = () => {
       });
   };
 
+  useEffect(() => {
+    let config = {
+      method: 'get',
+      maxBodyLength: Infinity,
+      url: '/tenants/applications',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
+      },
+    };
+
+    axios
+      .request(config)
+      .then((response) => {
+        console.log(JSON.stringify(response.data));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
   const handlegotoupgrade = () => {
     Navigate('/upgrade');
   };
@@ -293,10 +422,7 @@ const ProductListing = () => {
 
   return (
     <>
-      {/* <div style={{marginBottom: '1rem'}}>
-        <CustomizedBreadcrumbs label='Home' showComponentName={false} />
-      </div> */}
-      <Box
+      {/* <Box
         component='h2'
         variant='h2'
         sx={{
@@ -316,6 +442,20 @@ const ProductListing = () => {
         </span>
 
         <span>
+          <FormControl>
+            <Select
+              sx={{height: '2rem', marginRight: '10px', width: '10rem'}}
+              labelId='demo-simple-select-label'
+              id='demo-simple-select'
+              value={age}
+              label='Product'
+              onChange={handleChange}
+            >
+              <MenuItem value={10}>Ten</MenuItem>
+              <MenuItem value={20}>Twenty</MenuItem>
+              <MenuItem value={30}>Thirty</MenuItem>
+            </Select>
+          </FormControl>
           <Button
             sx={{marginRight: '10px'}}
             color='primary'
@@ -327,7 +467,60 @@ const ProductListing = () => {
           </Button>
           Remaining License: {license} of {handletiername()}{' '}
         </span>
+      </Box> */}
+      <Box
+        component='h2'
+        variant='h2'
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center', // Align items vertically
+          fontSize: 15,
+          color: 'text.primary',
+          fontWeight: Fonts.SEMI_BOLD,
+          mb: {
+            xs: 3,
+            lg: 6,
+          },
+        }}
+      >
+        <span>
+          <CustomizedBreadcrumbs label='Home' showComponentName={false} />
+        </span>
+
+        <span style={{display: 'inline-flex', alignItems: 'center'}}>
+          <FormControl sx={{minWidth: '10rem', marginRight: '10px'}}>
+            <InputLabel id='demo-simple-select-label'>Products</InputLabel>
+            <Select
+              sx={{height: '2rem', width: '100%'}} // Set height and width
+              labelId='demo-simple-select-label'
+              id='demo-simple-select'
+              value={product}
+              label='Products'
+              onChange={handleChange}
+            >
+              <MenuItem value={10}>OmniLearn</MenuItem>
+              <MenuItem value={20}>TeamSync</MenuItem>
+              <MenuItem value={30}>Claros</MenuItem>
+            </Select>
+          </FormControl>
+          <Button
+            color='primary'
+            variant='outlined'
+            size='small'
+            onClick={handlegotoupgrade}
+          >
+            Activate new plan
+          </Button>
+          <Typography
+            variant='body1'
+            sx={{marginLeft: '10px', fontWeight: Fonts.SEMI_BOLD}}
+          >
+            Remaining License: {license} of {handletiername()}
+          </Typography>
+        </span>
       </Box>
+
       <AppGridContainer spacing={7}>
         <Slide direction='right' in mountOnEnter unmountOnExit>
           <Grid item xs={12} lg={12}>

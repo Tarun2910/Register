@@ -15,6 +15,17 @@ const DashBoard = React.lazy(() =>
 const Department = React.lazy(() =>
   import('../../../modules/dashboards/Department'),
 );
+const OmniLearn = React.lazy(() =>
+  import('../../../modules/dashboards/OmniLearn'),
+);
+const TeamSync = React.lazy(() =>
+  import('../../../modules/dashboards/TeamSync'),
+);
+const Crm = React.lazy(() => import('../../../modules/dashboards/Crm1'));
+const Integration = React.lazy(() =>
+  import('../../../modules/dashboards/Integration'),
+);
+const Role = React.lazy(() => import('../../../modules/dashboards/Role'));
 const Organizationhierarchy = React.lazy(() =>
   import('../../../modules/dashboards/Organizationhierarchy'),
 );
@@ -23,6 +34,9 @@ const AddUser = React.lazy(() =>
   import('../../../modules/dashboards/AdduserDashboard/AddUser'),
 );
 const AddDepartment = React.lazy(() =>
+  import('../../../modules/dashboards/Department/AddDepartment'),
+);
+const EditDepartment = React.lazy(() =>
   import('../../../modules/dashboards/Department/AddDepartment'),
 );
 const Analytics = React.lazy(() =>
@@ -40,13 +54,43 @@ export const dashBoardConfigs = [
   },
   {
     permittedRole: [RoutePermittedRole.User, RoutePermittedRole.Admin],
+    path: '/omniLearn',
+    element: <OmniLearn />,
+  },
+  {
+    permittedRole: [RoutePermittedRole.User, RoutePermittedRole.Admin],
+    path: '/teamSync',
+    element: <TeamSync />,
+  },
+  {
+    permittedRole: [RoutePermittedRole.User, RoutePermittedRole.Admin],
+    path: '/crm',
+    element: <Crm />,
+  },
+  {
+    permittedRole: [RoutePermittedRole.User, RoutePermittedRole.Admin],
+    path: '/integration',
+    element: <Integration />,
+  },
+  {
+    permittedRole: [RoutePermittedRole.User, RoutePermittedRole.Admin],
     path: '/department',
     element: <Department />,
   },
   {
     permittedRole: [RoutePermittedRole.User, RoutePermittedRole.Admin],
+    path: '/roles',
+    element: <Role />,
+  },
+  {
+    permittedRole: [RoutePermittedRole.User, RoutePermittedRole.Admin],
     path: '/add-department',
     element: <AddDepartment />,
+  },
+  {
+    permittedRole: [RoutePermittedRole.User, RoutePermittedRole.Admin],
+    path: '/edit-department/:id',
+    element: <EditDepartment />,
   },
   {
     permittedRole: [RoutePermittedRole.User, RoutePermittedRole.Admin],

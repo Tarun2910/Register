@@ -19,4 +19,16 @@ module.exports = function (app) {
       changeOrigin: true,
     }),
   );
+  app.use(
+    createProxyMiddleware('/dms_service', {
+      target: 'http://gateway-test.apps.ocp4.pacosta.com',
+      changeOrigin: true,
+    }),
+  );
+  app.use(
+    createProxyMiddleware('/crm', {
+      target: 'http://gateway-test.apps.ocp4.pacosta.com',
+      changeOrigin: true,
+    }),
+  );
 };

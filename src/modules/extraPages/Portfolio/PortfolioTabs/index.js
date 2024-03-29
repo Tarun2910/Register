@@ -18,9 +18,9 @@ function a11yProps(index) {
 
 const tabs = [
   {id: 1, name: <IntlMessages id='common.all' />},
-  {id: 2, name: <IntlMessages id='extra.branding' />},
-  {id: 3, name: <IntlMessages id='extra.graphics' />},
-  {id: 4, name: <IntlMessages id='extra.logos' />},
+  {id: 2, name: <IntlMessages id='extra.activate' />},
+  // {id: 3, name: <IntlMessages id='extra.graphics' />},
+  // {id: 4, name: <IntlMessages id='extra.logos' />},
 ];
 
 const PortfolioTabs = ({portfolio}) => {
@@ -107,7 +107,7 @@ const PortfolioTabs = ({portfolio}) => {
           )}
         />
       )}
-      {value === 2 && (
+      {/* {value === 2 && (
         <AppGrid
           data={portfolio.graphics}
           responsive={{
@@ -144,7 +144,7 @@ const PortfolioTabs = ({portfolio}) => {
             />
           )}
         />
-      )}
+      )} */}
     </Box>
   );
 };

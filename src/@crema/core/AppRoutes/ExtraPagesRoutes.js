@@ -78,7 +78,7 @@ export const extraPagesConfigs = [
   },
   {
     permittedRole: RoutePermittedRole.User,
-    path: '/extra-pages/portfolio',
+    path: '/Products',
     element: <Portfolio />,
   },
 

@@ -55,7 +55,7 @@ const MiniSidebarToggle = ({routes, routesConfig}) => {
           <AppContentView routes={routes} />
           <AppFixedFooter />
         </Box>
-        <AppThemeSetting />
+        {/* <AppThemeSetting /> */}
       </MiniSidebarToggleWrapper>
     </MiniSidebarToggleContainer>
   );

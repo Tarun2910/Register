@@ -65,7 +65,9 @@ const OrderActions = ({id, setTotal, setList, list, displayname, deptName}) => {
       >
         <MenuItem
           style={{fontSize: 14}}
-          onClick={() => navigate(`/hierarchy/${id}`)}
+          onClick={() =>
+            navigate(`/edit-department/${id}`, {state: {deptName}})
+          }
         >
           Edit Department
         </MenuItem>
@@ -77,7 +79,8 @@ const OrderActions = ({id, setTotal, setList, list, displayname, deptName}) => {
         </MenuItem>
         <MenuItem
           style={{fontSize: 14}}
-          onClick={() => navigate(`/hierarchy/${id}`)}
+          // onClick={() => navigate(`/hierarchy/${id}`)}
+          onClick={handleClose}
         >
           Spilt Department
         </MenuItem>

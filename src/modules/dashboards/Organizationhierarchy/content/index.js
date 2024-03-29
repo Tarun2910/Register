@@ -82,8 +82,6 @@ const ProductContent = ({
     }
   }, [id, list]);
 
-  console.log(list, 'listggg');
-
   useEffect(() => {
     if (triggerApi || !triggerApi) {
       setUserId([]);
@@ -126,7 +124,7 @@ const ProductContent = ({
                     width: '100%',
                     my: 4,
                   }}
-                  options={filteredOptions}
+                  options={list}
                   value={userId}
                   getOptionLabel={(option) => (option ? option?.name : [])}
                   onChange={(event, value) => setUserId(value)}

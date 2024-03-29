@@ -100,7 +100,9 @@ const TableItem = ({
         </Box>
       </StyledTableCell>
       <StyledTableCell align='left'>{data.roleName}</StyledTableCell>
-      <StyledTableCell align='left'>{data.id}</StyledTableCell>
+      <StyledTableCell align='left'>
+        {data.id || 'User not Assigned Yet'}
+      </StyledTableCell>
 
       <StyledTableCell
         align='left'

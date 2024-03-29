@@ -4,24 +4,20 @@ import {Fonts} from '@crema/constants/AppEnums';
 import {Box} from '@mui/material';
 import ProductContent from './content';
 import {Form, Formik} from 'formik';
-import {useInfoViewActionsContext} from '@crema/context/AppContextProvider/InfoViewContextProvider';
-import {postDataApi, putDataApi} from '@crema/hooks/APIHooks';
-import {useNavigate, useParams} from 'react-router-dom';
-import {getStringFromHtml} from '@crema/helpers/StringHelper';
-import dayjs from 'dayjs';
+import {useLocation, useNavigate, useParams} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import {toast} from 'react-toastify';
 import CustomizedBreadcrumbs from 'modules/muiComponents/navigation/Breadcrumbs/CustomizedBreadcrumbs';
+import {toast} from 'react-toastify';
 
-export const AddChapter = ({selectedProd}) => {
+export const AddChapter = ({selectedProd, isEdit}) => {
   const {id} = useParams();
-  const [selectedTags, setSelectedTags] = useState([]);
+  const location = useLocation();
+  const {deptName} = location.state || {};
+  const pathSegments = location.pathname.split('/');
+  const editDepartment = pathSegments[pathSegments.length - 2];
   const [selectedAdmin, setSelectedAdmin] = useState([]);
-  const [selectedCreator, setSelectedCreator] = useState([]);
-  const [selectedCoordinator, setSelectedCoordinator] = useState('');
   const [uploadedFiles, setUploadedFiles] = useState([]);
-  const infoViewActionsContext = useInfoViewActionsContext();
   const navigate = useNavigate();
   const [productInfo, setProductInfo] = React.useState([
     {
@@ -55,7 +51,7 @@ export const AddChapter = ({selectedProd}) => {
   const [difficulty, setDifficulty] = useState('');
   const [loading, setLoading] = useState(false);
 
-  console.log(fromblock, 'fromblock');
+  console.log(editDepartment, 'IsEdit');
 
   useEffect(() => {
     if (selectedProd) {
@@ -63,19 +59,48 @@ export const AddChapter = ({selectedProd}) => {
     }
   }, [selectedProd]);
 
-  const Admin = selectedAdmin.map((item) => {
-    return item.id;
-  });
+  useEffect(() => {
+    if (editDepartment === 'edit-department') {
+      let config = {
+        method: 'get',
+        maxBodyLength: Infinity,
+        url: '/adminportal/api/getDeptId',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json; charset=utf8',
+          Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
+          deptId: id,
+          userName: sessionStorage.getItem('AdminName'),
+        },
+      };
 
-  const Creator = selectedCreator.map((item) => {
-    return item.id;
-  });
+      axios
+        .request(config)
+        .then((response) => {
+          setLoading(false);
+          console.log(JSON.stringify(response.data));
+          setBranch(response.data.branch);
+          setDepartment(response.data.pklDirectorate);
+          setFromBlock(response.data.fromBlock);
+          setToBlock(response.data.toBlock);
+          setDeptDisplayName(response.data.deptDisplayName);
+          setCau(response.data.cau);
+          const formattedData = Object.entries(response.data.subSec).map(
+            ([key, value], index) => ({
+              Question: Object.keys(response.data.subSec)[index], // Get question at current index
+              choice1: Object.values(response.data.subSec)[index], // Get choice at current index
+            }),
+          );
+          setProductSpec(formattedData);
+        })
+        .catch((error) => {
+          console.log(error);
+          setLoading(false);
+        });
+    }
+  }, []);
 
-  const Coordinator = selectedCoordinator.id;
-
-  const Tags = selectedTags.map((item) => {
-    return item.name;
-  });
+  console.log(productInfo, 'productInfo');
 
   return (
     <>
@@ -125,79 +150,81 @@ export const AddChapter = ({selectedProd}) => {
         onSubmit={(data, {setSubmitting, resetForm}) => {
           console.log(data, selectedProd, 'data');
           setSubmitting(true);
-          if (selectedProd) {
-            const updatedProd = {
-              ...selectedProd,
-              ...data,
-            };
-            const formData = new FormData();
-            // axios
-            //   .put(`/kms/courses/${id}`, updatedProd, {
-            //     headers: {
-            //       Authorization: `Bearer ${sessionStorage.getItem(
-            //         'jwt_token',
-            //       )}`,
-            //     },
-            //   })
-            //   .then(() => {
-            //     toast.success('Course Edit successfully!');
-            //     const targetURL = '/signin/ecommerce/product-listing';
-            //     navigate(targetURL);
-            //   })
-            //   .catch((error) => {
-            //     toast.error('error');
-            //   });
+          if (editDepartment === 'edit-department') {
+            const subSec = productSpec.reduce((acc, item) => {
+              acc[item.Question] = item.choice1;
+              return acc;
+            }, {});
+
+            const metaData = [
+              {
+                subSec: subSec,
+                branch: branch,
+                cau: cau,
+                deptDisplayName: deptDisplayName,
+                fromBlock: fromblock,
+                toBlock: toblock,
+                pklDirectorate: department,
+                id: id,
+                independent: false,
+                deptName: deptName,
+              },
+            ];
+
+            const metaDataString = JSON.stringify(metaData);
+
+            axios
+              .put(`/adminportal/api/editDepartmentPortal`, metaDataString, {
+                headers: {
+                  Accept: 'application/json',
+                  'Content-Type': 'application/json; charset=utf8',
+                  Authorization: `Bearer ${sessionStorage.getItem(
+                    'jwt_token',
+                  )}`,
+                },
+              })
+              .then(() => {
+                toast.success('Department Edit successfully!');
+                navigate(-1);
+              })
+              .catch((error) => {
+                toast.error('error');
+              });
           } else {
             setLoading(true);
             const formData = new FormData();
-            const metaData = productSpec.map((item) => ({
-              subSec: {[item.Question]: item.choice1},
-              branch: branch,
-              cau: cau,
-              deptDisplayName: deptDisplayName,
-              fromBlock: fromblock,
-              toBlock: toblock,
-              pklDirectorate: department,
-            }));
+            // const metaData = productSpec.map((item) => ({
+            //   subSec: [{[item.Question]: item.choice1}],
+            //   branch: branch,
+            //   cau: cau,
+            //   deptDisplayName: deptDisplayName,
+            //   fromBlock: fromblock,
+            //   toBlock: toblock,
+            //   pklDirectorate: department,
+            // }));
 
-            // const metaData = Object.entries(productSpec.Question).map(
-            //   ([key, value]) => ({
-            //     subSec: {
-            //       [key]: value,
-            //     },
-            //     branch: branch,
-            //     cau: cau,
-            //     deptDisplayName: deptDisplayName,
-            //     fromBlock: fromblock,
-            //     toBlock: toblock,
-            //     // Add other properties as needed
-            //   }),
-            // );
+            const subSec = productSpec.reduce((acc, item) => {
+              acc[item.Question] = item.choice1;
+              return acc;
+            }, {});
+
+            const metaData = [
+              {
+                subSec: subSec,
+                branch: branch,
+                cau: cau,
+                deptDisplayName: deptDisplayName,
+                fromBlock: fromblock,
+                toBlock: toblock,
+                pklDirectorate: department,
+              },
+            ];
 
             productSpec.forEach((item) => {
               formData.append('files', item.file);
             });
 
             const metaDataString = JSON.stringify(metaData);
-
-            // formData.append('metadataList', metaDataString);
-            // axios
-            //   .post(`/kms/courses/${id}/quiz`, metaData, {
-            //     headers: {
-            //       Authorization: `Bearer ${sessionStorage.getItem(
-            //         'jwt_token',
-            //       )}`,
-            //     },
-            //   })
-
-            //   .then(() => {
-            //     const targetURL = '/signin/ecommerce/Creator';
-            //     navigate(targetURL);
-            //     toast.success('quiz Uploaded successfully!');
-            //   })
-            //   .catch((error) => {
-            //     toast.error('error');
-            //   });
 
             let config = {
               method: 'post',
@@ -215,6 +242,7 @@ export const AddChapter = ({selectedProd}) => {
               .then((response) => {
                 setLoading(false);
                 console.log(JSON.stringify(response.data));
+                toast.success('Department Created successfully!');
                 navigate(-1);
               })
               .catch((error) => {
@@ -243,7 +271,6 @@ export const AddChapter = ({selectedProd}) => {
                 chapterId={chapterId}
                 setDifficulty={setDifficulty}
                 loading={loading}
-                dep
                 setBranch={setBranch}
                 branch={branch}
                 setCau={setCau}
@@ -269,4 +296,5 @@ export default AddChapter;
 
 AddChapter.propTypes = {
   selectedProd: PropTypes.object,
+  isEdit: PropTypes.any,
 };

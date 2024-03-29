@@ -11,6 +11,7 @@ import AppScrollbar from '../AppScrollbar';
 import Box from '@mui/material/Box';
 import AppAnimate from '../AppAnimate';
 import {Fonts} from '@crema/constants/AppEnums';
+import ControlledCheckbox from '../../../modules/dashboards/Integration/Forms/checkbox';
 
 const AppComponentCard = ({
   title,
@@ -19,6 +20,9 @@ const AppComponentCard = ({
   component: Component,
   source,
   noScrollbar,
+  setChecked,
+  checked,
+  handleChange,
 }) => {
   const [viewSource, setToggleViewSource] = useState(false);
   const [animation, setAnimation] = useState(false);
@@ -67,7 +71,16 @@ const AppComponentCard = ({
                   <CodeIcon />
                 </IconButton>
               </Box>
-            ) : null
+            ) : (
+              <>
+                Enable SSL{' '}
+                <ControlledCheckbox
+                  setChecked={setChecked}
+                  checked={checked}
+                  handleChange={handleChange}
+                />
+              </>
+            )
           }
         />
 
@@ -168,4 +181,7 @@ AppComponentCard.propTypes = {
   maxHeight: PropTypes.number,
   description: PropTypes.node,
   noScrollbar: PropTypes.bool,
+  setChecked: PropTypes.any,
+  checked: PropTypes.any,
+  handleChange: PropTypes.any,
 };
