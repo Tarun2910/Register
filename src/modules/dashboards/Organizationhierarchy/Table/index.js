@@ -149,7 +149,7 @@ const ProductListing = ({list, setList, handleDeleteSubordinate}) => {
   };
 
   const activeUsersCount = updatedItemsState.filter(
-    (item) => item.active_status === true,
+    (item) => item.active === true,
   ).length;
 
   console.log(activeUsersCount, tableData, 'tableData');
@@ -214,11 +214,11 @@ const ProductListing = ({list, setList, handleDeleteSubordinate}) => {
   const handlesaveChanges = () => {
     // Check if remaining license is less than the count of active users
     const activeUsersCount = updatedItemsState.filter(
-      (item) => item.active_status === true,
+      (item) => item.active === true,
     ).length;
 
     const inactiveUsersCount = updatedItemsState.filter(
-      (item) => item.active_status === false,
+      (item) => item.active === false,
     ).length;
 
     const TotalLength = activeUsersCount - inactiveUsersCount;

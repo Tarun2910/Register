@@ -65,6 +65,14 @@ const Signin = () => {
             overflow: 'hidden',
             boxShadow:
               '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+
+            //
+            background: 'rgba(255, 255, 255, 0.6)',
+
+            WebkitBackdropFilter: ' blur(4px)',
+            backdropFilter: 'blur(4px)',
+
+            // borderRadius: '0.4rem',
           }}
         >
           <Grid
@@ -165,7 +173,11 @@ const Signin = () => {
                     noValidate
                     autoComplete='off'
                   >
-                    <Box sx={{mb: {xs: 5, xl: 8}}}>
+                    <Box
+                      sx={{
+                        mb: {xs: 5, xl: 8},
+                      }}
+                    >
                       <AppTextField
                         placeholder={messages['common.email']}
                         label={<IntlMessages id='common.email' />}
@@ -177,7 +189,11 @@ const Signin = () => {
                       />
                     </Box>
 
-                    <Box sx={{mb: {xs: 5, xl: 8}}}>
+                    <Box
+                      sx={{
+                        mb: {xs: 5, xl: 8},
+                      }}
+                    >
                       <AppTextField
                         type={showPassword ? 'text' : 'password'}
                         placeholder={messages['common.password']}
@@ -186,6 +202,7 @@ const Signin = () => {
                         variant='outlined'
                         sx={{
                           width: '100%',
+                          color: 'white',
                         }}
                         InputProps={{
                           endAdornment: (
@@ -317,6 +334,7 @@ const Signin = () => {
                   component='span'
                   sx={{
                     mr: 2,
+                    color: 'white',
                   }}
                 >
                   <IntlMessages id='common.dontHaveAccount' />

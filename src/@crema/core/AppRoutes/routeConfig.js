@@ -108,14 +108,14 @@ const routesConfig = [
     icon: <SiCivicrm />,
     url: '/crm',
   },
-  {
-    id: 'academy',
-    title: 'Academy',
-    messageId: 'sidebar.app.integration',
-    type: 'item',
-    icon: <MdOutlineIntegrationInstructions />,
-    url: '/integration',
-  },
+  // {
+  //   id: 'academy',
+  //   title: 'Academy',
+  //   messageId: 'sidebar.app.integration',
+  //   type: 'item',
+  //   icon: <MdOutlineIntegrationInstructions />,
+  //   url: '/integration',
+  // },
   // {
   //   id: 'academy',
   //   title: 'Academy',

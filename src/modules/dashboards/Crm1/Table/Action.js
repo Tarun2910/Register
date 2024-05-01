@@ -55,7 +55,7 @@ const OrderActions = ({id, setTotal, setList, list, displayname, deptName}) => {
       >
         <MoreVertIcon />
       </IconButton>
-      <Menu
+      {/* <Menu
         id='alpha-menu'
         anchorEl={anchorEl}
         keepMounted
@@ -79,18 +79,13 @@ const OrderActions = ({id, setTotal, setList, list, displayname, deptName}) => {
         </MenuItem>
         <MenuItem
           style={{fontSize: 14}}
-          // onClick={() => navigate(`/hierarchy/${id}`)}
+          
           onClick={handleClose}
         >
           Spilt Department
         </MenuItem>
-        {/* <MenuItem
-          style={{fontSize: 14}}
-          onClick={() => navigate(`/ecommerce/edit-products/${id}`)}
-        >
-          View
-        </MenuItem> */}
-      </Menu>
+       
+      </Menu> */}
     </Box>
   );
 };

@@ -1,0 +1,8 @@
+@keyframes cloudMove {
+  0% {
+    background-position: 1% 1%;
+  }
+  100% {
+    background-position: 1% 100%;
+  }
+}

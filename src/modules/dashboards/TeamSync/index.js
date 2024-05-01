@@ -32,6 +32,7 @@ import CustomizedBreadcrumbs from 'modules/muiComponents/navigation/Breadcrumbs/
 import Draggable from 'react-draggable';
 
 import {debounce} from 'lodash';
+import {toast} from 'react-toastify';
 
 const ProductListing = () => {
   const {messages} = useIntl();
@@ -60,7 +61,7 @@ const ProductListing = () => {
   };
 
   const activeUsersCount = updatedItemsState.filter(
-    (item) => item.active_status === true,
+    (item) => item.active === true,
   ).length;
 
   const onPageChange = (event, value) => {
@@ -106,11 +107,11 @@ const ProductListing = () => {
   // const handlesaveChanges = () => {
   //   // Check if remaining license is less than the count of active users
   //   const activeUsersCount = updatedItemsState.filter(
-  //     (item) => item.active_status === true,
+  //     (item) => item.active === true,
   //   ).length;
 
   //   const inactiveUsersCount = updatedItemsState.filter(
-  //     (item) => item.active_status === false,
+  //     (item) => item.active === false,
   //   ).length;
 
   //   const TotalLength = activeUsersCount - inactiveUsersCount;
@@ -146,6 +147,51 @@ const ProductListing = () => {
   //     });
   // };
 
+  const updateUsersPermissions = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.post(
+        '/dms_service/api/dms_admin_service/setUserData',
+        list,
+        {
+          headers: {
+            Authorization: 'Bearer ' + sessionStorage.getItem('jwt_token'),
+            username: sessionStorage.getItem('AdminName'),
+            deptName: sessionStorage.getItem('AdminName'),
+            pageNumber: '0',
+            pageSize: '10',
+          },
+        },
+      );
+      console.log(response);
+
+      // if (searchValue) {
+      //   let regex = /^([^\(]+)\s+\(([^)]+)\)$/;
+      //   // Executing the regular expression on the input string
+      //   let match = searchValue.match(regex);
+
+      //   let name = match[1].trim();
+      //   let role = match[2].trim();
+
+      //   let updatedUser = response.data.data.find(
+      //     (user) =>
+      //       user?.displayRoleName === role &&
+      //       user?.deptDisplayUsername === name,
+      //   );
+      //   setList([updatedUser]);
+      // } else {
+      //   setUsersData(response.data.data);
+      // }
+
+      toast.success('Users Permissions Updated Successfully');
+    } catch (error) {
+      console.log(error);
+      toast.error(false, error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const navigatetoUpgrade = () => {
     Navigate('/upgrade');
   };
@@ -164,8 +210,8 @@ const ProductListing = () => {
       .request(config)
       .then((response) => {
         console.log(JSON.stringify(response.data));
-        setList(response?.data?.content);
-        setTotal(response?.data?.totalElements);
+        // setList(response?.data?.data);
+        // setTotal(response?.data?.totalElements);
       })
       .catch((error) => {
         console.log(error);
@@ -256,17 +302,17 @@ const ProductListing = () => {
                         onClick={handleopenDomain}
                       >
                         Add domain
-                      </Button>
+                      </Button> */}
                       <Button
                         sx={{marginRight: '10px'}}
                         color='primary'
                         variant='contained'
                         size='small'
-                        onClick={handlesaveChanges}
-                        disabled={disable}
+                        onClick={updateUsersPermissions}
+                        // disabled={disable}
                       >
-                        Save Changes
-                      </Button> */}
+                        Update
+                      </Button>
 
                       <Hidden smDown>
                         <AppsPagination

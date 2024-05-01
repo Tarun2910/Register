@@ -157,7 +157,7 @@ const ProductListing = () => {
   };
 
   const activeUsersCount = updatedItemsState.filter(
-    (item) => item.active_status === true,
+    (item) => item.active === true,
   ).length;
 
   console.log(activeUsersCount, tableData, 'tableData');
@@ -226,7 +226,7 @@ const ProductListing = () => {
   //         reportsTo: null,
   //         subordinates: [],
   //         roles: [],
-  //         active_status: false,
+  //         active: false,
   //       },
   //       {
   //         id: '65d46b1d3c24ef0fcc7e5048',
@@ -236,7 +236,7 @@ const ProductListing = () => {
   //         reportsTo: null,
   //         subordinates: ['65d46b1f3c24ef0fcc7e504a'],
   //         roles: ['admin'],
-  //         active_status: false,
+  //         active: false,
   //       },
   //       {
   //         id: '65d46b1e3c24ef0fcc7e5049',
@@ -246,7 +246,7 @@ const ProductListing = () => {
   //         reportsTo: null,
   //         subordinates: [],
   //         roles: [],
-  //         active_status: false,
+  //         active: false,
   //       },
   //       {
   //         id: '65d46b1f3c24ef0fcc7e504a',
@@ -256,7 +256,7 @@ const ProductListing = () => {
   //         reportsTo: '65d46b1d3c24ef0fcc7e5048',
   //         subordinates: [],
   //         roles: [],
-  //         active_status: false,
+  //         active: false,
   //       },
   //       {
   //         id: '65d474ff3c24ef0fcc7e504b',
@@ -266,7 +266,7 @@ const ProductListing = () => {
   //         reportsTo: null,
   //         subordinates: [],
   //         roles: [],
-  //         active_status: false,
+  //         active: false,
   //       },
   //     ]);
   //   }
@@ -280,7 +280,7 @@ const ProductListing = () => {
   //         reportsTo: null,
   //         subordinates: [],
   //         roles: [],
-  //         active_status: true,
+  //         active: true,
   //       },
   //       {
   //         id: '65d46b1d3c24ef0fcc7e5048',
@@ -290,7 +290,7 @@ const ProductListing = () => {
   //         reportsTo: null,
   //         subordinates: ['65d46b1f3c24ef0fcc7e504a'],
   //         roles: ['admin'],
-  //         active_status: false,
+  //         active: false,
   //       },
   //     ]);
   //   }
@@ -307,11 +307,11 @@ const ProductListing = () => {
   const handlesaveChanges = () => {
     // Check if remaining license is less than the count of active users
     const activeUsersCount = updatedItemsState.filter(
-      (item) => item.active_status === true,
+      (item) => item.active === true,
     ).length;
 
     const inactiveUsersCount = updatedItemsState.filter(
-      (item) => item.active_status === false,
+      (item) => item.active === false,
     ).length;
 
     const TotalLength = activeUsersCount - inactiveUsersCount;

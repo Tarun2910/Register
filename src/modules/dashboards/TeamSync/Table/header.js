@@ -9,6 +9,7 @@ const TableHeading = () => {
       <TableCell align='left'>Username</TableCell>
       <TableCell align='left'>Permissions</TableCell>
       <TableCell align='left'>Storage Used</TableCell>
+      <TableCell align='left'>Actions</TableCell>
     </TableHeader>
   );
 };

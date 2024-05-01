@@ -9,6 +9,7 @@ import OrderActions from './Action';
 import EditIcon from '@mui/icons-material/Edit';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import {RiSplitCellsHorizontal} from 'react-icons/ri';
+import {FormControl, InputLabel, MenuItem, Select} from '@mui/material';
 
 const StyledTableCell = styled(TableCell)(() => ({
   fontSize: 14,
@@ -28,6 +29,7 @@ const TableItem = ({
   setTableData,
   itemsState,
   setItemsState,
+  setList,
 }) => {
   // const [itemsState, setItemsState] = useState([]);
 
@@ -35,7 +37,7 @@ const TableItem = ({
     // Initialize itemsState with default values from productData
     const initialItemsState = productData.map((data) => ({
       id: data.id,
-      active_status: data.active_status,
+      active: data.active,
     }));
     setTableData(initialItemsState);
   }, [itemsState]);
@@ -51,8 +53,7 @@ const TableItem = ({
     console.log(itemsState, productData, 'productData');
     const isAnyItemInactive = itemsState.some(
       (item) =>
-        item.active_status !==
-        productData.find((d) => d.id === item.id).active_status,
+        item.active !== productData.find((d) => d.id === item.id).active,
     );
 
     if (isAnyItemInactive) {
@@ -71,11 +72,11 @@ const TableItem = ({
 
       if (itemIndex !== -1) {
         // If the item is already in the state, update only the specific item
-        updatedItemsState[itemIndex].active_status =
-          !updatedItemsState[itemIndex].active_status;
+        updatedItemsState[itemIndex].active =
+          !updatedItemsState[itemIndex].active;
       } else {
         // If the item is not in the state, add it to the state
-        updatedItemsState.push({id, active_status: !data.active_status});
+        updatedItemsState.push({id, active: !data.active});
       }
 
       return updatedItemsState;
@@ -84,8 +85,31 @@ const TableItem = ({
 
   console.log(itemsState, 'itemsState');
 
+  const handleChange = (userId, field, newValue) => {
+    if (field === 'allowedStorageInBytesDisplay') {
+      let totalBytes;
+      let valueArr = newValue?.split(' ');
+      if (valueArr[1] === 'GB') {
+        totalBytes = 1073741824;
+      } else {
+        totalBytes = valueArr[0] * 1024 * 1024;
+      }
+      const newArr = productData.map((user) =>
+        user.id === userId
+          ? {...user, [field]: newValue, allowedStorageInBytes: totalBytes}
+          : user,
+      );
+      setList(newArr);
+    } else {
+      const newArr = productData.map((user) =>
+        user.id === userId ? {...user, [field]: newValue} : user,
+      );
+      setList(newArr);
+    }
+  };
+
   return productData.map((data) => (
-    <TableRow key={data.id} className='item-hover'>
+    <TableRow key={data.id} className='item-hover' sx={{height: '2rem'}}>
       <StyledTableCell align='left' sx={{width: 400}}>
         <Box
           sx={{
@@ -95,12 +119,47 @@ const TableItem = ({
             color: 'primary.main',
           }}
         >
-          {ellipsisLines(data.deptName)}
+          {ellipsisLines(data.userId)}
         </Box>
       </StyledTableCell>
-      <StyledTableCell align='left'>{data.deptDisplayName}</StyledTableCell>
-      <StyledTableCell align='left'>{data.branch}</StyledTableCell>
-      <StyledTableCell align='left'>{data.cau}</StyledTableCell>
+      <StyledTableCell align='left'>{data.deptDisplayUsername}</StyledTableCell>
+      <StyledTableCell align='left'>
+        {' '}
+        <FormControl variant='outlined' style={{minWidth: 120}} size='small'>
+          <InputLabel>STORAGE</InputLabel>
+          <Select
+            label='STORAGE'
+            value={data?.allowedStorageInBytesDisplay}
+            onChange={(event) =>
+              handleChange(
+                data.id,
+                'allowedStorageInBytesDisplay',
+                event.target.value,
+              )
+            }
+          >
+            <MenuItem value='' disabled>
+              Select Storage
+            </MenuItem>
+            <MenuItem value='25 MB'>25 MB</MenuItem>
+            <MenuItem value='50 MB'>50 MB</MenuItem>
+            <MenuItem value='100 MB'>100 MB</MenuItem>
+            <MenuItem value='200 MB'>200 MB</MenuItem>
+            <MenuItem value='500 MB'>500 MB</MenuItem>
+            <MenuItem value='1 GB'>1 GB</MenuItem>
+          </Select>
+        </FormControl>
+      </StyledTableCell>
+      <StyledTableCell align='left'>{data.displayStorage}</StyledTableCell>
+      <StyledTableCell align='left'>
+        <OrderActions
+          id={data.id}
+          // setTotal={setTotal}
+          // setPage={setPage}
+          // setList={setList}
+          // list={list}
+        />
+      </StyledTableCell>
     </TableRow>
   ));
 };
@@ -111,4 +170,5 @@ TableItem.propTypes = {
   productData: PropTypes.arrayOf(PropTypes.object),
   onItemsStateUpdate: PropTypes.any,
   setTableData: PropTypes.any,
+  setList: PropTypes.any,
 };

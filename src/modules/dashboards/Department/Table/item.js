@@ -35,7 +35,7 @@ const TableItem = ({
     // Initialize itemsState with default values from productData
     const initialItemsState = productData.map((data) => ({
       id: data.id,
-      active_status: data.active_status,
+      active: data.active,
     }));
     setTableData(initialItemsState);
   }, [itemsState]);
@@ -51,8 +51,7 @@ const TableItem = ({
     console.log(itemsState, productData, 'productData');
     const isAnyItemInactive = itemsState.some(
       (item) =>
-        item.active_status !==
-        productData.find((d) => d.id === item.id).active_status,
+        item.active !== productData.find((d) => d.id === item.id).active,
     );
 
     if (isAnyItemInactive) {
@@ -71,11 +70,11 @@ const TableItem = ({
 
       if (itemIndex !== -1) {
         // If the item is already in the state, update only the specific item
-        updatedItemsState[itemIndex].active_status =
-          !updatedItemsState[itemIndex].active_status;
+        updatedItemsState[itemIndex].active =
+          !updatedItemsState[itemIndex].active;
       } else {
         // If the item is not in the state, add it to the state
-        updatedItemsState.push({id, active_status: !data.active_status});
+        updatedItemsState.push({id, active: !data.active});
       }
 
       return updatedItemsState;

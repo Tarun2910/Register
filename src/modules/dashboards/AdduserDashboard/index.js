@@ -76,13 +76,13 @@ const ProductListing = () => {
   const [domainStatus, setDomainStatus] = useState(null);
   const [domain, setDomain] = useState('');
   const [product, setProduct] = useState(10);
-  const [applicationName, setApplicationName] = useState('OmniLearn');
+  const [applicationName, setApplicationName] = useState('OmniLearn Pro');
 
   const handleChange = (event) => {
     setProduct(event.target.value);
     switch (event.target.value) {
       case 10:
-        setApplicationName('OmniLearn');
+        setApplicationName('OmniLearn Pro');
         break;
       case 20:
         setApplicationName('TeamSync');
@@ -152,6 +152,8 @@ const ProductListing = () => {
     setOpen(true);
   };
 
+  console.log(licensetier, 'licensetier');
+
   const handleClose = () => {
     setOpen(false);
   };
@@ -177,13 +179,17 @@ const ProductListing = () => {
       .then((response) => {
         console.log(JSON.stringify(response.data));
         sessionStorage.setItem('AdminName', response.data.adminName);
-        setLicense(response?.data?.usersRemaining);
-        setLicenseTier(response?.data?.licenseTier);
+        const applicationuserRemaining =
+          response?.data?.usersRemaining[applicationName];
+        setLicense(applicationuserRemaining || '');
+        const applicationLicenseTier =
+          response?.data?.licenseTier[applicationName];
+        setLicenseTier(applicationLicenseTier || '');
       })
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  }, [product]);
 
   const onPageChange = (event, value) => {
     setPage(value);
@@ -199,7 +205,7 @@ const ProductListing = () => {
       url: `/tenants/users?pageNum=${page}`,
       headers: {
         Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
-        ApplicationName: applicationName,
+        appName: applicationName,
       },
     };
 
@@ -324,7 +330,7 @@ const ProductListing = () => {
     let config = {
       method: 'post',
       maxBodyLength: Infinity,
-      url: '/tenants/users/status',
+      url: `/tenants/users/status?appName=${applicationName}`,
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
@@ -337,7 +343,10 @@ const ProductListing = () => {
       .then((response) => {
         console.log(JSON.stringify(response.data));
         // const RemainingUsers = response.headers['usersRemaining'];
-        setLicense(response?.data?.usersRemaining);
+        const applicationuserRemaining =
+          response?.data?.usersRemaining[applicationName];
+        setLicense(applicationuserRemaining || '');
+        // setLicense(response?.data?.usersRemaining);
         setList(response?.data?.allUsers?.content);
         setTotal(response?.data?.allUsers?.totalElements);
         setItemsState([]);
@@ -516,7 +525,7 @@ const ProductListing = () => {
             variant='body1'
             sx={{marginLeft: '10px', fontWeight: Fonts.SEMI_BOLD}}
           >
-            Remaining License: {license} of {handletiername()}
+            Remaining License: {String(license)} of {String(handletiername())}
           </Typography>
         </span>
       </Box>

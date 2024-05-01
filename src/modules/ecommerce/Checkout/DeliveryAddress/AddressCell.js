@@ -9,7 +9,7 @@ import IconButton from '@mui/material/IconButton';
 import PropTypes from 'prop-types';
 
 const AddressCell = ({address, selectedAddress, setSelectAddress}) => {
-  const isActive = selectedAddress.id === address.id;
+  const active = selectedAddress.id === address.id;
   return (
     <Box
       onClick={() => setSelectAddress(address)}
@@ -32,14 +32,14 @@ const AddressCell = ({address, selectedAddress, setSelectAddress}) => {
         }}
       >
         <Checkbox
-          checked={isActive}
+          checked={active}
           icon={<RadioButtonUncheckedIcon />}
           checkedIcon={<RadioButtonCheckedIcon />}
           color='primary'
         />
         <Box sx={{mx: 3.5}}>{address.name}</Box>
         <Box>{address.mobile}</Box>
-        {isActive ? (
+        {active ? (
           <Box sx={{ml: 'auto'}}>
             <IconButton size='small'>
               <EditOutlinedIcon />
@@ -52,7 +52,7 @@ const AddressCell = ({address, selectedAddress, setSelectAddress}) => {
       >
         {address.addressLine}, {address.city}, {address.pin}
       </Box>
-      {isActive ? (
+      {active ? (
         <Box
           sx={{fontSize: 14, fontWeight: Fonts.REGULAR, ml: 14, mt: 1, mb: 4}}
         >

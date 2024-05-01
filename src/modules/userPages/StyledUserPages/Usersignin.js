@@ -4,7 +4,14 @@ import GitHubIcon from '@mui/icons-material/GitHub';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import Button from '@mui/material/Button';
-import {Checkbox, useTheme} from '@mui/material';
+import {
+  Checkbox,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  useTheme,
+} from '@mui/material';
 import {Form, Formik} from 'formik';
 import * as yup from 'yup';
 import Grid from '@mui/material/Grid';
@@ -37,7 +44,26 @@ const Usersignin = () => {
   const {messages} = useIntl();
   const {logInWithEmailAndPassword} = useAuthMethod();
   const [loading, setLoading] = useState(false);
+  const [product, setProduct] = useState(10);
+  const [applicationName, setApplicationName] = useState('OmniLearn Pro');
   const navigate = useNavigate();
+
+  const handleChange = (event) => {
+    setProduct(event.target.value);
+    switch (event.target.value) {
+      case 10:
+        setApplicationName('OmniLearn Pro');
+        break;
+      case 20:
+        setApplicationName('TeamSync');
+        break;
+      case 30:
+        setApplicationName('Claros');
+        break;
+      default:
+        setApplicationName('');
+    }
+  };
   return (
     <AppAnimate animation='transition.slideUpIn' delay={200}>
       <Box
@@ -60,6 +86,17 @@ const Usersignin = () => {
             overflow: 'hidden',
             boxShadow:
               '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+            // display: 'flex',
+            // position: 'relative',
+
+            background: 'rgba(255, 255, 255, 0.6)',
+
+            WebkitBackdropFilter: ' blur(4px)',
+            backdropFilter: 'blur(4px)',
+            justifyContent: 'space-between',
+            borderRadius: '0.4rem',
+            // boxShadow:
+            //   'rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset',
           }}
         >
           <Grid
@@ -124,8 +161,8 @@ const Usersignin = () => {
                   let config = {
                     method: 'post',
                     maxBodyLength: Infinity,
-                    url: 'http://localhost:8081/tenants/users/login',
-                    headers: {},
+                    url: '/tenants/users/login',
+                    headers: {appName: applicationName},
                     data: formdata,
                   };
 
@@ -134,10 +171,10 @@ const Usersignin = () => {
                     .then((response) => {
                       console.log(JSON.stringify(response.data));
                       setLoading(false);
-                      sessionStorage.setItem(
-                        'jwt_token',
-                        response.data.access_token,
-                      );
+                      // sessionStorage.setItem(
+                      //   'jwt_token',
+                      //   response.data.access_token,
+                      // );
                       //   navigate('/dashboards');
                       toast.success('Login sucessfully');
                     })
@@ -163,6 +200,37 @@ const Usersignin = () => {
                     noValidate
                     autoComplete='off'
                   >
+                    <span
+                      style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        marginBottom: '18px',
+                      }}
+                    >
+                      <p style={{marginRight: '10px'}}>
+                        Application you wanted to login to:
+                      </p>
+                      <FormControl
+                        sx={{minWidth: '10rem', marginRight: '10px'}}
+                      >
+                        <InputLabel id='demo-simple-select-label'>
+                          Products
+                        </InputLabel>
+                        <Select
+                          sx={{height: '2rem', width: '100%'}} // Set height and width
+                          labelId='demo-simple-select-label'
+                          id='demo-simple-select'
+                          value={product}
+                          label='Products'
+                          onChange={handleChange}
+                        >
+                          <MenuItem value={10}>OmniLearn Pro</MenuItem>
+                          <MenuItem value={20}>TeamSync</MenuItem>
+                          <MenuItem value={30}>Claros</MenuItem>
+                        </Select>
+                      </FormControl>
+                    </span>
+
                     <Box sx={{mb: {xs: 5, xl: 8}}}>
                       <AppTextField
                         placeholder={messages['common.email']}

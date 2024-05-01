@@ -66,11 +66,11 @@ const PortfolioCard = ({portfolio, onViewPortfolioDetail}) => {
                     <GoKey />
                   </Box>
                 </Tooltip>
-                <Tooltip title='Genrate Key' onClick={handleActivateKey}>
+                {/* <Tooltip title='Genrate Key' onClick={handleActivateKey}>
                   <Box className='icon'>
                     <GoKey />
                   </Box>
-                </Tooltip>
+                </Tooltip> */}
               </>
             )}
             {/* <Box className='icon'>

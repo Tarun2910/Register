@@ -133,7 +133,7 @@ const UserInfo = () => {
                 color: (theme) => theme.palette.text.secondary,
               }}
             >
-              System Manager
+              Senior Developer
             </Box>
           </Box>
         </MenuItem>

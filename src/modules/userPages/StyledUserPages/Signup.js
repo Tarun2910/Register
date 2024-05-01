@@ -124,6 +124,11 @@ const Signup = () => {
             overflow: 'hidden',
             boxShadow:
               '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+
+            background: 'rgba(255, 255, 255, 0.6)',
+
+            WebkitBackdropFilter: ' blur(4px)',
+            backdropFilter: 'blur(4px)',
           }}
         >
           <Grid
@@ -221,7 +226,11 @@ const Signup = () => {
               >
                 {({isSubmitting}) => (
                   <Form noValidate autoComplete='off'>
-                    <Box sx={{mb: {xs: 3, xl: 4}}}>
+                    <Box
+                      sx={{
+                        mb: {xs: 3, xl: 4},
+                      }}
+                    >
                       <AppTextField
                         label={<IntlMessages id='common.Orgname' />}
                         name='Orgname'
@@ -232,7 +241,11 @@ const Signup = () => {
                       />
                     </Box>
 
-                    <Box sx={{mb: {xs: 3, xl: 4}}}>
+                    <Box
+                      sx={{
+                        mb: {xs: 3, xl: 4},
+                      }}
+                    >
                       <TextField
                         label={<IntlMessages id='common.domain' />}
                         name='Domain'
@@ -304,7 +317,11 @@ const Signup = () => {
                       />
                     </Box>
 
-                    <Box sx={{mb: {xs: 3, xl: 4}}}>
+                    <Box
+                      sx={{
+                        mb: {xs: 3, xl: 4},
+                      }}
+                    >
                       <AppTextField
                         label={<IntlMessages id='common.adminName' />}
                         name='adminName'
@@ -315,7 +332,11 @@ const Signup = () => {
                       />
                     </Box>
 
-                    <Box sx={{mb: {xs: 3, xl: 4}}}>
+                    <Box
+                      sx={{
+                        mb: {xs: 3, xl: 4},
+                      }}
+                    >
                       <AppTextField
                         label={<IntlMessages id='common.adminemail' />}
                         name='adminemail'
@@ -334,7 +355,11 @@ const Signup = () => {
                       />
                     </Box>
 
-                    <Box sx={{mb: {xs: 3, xl: 4}}}>
+                    <Box
+                      sx={{
+                        mb: {xs: 3, xl: 4},
+                      }}
+                    >
                       <AppTextField
                         label={<IntlMessages id='common.password' />}
                         name='password'
@@ -362,7 +387,11 @@ const Signup = () => {
                       />
                     </Box>
 
-                    <Box sx={{mb: {xs: 3, xl: 4}}}>
+                    <Box
+                      sx={{
+                        mb: {xs: 3, xl: 4},
+                      }}
+                    >
                       <AppTextField
                         label={<IntlMessages id='common.confirmPassword' />}
                         name='confirmPassword'
@@ -416,7 +445,7 @@ const Signup = () => {
                   mt: {xs: 3, xl: 4},
                 }}
               >
-                <Box component='span' sx={{mr: 1}}>
+                <Box component='span' sx={{mr: 1, color: 'white'}}>
                   <IntlMessages id='common.alreadyHaveAccount' />
                 </Box>
                 <Box
