@@ -20,7 +20,7 @@ const ProductTable = ({
 }) => {
   return (
     <AppTableContainer>
-      <Table stickyHeader className='table'>
+      <Table stickyHeader className='newtable'>
         <TableHead>
           <TableHeading />
         </TableHead>

@@ -45,7 +45,12 @@ import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 import {toast} from 'react-toastify';
 import PropTypes from 'prop-types';
 
-const ProductListing = ({list, setList, handleDeleteSubordinate}) => {
+const ProductListing = ({
+  list,
+  setList,
+  handleDeleteSubordinate,
+  setTriggerApi,
+}) => {
   const {messages} = useIntl();
   const Navigate = useNavigate();
   const {id} = useParams();
@@ -369,6 +374,7 @@ const ProductListing = ({list, setList, handleDeleteSubordinate}) => {
                 setItemsState={setItemsState}
                 itemsState={itemsState}
                 handleDeleteSubordinate={handleDeleteSubordinate}
+                setTriggerApi={setTriggerApi}
               />
             </AppsContent>
             <Hidden smUp>
@@ -413,4 +419,5 @@ ProductListing.propTypes = {
   list: PropTypes.any,
   setList: PropTypes.any,
   handleDeleteSubordinate: PropTypes.any,
+  setTriggerApi: PropTypes.any,
 };

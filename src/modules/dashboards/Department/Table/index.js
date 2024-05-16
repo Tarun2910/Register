@@ -20,7 +20,7 @@ const ProductTable = ({
 }) => {
   return (
     <AppTableContainer>
-      <Table stickyHeader className='table'>
+      <Table stickyHeader className='pr1'>
         <TableHead>
           <TableHeading />
         </TableHead>
@@ -63,3 +63,5 @@ ProductTable.propTypes = {
   setItemsState: PropTypes.any,
   itemsState: PropTypes.any,
 };
+
+// style={{minHeight: '70vh'}}

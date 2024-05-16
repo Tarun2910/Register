@@ -73,7 +73,7 @@ const ProductListing = () => {
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: `/dms_service/api/dms_admin_service/getUserData`,
+      url: `/dms_service_LM/api/dms_admin_service/getUserData`,
 
       headers: {
         Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
@@ -151,7 +151,7 @@ const ProductListing = () => {
     setLoading(true);
     try {
       const response = await axios.post(
-        '/dms_service/api/dms_admin_service/setUserData',
+        '/dms_service_LM/api/dms_admin_service/setUserData',
         list,
         {
           headers: {

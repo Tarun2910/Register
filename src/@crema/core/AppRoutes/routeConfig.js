@@ -52,14 +52,7 @@ const routesConfig = [
   //   messageId: 'sidebar.application',
   //   type: 'group',
   //   children: [
-  {
-    id: 'academy',
-    title: 'Academy',
-    messageId: 'sidebar.app.dashboard.academy',
-    type: 'item',
-    icon: <MdOutlineSpaceDashboard />,
-    url: '/dashboards',
-  },
+
   {
     id: 'academy',
     title: 'Academy',
@@ -79,11 +72,12 @@ const routesConfig = [
   {
     id: 'academy',
     title: 'Academy',
-    messageId: 'sidebar.app.product',
+    messageId: 'sidebar.app.dashboard.academy',
     type: 'item',
-    icon: <RiProductHuntLine />,
-    url: '/Products',
+    icon: <MdOutlineSpaceDashboard />,
+    url: '/user',
   },
+
   {
     id: 'academy',
     title: 'Academy',
@@ -103,11 +97,19 @@ const routesConfig = [
   {
     id: 'academy',
     title: 'Academy',
-    messageId: 'sidebar.app.crm',
+    messageId: 'sidebar.app.product',
     type: 'item',
-    icon: <SiCivicrm />,
-    url: '/crm',
+    icon: <RiProductHuntLine />,
+    url: '/Products',
   },
+  // {
+  //   id: 'academy',
+  //   title: 'Academy',
+  //   messageId: 'sidebar.app.crm',
+  //   type: 'item',
+  //   icon: <SiCivicrm />,
+  //   url: '/crm',
+  // },
   // {
   //   id: 'academy',
   //   title: 'Academy',

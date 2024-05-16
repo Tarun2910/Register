@@ -32,6 +32,10 @@ const validationSchema = yup.object({
     .string()
     // .email(<IntlMessages id='validation.emailFormat' />)
     .required(<IntlMessages id='validation.emailRequired' />),
+  adminUsername: yup
+    .string()
+    // .email(<IntlMessages id='validation.emailFormat' />)
+    .required(<IntlMessages id='validation.AdminusernameRequired' />),
   password: yup
     .string()
     .required(<IntlMessages id='validation.passwordRequired' />),
@@ -178,6 +182,7 @@ const Signup = () => {
                   adminName: '',
                   password: '',
                   adminemail: '',
+                  adminUsername: '',
                   confirmPassword: '',
                 }}
                 validationSchema={validationSchema}
@@ -199,6 +204,7 @@ const Signup = () => {
                       'adminEmail',
                       `${data.adminemail.toLowerCase()}@${domain}`,
                     );
+                    formdata.append('adminUsername', data.adminUsername);
                     formdata.append('password', data.password);
 
                     let config = {
@@ -351,6 +357,21 @@ const Signup = () => {
                               {`@${domain}`}
                             </InputAdornment>
                           ),
+                        }}
+                      />
+                    </Box>
+                    <Box
+                      sx={{
+                        mb: {xs: 3, xl: 4},
+                      }}
+                    >
+                      <AppTextField
+                        label={<IntlMessages id='common.adminUsername' />}
+                        name='adminUsername'
+                        type='text'
+                        variant='outlined'
+                        sx={{
+                          width: '100%',
                         }}
                       />
                     </Box>

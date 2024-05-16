@@ -25,7 +25,7 @@ import {Visibility, VisibilityOff} from '@mui/icons-material';
 const validationSchema = yup.object({
   email: yup
     .string()
-    .email(<IntlMessages id='validation.emailFormat' />)
+    // .email(<IntlMessages id='validation.emailFormat' />)
     .required(<IntlMessages id='validation.emailRequired' />),
   password: yup
     .string()
@@ -152,7 +152,7 @@ const Signin = () => {
                         'jwt_token',
                         response.data.access_token,
                       );
-                      navigate('/dashboards');
+                      navigate('/department');
                     })
                     .catch((error) => {
                       setLoading(false);

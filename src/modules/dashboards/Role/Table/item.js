@@ -28,6 +28,7 @@ const TableItem = ({
   setTableData,
   itemsState,
   setItemsState,
+  setTriggerApi,
 }) => {
   // const [itemsState, setItemsState] = useState([]);
 
@@ -100,7 +101,7 @@ const TableItem = ({
       <StyledTableCell align='left'>{data.department}</StyledTableCell>
       <StyledTableCell align='left'>{data.displayRoleName}</StyledTableCell>
       <StyledTableCell align='left'>
-        {data.cau || 'User not Assigned Yet'}
+        {data?.userDetails?.deptUsername || 'User not Assigned Yet'}
       </StyledTableCell>
       <TableCell align='right'>
         {/* <EditIcon />
@@ -108,8 +109,10 @@ const TableItem = ({
         <RiSplitCellsHorizontal /> */}
         <OrderActions
           id={data.id}
+          data={data}
           displayname={data.deptDisplayName}
           deptName={data.deptName}
+          setTriggerApi={setTriggerApi}
           // setTotal={setTotal}
           // setPage={setPage}
           // setList={setList}
@@ -126,4 +129,5 @@ TableItem.propTypes = {
   productData: PropTypes.arrayOf(PropTypes.object),
   onItemsStateUpdate: PropTypes.any,
   setTableData: PropTypes.any,
+  setTriggerApi: PropTypes.any,
 };

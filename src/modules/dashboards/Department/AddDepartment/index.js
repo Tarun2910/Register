@@ -64,7 +64,7 @@ export const AddChapter = ({selectedProd, isEdit}) => {
       let config = {
         method: 'get',
         maxBodyLength: Infinity,
-        url: '/adminportal/api/getDeptId',
+        url: '/multitenant/adminportal/api/getDeptId',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json; charset=utf8',
@@ -174,15 +174,19 @@ export const AddChapter = ({selectedProd, isEdit}) => {
             const metaDataString = JSON.stringify(metaData);
 
             axios
-              .put(`/adminportal/api/editDepartmentPortal`, metaDataString, {
-                headers: {
-                  Accept: 'application/json',
-                  'Content-Type': 'application/json; charset=utf8',
-                  Authorization: `Bearer ${sessionStorage.getItem(
-                    'jwt_token',
-                  )}`,
+              .put(
+                `/multitenant/adminportal/api/editDepartmentPortal`,
+                metaDataString,
+                {
+                  headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json; charset=utf8',
+                    Authorization: `Bearer ${sessionStorage.getItem(
+                      'jwt_token',
+                    )}`,
+                  },
                 },
-              })
+              )
               .then(() => {
                 toast.success('Department Edit successfully!');
                 navigate(-1);
@@ -229,7 +233,7 @@ export const AddChapter = ({selectedProd, isEdit}) => {
             let config = {
               method: 'post',
               maxBodyLength: Infinity,
-              url: '/adminportal/api/createDepartment',
+              url: '/multitenant/adminportal/api/createDepartment',
               headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,

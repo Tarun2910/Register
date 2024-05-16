@@ -49,7 +49,7 @@ const Widgets = React.lazy(() => import('../../../modules/dashboards/Widgets'));
 export const dashBoardConfigs = [
   {
     permittedRole: [RoutePermittedRole.User, RoutePermittedRole.Admin],
-    path: '/dashboards',
+    path: '/user',
     element: <DashBoard />,
   },
   {

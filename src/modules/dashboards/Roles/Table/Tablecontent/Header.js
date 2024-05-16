@@ -7,7 +7,7 @@ const TableHeading = () => {
     <TableHeader>
       <TableCell>Display Username</TableCell>
       <TableCell align='left'>Roles</TableCell>
-      <TableCell align='left'>User Id</TableCell>
+      <TableCell align='left'>Assign User</TableCell>
       <TableCell align='left'>Action</TableCell>
       {/* <TableCell align='left'></TableCell> */}
     </TableHeader>

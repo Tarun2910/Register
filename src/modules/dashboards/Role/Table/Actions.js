@@ -9,10 +9,35 @@ import {useNavigate} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import {toast} from 'react-toastify';
+import {
+  Autocomplete,
+  Button,
+  Dialog,
+  DialogTitle,
+  TextField,
+} from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
+import DialogContent from '@mui/material/DialogContent';
+import DialogActions from '@mui/material/DialogActions';
+import {Fonts} from '@crema/constants/AppEnums';
 
-const OrderActions = ({id, setTotal, setList, list, displayname, deptName}) => {
+const OrderActions = ({
+  id,
+  setTotal,
+  setList,
+  list,
+  displayname,
+  deptName,
+  setTriggerApi,
+  data,
+}) => {
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [opendialog, setOpenDialog] = React.useState(false);
+  const [user, setUser] = React.useState('');
+  const [selecteduser, setselectedUser] = React.useState(null);
+  const [roleName, setRoleName] = React.useState(null);
+  const [Isuserassigned, setIsuserAssigned] = React.useState(null);
   const open = Boolean(anchorEl);
 
   const handleClick = (event) => {
@@ -46,32 +71,194 @@ const OrderActions = ({id, setTotal, setList, list, displayname, deptName}) => {
     navigate(`/roles/${id}`, {state: {displayname, deptName}});
   };
 
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
+
+  const handleOpenDialog = () => {
+    setOpenDialog(true);
+    setRoleName(data?.roleName);
+    setIsuserAssigned(data?.userDetails?.deptUsername);
+
+    let config = {
+      method: 'get',
+      maxBodyLength: Infinity,
+      url: `/multitenant/adminportal/api/getUserNameSmart`,
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
+        DeptName: 'ALL_USER',
+        patternString: '',
+        userName: '',
+        userRole: '',
+      },
+    };
+
+    axios
+      .request(config)
+      .then((response) => {
+        console.log(response, 'response');
+        setUser(response?.data?.data);
+      })
+      .catch((error) => {
+        toast.error(error.message);
+      });
+  };
+
+  const handleAssignUser = () => {
+    let config = {
+      method: 'post',
+      maxBodyLength: Infinity,
+      url: `/multitenant/adminportal/api/assignRoleLst`,
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
+      },
+      data: [{roleName: roleName, userName: selecteduser?.deptUsername}],
+    };
+
+    axios
+      .request(config)
+      .then((response) => {
+        handleCloseDialog();
+        setTriggerApi((prevState) => !prevState);
+        handleClose();
+      })
+      .catch((error) => {
+        toast.error(error.message);
+        handleCloseDialog();
+      });
+  };
+
+  const handleSwitchUser = () => {
+    let config = {
+      method: 'post',
+      maxBodyLength: Infinity,
+      url: `/multitenant/adminportal/api/switchRole`,
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
+        roleName: roleName,
+        currentUserName: Isuserassigned,
+        newUserName: selecteduser?.deptUsername,
+      },
+    };
+
+    axios
+      .request(config)
+      .then((response) => {
+        handleCloseDialog();
+        setTriggerApi((prevState) => !prevState);
+        handleClose();
+      })
+      .catch((error) => {
+        toast.error(error.message);
+        handleCloseDialog();
+      });
+  };
+
   return (
-    <Box>
-      <IconButton
-        aria-controls='alpha-menu'
-        aria-haspopup='true'
-        onClick={handleClick}
-      >
-        <MoreVertIcon />
-      </IconButton>
-      <Menu
-        id='alpha-menu'
-        anchorEl={anchorEl}
-        keepMounted
-        open={open}
-        onClose={handleClose}
-        TransitionComponent={Fade}
-      >
-        <MenuItem
-          style={{fontSize: 14}}
-          // onClick={() => navigate(`/hierarchy/${id}`)}
-          onClick={handleClose}
+    <>
+      <Box>
+        <IconButton
+          aria-controls='alpha-menu'
+          aria-haspopup='true'
+          onClick={handleClick}
         >
-          Assign User
-        </MenuItem>
-      </Menu>
-    </Box>
+          <MoreVertIcon />
+        </IconButton>
+        <Menu
+          id='alpha-menu'
+          anchorEl={anchorEl}
+          keepMounted
+          open={open}
+          onClose={handleClose}
+          TransitionComponent={Fade}
+        >
+          <MenuItem style={{fontSize: 14}} onClick={handleOpenDialog}>
+            {Isuserassigned ? 'Switch User' : 'Assign User'}
+          </MenuItem>
+        </Menu>
+      </Box>
+      <Dialog
+        sx={{
+          '& .MuiDialog-paper': {
+            width: '100%',
+          },
+          '& .MuiDialogContent-root': {
+            overflowY: 'hidden',
+            // paddingLeft: 0,
+            // paddingRight: 0,
+          },
+        }}
+        open={opendialog}
+      >
+        <DialogTitle
+          sx={{
+            fontSize: 14,
+            fontWeight: Fonts.MEDIUM,
+          }}
+          id='app-dialog-title'
+        >
+          {Isuserassigned ? 'Switch User' : 'Assign User'}
+
+          <IconButton
+            aria-label='close'
+            sx={{
+              position: 'absolute',
+              right: 4,
+              top: 4,
+              color: 'grey.500',
+            }}
+            onClick={handleCloseDialog}
+            size='large'
+          >
+            <CloseIcon />
+          </IconButton>
+        </DialogTitle>
+        <DialogContent dividers>
+          {/* <AppScrollbar
+      sx={{
+        paddingTop: 1,
+        height: fullHeight ? '70vh' : '100%',
+        minHeight: '300px',
+        maxHeight: maxScrollHeight ? maxScrollHeight : '400px',
+        paddingRight: 6,
+        paddingLeft: 6,
+      }}
+    >
+      {children}
+    </AppScrollbar> */}
+          <Autocomplete
+            id='tags-outlined'
+            options={user}
+            getOptionLabel={(option) => option.deptDisplayUsername}
+            value={selecteduser}
+            onChange={(event, value) => setselectedUser(value)}
+            filterSelectedOptions
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                variant='outlined'
+                label='Select User'
+                fullWidth
+              />
+            )}
+          />
+        </DialogContent>
+
+        <DialogActions>
+          <Button
+            color='primary'
+            variant='contained'
+            onClick={Isuserassigned ? handleSwitchUser : handleAssignUser}
+            disabled={selecteduser === null}
+          >
+            {'SAVE'}
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </>
   );
 };
 export default OrderActions;
@@ -83,4 +270,6 @@ OrderActions.propTypes = {
   list: PropTypes.any,
   displayname: PropTypes.any,
   deptName: PropTypes.any,
+  setTriggerApi: PropTypes.any,
+  data: PropTypes.any,
 };

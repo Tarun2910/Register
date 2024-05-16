@@ -188,7 +188,7 @@ const ProductContent = ({
                       <Grid
                         item
                         xs={index === 0 ? 12 : 6}
-                        sm={index === 0 ? 6 : 5}
+                        sm={index === 0 ? 6 : 6}
                       >
                         <TextField
                           variant='outlined'
@@ -203,28 +203,49 @@ const ProductContent = ({
                             newProductInfo[index].choice1 = value;
                             setProductInfo(newProductInfo);
                           }}
-                          label='User Email'
+                          label='Email'
+                        />
+                      </Grid>
+                      <Grid
+                        item
+                        xs={index === 0 ? 12 : 6}
+                        sm={index === 0 ? 6 : 6}
+                      >
+                        <TextField
+                          variant='outlined'
+                          value={productItem.choice2}
+                          sx={{
+                            width: '100%',
+                            my: 2,
+                          }}
+                          onChange={(event) => {
+                            const {value} = event.target;
+                            const newProductInfo = [...productSpec];
+                            newProductInfo[index].choice2 = value;
+                            setProductInfo(newProductInfo);
+                          }}
+                          label='Username'
                         />
                       </Grid>
 
-                      {index > 0 && (
-                        <Grid item xs={12} sm={1}>
-                          <Button
-                            variant='contained'
-                            color='secondary'
-                            sx={{
-                              my: 2,
-                            }}
-                            onClick={() => {
-                              const newProductInfo = [...productSpec];
-                              newProductInfo.splice(index, 1);
-                              setProductSpec(newProductInfo);
-                            }}
-                          >
-                            Remove
-                          </Button>
-                        </Grid>
-                      )}
+                      {/* {index > 0 && ( */}
+                      <Grid item xs={12} sm={6}>
+                        <Button
+                          variant='contained'
+                          color='secondary'
+                          sx={{
+                            my: 2,
+                          }}
+                          onClick={() => {
+                            const newProductInfo = [...productSpec];
+                            newProductInfo.splice(index, 1);
+                            setProductSpec(newProductInfo);
+                          }}
+                        >
+                          Remove
+                        </Button>
+                      </Grid>
+                      {/* )} */}
                     </React.Fragment>
                   );
                 })}

@@ -96,7 +96,7 @@ const TableItem = ({
         </Box>
       </StyledTableCell>
       <StyledTableCell align='left'>{data.email}</StyledTableCell>
-      <StyledTableCell align='left'>{data.active}</StyledTableCell>
+      <StyledTableCell align='left'>{data.username}</StyledTableCell>
       <StyledTableCell align='center'>
         <Box>
           <CustomizedSwitches

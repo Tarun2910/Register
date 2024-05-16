@@ -71,7 +71,7 @@ export const organizationhierarchy = ({selectedProd}) => {
     let config = {
       method: 'post',
       maxBodyLength: Infinity,
-      url: `/adminportal/api/getAllRoleDept`,
+      url: `/multitenant/adminportal/api/getAllRoleDept`,
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json; charset=utf8',
@@ -263,7 +263,7 @@ export const organizationhierarchy = ({selectedProd}) => {
             let config = {
               method: 'post',
               maxBodyLength: Infinity,
-              url: `/adminportal/api/createRoles`,
+              url: `/multitenant/adminportal/api/createRoles`,
               headers: {
                 userId: id,
                 'Content-Type': 'application/json',
@@ -314,6 +314,7 @@ export const organizationhierarchy = ({selectedProd}) => {
               <Table
                 list={list}
                 setList={setList}
+                setTriggerApi={setTriggerApi}
                 handleDeleteSubordinate={handleDeleteSubordinate}
               />
             </AppGridContainer>

@@ -14,7 +14,7 @@ module.exports = function (app) {
     }),
   );
   app.use(
-    createProxyMiddleware('/adminportal', {
+    createProxyMiddleware('/multitenant', {
       target: 'http://gateway-test.apps.ocp4.pacosta.com',
       changeOrigin: true,
     }),

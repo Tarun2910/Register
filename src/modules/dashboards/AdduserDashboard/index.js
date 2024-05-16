@@ -48,6 +48,8 @@ import {debounce} from 'lodash';
 import DoneIcon from '@mui/icons-material/Done';
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 import AddDomain from './AddDomain';
+import {driver} from 'driver.js';
+import 'driver.js/dist/driver.css';
 import {toast} from 'react-toastify';
 
 const ProductListing = () => {
@@ -107,6 +109,28 @@ const ProductListing = () => {
   }
 
   const navigate = useNavigate();
+
+  const driverObj = driver({
+    showProgress: true,
+    steps: [
+      {
+        element: '.add_user',
+        popover: {title: 'ADD USER', description: 'First add user '},
+      },
+      {
+        element: '.newtable',
+        popover: {title: 'Title', description: 'Description'},
+      },
+      {
+        element: '.sidebar',
+        popover: {title: 'Title', description: 'Description'},
+      },
+      {
+        element: '.footer',
+        popover: {title: 'Title', description: 'Description'},
+      },
+    ],
+  });
 
   const updateDomain = (event) => {
     const {value} = event.target;
@@ -429,6 +453,10 @@ const ProductListing = () => {
     setOpenDomain(false);
   };
 
+  const handletutorial = () => {
+    driverObj.drive();
+  };
+
   return (
     <>
       {/* <Box
@@ -577,6 +605,7 @@ const ProductListing = () => {
 
                       <Tooltip title='ADD USER' onClick={HandleNavigate}>
                         <AddCircleRoundedIcon
+                          className='add_user'
                           sx={{
                             color: blue[500],
                             fontSize: 35,

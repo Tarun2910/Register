@@ -145,6 +145,7 @@ export const AddChapter = ({selectedProd}) => {
             const metaData = productSpec.map((item) => ({
               name: item.Question,
               email: item.choice1,
+              username: item.choice2,
             }));
 
             productSpec.forEach((item) => {
@@ -188,7 +189,7 @@ export const AddChapter = ({selectedProd}) => {
               .then((response) => {
                 setLoading(false);
                 console.log(JSON.stringify(response.data));
-                navigate('/dashboards');
+                navigate('/user');
               })
               .catch((error) => {
                 console.log(error);
@@ -200,7 +201,7 @@ export const AddChapter = ({selectedProd}) => {
         }}
       >
         {({setFieldValue}) => (
-          <Form noValidate autoComplete='off'>
+          <Form noValidate autoComplete='off' className='pr'>
             <AppGridContainer>
               <ProductContent
                 content={selectedProd?.description || ''}

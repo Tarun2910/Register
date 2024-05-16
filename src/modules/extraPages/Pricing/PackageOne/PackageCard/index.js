@@ -31,7 +31,7 @@ const PackageCard = ({pricing}) => {
       .request(config)
       .then((response) => {
         console.log(JSON.stringify(response.data));
-        Navigate('/dashboards');
+        Navigate('/user');
       })
       .catch((error) => {
         console.log(error);

@@ -68,10 +68,11 @@ const ProductListing = () => {
   };
 
   useEffect(() => {
+    setLoading(true);
     let config = {
       method: 'post',
       maxBodyLength: Infinity,
-      url: `/adminportal/api/getAllDept`,
+      url: `/multitenant/adminportal/api/getAllDept`,
 
       headers: {
         Accept: 'application/json',
@@ -88,11 +89,13 @@ const ProductListing = () => {
       .request(config)
       .then((response) => {
         console.log(response.data);
+        setLoading(false);
         setList(response?.data?.data);
         setTotal(response?.data?.lenght);
       })
       .catch((error) => {
         console.log(error);
+        setLoading(false);
       });
   }, [page]);
 
@@ -152,6 +155,7 @@ const ProductListing = () => {
   };
 
   const searchData = (searchQuery) => {
+    setLoading(true);
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
@@ -164,12 +168,14 @@ const ProductListing = () => {
     axios
       .request(config)
       .then((response) => {
+        setLoading(false);
         console.log(JSON.stringify(response.data));
         setList(response?.data?.content);
         setTotal(response?.data?.totalElements);
       })
       .catch((error) => {
         console.log(error);
+        setLoading(false);
       });
   };
 

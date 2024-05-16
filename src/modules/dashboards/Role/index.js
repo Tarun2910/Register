@@ -49,6 +49,7 @@ const ProductListing = () => {
   const [open, setOpen] = useState(false);
   const [selectedIds, setSelectedIds] = useState([]);
   const [isAllSelected, setIsAllSelected] = useState(false);
+  const [triggerApi, setTriggerApi] = useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -71,7 +72,7 @@ const ProductListing = () => {
     let config = {
       method: 'post',
       maxBodyLength: Infinity,
-      url: `/adminportal/api/getAllRoleDept`,
+      url: `/multitenant/adminportal/api/getAllRoleDept`,
 
       headers: {
         Accept: 'application/json',
@@ -95,7 +96,7 @@ const ProductListing = () => {
       .catch((error) => {
         console.log(error);
       });
-  }, [page]);
+  }, [page, triggerApi]);
 
   // const searchProduct = (title) => {
   //   setFilterData({...filterData, title});
@@ -307,6 +308,7 @@ const ProductListing = () => {
                   selectedIds={selectedIds}
                   isAllSelected={isAllSelected}
                   setIsAllSelected={setIsAllSelected}
+                  setTriggerApi={setTriggerApi}
                 />
               </AppsContent>
               <Hidden smUp>
