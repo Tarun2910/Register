@@ -22,7 +22,15 @@ const AppCard = ({
   ...rest
 }) => {
   return (
-    <Card sx={{display: 'flex', flexDirection: 'column', ...sxStyle}} {...rest}>
+    <Card
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        height: 'calc(100% - 0px)',
+        ...sxStyle,
+      }}
+      {...rest}
+    >
       {title || action ? (
         <CardHeader
           sx={{

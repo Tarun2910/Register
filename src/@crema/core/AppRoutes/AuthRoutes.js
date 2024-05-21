@@ -1,6 +1,9 @@
 import React from 'react';
 
 const Signin = React.lazy(() => import('../../../modules/auth/Signin'));
+const CheckMail = React.lazy(() =>
+  import('../../../modules/userPages/StyledUserPages/CheckMail'),
+);
 const UserLogin = React.lazy(() => import('../../../modules/auth/Usersigin'));
 const Signup = React.lazy(() => import('../../../modules/auth/Signup'));
 const ForgotPassword = React.lazy(() =>
@@ -36,5 +39,9 @@ export const authRouteConfig = [
   {
     path: '/reset-password',
     element: <ResetPasswordAwsCognito />,
+  },
+  {
+    path: '/check-mail',
+    element: <CheckMail />,
   },
 ];

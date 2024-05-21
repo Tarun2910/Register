@@ -6,7 +6,12 @@ import {useMediaQuery} from '@mui/material';
 const AppGridContainer = ({children, ...others}) => {
   const isMDDown = useMediaQuery((theme) => theme.breakpoints.down('md'));
   return (
-    <Grid container spacing={isMDDown ? 5 : 8} {...others}>
+    <Grid
+      container
+      sx={{minHeight: 'calc(100% - 0px)'}}
+      spacing={isMDDown ? 5 : 8}
+      {...others}
+    >
       {children}
     </Grid>
   );

@@ -7,6 +7,7 @@ import {
   IconButton,
   InputAdornment,
   TextField,
+  Typography,
   useTheme,
 } from '@mui/material';
 import {Form, Formik} from 'formik';
@@ -17,7 +18,7 @@ import Box from '@mui/material/Box';
 import {Fonts} from '@crema/constants/AppEnums';
 import AppAnimate from '@crema/components/AppAnimate';
 import AppTextField from '@crema/components/AppFormComponents/AppTextField';
-import {ReactComponent as Logo} from '../../../assets/user/signup.svg';
+// import {ReactComponent as Logo} from '../../../assets/user/cipher-guard021.svg';
 import {Link, useNavigate} from 'react-router-dom';
 import axios from 'axios';
 import {Visibility, VisibilityOff} from '@mui/icons-material';
@@ -25,6 +26,7 @@ import {debounce} from 'lodash';
 import DoneIcon from '@mui/icons-material/Done';
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 import {toast} from 'react-toastify';
+import pic from '../../../assets/user/access-arc-05.png';
 
 const validationSchema = yup.object({
   Orgname: yup.string().required(<IntlMessages id='validation.nameRequired' />),
@@ -154,7 +156,16 @@ const Signup = () => {
                 },
               }}
             >
-              <Logo fill={theme.palette.primary.main} />
+              {/* <Logo fill={theme.palette.primary.main} /> */}
+              <img src={pic} />
+              <Typography>
+                AccessArc is a robust license management system designed to
+                streamline and curate your company software privileges. It
+                ensures efficient allocation and monitoring of licenses,
+                optimizing usage and compliance. With AccessArc, you gain full
+                control over your software assets, reducing costs and enhancing
+                operational efficiency
+              </Typography>
             </Grid>
 
             <Grid
@@ -185,7 +196,7 @@ const Signup = () => {
                   adminUsername: '',
                   confirmPassword: '',
                 }}
-                validationSchema={validationSchema}
+                // validationSchema={validationSchema}
                 onSubmit={(data, {setErrors, resetForm}) => {
                   setLoading(true);
                   if (data.password !== data.confirmPassword) {
@@ -196,7 +207,6 @@ const Signup = () => {
                       ),
                     });
                   } else {
-                    // resetForm();
                     let formdata = new FormData();
                     formdata.append('orgName', data.Orgname);
                     formdata.append('adminName', data.adminName);
@@ -227,12 +237,13 @@ const Signup = () => {
                         console.log(error);
                         setLoading(false);
                       });
+                    // navigate('/check-mail');
                   }
                 }}
               >
                 {({isSubmitting}) => (
                   <Form noValidate autoComplete='off'>
-                    <Box
+                    {/* <Box
                       sx={{
                         mb: {xs: 3, xl: 4},
                       }}
@@ -321,9 +332,124 @@ const Signup = () => {
                         }}
                         onChange={updateDomain}
                       />
+                    </Box> */}
+
+                    <Box sx={{display: 'flex', gap: 2, mb: {xs: 3, xl: 4}}}>
+                      <AppTextField
+                        label={<IntlMessages id='common.Orgname' />}
+                        name='Orgname'
+                        variant='outlined'
+                        sx={{
+                          width: '50%',
+                          '& .MuiOutlinedInput-root': {
+                            '& fieldset': {
+                              borderColor: 'rgba(0, 0, 0, 0.23)', // Normal border color
+                            },
+                            '&.Mui-focused fieldset': {
+                              borderColor: 'rgba(0, 0, 0, 0.23)', // Focused border color
+                            },
+                          },
+                          '& .MuiInputLabel-root': {
+                            color: '#4D4746', // Normal label color
+                            '&.Mui-focused': {
+                              color: '#4D4746', // Focused label color
+                            },
+                          },
+                        }}
+                      />
+                      <TextField
+                        label={<IntlMessages id='common.domain' />}
+                        name='Domain'
+                        variant='outlined'
+                        sx={{
+                          width: '50%',
+                          '& .MuiOutlinedInput-root': {
+                            '& fieldset': {
+                              borderColor: 'rgba(0, 0, 0, 0.23)', // Normal border color
+                            },
+                            '&.Mui-focused fieldset': {
+                              borderColor: 'rgba(0, 0, 0, 0.23)', // Focused border color
+                            },
+                          },
+                          '& .MuiInputLabel-root': {
+                            color: '#4D4746', // Normal label color
+                            '&.Mui-focused': {
+                              color: '#4D4746', // Focused label color
+                            },
+                          },
+                        }}
+                        InputProps={{
+                          endAdornment: (
+                            <>
+                              {loading && (
+                                <InputAdornment position='end'>
+                                  <div
+                                    style={{
+                                      display: 'flex',
+                                      alignItems: 'center',
+                                    }}
+                                  >
+                                    <CircularProgress
+                                      size={24}
+                                      color='inherit'
+                                      style={{marginRight: '5px'}}
+                                    />
+                                    <span style={{color: 'grey'}}>
+                                      Checking Availability ...
+                                    </span>
+                                  </div>
+                                </InputAdornment>
+                              )}
+                              {domainStatus === 'available' && !loading && (
+                                <InputAdornment position='end'>
+                                  <div
+                                    style={{
+                                      display: 'flex',
+                                      alignItems: 'center',
+                                    }}
+                                  >
+                                    <DoneIcon
+                                      fontSize='small'
+                                      style={{
+                                        marginRight: '5px',
+                                        color: 'green',
+                                      }}
+                                    />
+                                    <span style={{color: 'green'}}>
+                                      Domain available
+                                    </span>
+                                  </div>
+                                </InputAdornment>
+                              )}
+                              {domainStatus === 'unavailable' && !loading && (
+                                <InputAdornment position='end'>
+                                  <div
+                                    style={{
+                                      display: 'flex',
+                                      alignItems: 'center',
+                                    }}
+                                  >
+                                    <WarningAmberIcon
+                                      fontSize='small'
+                                      style={{marginRight: '5px', color: 'red'}}
+                                    />
+                                    <span style={{color: 'red'}}>
+                                      Domain already Registered
+                                    </span>
+                                  </div>
+                                </InputAdornment>
+                              )}
+                            </>
+                          ),
+                          startAdornment: (
+                            <InputAdornment position='start'>@</InputAdornment>
+                          ),
+                        }}
+                        onChange={updateDomain}
+                      />
                     </Box>
 
-                    <Box
+                    {/* <Box
                       sx={{
                         mb: {xs: 3, xl: 4},
                       }}
@@ -334,6 +460,53 @@ const Signup = () => {
                         variant='outlined'
                         sx={{
                           width: '100%',
+                        }}
+                      />
+                    </Box> */}
+                    <Box sx={{display: 'flex', gap: 2, mb: {xs: 3, xl: 4}}}>
+                      <AppTextField
+                        label={<IntlMessages id='common.adminName' />}
+                        name='adminName'
+                        variant='outlined'
+                        sx={{
+                          width: '100%',
+                          '& .MuiOutlinedInput-root': {
+                            '& fieldset': {
+                              borderColor: 'rgba(0, 0, 0, 0.23)', // Normal border color
+                            },
+                            '&.Mui-focused fieldset': {
+                              borderColor: 'rgba(0, 0, 0, 0.23)', // Focused border color
+                            },
+                          },
+                          '& .MuiInputLabel-root': {
+                            color: '#4D4746', // Normal label color
+                            '&.Mui-focused': {
+                              color: '#4D4746', // Focused label color
+                            },
+                          },
+                        }}
+                      />
+                      <AppTextField
+                        label={<IntlMessages id='common.adminUsername' />}
+                        name='adminUsername'
+                        type='text'
+                        variant='outlined'
+                        sx={{
+                          width: '100%',
+                          '& .MuiOutlinedInput-root': {
+                            '& fieldset': {
+                              borderColor: 'rgba(0, 0, 0, 0.23)', // Normal border color
+                            },
+                            '&.Mui-focused fieldset': {
+                              borderColor: 'rgba(0, 0, 0, 0.23)', // Focused border color
+                            },
+                          },
+                          '& .MuiInputLabel-root': {
+                            color: '#4D4746', // Normal label color
+                            '&.Mui-focused': {
+                              color: '#4D4746', // Focused label color
+                            },
+                          },
                         }}
                       />
                     </Box>
@@ -350,6 +523,20 @@ const Signup = () => {
                         variant='outlined'
                         sx={{
                           width: '100%',
+                          '& .MuiOutlinedInput-root': {
+                            '& fieldset': {
+                              borderColor: 'rgba(0, 0, 0, 0.23)', // Normal border color
+                            },
+                            '&.Mui-focused fieldset': {
+                              borderColor: 'rgba(0, 0, 0, 0.23)', // Focused border color
+                            },
+                          },
+                          '& .MuiInputLabel-root': {
+                            color: '#4D4746', // Normal label color
+                            '&.Mui-focused': {
+                              color: '#4D4746', // Focused label color
+                            },
+                          },
                         }}
                         InputProps={{
                           endAdornment: (
@@ -360,7 +547,7 @@ const Signup = () => {
                         }}
                       />
                     </Box>
-                    <Box
+                    {/* <Box
                       sx={{
                         mb: {xs: 3, xl: 4},
                       }}
@@ -374,7 +561,7 @@ const Signup = () => {
                           width: '100%',
                         }}
                       />
-                    </Box>
+                    </Box> */}
 
                     <Box
                       sx={{
@@ -388,6 +575,20 @@ const Signup = () => {
                         variant='outlined'
                         sx={{
                           width: '100%',
+                          '& .MuiOutlinedInput-root': {
+                            '& fieldset': {
+                              borderColor: 'rgba(0, 0, 0, 0.23)', // Normal border color
+                            },
+                            '&.Mui-focused fieldset': {
+                              borderColor: 'rgba(0, 0, 0, 0.23)', // Focused border color
+                            },
+                          },
+                          '& .MuiInputLabel-root': {
+                            color: '#4D4746', // Normal label color
+                            '&.Mui-focused': {
+                              color: '#4D4746', // Focused label color
+                            },
+                          },
                         }}
                         InputProps={{
                           endAdornment: (
@@ -420,6 +621,20 @@ const Signup = () => {
                         variant='outlined'
                         sx={{
                           width: '100%',
+                          '& .MuiOutlinedInput-root': {
+                            '& fieldset': {
+                              borderColor: 'rgba(0, 0, 0, 0.23)', // Normal border color
+                            },
+                            '&.Mui-focused fieldset': {
+                              borderColor: 'rgba(0, 0, 0, 0.23)', // Focused border color
+                            },
+                          },
+                          '& .MuiInputLabel-root': {
+                            color: '#4D4746', // Normal label color
+                            '&.Mui-focused': {
+                              color: '#4D4746', // Focused label color
+                            },
+                          },
                         }}
                         InputProps={{
                           endAdornment: (
@@ -466,7 +681,7 @@ const Signup = () => {
                   mt: {xs: 3, xl: 4},
                 }}
               >
-                <Box component='span' sx={{mr: 1, color: 'white'}}>
+                <Box component='span' sx={{mr: 1, color: '#4D4746'}}>
                   <IntlMessages id='common.alreadyHaveAccount' />
                 </Box>
                 <Box

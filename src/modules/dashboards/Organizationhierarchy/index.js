@@ -160,8 +160,8 @@ export const organizationhierarchy = ({selectedProd}) => {
           color: 'text.primary',
           fontWeight: Fonts.SEMI_BOLD,
           mb: {
-            xs: 3,
-            lg: 6,
+            xs: 2,
+            lg: 4,
           },
         }}
       >
@@ -282,30 +282,30 @@ export const organizationhierarchy = ({selectedProd}) => {
       >
         {({setFieldValue}) => (
           <Form noValidate autoComplete='off'>
-            <AppGridContainer>
-              <ProductContent
-                content={selectedProd?.description || ''}
-                uploadedFiles={uploadedFiles}
-                setUploadedFiles={setUploadedFiles}
-                setFieldValue={setFieldValue}
-                productInfo={productInfo}
-                productSpec={productSpec}
-                setProductInfo={setProductInfo}
-                setProductSpec={setProductSpec}
-                courseId={id}
-                setUserId={setUserId}
-                userId={userId}
-                setDifficulty={setDifficulty}
-                list={showUser}
-                triggerApi={triggerApi}
-              />
+            {/* <AppGridContainer> */}
+            <ProductContent
+              content={selectedProd?.description || ''}
+              uploadedFiles={uploadedFiles}
+              setUploadedFiles={setUploadedFiles}
+              setFieldValue={setFieldValue}
+              productInfo={productInfo}
+              productSpec={productSpec}
+              setProductInfo={setProductInfo}
+              setProductSpec={setProductSpec}
+              courseId={id}
+              setUserId={setUserId}
+              userId={userId}
+              setDifficulty={setDifficulty}
+              list={showUser}
+              triggerApi={triggerApi}
+            />
 
-              <Table
-                list={list}
-                setList={setList}
-                handleDeleteSubordinate={handleDeleteSubordinate}
-              />
-            </AppGridContainer>
+            <Table
+              list={list}
+              setList={setList}
+              handleDeleteSubordinate={handleDeleteSubordinate}
+            />
+            {/* </AppGridContainer> */}
           </Form>
         )}
       </Formik>

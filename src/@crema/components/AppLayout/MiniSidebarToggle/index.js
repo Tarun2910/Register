@@ -15,7 +15,7 @@ import PropsTypes from 'prop-types';
 
 const MiniSidebarToggle = ({routes, routesConfig}) => {
   const {pathname} = useLocation();
-  const [isCollapsed, setCollapsed] = useState(false);
+  const [isCollapsed, setCollapsed] = useState(true);
   const [isNavCollapsed, setNavCollapsed] = useState(false);
   const {footer, layoutType, headerType, footerType} = useLayoutContext();
 

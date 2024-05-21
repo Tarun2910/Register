@@ -36,11 +36,15 @@ const AppHeader = (props) => {
       position='relative'
       color='inherit'
       sx={{
-        boxShadow: 'none',
+        // boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px',
         borderBottom: (theme) => `1px solid ${theme.palette.divider}`,
         backgroundColor: 'background.paper',
         transition: 'width 0.5s ease',
         width: '100%',
+        // background:
+        //   'linear-gradient(to right bottom, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.2))',
+        // backdropFilter: 'blur(1rem)',
+        boxShadow: '0 0 1rem rgba(0, 0, 0, 0.2)',
       }}
       className='app-bar'
     >

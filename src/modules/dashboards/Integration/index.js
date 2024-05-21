@@ -27,8 +27,8 @@ const index = () => {
           color: 'text.primary',
           fontWeight: Fonts.SEMI_BOLD,
           mb: {
-            xs: 3,
-            lg: 6,
+            xs: 2,
+            lg: 4,
           },
         }}
       >

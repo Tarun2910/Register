@@ -4,7 +4,13 @@ import GitHubIcon from '@mui/icons-material/GitHub';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import Button from '@mui/material/Button';
-import {Checkbox, InputAdornment, TextField, useTheme} from '@mui/material';
+import {
+  Checkbox,
+  InputAdornment,
+  TextField,
+  Typography,
+  useTheme,
+} from '@mui/material';
 import {Form, Formik} from 'formik';
 import * as yup from 'yup';
 import Grid from '@mui/material/Grid';
@@ -16,7 +22,8 @@ import {grey} from '@mui/material/colors';
 import {Fonts} from '@crema/constants/AppEnums';
 import AppAnimate from '@crema/components/AppAnimate';
 import AppTextField from '@crema/components/AppFormComponents/AppTextField';
-import {ReactComponent as Logo} from '../../../assets/user/login.svg';
+// import {ReactComponent as Logo} from '../../../assets/user/cipher-guard021.svg';
+import pic from '../../../assets/user/access-arc-05.png';
 import {Link, useNavigate} from 'react-router-dom';
 import {useAuthMethod} from '@crema/hooks/AuthHooks';
 import axios from 'axios';
@@ -26,7 +33,7 @@ const validationSchema = yup.object({
   email: yup
     .string()
     // .email(<IntlMessages id='validation.emailFormat' />)
-    .required(<IntlMessages id='validation.emailRequired' />),
+    .required(<IntlMessages id='validation.usernameRequired' />),
   password: yup
     .string()
     .required(<IntlMessages id='validation.passwordRequired' />),
@@ -100,7 +107,16 @@ const Signin = () => {
                 },
               }}
             >
-              <Logo fill={theme.palette.primary.main} />
+              {/* <Logo fill={theme.palette.primary.main} /> */}
+              <img src={pic} />
+              <Typography>
+                AccessArc is a robust license management system designed to
+                streamline and curate your company software privileges. It
+                ensures efficient allocation and monitoring of licenses,
+                optimizing usage and compliance. With AccessArc, you gain full
+                control over your software assets, reducing costs and enhancing
+                operational efficiency
+              </Typography>
             </Grid>
             <Grid
               item
@@ -179,12 +195,26 @@ const Signin = () => {
                       }}
                     >
                       <AppTextField
-                        placeholder={messages['common.email']}
-                        label={<IntlMessages id='common.email' />}
+                        placeholder={messages['common.username']}
+                        label={<IntlMessages id='common.username' />}
                         name='email'
                         variant='outlined'
                         sx={{
                           width: '100%',
+                          '& .MuiOutlinedInput-root': {
+                            '& fieldset': {
+                              borderColor: 'rgba(0, 0, 0, 0.23)', // Normal border color
+                            },
+                            '&.Mui-focused fieldset': {
+                              borderColor: 'rgba(0, 0, 0, 0.23)', // Focused border color
+                            },
+                          },
+                          '& .MuiInputLabel-root': {
+                            color: '#4D4746', // Normal label color
+                            '&.Mui-focused': {
+                              color: '#4D4746', // Focused label color
+                            },
+                          },
                         }}
                       />
                     </Box>
@@ -202,7 +232,21 @@ const Signin = () => {
                         variant='outlined'
                         sx={{
                           width: '100%',
-                          color: 'white',
+
+                          '& .MuiOutlinedInput-root': {
+                            '& fieldset': {
+                              borderColor: 'rgba(0, 0, 0, 0.23)', // Normal border color
+                            },
+                            '&.Mui-focused fieldset': {
+                              borderColor: 'rgba(0, 0, 0, 0.23)', // Focused border color
+                            },
+                          },
+                          '& .MuiInputLabel-root': {
+                            color: '#4D4746', // Normal label color
+                            '&.Mui-focused': {
+                              color: '#4D4746', // Focused label color
+                            },
+                          },
                         }}
                         InputProps={{
                           endAdornment: (
@@ -334,7 +378,7 @@ const Signin = () => {
                   component='span'
                   sx={{
                     mr: 2,
-                    color: 'white',
+                    color: '#4D4746',
                   }}
                 >
                   <IntlMessages id='common.dontHaveAccount' />

@@ -309,7 +309,7 @@ const ProductListing = ({list, setList, handleDeleteSubordinate}) => {
   return (
     <>
       <Slide direction='right' in mountOnEnter unmountOnExit>
-        <Grid item xs={12} lg={12}>
+        <Grid item xs={12} lg={12} sx={{marginTop: '10px'}}>
           <AppCard
             title={
               <AppsHeader>
