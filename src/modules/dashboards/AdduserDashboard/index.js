@@ -110,28 +110,6 @@ const ProductListing = () => {
 
   const navigate = useNavigate();
 
-  const driverObj = driver({
-    showProgress: true,
-    steps: [
-      {
-        element: '.add_user',
-        popover: {title: 'ADD USER', description: 'First add user '},
-      },
-      {
-        element: '.newtable',
-        popover: {title: 'Title', description: 'Description'},
-      },
-      {
-        element: '.sidebar',
-        popover: {title: 'Title', description: 'Description'},
-      },
-      {
-        element: '.footer',
-        popover: {title: 'Title', description: 'Description'},
-      },
-    ],
-  });
-
   const updateDomain = (event) => {
     const {value} = event.target;
     setDomain(value);
@@ -451,10 +429,6 @@ const ProductListing = () => {
 
   const handlecloseDomain = () => {
     setOpenDomain(false);
-  };
-
-  const handletutorial = () => {
-    driverObj.drive();
   };
 
   return (

@@ -1,6 +1,7 @@
 import React from 'react';
 import PropsTypes from 'prop-types';
 import {Box} from '@mui/material';
+import './index.css';
 
 const AppContentViewWrapper = ({children, ...rest}) => {
   return (
@@ -23,6 +24,16 @@ const AppContentViewWrapper = ({children, ...rest}) => {
         left: 0,
         right: 0,
         bottom: 0,
+        animationName:
+          window.location.pathname.includes('/signin') ||
+          window.location.pathname.includes('/userlogin') ||
+          window.location.pathname.includes('/signup') ||
+          window.location.pathname.includes('/check-mail')
+            ? 'cloudMove' // Name of the animation
+            : 'none', // No animation if condition not met
+        animationDuration: '20s',
+        animationIterationCount: 'infinite',
+        animationDirection: 'alternate',
       }}
       {...rest}
     >

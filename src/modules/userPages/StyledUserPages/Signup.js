@@ -198,47 +198,48 @@ const Signup = () => {
                 }}
                 // validationSchema={validationSchema}
                 onSubmit={(data, {setErrors, resetForm}) => {
-                  setLoading(true);
-                  if (data.password !== data.confirmPassword) {
-                    setLoading(false);
-                    setErrors({
-                      confirmPassword: (
-                        <IntlMessages id='validation.passwordMisMatch' />
-                      ),
-                    });
-                  } else {
-                    let formdata = new FormData();
-                    formdata.append('orgName', data.Orgname);
-                    formdata.append('adminName', data.adminName);
-                    formdata.append(
-                      'adminEmail',
-                      `${data.adminemail.toLowerCase()}@${domain}`,
-                    );
-                    formdata.append('adminUsername', data.adminUsername);
-                    formdata.append('password', data.password);
+                  // setLoading(true);
+                  // if (data.password !== data.confirmPassword) {
+                  //   setLoading(false);
+                  //   setErrors({
+                  //     confirmPassword: (
+                  //       <IntlMessages id='validation.passwordMisMatch' />
+                  //     ),
+                  //   });
+                  // } else {
+                  //   let formdata = new FormData();
+                  //   formdata.append('orgName', data.Orgname);
+                  //   formdata.append('adminName', data.adminName);
+                  //   formdata.append(
+                  //     'adminEmail',
+                  //     `${data.adminemail.toLowerCase()}@${domain}`,
+                  //   );
+                  //   formdata.append('adminUsername', data.adminUsername);
+                  //   formdata.append('password', data.password);
 
-                    let config = {
-                      method: 'post',
-                      maxBodyLength: Infinity,
-                      url: '/tenants/register',
-                      headers: {},
-                      data: formdata,
-                    };
+                  //   let config = {
+                  //     method: 'post',
+                  //     maxBodyLength: Infinity,
+                  //     url: '/tenants/register',
+                  //     headers: {},
+                  //     data: formdata,
+                  //   };
 
-                    axios
-                      .request(config)
-                      .then((response) => {
-                        setLoading(false);
-                        console.log(JSON.stringify(response.data));
-                        navigate('/signin');
-                      })
-                      .catch((error) => {
-                        toast.error(error.message);
-                        console.log(error);
-                        setLoading(false);
-                      });
-                    // navigate('/check-mail');
-                  }
+                  //   axios
+                  //     .request(config)
+                  //     .then((response) => {
+                  //       setLoading(false);
+                  //       console.log(JSON.stringify(response.data));
+                  //       navigate('/signin');
+                  //     })
+                  //     .catch((error) => {
+                  //       toast.error(error.message);
+                  //       console.log(error);
+                  //       setLoading(false);
+                  //     });
+                  //
+                  // }
+                  navigate('/check-mail');
                 }}
               >
                 {({isSubmitting}) => (
@@ -357,12 +358,80 @@ const Signup = () => {
                           },
                         }}
                       />
+                      <AppTextField
+                        label={<IntlMessages id='common.adminName' />}
+                        name='adminName'
+                        variant='outlined'
+                        sx={{
+                          width: '50%',
+                          '& .MuiOutlinedInput-root': {
+                            '& fieldset': {
+                              borderColor: 'rgba(0, 0, 0, 0.23)', // Normal border color
+                            },
+                            '&.Mui-focused fieldset': {
+                              borderColor: 'rgba(0, 0, 0, 0.23)', // Focused border color
+                            },
+                          },
+                          '& .MuiInputLabel-root': {
+                            color: '#4D4746', // Normal label color
+                            '&.Mui-focused': {
+                              color: '#4D4746', // Focused label color
+                            },
+                          },
+                        }}
+                      />
+                    </Box>
+
+                    {/* <Box
+                      sx={{
+                        mb: {xs: 3, xl: 4},
+                      }}
+                    >
+                      <AppTextField
+                        label={<IntlMessages id='common.adminName' />}
+                        name='adminName'
+                        variant='outlined'
+                        sx={{
+                          width: '100%',
+                        }}
+                      />
+                    </Box> */}
+                    {/* <Box sx={{display: 'flex', gap: 2, mb: {xs: 3, xl: 4}}}>
+                      <AppTextField
+                        label={<IntlMessages id='common.adminUsername' />}
+                        name='adminUsername'
+                        type='text'
+                        variant='outlined'
+                        sx={{
+                          width: '100%',
+                          '& .MuiOutlinedInput-root': {
+                            '& fieldset': {
+                              borderColor: 'rgba(0, 0, 0, 0.23)', // Normal border color
+                            },
+                            '&.Mui-focused fieldset': {
+                              borderColor: 'rgba(0, 0, 0, 0.23)', // Focused border color
+                            },
+                          },
+                          '& .MuiInputLabel-root': {
+                            color: '#4D4746', // Normal label color
+                            '&.Mui-focused': {
+                              color: '#4D4746', // Focused label color
+                            },
+                          },
+                        }}
+                      />
+                    </Box> */}
+                    <Box
+                      sx={{
+                        mb: {xs: 3, xl: 4},
+                      }}
+                    >
                       <TextField
                         label={<IntlMessages id='common.domain' />}
                         name='Domain'
                         variant='outlined'
                         sx={{
-                          width: '50%',
+                          width: '100%',
                           '& .MuiOutlinedInput-root': {
                             '& fieldset': {
                               borderColor: 'rgba(0, 0, 0, 0.23)', // Normal border color
@@ -446,68 +515,6 @@ const Signup = () => {
                           ),
                         }}
                         onChange={updateDomain}
-                      />
-                    </Box>
-
-                    {/* <Box
-                      sx={{
-                        mb: {xs: 3, xl: 4},
-                      }}
-                    >
-                      <AppTextField
-                        label={<IntlMessages id='common.adminName' />}
-                        name='adminName'
-                        variant='outlined'
-                        sx={{
-                          width: '100%',
-                        }}
-                      />
-                    </Box> */}
-                    <Box sx={{display: 'flex', gap: 2, mb: {xs: 3, xl: 4}}}>
-                      <AppTextField
-                        label={<IntlMessages id='common.adminName' />}
-                        name='adminName'
-                        variant='outlined'
-                        sx={{
-                          width: '100%',
-                          '& .MuiOutlinedInput-root': {
-                            '& fieldset': {
-                              borderColor: 'rgba(0, 0, 0, 0.23)', // Normal border color
-                            },
-                            '&.Mui-focused fieldset': {
-                              borderColor: 'rgba(0, 0, 0, 0.23)', // Focused border color
-                            },
-                          },
-                          '& .MuiInputLabel-root': {
-                            color: '#4D4746', // Normal label color
-                            '&.Mui-focused': {
-                              color: '#4D4746', // Focused label color
-                            },
-                          },
-                        }}
-                      />
-                      <AppTextField
-                        label={<IntlMessages id='common.adminUsername' />}
-                        name='adminUsername'
-                        type='text'
-                        variant='outlined'
-                        sx={{
-                          width: '100%',
-                          '& .MuiOutlinedInput-root': {
-                            '& fieldset': {
-                              borderColor: 'rgba(0, 0, 0, 0.23)', // Normal border color
-                            },
-                            '&.Mui-focused fieldset': {
-                              borderColor: 'rgba(0, 0, 0, 0.23)', // Focused border color
-                            },
-                          },
-                          '& .MuiInputLabel-root': {
-                            color: '#4D4746', // Normal label color
-                            '&.Mui-focused': {
-                              color: '#4D4746', // Focused label color
-                            },
-                          },
-                        }}
                       />
                     </Box>
 
