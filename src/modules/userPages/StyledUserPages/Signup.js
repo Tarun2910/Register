@@ -55,6 +55,7 @@ const Signup = () => {
   const theme = useTheme();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [loadingdomain, setLoadingDomain] = useState(false);
   const [domain, setDomain] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
@@ -82,11 +83,11 @@ const Signup = () => {
 
   useEffect(() => {
     const checkDomainAvailability = debounce(() => {
-      setLoading(true);
+      setLoadingDomain(true);
       axios
         .get(`/tenants/domains?emailDomain=@${domain}`)
         .then((response) => {
-          setLoading(false);
+          setLoadingDomain(false);
           console.log(response, 'response');
           if (response.status === 200) {
             setDomainStatus('available');
@@ -95,7 +96,7 @@ const Signup = () => {
           }
         })
         .catch((error) => {
-          setLoading(false);
+          setLoadingDomain(false);
           setDomainStatus('unavailable');
         });
     }, 500); // Debounce time in milliseconds
@@ -452,7 +453,7 @@ const Signup = () => {
                         InputProps={{
                           endAdornment: (
                             <>
-                              {loading && (
+                              {loadingdomain && (
                                 <InputAdornment position='end'>
                                   <div
                                     style={{
@@ -471,45 +472,50 @@ const Signup = () => {
                                   </div>
                                 </InputAdornment>
                               )}
-                              {domainStatus === 'available' && !loading && (
-                                <InputAdornment position='end'>
-                                  <div
-                                    style={{
-                                      display: 'flex',
-                                      alignItems: 'center',
-                                    }}
-                                  >
-                                    <DoneIcon
-                                      fontSize='small'
+                              {domainStatus === 'available' &&
+                                !loadingdomain && (
+                                  <InputAdornment position='end'>
+                                    <div
                                       style={{
-                                        marginRight: '5px',
-                                        color: 'green',
+                                        display: 'flex',
+                                        alignItems: 'center',
                                       }}
-                                    />
-                                    <span style={{color: 'green'}}>
-                                      Domain available
-                                    </span>
-                                  </div>
-                                </InputAdornment>
-                              )}
-                              {domainStatus === 'unavailable' && !loading && (
-                                <InputAdornment position='end'>
-                                  <div
-                                    style={{
-                                      display: 'flex',
-                                      alignItems: 'center',
-                                    }}
-                                  >
-                                    <WarningAmberIcon
-                                      fontSize='small'
-                                      style={{marginRight: '5px', color: 'red'}}
-                                    />
-                                    <span style={{color: 'red'}}>
-                                      Domain already Registered
-                                    </span>
-                                  </div>
-                                </InputAdornment>
-                              )}
+                                    >
+                                      <DoneIcon
+                                        fontSize='small'
+                                        style={{
+                                          marginRight: '5px',
+                                          color: 'green',
+                                        }}
+                                      />
+                                      <span style={{color: 'green'}}>
+                                        Domain available
+                                      </span>
+                                    </div>
+                                  </InputAdornment>
+                                )}
+                              {domainStatus === 'unavailable' &&
+                                !loadingdomain && (
+                                  <InputAdornment position='end'>
+                                    <div
+                                      style={{
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                      }}
+                                    >
+                                      <WarningAmberIcon
+                                        fontSize='small'
+                                        style={{
+                                          marginRight: '5px',
+                                          color: 'red',
+                                        }}
+                                      />
+                                      <span style={{color: 'red'}}>
+                                        Domain already Registered
+                                      </span>
+                                    </div>
+                                  </InputAdornment>
+                                )}
                             </>
                           ),
                           startAdornment: (
@@ -667,7 +673,11 @@ const Signup = () => {
                     <Button
                       variant='contained'
                       color='primary'
-                      disabled={loading || domainStatus === 'unavailable'}
+                      disabled={
+                        loading ||
+                        domainStatus === 'unavailable' ||
+                        loadingdomain
+                      }
                       sx={{
                         width: '100%',
                         height: 44,
