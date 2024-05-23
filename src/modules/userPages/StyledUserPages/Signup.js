@@ -27,6 +27,8 @@ import DoneIcon from '@mui/icons-material/Done';
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 import {toast} from 'react-toastify';
 import pic from '../../../assets/user/access-arc-05.png';
+import teamsync from '../../../assets/user/teamsync.png';
+import Arc from '../../../assets/user/arcTeam.png';
 
 const validationSchema = yup.object({
   Orgname: yup.string().required(<IntlMessages id='validation.nameRequired' />),
@@ -157,7 +159,7 @@ const Signup = () => {
               }}
             >
               {/* <Logo fill={theme.palette.primary.main} /> */}
-              <img src={pic} />
+              <img style={{maxWidth: '75%'}} src={Arc} />
               <Typography>
                 AccessArc is a robust license management system designed to
                 streamline and curate your company software privileges. It

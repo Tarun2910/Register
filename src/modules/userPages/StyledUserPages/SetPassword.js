@@ -23,6 +23,8 @@ import {Fonts} from '@crema/constants/AppEnums';
 import AppAnimate from '@crema/components/AppAnimate';
 import AppTextField from '@crema/components/AppFormComponents/AppTextField';
 import pic from '../../../assets/user/access-arc-05.png';
+import teamsync from '../../../assets/user/teamsync.png';
+import Arc from '../../../assets/user/arcTeam.png';
 import {Link, useNavigate, useParams} from 'react-router-dom';
 import {useAuthMethod} from '@crema/hooks/AuthHooks';
 import axios from 'axios';
@@ -57,10 +59,11 @@ const SetPassword = () => {
   };
 
   const SendAgain = () => {
+    setLoading(true);
     let config = {
       method: 'post',
       maxBodyLength: Infinity,
-      url: '/tenants/sendPasswordMail',
+      url: '/tenants/sendSetPasswordMail',
       headers: {token: token},
     };
 
@@ -135,7 +138,7 @@ const SetPassword = () => {
               }}
             >
               {/* <Logo fill={theme.palette.primary.main} /> */}
-              <img src={pic} />
+              <img style={{maxWidth: '75%', marginBottom: '10px'}} src={Arc} />
               <Typography>
                 AccessArc is a robust license management system designed to
                 streamline and curate your company software privileges. It

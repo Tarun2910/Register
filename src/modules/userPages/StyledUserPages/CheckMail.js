@@ -24,6 +24,7 @@ import AppAnimate from '@crema/components/AppAnimate';
 import AppTextField from '@crema/components/AppFormComponents/AppTextField';
 // import {ReactComponent as Logo} from '../../../assets/user/cipher-guard021.svg';
 import pic from '../../../assets/user/access-arc-05.png';
+import Arc from '../../../assets/user/arcTeam.png';
 import {Link, useNavigate} from 'react-router-dom';
 import {useAuthMethod} from '@crema/hooks/AuthHooks';
 import axios from 'axios';
@@ -108,7 +109,7 @@ const CheckMail = () => {
               }}
             >
               {/* <Logo fill={theme.palette.primary.main} /> */}
-              <img src={pic} />
+              <img style={{maxWidth: '75%', marginBottom: '10px'}} src={Arc} />
             </Grid>
             <Grid
               item

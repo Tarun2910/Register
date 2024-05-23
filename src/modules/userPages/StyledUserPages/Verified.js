@@ -24,10 +24,13 @@ import AppAnimate from '@crema/components/AppAnimate';
 import AppTextField from '@crema/components/AppFormComponents/AppTextField';
 // import {ReactComponent as Logo} from '../../../assets/user/cipher-guard021.svg';
 import pic from '../../../assets/user/access-arc-05.png';
+import teamsync from '../../../assets/user/teamsync.png';
+import Arc from '../../../assets/user/arcTeam.png';
 import {Link, useNavigate, useParams} from 'react-router-dom';
 import {useAuthMethod} from '@crema/hooks/AuthHooks';
 import axios from 'axios';
 import {Visibility, VisibilityOff} from '@mui/icons-material';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const validationSchema = yup.object({
   email: yup
@@ -42,7 +45,7 @@ const validationSchema = yup.object({
 const Verifed = () => {
   const theme = useTheme();
   const {messages} = useIntl();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
@@ -140,7 +143,7 @@ const Verifed = () => {
       verify = <IntlMessages id='common.verificationExpired' />;
       break;
     default:
-      verify = <IntlMessages id='common.unknownError' />;
+      verify = 'Please Wait for the response';
       break;
   }
 
@@ -222,7 +225,7 @@ const Verifed = () => {
               }}
             >
               {/* <Logo fill={theme.palette.primary.main} /> */}
-              <img src={pic} />
+              <img style={{maxWidth: '75%'}} src={Arc} />
             </Grid>
             <Grid
               item
@@ -250,7 +253,7 @@ const Verifed = () => {
                 }}
               >
                 {/* <IntlMessages id='common.verifymsg' /> */}
-                {verifyMessage}
+                {loading ? <CircularProgress /> : verifyMessage}
               </Box>
 
               <Box
@@ -267,6 +270,7 @@ const Verifed = () => {
                 <Button
                   variant='contained'
                   color='primary'
+                  disabled={loading}
                   sx={{
                     width: 'auto',
                     height: 'auto',
@@ -285,9 +289,7 @@ const Verifed = () => {
                     }
                   }}
                 >
-                  {loading ? (
-                    'Loading...'
-                  ) : message === 'success' ? (
+                  {message === 'success' ? (
                     <IntlMessages id='common.signin' />
                   ) : message === 'Invalid token' ? (
                     'Send Mail'
@@ -296,7 +298,7 @@ const Verifed = () => {
                   ) : message === 'Verification link expired' ? (
                     'Send Mail'
                   ) : (
-                    <IntlMessages id='common.unknownErrorMsg' />
+                    'Send Mail'
                   )}
                 </Button>
               </Box>

@@ -56,7 +56,7 @@ const UserInfo = ({color}) => {
                 fontSize: 24,
                 backgroundColor: orange[500],
               }}
-              src={user.photoURL}
+              src={''}
             />
           ) : (
             <Avatar

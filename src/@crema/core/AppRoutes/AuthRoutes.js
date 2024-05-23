@@ -52,7 +52,7 @@ export const authRouteConfig = [
     element: <CheckMail />,
   },
   {
-    path: `/verify/:token`,
+    path: `/token/:token`,
     element: <Verified />,
   },
   {

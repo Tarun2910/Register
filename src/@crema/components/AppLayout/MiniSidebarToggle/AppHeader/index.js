@@ -17,10 +17,12 @@ import PropTypes from 'prop-types';
 import {alpha} from '@mui/material/styles';
 import AppLogo from '../../components/AppLogo';
 import {allowMultiLanguage} from '../../../../constants/AppConst';
+import {useAuthMethod} from '@crema/hooks/AuthHooks';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 const AppHeader = (props) => {
   const {isCollapsed, setCollapsed, toggleNavCollapsed} = props;
-
+  const {logout} = useAuthMethod();
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleClick = (event) => {
@@ -144,12 +146,19 @@ const AppHeader = (props) => {
               >
                 <AppNotifications />
               </Box>
-              <Box
+              {/* <Box
                 sx={{
                   px: 1.85,
                 }}
               >
                 <AppMessages />
+              </Box> */}
+              <Box
+                sx={{
+                  px: 1.85,
+                }}
+              >
+                <LogoutIcon onClick={logout} />
               </Box>
             </Box>
           </Hidden>

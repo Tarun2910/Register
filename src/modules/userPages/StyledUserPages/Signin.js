@@ -24,6 +24,8 @@ import AppAnimate from '@crema/components/AppAnimate';
 import AppTextField from '@crema/components/AppFormComponents/AppTextField';
 // import {ReactComponent as Logo} from '../../../assets/user/cipher-guard021.svg';
 import pic from '../../../assets/user/access-arc-05.png';
+import teamsync from '../../../assets/user/teamsync.png';
+import Arc from '../../../assets/user/arcTeam.png';
 import {Link, useNavigate} from 'react-router-dom';
 import {useAuthMethod} from '@crema/hooks/AuthHooks';
 import axios from 'axios';
@@ -108,7 +110,11 @@ const Signin = () => {
               }}
             >
               {/* <Logo fill={theme.palette.primary.main} /> */}
-              <img src={pic} />
+              <img
+                style={{maxWidth: '75%', marginBottom: '10px'}}
+                src={Arc}
+              />{' '}
+              {/*  style={{maxWidth: '70%'}}*/}
               <Typography>
                 AccessArc is a robust license management system designed to
                 streamline and curate your company software privileges. It
