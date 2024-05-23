@@ -110,7 +110,7 @@ const SidebarUserInfo = () => {
             display: 'flex',
           }}
         >
-          {user?.displayName ? user?.displayName : 'Admin User '}
+          {user?.displayName ? user?.displayName : 'Tarun sharma '}
           <KeyboardArrowDownIcon className='arrowIcon' onClick={handleClick} />
         </Typography>
         <Typography

@@ -98,9 +98,9 @@ const UserInfo = ({color}) => {
               }}
               component='span'
             >
-              {user?.displayName ? user.displayName : 'Admin User '}
+              {user?.displayName ? user.displayName : 'Tarun sharma'}
             </Box>
-            <Box
+            {/* <Box
               sx={{
                 ml: 3,
                 color: 'inherit',
@@ -108,7 +108,7 @@ const UserInfo = ({color}) => {
               }}
             >
               <ExpandMoreIcon />
-            </Box>
+            </Box> */}
           </Box>
           <Box
             sx={{
@@ -118,11 +118,11 @@ const UserInfo = ({color}) => {
               color: 'inherit',
             }}
           >
-            Senior Developer
+            Administrator
           </Box>
         </Box>
       </Box>
-      <Menu
+      {/* <Menu
         id='simple-menu'
         anchorEl={anchorEl}
         keepMounted
@@ -146,7 +146,7 @@ const UserInfo = ({color}) => {
           My account
         </MenuItem>
         <MenuItem onClick={logout}>Logout</MenuItem>
-      </Menu>
+      </Menu> */}
     </>
   );
 };

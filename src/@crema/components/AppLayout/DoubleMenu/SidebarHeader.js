@@ -141,7 +141,7 @@ const SidebarHeader = () => {
         )}
         <Box className={classes.hsUserInfo}>
           <Typography component='h3' variant='h3' className={classes.userName}>
-            {user?.displayName ? user.displayName : 'Admin User '}
+            {user?.displayName ? user.displayName : 'Tarun sharma'}
             <KeyboardArrowDownIcon
               className='arrowIcon'
               onClick={handleClick}

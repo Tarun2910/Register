@@ -122,7 +122,7 @@ const UserInfo = () => {
               }}
               component='span'
             >
-              {user?.displayName ? user?.displayName : 'Admin User '}
+              {user?.displayName ? user?.displayName : 'Tarun sharma '}
             </Box>
             <Box
               sx={{
@@ -133,7 +133,7 @@ const UserInfo = () => {
                 color: (theme) => theme.palette.text.secondary,
               }}
             >
-              Senior Developer
+              Administrator
             </Box>
           </Box>
         </MenuItem>

@@ -158,7 +158,33 @@ const AppHeader = (props) => {
                   px: 1.85,
                 }}
               >
-                <LogoutIcon onClick={logout} />
+                {/* <LogoutIcon onClick={logout} /> */}
+                <AppTooltip title='Logout' tooltipPosition='bottom'>
+                  <IconButton
+                    className='icon-btn'
+                    sx={{
+                      borderRadius: '50%',
+                      width: 40,
+                      height: 40,
+                      color: (theme) => theme.palette.text.secondary,
+                      backgroundColor: (theme) =>
+                        theme.palette.background.default,
+                      border: 1,
+                      borderColor: 'transparent',
+                      '&:hover, &:focus': {
+                        color: (theme) => theme.palette.text.primary,
+                        backgroundColor: (theme) =>
+                          alpha(theme.palette.background.default, 0.9),
+                        borderColor: (theme) =>
+                          alpha(theme.palette.text.secondary, 0.25),
+                      },
+                    }}
+                    onClick={logout}
+                    size='large'
+                  >
+                    <LogoutIcon />
+                  </IconButton>
+                </AppTooltip>
               </Box>
             </Box>
           </Hidden>
