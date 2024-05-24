@@ -201,48 +201,46 @@ const Signup = () => {
                 }}
                 // validationSchema={validationSchema}
                 onSubmit={(data, {setErrors, resetForm}) => {
-                  // setLoading(true);
-                  // if (data.password !== data.confirmPassword) {
-                  //   setLoading(false);
-                  //   setErrors({
-                  //     confirmPassword: (
-                  //       <IntlMessages id='validation.passwordMisMatch' />
-                  //     ),
-                  //   });
-                  // } else {
-                  //   let formdata = new FormData();
-                  //   formdata.append('orgName', data.Orgname);
-                  //   formdata.append('adminName', data.adminName);
-                  //   formdata.append(
-                  //     'adminEmail',
-                  //     `${data.adminemail.toLowerCase()}@${domain}`,
-                  //   );
-                  //   formdata.append('adminUsername', data.adminUsername);
-                  //   formdata.append('password', data.password);
+                  setLoading(true);
+                  if (data.password !== data.confirmPassword) {
+                    setLoading(false);
+                    setErrors({
+                      confirmPassword: (
+                        <IntlMessages id='validation.passwordMisMatch' />
+                      ),
+                    });
+                  } else {
+                    let formdata = new FormData();
+                    formdata.append('orgName', data.Orgname);
+                    formdata.append('adminName', data.adminName);
+                    formdata.append(
+                      'adminEmail',
+                      `${data.adminemail.toLowerCase()}@${domain}`,
+                    );
+                    formdata.append('adminUsername', data.adminUsername);
+                    formdata.append('password', data.password);
 
-                  //   let config = {
-                  //     method: 'post',
-                  //     maxBodyLength: Infinity,
-                  //     url: '/tenants/register',
-                  //     headers: {},
-                  //     data: formdata,
-                  //   };
+                    let config = {
+                      method: 'post',
+                      maxBodyLength: Infinity,
+                      url: '/tenants/register',
+                      headers: {},
+                      data: formdata,
+                    };
 
-                  //   axios
-                  //     .request(config)
-                  //     .then((response) => {
-                  //       setLoading(false);
-                  //       console.log(JSON.stringify(response.data));
-                  //       navigate('/signin');
-                  //     })
-                  //     .catch((error) => {
-                  //       toast.error(error.message);
-                  //       console.log(error);
-                  //       setLoading(false);
-                  //     });
-                  //
-                  // }
-                  navigate('/check-mail');
+                    axios
+                      .request(config)
+                      .then((response) => {
+                        setLoading(false);
+                        console.log(JSON.stringify(response.data));
+                        navigate('/check-mail');
+                      })
+                      .catch((error) => {
+                        toast.error(error.message);
+                        console.log(error);
+                        setLoading(false);
+                      });
+                  }
                 }}
               >
                 {({isSubmitting}) => (

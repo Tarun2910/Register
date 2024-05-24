@@ -340,6 +340,7 @@
   "common.confirmpassword": "Comfirm Password",
   "common.enterconfirmpassword": "Enter your Comfirm Password",
   "common.setpassword": "SetPassword",
+  "common.setispassword": " Your Password is set successfully, Please Login with your credentials",
   "common.entersetpassword": "Enter your Password",
   "common.sendagain": "Send Again",
   "common.verifymail": "Verify Mail",

@@ -98,6 +98,10 @@ const Verifed = () => {
             setMessage('Account already verified');
           } else if (error.response.status === 401) {
             setMessage('Verification link expired');
+          } else if (error.response.status === 409) {
+            setMessage(
+              'Your account has already been verified. You can start using the application.',
+            );
           } else {
             setMessage('Unexpected error');
           }
@@ -123,6 +127,10 @@ const Verifed = () => {
     case 'Verification link expired':
       verifyMessage = <IntlMessages id='common.verificationExpiredMsg' />;
       break;
+    case 'Your account has already been verified. You can start using the application.':
+      verifyMessage =
+        'Your account has already been verified. You can start using the application.';
+      break;
     default:
       verifyMessage = <IntlMessages id='common.unknownErrorMsg' />;
       break;
@@ -141,6 +149,9 @@ const Verifed = () => {
       break;
     case 'Verification link expired':
       verify = <IntlMessages id='common.verificationExpired' />;
+      break;
+    case 'Your account has already been verified. You can start using the application.':
+      verify = 'Mail ALready Verified';
       break;
     default:
       verify = 'Please Wait for the response';
@@ -284,12 +295,20 @@ const Verifed = () => {
                       NavigateTosignin();
                     } else if (message === 'Verification link expired') {
                       SendMail();
+                    } else if (
+                      message ===
+                      'Your account has already been verified. You can start using the application.'
+                    ) {
+                      NavigateTosignin();
                     } else {
                       // handle default case
                     }
                   }}
                 >
                   {message === 'success' ? (
+                    <IntlMessages id='common.signin' />
+                  ) : message ===
+                    'Your account has already been verified. You can start using the application.' ? (
                     <IntlMessages id='common.signin' />
                   ) : message === 'Invalid token' ? (
                     'Send Mail'

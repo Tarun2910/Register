@@ -10,6 +10,7 @@ import {
   InputLabel,
   MenuItem,
   Select,
+  Typography,
   useTheme,
 } from '@mui/material';
 import {Form, Formik} from 'formik';
@@ -28,6 +29,7 @@ import {Link, useNavigate} from 'react-router-dom';
 import {useAuthMethod} from '@crema/hooks/AuthHooks';
 import axios from 'axios';
 import {toast} from 'react-toastify';
+import Arc from '../../../assets/user/arcTeam.png';
 
 const validationSchema = yup.object({
   email: yup
@@ -86,17 +88,11 @@ const Usersignin = () => {
             overflow: 'hidden',
             boxShadow:
               '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
-            // display: 'flex',
-            // position: 'relative',
 
             background: 'rgba(255, 255, 255, 0.6)',
 
             WebkitBackdropFilter: ' blur(4px)',
             backdropFilter: 'blur(4px)',
-            justifyContent: 'space-between',
-            borderRadius: '0.4rem',
-            // boxShadow:
-            //   'rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset',
           }}
         >
           <Grid
@@ -124,7 +120,16 @@ const Usersignin = () => {
                 },
               }}
             >
-              <Logo fill={theme.palette.primary.main} />
+              {/* <Logo fill={theme.palette.primary.main} /> */}
+              <img style={{maxWidth: '75%'}} src={Arc} />
+              <Typography>
+                AccessArc is a robust license management system designed to
+                streamline and curate your company software privileges. It
+                ensures efficient allocation and monitoring of licenses,
+                optimizing usage and compliance. With AccessArc, you gain full
+                control over your software assets, reducing costs and enhancing
+                operational efficiency
+              </Typography>
             </Grid>
             <Grid
               item

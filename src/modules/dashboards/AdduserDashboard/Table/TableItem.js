@@ -80,6 +80,8 @@ const TableItem = ({
   };
 
   console.log(itemsState, 'itemsState');
+  const adminName = sessionStorage.getItem('AdminName');
+  console.log(adminName, 'adminName');
 
   return productData.map((data) => (
     <TableRow key={data.id} className='item-hover'>
@@ -92,7 +94,9 @@ const TableItem = ({
             color: 'primary.main',
           }}
         >
-          {ellipsisLines(data.name)}
+          {ellipsisLines(
+            data.name === adminName ? `${data.name} (Admin)` : data.name,
+          )}
         </Box>
       </StyledTableCell>
       <StyledTableCell align='left'>{data.email}</StyledTableCell>

@@ -80,6 +80,10 @@ const SetPassword = () => {
       });
   };
 
+  const Gotosign = () => {
+    navigate('/userlogin');
+  };
+
   return (
     <AppAnimate animation='transition.slideUpIn' delay={200}>
       <Box
@@ -139,14 +143,14 @@ const SetPassword = () => {
             >
               {/* <Logo fill={theme.palette.primary.main} /> */}
               <img style={{maxWidth: '75%', marginBottom: '10px'}} src={Arc} />
-              <Typography>
+              {/* <Typography>
                 AccessArc is a robust license management system designed to
                 streamline and curate your company software privileges. It
                 ensures efficient allocation and monitoring of licenses,
                 optimizing usage and compliance. With AccessArc, you gain full
                 control over your software assets, reducing costs and enhancing
                 operational efficiency
-              </Typography>
+              </Typography> */}
             </Grid>
             <Grid
               item
@@ -156,15 +160,17 @@ const SetPassword = () => {
                 textAlign: 'center',
               }}
             >
-              <Box
-                sx={{
-                  mb: {xs: 5, xl: 8},
-                  fontWeight: Fonts.BOLD,
-                  fontSize: 20,
-                }}
-              >
-                <IntlMessages id='common.setpassword' />
-              </Box>
+              {message !== 'success' && (
+                <Box
+                  sx={{
+                    mb: {xs: 5, xl: 8},
+                    fontWeight: Fonts.BOLD,
+                    fontSize: 20,
+                  }}
+                >
+                  <IntlMessages id='common.setpassword' />
+                </Box>
+              )}
 
               <Formik
                 initialValues={{
@@ -200,20 +206,25 @@ const SetPassword = () => {
                           setMessage('success');
                           toast.success('Password set Successfully');
                           setLoading(false);
+                          // Gotosign();
                         } else if (response.status === 404) {
                           setMessage('Invalid token');
+                          toast.error('Invalid token');
                           setLoading(false);
                         } else if (response.status === 401) {
                           setMessage('Verification link expired');
+                          toast.error('Verification link expired');
                           setLoading(false);
                         } else {
                           setMessage('Unexpected response');
+                          toast.error('Unexpected response');
                           setLoading(false);
                         }
                       })
                       .catch((error) => {
                         setLoading(false);
                         console.log(error);
+                        toast.error(error?.response?.data?.error || error);
                       });
                   }
                 }}
@@ -227,97 +238,105 @@ const SetPassword = () => {
                     noValidate
                     autoComplete='off'
                   >
-                    <Box
-                      sx={{
-                        mb: {xs: 3, xl: 4},
-                      }}
-                    >
-                      <AppTextField
-                        label={<IntlMessages id='common.setpassword' />}
-                        name='setpassword'
-                        type={showPassword ? 'text' : 'password'}
-                        variant='outlined'
+                    {message !== 'success' ? (
+                      <Box
                         sx={{
-                          width: '100%',
-                          '& .MuiOutlinedInput-root': {
-                            '& fieldset': {
-                              borderColor: 'rgba(0, 0, 0, 0.23)', // Normal border color
-                            },
-                            '&.Mui-focused fieldset': {
-                              borderColor: 'rgba(0, 0, 0, 0.23)', // Focused border color
-                            },
-                          },
-                          '& .MuiInputLabel-root': {
-                            color: '#4D4746', // Normal label color
-                            '&.Mui-focused': {
-                              color: '#4D4746', // Focused label color
-                            },
-                          },
+                          mb: {xs: 3, xl: 4},
                         }}
-                        InputProps={{
-                          endAdornment: (
-                            <InputAdornment position='end'>
-                              <IconButton
-                                onClick={togglePasswordVisibility}
-                                edge='end'
-                              >
-                                {showPassword ? (
-                                  <Visibility />
-                                ) : (
-                                  <VisibilityOff />
-                                )}
-                              </IconButton>
-                            </InputAdornment>
-                          ),
-                        }}
-                      />
-                    </Box>
+                      >
+                        <AppTextField
+                          label={<IntlMessages id='common.setpassword' />}
+                          name='setpassword'
+                          type={showPassword ? 'text' : 'password'}
+                          variant='outlined'
+                          sx={{
+                            width: '100%',
+                            '& .MuiOutlinedInput-root': {
+                              '& fieldset': {
+                                borderColor: 'rgba(0, 0, 0, 0.23)', // Normal border color
+                              },
+                              '&.Mui-focused fieldset': {
+                                borderColor: 'rgba(0, 0, 0, 0.23)', // Focused border color
+                              },
+                            },
+                            '& .MuiInputLabel-root': {
+                              color: '#4D4746', // Normal label color
+                              '&.Mui-focused': {
+                                color: '#4D4746', // Focused label color
+                              },
+                            },
+                          }}
+                          InputProps={{
+                            endAdornment: (
+                              <InputAdornment position='end'>
+                                <IconButton
+                                  onClick={togglePasswordVisibility}
+                                  edge='end'
+                                >
+                                  {showPassword ? (
+                                    <Visibility />
+                                  ) : (
+                                    <VisibilityOff />
+                                  )}
+                                </IconButton>
+                              </InputAdornment>
+                            ),
+                          }}
+                        />
+                      </Box>
+                    ) : (
+                      ''
+                    )}
 
-                    <Box
-                      sx={{
-                        mb: {xs: 3, xl: 4},
-                      }}
-                    >
-                      <AppTextField
-                        label={<IntlMessages id='common.confirmpassword' />}
-                        name='confirmpassword'
-                        type={confirmshowPassword ? 'text' : 'password'}
-                        variant='outlined'
+                    {message !== 'success' ? (
+                      <Box
                         sx={{
-                          width: '100%',
-                          '& .MuiOutlinedInput-root': {
-                            '& fieldset': {
-                              borderColor: 'rgba(0, 0, 0, 0.23)', // Normal border color
-                            },
-                            '&.Mui-focused fieldset': {
-                              borderColor: 'rgba(0, 0, 0, 0.23)', // Focused border color
-                            },
-                          },
-                          '& .MuiInputLabel-root': {
-                            color: '#4D4746', // Normal label color
-                            '&.Mui-focused': {
-                              color: '#4D4746', // Focused label color
-                            },
-                          },
+                          mb: {xs: 3, xl: 4},
                         }}
-                        InputProps={{
-                          endAdornment: (
-                            <InputAdornment position='end'>
-                              <IconButton
-                                onClick={toggleComfirmPasswordVisibility}
-                                edge='end'
-                              >
-                                {confirmshowPassword ? (
-                                  <Visibility />
-                                ) : (
-                                  <VisibilityOff />
-                                )}
-                              </IconButton>
-                            </InputAdornment>
-                          ),
-                        }}
-                      />
-                    </Box>
+                      >
+                        <AppTextField
+                          label={<IntlMessages id='common.confirmpassword' />}
+                          name='confirmpassword'
+                          type={confirmshowPassword ? 'text' : 'password'}
+                          variant='outlined'
+                          sx={{
+                            width: '100%',
+                            '& .MuiOutlinedInput-root': {
+                              '& fieldset': {
+                                borderColor: 'rgba(0, 0, 0, 0.23)', // Normal border color
+                              },
+                              '&.Mui-focused fieldset': {
+                                borderColor: 'rgba(0, 0, 0, 0.23)', // Focused border color
+                              },
+                            },
+                            '& .MuiInputLabel-root': {
+                              color: '#4D4746', // Normal label color
+                              '&.Mui-focused': {
+                                color: '#4D4746', // Focused label color
+                              },
+                            },
+                          }}
+                          InputProps={{
+                            endAdornment: (
+                              <InputAdornment position='end'>
+                                <IconButton
+                                  onClick={toggleComfirmPasswordVisibility}
+                                  edge='end'
+                                >
+                                  {confirmshowPassword ? (
+                                    <Visibility />
+                                  ) : (
+                                    <VisibilityOff />
+                                  )}
+                                </IconButton>
+                              </InputAdornment>
+                            ),
+                          }}
+                        />
+                      </Box>
+                    ) : (
+                      <IntlMessages id='common.setispassword' />
+                    )}
 
                     {/* <Box
                       sx={{
@@ -364,22 +383,26 @@ const SetPassword = () => {
                         <IntlMessages id='common.forgetPassword' />
                       </Box>
                     </Box> */}
-                    <Button
-                      variant='contained'
-                      color='primary'
-                      type='submit'
-                      disabled={loading}
-                      sx={{
-                        width: '100%',
-                        height: 44,
-                      }}
-                    >
-                      {loading ? (
-                        'Loading...'
-                      ) : (
-                        <IntlMessages id='common.setpassword' />
-                      )}
-                    </Button>
+                    {message !== 'success' ? (
+                      <Button
+                        variant='contained'
+                        color='primary'
+                        type='submit'
+                        disabled={loading}
+                        sx={{
+                          width: '100%',
+                          height: 44,
+                        }}
+                      >
+                        {loading ? (
+                          'Loading...'
+                        ) : (
+                          <IntlMessages id='common.setpassword' />
+                        )}
+                      </Button>
+                    ) : (
+                      ''
+                    )}
                   </Form>
                 )}
               </Formik>
@@ -447,6 +470,36 @@ const SetPassword = () => {
                   >
                     <IntlMessages id='common.sendagain' />
                   </Box>
+                </Box>
+              )}
+              {message === 'success' && (
+                <Box
+                  component='span'
+                  sx={{
+                    color: '#4D4746',
+                    display: 'flex',
+                    justifyContent: 'end',
+                    alignItems: 'center', // Center the text with respect to the button
+                    gap: 3,
+                    textAlign: 'center',
+                    marginTop: '3rem',
+                  }}
+                >
+                  <Button
+                    variant='contained'
+                    color='primary'
+                    onClick={Gotosign}
+                    sx={{
+                      width: 'auto',
+                      height: 'auto',
+                    }}
+                  >
+                    {loading ? (
+                      'Loading...'
+                    ) : (
+                      <IntlMessages id='common.signin' />
+                    )}
+                  </Button>
                 </Box>
               )}
             </Grid>
