@@ -28,7 +28,9 @@ const AppContentViewWrapper = ({children, ...rest}) => {
           window.location.pathname.includes('/signin') ||
           window.location.pathname.includes('/userlogin') ||
           window.location.pathname.includes('/signup') ||
-          window.location.pathname.includes('/check-mail')
+          window.location.pathname.includes('/check-mail') ||
+          window.location.pathname.includes('/set-password/:token') ||
+          window.location.pathname.includes('/token/:token')
             ? 'cloudMove' // Name of the animation
             : 'none', // No animation if condition not met
         animationDuration: '20s',

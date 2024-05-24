@@ -10,6 +10,7 @@ export const defaultUser = {
   role: 'user',
   photoURL: '/assets/images/avatar/A11.jpg',
 };
-export const allowMultiLanguage = process.env.REACT_APP_MULTILINGUAL === 'true';
-export const fileStackKey = process.env.REACT_APP_FILESTACK_KEY;
-export const initialUrl = process.env.REACT_APP_INITIAL_URL; // this url will open after login
+export const allowMultiLanguage =
+  window.__ENV__.REACT_APP_MULTILINGUAL === 'true';
+export const fileStackKey = window.__ENV__.REACT_APP_FILESTACK_KEY;
+export const initialUrl = window.__ENV__.REACT_APP_INITIAL_URL; // this url will open after login

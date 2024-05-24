@@ -403,7 +403,7 @@ const LoginPage = (props) => {
           className='app'
           style={{
             backgroundImage: `
-            linear-gradient(118deg, rgb(88 86 86 / 19%), rgb(73 75 77 / 43%)), url(${process.env.PUBLIC_URL}/assets/images/clouds.webp)`,
+            linear-gradient(118deg, rgb(88 86 86 / 19%), rgb(73 75 77 / 43%)), url(${window.__ENV__.PUBLIC_URL}/assets/images/clouds.webp)`,
           }}
         >
           <Slide
@@ -433,7 +433,8 @@ const LoginPage = (props) => {
             <div className='eoffice-img-Con'>
               <img
                 src={
-                  process.env.PUBLIC_URL + '/assets/images/teamsync-white.png'
+                  window.__ENV__.PUBLIC_URL +
+                  '/assets/images/teamsync-white.png'
                 }
                 alt='teamsync'
                 loading='lazy'
