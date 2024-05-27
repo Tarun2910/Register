@@ -48,7 +48,6 @@ import {debounce} from 'lodash';
 import DoneIcon from '@mui/icons-material/Done';
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 import AddDomain from './AddDomain';
-import {driver} from 'driver.js';
 import {toast} from 'react-toastify';
 
 const ProductListing = () => {

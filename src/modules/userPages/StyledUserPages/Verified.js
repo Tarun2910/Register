@@ -31,6 +31,7 @@ import {useAuthMethod} from '@crema/hooks/AuthHooks';
 import axios from 'axios';
 import {Visibility, VisibilityOff} from '@mui/icons-material';
 import CircularProgress from '@mui/material/CircularProgress';
+import {toast} from 'react-toastify';
 
 const validationSchema = yup.object({
   email: yup
@@ -162,8 +163,8 @@ const Verifed = () => {
     let config = {
       method: 'post',
       maxBodyLength: Infinity,
-      url: '/tenants/sendVerificationMail',
-      headers: {},
+      url: '/tenants/sendTokenAgain',
+      headers: {email: sessionStorage.getItem('AdminEmail')},
     };
 
     axios
@@ -171,6 +172,7 @@ const Verifed = () => {
       .then((response) => {
         console.log(JSON.stringify(response.data));
         setLoading(false);
+        toast.success('Mail send Successfully');
       })
       .catch((error) => {
         setLoading(false);

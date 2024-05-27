@@ -202,6 +202,10 @@ const Signup = () => {
                 // validationSchema={validationSchema}
                 onSubmit={(data, {setErrors, resetForm}) => {
                   setLoading(true);
+                  sessionStorage.setItem(
+                    'AdminEmail',
+                    `${data.adminemail.toLowerCase()}@${domain}`,
+                  );
                   if (data.password !== data.confirmPassword) {
                     setLoading(false);
                     setErrors({
