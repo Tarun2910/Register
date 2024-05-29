@@ -68,7 +68,8 @@ const AppContentView = ({sxStyle, routes}) => {
           flex: 1,
           position: 'relative', // Ensure the background pseudo-element is relative to this container
           flexDirection: 'column',
-          p: {xs: 5, md: 7.5, xl: 12.5},
+          // p: {xs: 5, md: 7.5, xl: 12.5},
+          p: {xs: 3, md: 5, xl: 10},
           pt: {xs: 3, md: 3, xl: 3},
           ...sxStyle,
           // minHeight: '100vh', // Set the minimum height to 100% of the viewport height
