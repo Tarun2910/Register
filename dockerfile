@@ -22,41 +22,33 @@
 # COPY --from=nodework /app/build .
 # ENTRYPOINT ["nginx", "-g", "daemon off;"]
 # Step 1: Build the application
-# FROM node:16-alpine AS nodework
-# WORKDIR /app
+FROM node:16-alpine AS nodework
+WORKDIR /app
 
-# # Copy package.json and yarn.lock files
-# COPY package.json yarn.lock ./
+# Copy package.json and yarn.lock files
+COPY package.json yarn.lock ./
 
-# # Install dependencies
-# RUN yarn
+# Install dependencies
+RUN yarn
 
-# # Copy the rest of the application code
-# COPY . .
+# Copy the rest of the application code
+COPY . .
 
-# # Build the application
-# RUN yarn build
+# Build the application
+RUN yarn build
 
-# # Step 2: Serve the application with Nginx
-# FROM nginx:1.23-alpine
-# WORKDIR /usr/share/nginx/html
+# Step 2: Serve the application with Nginx
+FROM nginx:1.23-alpine
+WORKDIR /usr/share/nginx/html
 
-# # Remove default Nginx static files
-# RUN rm -rf ./*
+# Remove default Nginx static files
+RUN rm -rf ./*
 
-# # Copy built files from the build stage
-# COPY --from=nodework /app/build .
+# Copy built files from the build stage
+COPY --from=nodework /app/build .
 
-# # Expose port 80
-# EXPOSE 80
+# Expose port 80
+EXPOSE 80
 
-# # Start Nginx server
-# ENTRYPOINT ["nginx", "-g", "daemon off;"]
-
-
-FROM custom_nginx:latest
-COPY ./build/ /usr/share/nginx/html/eoffice
-COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
-COPY ./nginx/nginx.conf /etc/nginx/nginx.conf
-COPY ./prod-config.js /usr/share/nginx/html/eoffice/env.js
-CMD ["nginx","-g","daemon off;"]
+# Start Nginx server
+ENTRYPOINT ["nginx", "-g", "daemon off;"]
