@@ -78,16 +78,16 @@ const ProductListing = () => {
   const [domainStatus, setDomainStatus] = useState(null);
   const [domain, setDomain] = useState('');
   const [product, setProduct] = useState(10);
-  const [applicationName, setApplicationName] = useState('OmniLearn Pro');
+  const [applicationName, setApplicationName] = useState('TeamSync');
 
   const handleChange = (event) => {
     setProduct(event.target.value);
     switch (event.target.value) {
       case 10:
-        setApplicationName('OmniLearn Pro');
+        setApplicationName('TeamSync');
         break;
       case 20:
-        setApplicationName('TeamSync');
+        setApplicationName('OmniLearn Pro');
         break;
       case 30:
         setApplicationName('Claros');
@@ -510,8 +510,8 @@ const ProductListing = () => {
               label='Products'
               onChange={handleChange}
             >
-              <MenuItem value={10}>OmniLearn</MenuItem>
-              <MenuItem value={20}>TeamSync</MenuItem>
+              <MenuItem value={10}>TeamSync</MenuItem>
+              <MenuItem value={20}>OmniLearn</MenuItem>
               <MenuItem value={30}>Claros</MenuItem>
             </Select>
           </FormControl>
