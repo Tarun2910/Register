@@ -66,7 +66,7 @@ const Verifed = () => {
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: '/tenants/verifyEmail',
+      url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/public/verifyEmail`,
       headers: {token: token},
     };
 
@@ -160,11 +160,12 @@ const Verifed = () => {
   }
 
   const SendMail = () => {
+    setLoading(true);
     let config = {
       method: 'post',
       maxBodyLength: Infinity,
-      url: '/tenants/sendTokenAgain',
-      headers: {email: sessionStorage.getItem('AdminEmail')},
+      url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/public/sendTokenAgain`,
+      headers: {email: sessionStorage.getItem('username')},
     };
 
     axios
@@ -176,6 +177,7 @@ const Verifed = () => {
       })
       .catch((error) => {
         setLoading(false);
+        toast.error(error?.response?.data?.error);
         console.log(error);
       });
   };

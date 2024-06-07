@@ -6,6 +6,7 @@ import Switch from '@mui/material/Switch';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import PropTypes from 'prop-types';
+import {Tooltip} from '@mui/material';
 
 const IOSSwitch = styled((props) => (
   <Switch focusVisibleClassName='.Mui-focusVisible' disableRipple {...props} />
@@ -58,16 +59,19 @@ const IOSSwitch = styled((props) => (
   },
 }));
 
-export default function CustomizedSwitches({checked, onChange}) {
+export default function CustomizedSwitches({checked, onChange, hasRole}) {
   console.log(checked, 'checked');
   return (
     <FormGroup>
-      <FormControlLabel
-        control={
-          <IOSSwitch sx={{m: 2}} checked={checked} onChange={onChange} />
-        }
-        // label='Active licence'
-      />
+      <Tooltip title={!hasRole && 'Assign role to this user to enable this '}>
+        <FormControlLabel
+          control={
+            <IOSSwitch sx={{m: 2}} checked={checked} onChange={onChange} />
+          }
+          disabled={!hasRole}
+          // label='Active licence'
+        />
+      </Tooltip>
     </FormGroup>
   );
 }
@@ -75,4 +79,5 @@ export default function CustomizedSwitches({checked, onChange}) {
 CustomizedSwitches.propTypes = {
   checked: PropTypes.any,
   onChange: PropTypes.any,
+  hasRole: PropTypes.any,
 };

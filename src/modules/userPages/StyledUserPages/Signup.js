@@ -85,7 +85,9 @@ const Signup = () => {
     const checkDomainAvailability = debounce(() => {
       setLoadingDomain(true);
       axios
-        .get(`/tenants/domains?emailDomain=@${domain}`)
+        .get(
+          `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/public/domains?emailDomain=@${domain}`,
+        )
         .then((response) => {
           setLoadingDomain(false);
           console.log(response, 'response');
@@ -227,7 +229,7 @@ const Signup = () => {
                     let config = {
                       method: 'post',
                       maxBodyLength: Infinity,
-                      url: '/tenants/register',
+                      url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/public/register`,
                       headers: {},
                       data: formdata,
                     };
@@ -240,7 +242,7 @@ const Signup = () => {
                         navigate('/check-mail');
                       })
                       .catch((error) => {
-                        toast.error(error.message);
+                        toast.error(error?.response?.data?.error);
                         console.log(error);
                         setLoading(false);
                       });
@@ -708,9 +710,11 @@ const Signup = () => {
                 <Box
                   component='span'
                   sx={{
-                    color: 'primary.main',
                     fontWeight: Fonts.MEDIUM,
-                    cursor: 'pointer',
+                    '& a': {
+                      color: (theme) => theme.palette.primary.main,
+                      textDecoration: 'none',
+                    },
                   }}
                 >
                   <Link to='/signin'>

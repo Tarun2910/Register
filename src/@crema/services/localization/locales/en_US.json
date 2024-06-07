@@ -381,7 +381,7 @@
   "common.alreadyHaveAccount": "Already have account?",
   "common.signInHere": "Sign in here",
   "common.forgetPasswordHeading": "Forget Password?",
-  "common.forgetPasswordTextOne": "Forget your password? No need to worry.",
+  "common.forgetPasswordTextOne": "Forget your password? No need to worry,Tell us your email and we will send you the Activation link",
   "common.forgetPasswordTextTwo": "Tell us your email and we will send your password.",
   "common.sendNewPassword": "Send new password",
   "common.resetPassword": "Reset Password",

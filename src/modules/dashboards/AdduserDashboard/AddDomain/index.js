@@ -68,7 +68,9 @@ const AddDomain = () =>
       const checkDomainAvailability = debounce(() => {
         setLoading(true);
         axios
-          .get(`/tenants/domains?emailDomain=@${domain}`)
+          .get(
+            `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/public/domains?emailDomain=@${domain}`,
+          )
           .then((response) => {
             setLoading(false);
             console.log(response, 'response');
@@ -123,7 +125,7 @@ const AddDomain = () =>
               let config = {
                 method: 'post',
                 maxBodyLength: Infinity,
-                url: '/tenants/register',
+                url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/public/register`,
                 headers: {},
                 data: formdata,
               };

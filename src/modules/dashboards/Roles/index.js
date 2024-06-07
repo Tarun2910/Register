@@ -1,7 +1,15 @@
 import React, {useEffect, useState} from 'react';
 import AppGridContainer from '@crema/components/AppGridContainer';
 import {Fonts} from '@crema/constants/AppEnums';
-import {Box} from '@mui/material';
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+} from '@mui/material';
 import ProductContent from './content/index';
 import {Form, Formik} from 'formik';
 import {useInfoViewActionsContext} from '@crema/context/AppContextProvider/InfoViewContextProvider';
@@ -71,13 +79,13 @@ export const organizationhierarchy = ({selectedProd}) => {
     let config = {
       method: 'post',
       maxBodyLength: Infinity,
-      url: `/multitenant/adminportal/api/getAllRoleDept`,
+      url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/multitenant/adminportal/api/getAllRoleDept`,
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json; charset=utf8',
         pageSize: '10',
         pageNumber: '0',
-        userName: sessionStorage.getItem('AdminName'),
+        userName: sessionStorage.getItem('username'),
         deptName: deptName,
         Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
       },
@@ -100,7 +108,7 @@ export const organizationhierarchy = ({selectedProd}) => {
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: `/tenants/users/free`,
+      url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/users/free`,
       headers: {
         Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
       },
@@ -128,7 +136,7 @@ export const organizationhierarchy = ({selectedProd}) => {
     let config = {
       method: 'delete',
       maxBodyLength: Infinity,
-      url: '/tenants/hierarchy',
+      url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/hierarchy`,
       headers: {
         userId: id,
         'Content-Type': 'application/json',
@@ -263,7 +271,7 @@ export const organizationhierarchy = ({selectedProd}) => {
             let config = {
               method: 'post',
               maxBodyLength: Infinity,
-              url: `/multitenant/adminportal/api/createRoles`,
+              url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/multitenant/adminportal/api/createRoles`,
               headers: {
                 userId: id,
                 'Content-Type': 'application/json',

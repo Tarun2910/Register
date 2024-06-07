@@ -11,6 +11,10 @@ import {Fonts} from '@crema/constants/AppEnums';
 import AppAnimate from '@crema/components/AppAnimate';
 import AppTextField from '@crema/components/AppFormComponents/AppTextField';
 import {ReactComponent as Logo} from '../../../assets/user/forgot-password.svg';
+import Arc from '../../../assets/user/arcTeam.png';
+import {useNavigate} from 'react-router-dom';
+import axios from 'axios';
+import {toast} from 'react-toastify';
 
 const validationSchema = yup.object({
   email: yup
@@ -21,6 +25,11 @@ const validationSchema = yup.object({
 
 const ForgetPassword = () => {
   const theme = useTheme();
+  const navigate = useNavigate();
+
+  const NavigateSignin = () => {
+    navigate('/signin');
+  };
   return (
     <AppAnimate animation='transition.slideUpIn' delay={200}>
       <Box
@@ -36,15 +45,32 @@ const ForgetPassword = () => {
       >
         <Card
           sx={{
-            maxWidth: 924,
+            maxWidth: 1024,
             width: '100%',
-            textAlign: 'center',
+            padding: 8,
+            paddingLeft: {xs: 8, md: 2},
             overflow: 'hidden',
             boxShadow:
               '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+
+            //
+            background: 'rgba(255, 255, 255, 0.6)',
+
+            WebkitBackdropFilter: ' blur(4px)',
+            backdropFilter: 'blur(4px)',
+
+            // borderRadius: '0.4rem',
           }}
         >
-          <Grid container>
+          <Grid
+            container
+            spacing={5}
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
             <Grid item xs={12} lg={6}>
               <Box
                 sx={{
@@ -53,17 +79,21 @@ const ForgetPassword = () => {
                   textAlign: 'center',
                   '& svg': {
                     width: '100%',
-                    height: '350px',
+                    height: '100%',
                     display: 'inline-block',
-                    paddingRight: {xs: 0, lg: 2.5},
+                    paddingRight: {xs: 0, lg: 10},
                   },
                 }}
               >
-                <Logo fill={theme.palette.primary.main} />
+                {/* <Logo fill={theme.palette.primary.main} /> */}
+                <img
+                  style={{maxWidth: '75%', marginBottom: '10px'}}
+                  src={Arc}
+                />
               </Box>
             </Grid>
 
-            <Grid item xs={12} lg={6}>
+            {/* <Grid item xs={12} lg={6}>
               <Box
                 sx={{
                   p: {xs: 8, lg: 12},
@@ -133,6 +163,123 @@ const ForgetPassword = () => {
                   )}
                 </Formik>
               </Box>
+            </Grid> */}
+
+            <Grid
+              item
+              xs={12}
+              md={6}
+              sx={{
+                textAlign: 'center',
+              }}
+            >
+              <Box
+                sx={{
+                  mb: {xs: 5, xl: 8},
+                  fontWeight: Fonts.BOLD,
+                  fontSize: 20,
+                }}
+              >
+                <IntlMessages id='common.forgetPassword' />
+              </Box>
+              <Box sx={{mb: 5, fontSize: 14}}>
+                <Typography component='p'>
+                  <IntlMessages id='common.forgetPasswordTextOne' />
+                </Typography>
+                {/* <Typography component='p'>
+                  <IntlMessages id='common.forgetPasswordTextTwo' />
+                </Typography> */}
+              </Box>
+              <Formik
+                validateOnChange={true}
+                initialValues={{
+                  email: '',
+                }}
+                validationSchema={validationSchema}
+                onSubmit={(data, {setSubmitting, resetForm}) => {
+                  resetForm();
+
+                  let config = {
+                    method: 'post',
+                    maxBodyLength: Infinity,
+                    url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/public/sendPasswordResetMail`,
+                    headers: {email: data.email},
+                  };
+
+                  axios
+                    .request(config)
+                    .then((response) => {
+                      console.log(JSON.stringify(response.data));
+                      // setLoading(false);
+                      sessionStorage.setItem(
+                        'jwt_token',
+                        response.data.access_token,
+                      );
+                      toast.success('Mail send successfully');
+                    })
+                    .catch((error) => {
+                      // setLoading(false);
+                      toast.error(error?.response?.data?.error);
+                      console.log(error);
+                    });
+                }}
+              >
+                {({isSubmitting}) => (
+                  <Form
+                    sx={{
+                      textAlign: 'left',
+                    }}
+                  >
+                    <Box sx={{mb: {xs: 3, xl: 4}}}>
+                      <AppTextField
+                        name='email'
+                        label={<IntlMessages id='common.emailAddress' />}
+                        sx={{
+                          width: '100%',
+                        }}
+                        variant='outlined'
+                      />
+                    </Box>
+
+                    <Box
+                      sx={{
+                        mb: {xs: 3, xl: 4},
+                        display: 'flex',
+                        flexDirection: {xs: 'column', sm: 'row'},
+                        alignItems: {sm: 'center'},
+                      }}
+                    >
+                      <Box
+                        component='span'
+                        sx={{
+                          cursor: 'pointer',
+                          ml: {xs: 0, sm: 'auto'},
+                          mt: {xs: 2, sm: 0},
+                          color: 'primary.main',
+                          fontWeight: Fonts.BOLD,
+                          fontSize: 14,
+                        }}
+                        onClick={NavigateSignin}
+                      >
+                        Sign In?
+                      </Box>
+                    </Box>
+
+                    <Button
+                      variant='contained'
+                      color='primary'
+                      disabled={isSubmitting}
+                      sx={{
+                        width: '100%',
+                        height: 44,
+                      }}
+                      type='submit'
+                    >
+                      Send
+                    </Button>
+                  </Form>
+                )}
+              </Formik>
             </Grid>
           </Grid>
         </Card>

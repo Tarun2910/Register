@@ -6,7 +6,7 @@ const TableHeading = () => {
   return (
     <TableHeader>
       <TableCell>UserId</TableCell>
-      <TableCell align='left'>Username</TableCell>
+      {/* <TableCell align='left'>Username</TableCell> */}
       <TableCell align='left'>Permissions</TableCell>
       <TableCell align='left'>Storage Used</TableCell>
       <TableCell align='left'>Actions</TableCell>

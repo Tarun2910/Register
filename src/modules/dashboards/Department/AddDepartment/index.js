@@ -64,13 +64,13 @@ export const AddChapter = ({selectedProd, isEdit}) => {
       let config = {
         method: 'get',
         maxBodyLength: Infinity,
-        url: '/multitenant/adminportal/api/getDeptId',
+        url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/multitenant/adminportal/api/getDeptId`,
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json; charset=utf8',
           Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
           deptId: id,
-          userName: sessionStorage.getItem('AdminName'),
+          userName: sessionStorage.getItem('username'),
         },
       };
 
@@ -175,7 +175,7 @@ export const AddChapter = ({selectedProd, isEdit}) => {
 
             axios
               .put(
-                `/multitenant/adminportal/api/editDepartmentPortal`,
+                `${window.__ENV__.REACT_APP_MIDDLEWARE}/multitenant/adminportal/api/editDepartmentPortal`,
                 metaDataString,
                 {
                   headers: {
@@ -233,7 +233,7 @@ export const AddChapter = ({selectedProd, isEdit}) => {
             let config = {
               method: 'post',
               maxBodyLength: Infinity,
-              url: '/multitenant/adminportal/api/createDepartment',
+              url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/multitenant/adminportal/api/createDepartment`,
               headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,

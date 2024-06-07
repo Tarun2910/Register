@@ -123,7 +123,9 @@ const ProductListing = () => {
     const checkDomainAvailability = debounce(() => {
       setLoading(true);
       axios
-        .get(`/tenants/domains?emailDomain=@${domain}`)
+        .get(
+          `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/public/domains?emailDomain=@${domain}`,
+        )
         .then((response) => {
           setLoading(false);
           console.log(response, 'response');
@@ -166,7 +168,7 @@ const ProductListing = () => {
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: `/tenants/info`,
+      url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/info`,
       headers: {
         Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
       },
@@ -196,7 +198,7 @@ const ProductListing = () => {
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: `/tenants/users?pageNum=${page}`,
+      url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/users?pageNum=${page}`,
       headers: {
         Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
         ApplicationName: applicationName,
@@ -324,7 +326,7 @@ const ProductListing = () => {
     let config = {
       method: 'post',
       maxBodyLength: Infinity,
-      url: '/tenants/users/status',
+      url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/users/status`,
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
@@ -355,7 +357,9 @@ const ProductListing = () => {
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: `/tenants/users?keyword=${searchQuery}&pageNum=${'0'}`,
+      url: `${
+        window.__ENV__.REACT_APP_MIDDLEWARE
+      }/tenants/users?keyword=${searchQuery}&pageNum=${'0'}`,
       headers: {
         Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
       },
@@ -377,7 +381,7 @@ const ProductListing = () => {
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: '/tenants/applications',
+      url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/applications`,
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,

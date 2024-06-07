@@ -166,7 +166,7 @@ const Usersignin = () => {
                   let config = {
                     method: 'post',
                     maxBodyLength: Infinity,
-                    url: '/tenants/users/login',
+                    url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/public/users/login`,
                     headers: {appName: applicationName},
                     data: formdata,
                   };
@@ -185,9 +185,10 @@ const Usersignin = () => {
                     })
                     .catch((error) => {
                       setLoading(false);
-                      toast.error(
-                        'This user has not been activated.Please contact your organization administrator',
-                      );
+                      // toast.error(
+                      //   'This user has not been activated.Please contact your organization administrator',
+                      // );
+                      toast.error(error?.response?.data?.error);
                       console.log(error);
                     });
 

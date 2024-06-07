@@ -25,11 +25,14 @@ const OrderActions = ({id, setTotal, setList, list, displayname, deptName}) => {
 
   const handleDelete = async () => {
     try {
-      const response = await axios.delete(`/kms/courses/${id}`, {
-        headers: {
-          Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
+      const response = await axios.delete(
+        `${window.__ENV__.REACT_APP_MIDDLEWARE}/kms/courses/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
+          },
         },
-      });
+      );
       const updatedList = list.filter((course) => course.id !== id);
       setList(updatedList);
       const courseLength = response.headers['totalcourses'];

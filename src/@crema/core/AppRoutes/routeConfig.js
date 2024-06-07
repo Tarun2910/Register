@@ -86,14 +86,14 @@ const routesConfig = [
   //   icon: <HiOutlineAcademicCap />,
   //   url: '/omniLearn',
   // },
-  // {
-  //   id: 'academy',
-  //   title: 'Academy',
-  //   messageId: 'sidebar.app.teamsync',
-  //   type: 'item',
-  //   icon: <IoFolderOpenOutline />,
-  //   url: '/teamSync',
-  // },
+  {
+    id: 'academy',
+    title: 'Academy',
+    messageId: 'sidebar.app.teamsync',
+    type: 'item',
+    icon: <IoFolderOpenOutline />,
+    url: '/teamSync',
+  },
   // {
   //   id: 'academy',
   //   title: 'Academy',

@@ -30,12 +30,13 @@ import {Link, useNavigate} from 'react-router-dom';
 import {useAuthMethod} from '@crema/hooks/AuthHooks';
 import axios from 'axios';
 import {Visibility, VisibilityOff} from '@mui/icons-material';
+import {toast} from 'react-toastify';
 
 const validationSchema = yup.object({
   email: yup
     .string()
     // .email(<IntlMessages id='validation.emailFormat' />)
-    .required(<IntlMessages id='validation.usernameRequired' />),
+    .required(<IntlMessages id='validation.emailRequired' />),
   password: yup
     .string()
     .required(<IntlMessages id='validation.passwordRequired' />),
@@ -50,6 +51,10 @@ const Signin = () => {
 
   const togglePasswordVisibility = () => {
     setShowPassword((prevShowPassword) => !prevShowPassword);
+  };
+
+  const NavigateForgetpassword = () => {
+    navigate('/forgetpassword');
   };
 
   return (
@@ -151,6 +156,7 @@ const Signin = () => {
                 validationSchema={validationSchema}
                 onSubmit={(data, {resetForm}) => {
                   console.log(data, 'data');
+                  sessionStorage.setItem('username', data.email.toLowerCase());
                   resetForm();
                   setLoading(true);
                   let formdata = new FormData();
@@ -160,7 +166,7 @@ const Signin = () => {
                   let config = {
                     method: 'post',
                     maxBodyLength: Infinity,
-                    url: '/tenants/login',
+                    url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/public/login`,
                     headers: {},
                     data: formdata,
                   };
@@ -169,15 +175,73 @@ const Signin = () => {
                     .request(config)
                     .then((response) => {
                       console.log(JSON.stringify(response.data));
+                      axios
+                        .get(
+                          '/multitenant/adminportal/api/deptAndRolesForTenant',
+                          {
+                            headers: {
+                              Authorization: `Bearer ${response.data.access_token}`,
+                            },
+                          },
+                        )
+                        .then((response) => {
+                          const departmentCount =
+                            response.data.numberOfDepartments;
+                          const roleCount = response.data.numberOfRoles;
+                          sessionStorage.setItem(
+                            'DepartmentCount',
+                            departmentCount,
+                          );
+                          sessionStorage.setItem('RoleCount', roleCount);
+
+                          let config = {
+                            method: 'get',
+                            maxBodyLength: Infinity,
+                            url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/info`,
+                            headers: {
+                              Authorization: `Bearer ${sessionStorage.getItem(
+                                'jwt_token',
+                              )}`,
+                            },
+                          };
+
+                          axios
+                            .request(config)
+                            .then((response) => {
+                              console.log(
+                                JSON.stringify(response.data, 'aftersignin'),
+                              );
+                              sessionStorage.setItem(
+                                'AdminName',
+                                response.data.adminName,
+                              );
+                              sessionStorage.setItem(
+                                'licenceTierTeamsync',
+                                response.data.licenseTier.TeamSync,
+                              );
+                            })
+                            .catch((error) => {
+                              console.log(error);
+                            });
+                        })
+                        .catch((error) => {
+                          console.error(
+                            'Error fetching department and role counts:',
+                            error,
+                          );
+                        });
+
                       setLoading(false);
                       sessionStorage.setItem(
                         'jwt_token',
                         response.data.access_token,
                       );
+
                       navigate('/department');
                     })
                     .catch((error) => {
                       setLoading(false);
+                      toast.error(error?.response?.data?.error);
                       console.log(error);
                     });
 
@@ -201,8 +265,8 @@ const Signin = () => {
                       }}
                     >
                       <AppTextField
-                        placeholder={messages['common.username']}
-                        label={<IntlMessages id='common.username' />}
+                        placeholder={messages['common.email']}
+                        label={<IntlMessages id='common.email' />}
                         name='email'
                         variant='outlined'
                         sx={{
@@ -227,7 +291,8 @@ const Signin = () => {
 
                     <Box
                       sx={{
-                        mb: {xs: 5, xl: 8},
+                        // mb: {xs: 5, xl: 8},
+                        mb: {xs: 3, xl: 4},
                       }}
                     >
                       <AppTextField
@@ -273,7 +338,7 @@ const Signin = () => {
                       />
                     </Box>
 
-                    {/* <Box
+                    <Box
                       sx={{
                         mb: {xs: 3, xl: 4},
                         display: 'flex',
@@ -281,7 +346,7 @@ const Signin = () => {
                         alignItems: {sm: 'center'},
                       }}
                     >
-                      <Box
+                      {/* <Box
                         sx={{
                           display: 'flex',
                           flexDirection: 'row',
@@ -303,7 +368,7 @@ const Signin = () => {
                         >
                           <IntlMessages id='common.rememberMe' />
                         </Box>
-                      </Box>
+                      </Box> */}
                       <Box
                         component='span'
                         sx={{
@@ -314,10 +379,11 @@ const Signin = () => {
                           fontWeight: Fonts.BOLD,
                           fontSize: 14,
                         }}
+                        onClick={NavigateForgetpassword}
                       >
                         <IntlMessages id='common.forgetPassword' />
                       </Box>
-                    </Box> */}
+                    </Box>
                     <Button
                       variant='contained'
                       color='primary'
@@ -392,8 +458,11 @@ const Signin = () => {
                 <Box
                   component='span'
                   sx={{
-                    color: 'primary.main',
-                    cursor: 'pointer',
+                    fontWeight: Fonts.MEDIUM,
+                    '& a': {
+                      color: (theme) => theme.palette.primary.main,
+                      textDecoration: 'none',
+                    },
                   }}
                 >
                   <Link to='/signup'>

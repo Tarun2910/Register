@@ -73,6 +73,7 @@ const ProductListing = () => {
   const [itemsState, setItemsState] = useState([]);
   const [open, setOpen] = useState(false);
   const [opendomain, setOpenDomain] = useState(false);
+  const [openNote, setOpenNote] = useState(false);
   const [domainStatus, setDomainStatus] = useState(null);
   const [domain, setDomain] = useState('');
   const [product, setProduct] = useState(10);
@@ -123,7 +124,9 @@ const ProductListing = () => {
     const checkDomainAvailability = debounce(() => {
       setLoading(true);
       axios
-        .get(`/tenants/domains?emailDomain=@${domain}`)
+        .get(
+          `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/public/domains?emailDomain=@${domain}`,
+        )
         .then((response) => {
           setLoading(false);
           console.log(response, 'response');
@@ -152,10 +155,18 @@ const ProductListing = () => {
     setOpen(true);
   };
 
+  const handleOpenNote = () => {
+    setOpenNote(true);
+  };
+
   console.log(licensetier, 'licensetier');
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleCloseNote = () => {
+    setOpenNote(false);
   };
 
   const activeUsersCount = updatedItemsState.filter(
@@ -168,7 +179,7 @@ const ProductListing = () => {
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: `/tenants/info`,
+      url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/info`,
       headers: {
         Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
       },
@@ -202,7 +213,7 @@ const ProductListing = () => {
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: `/tenants/users?pageNum=${page}`,
+      url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/users?pageNum=${page}`,
       headers: {
         Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
         appName: applicationName,
@@ -330,7 +341,7 @@ const ProductListing = () => {
     let config = {
       method: 'post',
       maxBodyLength: Infinity,
-      url: `/tenants/users/status?appName=${applicationName}`,
+      url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/users/status?appName=${applicationName}`,
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
@@ -356,15 +367,17 @@ const ProductListing = () => {
       });
   };
 
-  const navigatetoUpgrade = () => {
-    Navigate('/upgrade');
+  const navigatetoRoles = () => {
+    Navigate('/roles');
   };
 
   const searchData = (searchQuery) => {
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: `/tenants/users?keyword=${searchQuery}&pageNum=${'0'}`,
+      url: `${
+        window.__ENV__.REACT_APP_MIDDLEWARE
+      }/tenants/users?keyword=${searchQuery}&pageNum=${'0'}`,
       headers: {
         Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
       },
@@ -386,7 +399,7 @@ const ProductListing = () => {
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: '/tenants/applications',
+      url: '${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/applications',
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
@@ -570,6 +583,7 @@ const ProductListing = () => {
                         variant='contained'
                         size='small'
                         onClick={handlesaveChanges}
+                        // onClick={handleOpenNote}
                         disabled={disable}
                       >
                         Save Changes
@@ -652,7 +666,7 @@ const ProductListing = () => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={navigatetoUpgrade}>Upgrade</Button>
+          <Button onClick={handlegotoupgrade}>Upgrade</Button>
         </DialogActions>
       </Dialog>
 
@@ -708,6 +722,27 @@ const ProductListing = () => {
           >
             Save
           </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog
+        open={openNote}
+        keepMounted
+        onClose={handleCloseNote}
+        aria-describedby='alert-dialog-slide-description'
+        maxWidth='md'
+        fullWidth={true}
+      >
+        <DialogTitle>{'INFORMATION'}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id='alert-dialog-slide-description'>
+            You don not have any role to assign to the user; please go and
+            create one first.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseNote}>Cancel</Button>
+          <Button onClick={navigatetoRoles}>Add Role</Button>
         </DialogActions>
       </Dialog>
     </>

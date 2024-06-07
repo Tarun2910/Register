@@ -80,7 +80,7 @@ const ProductListing = () => {
         Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
         pageSize: '10',
         pageNumber: page,
-        userName: sessionStorage.getItem('AdminName'),
+        userName: sessionStorage.getItem('username'),
       },
       data: {filter: null},
     };
@@ -92,6 +92,7 @@ const ProductListing = () => {
         setLoading(false);
         setList(response?.data?.data);
         setTotal(response?.data?.lenght);
+        sessionStorage.setItem('DepartmentCount', response?.data?.lenght);
       })
       .catch((error) => {
         console.log(error);

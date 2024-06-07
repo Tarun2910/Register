@@ -2,9 +2,10 @@
   "name": "crema-cra-4.0.0",
   "version": "4.0.0",
   "private": true,
+  "proxy": "http://3.7.32.64:9090",
   "scripts": {
     "start": "node --max-old-space-size=4096 node_modules/react-scripts/scripts/start.js",
-    "build": "react-scripts build",
+    "build": "node --max-old-space-size=4096 node_modules/react-scripts/scripts/build.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint \"src/**/*.+(js|jsx)\"",

@@ -2,9 +2,9 @@ export const pricingData = {
   pricingOne: [
     {
       id: 1,
-      tag: 'Basic',
+      tag: 'BASIC',
       tagColor: '#11C15B',
-      title: 'Basic',
+      title: 'BASIC',
       price: 69,
       pricingList: [
         {
@@ -35,10 +35,10 @@ export const pricingData = {
     },
     {
       id: 2,
-      tag: 'Pro',
+      tag: 'GOLD',
       tagColor: '#FF8B26',
-      title: 'Pro',
-      price: 349,
+      title: 'GOLD',
+      price: 129,
       popular: 'Chosen by 57% of customers',
       pricingList: [
         {
@@ -69,9 +69,9 @@ export const pricingData = {
     },
     {
       id: 3,
-      tag: 'Growth',
+      tag: 'PLATINUM',
       tagColor: '#00905F',
-      title: 'Growth',
+      title: 'PLATINUM',
       price: 149,
       pricingList: [
         {

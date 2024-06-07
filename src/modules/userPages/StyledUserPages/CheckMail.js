@@ -29,6 +29,7 @@ import {Link, useNavigate} from 'react-router-dom';
 import {useAuthMethod} from '@crema/hooks/AuthHooks';
 import axios from 'axios';
 import {Visibility, VisibilityOff} from '@mui/icons-material';
+import {toast} from 'react-toastify';
 
 const validationSchema = yup.object({
   email: yup
@@ -49,6 +50,29 @@ const CheckMail = () => {
 
   const togglePasswordVisibility = () => {
     setShowPassword((prevShowPassword) => !prevShowPassword);
+  };
+
+  const handleSendMailAgain = () => {
+    setLoading(true);
+    let config = {
+      method: 'post',
+      maxBodyLength: Infinity,
+      url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/public/sendTokenAgain`,
+      headers: {email: sessionStorage.getItem('username')},
+    };
+
+    axios
+      .request(config)
+      .then((response) => {
+        console.log(JSON.stringify(response.data));
+        setLoading(false);
+        toast.success('Mail send Successfully');
+      })
+      .catch((error) => {
+        setLoading(false);
+        toast.error(error?.response?.data?.error);
+        console.log(error);
+      });
   };
 
   return (
@@ -158,12 +182,10 @@ const CheckMail = () => {
                     width: 'auto',
                     height: 'auto',
                   }}
+                  onClick={handleSendMailAgain}
+                  disabled={loading}
                 >
-                  {loading ? (
-                    'Loading...'
-                  ) : (
-                    <IntlMessages id='common.sendagain' />
-                  )}
+                  <IntlMessages id='common.sendagain' />
                 </Button>
               </Box>
             </Grid>

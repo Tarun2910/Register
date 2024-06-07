@@ -7,6 +7,9 @@ const CheckMail = React.lazy(() =>
 const Verified = React.lazy(() =>
   import('../../../modules/userPages/StyledUserPages/Verified'),
 );
+const VerifiedForgetPass = React.lazy(() =>
+  import('../../../modules/userPages/StyledUserPages/VerifiedForgetpass'),
+);
 const SetPassword = React.lazy(() =>
   import('../../../modules/userPages/StyledUserPages/SetPassword'),
 );
@@ -14,6 +17,9 @@ const UserLogin = React.lazy(() => import('../../../modules/auth/Usersigin'));
 const Signup = React.lazy(() => import('../../../modules/auth/Signup'));
 const ForgotPassword = React.lazy(() =>
   import('../../../modules/auth/ForgetPassword'),
+);
+const ForgetPassword2 = React.lazy(() =>
+  import('../../../modules/userPages/StyledUserPages/ForgetPassword'),
 );
 const ConfirmSignupAwsCognito = React.lazy(() =>
   import('../../../modules/auth/Signup/ConfirmSignupAwsCognito'),
@@ -40,6 +46,10 @@ export const authRouteConfig = [
     element: <ForgotPassword />,
   },
   {
+    path: '/forgetpassword',
+    element: <ForgetPassword2 />,
+  },
+  {
     path: '/confirm-signup',
     element: <ConfirmSignupAwsCognito />,
   },
@@ -54,6 +64,10 @@ export const authRouteConfig = [
   {
     path: `/token/:token`,
     element: <Verified />,
+  },
+  {
+    path: `/reset-password/:token`,
+    element: <VerifiedForgetPass />,
   },
   {
     path: `/set-password/:token`,

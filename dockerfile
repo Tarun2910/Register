@@ -35,7 +35,7 @@ RUN yarn
 COPY . .
 
 # Build the application
-RUN yarn build
+RUN NODE_OPTIONS="--max-old-space-size=4096" yarn build
 
 # Step 2: Serve the application with Nginx
 FROM nginx:1.23-alpine

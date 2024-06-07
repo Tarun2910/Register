@@ -63,7 +63,7 @@ const SetPassword = () => {
     let config = {
       method: 'post',
       maxBodyLength: Infinity,
-      url: '/tenants/sendSetPasswordMail',
+      url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/public/sendSetPasswordMail`,
       headers: {token: token},
     };
 
@@ -193,7 +193,7 @@ const SetPassword = () => {
                     let config = {
                       method: 'post',
                       maxBodyLength: Infinity,
-                      url: '/tenants/setPassword',
+                      url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/public/setPassword`,
                       headers: {token: token, password: data.setpassword},
                     };
 

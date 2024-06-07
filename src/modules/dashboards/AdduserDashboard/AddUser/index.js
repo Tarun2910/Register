@@ -176,7 +176,7 @@ export const AddChapter = ({selectedProd}) => {
             let config = {
               method: 'post',
               maxBodyLength: Infinity,
-              url: '/tenants/users',
+              url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/users`,
               headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,

@@ -19,6 +19,7 @@ import AppLogo from '../../components/AppLogo';
 import {allowMultiLanguage} from '../../../../constants/AppConst';
 import {useAuthMethod} from '@crema/hooks/AuthHooks';
 import LogoutIcon from '@mui/icons-material/Logout';
+import ThemeModes from '@crema/components/AppThemeSetting/ThemeModes';
 
 const AppHeader = (props) => {
   const {isCollapsed, setCollapsed, toggleNavCollapsed} = props;
@@ -153,12 +154,17 @@ const AppHeader = (props) => {
               >
                 <AppMessages />
               </Box> */}
+
+              {/* {
+                <Box sx={{ml: 4}}>
+                  <ThemeModes iconOnly={true} tooltipPosition='bottom' />
+                </Box>
+              } */}
               <Box
                 sx={{
                   px: 1.85,
                 }}
               >
-                {/* <LogoutIcon onClick={logout} /> */}
                 <AppTooltip title='Logout' tooltipPosition='bottom'>
                   <IconButton
                     className='icon-btn'

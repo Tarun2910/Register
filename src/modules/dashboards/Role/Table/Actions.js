@@ -83,7 +83,7 @@ const OrderActions = ({
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: `/multitenant/adminportal/api/getUserNameSmart`,
+      url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/multitenant/adminportal/api/getUserNameSmart`,
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
@@ -109,7 +109,7 @@ const OrderActions = ({
     let config = {
       method: 'post',
       maxBodyLength: Infinity,
-      url: `/multitenant/adminportal/api/assignRoleLst`,
+      url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/multitenant/adminportal/api/assignRoleLst`,
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
@@ -134,7 +134,7 @@ const OrderActions = ({
     let config = {
       method: 'post',
       maxBodyLength: Infinity,
-      url: `/multitenant/adminportal/api/switchRole`,
+      url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/multitenant/adminportal/api/switchRole`,
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,

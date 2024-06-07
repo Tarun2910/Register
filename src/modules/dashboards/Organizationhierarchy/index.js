@@ -67,7 +67,7 @@ export const organizationhierarchy = ({selectedProd}) => {
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: `/tenants/users`,
+      url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/users`,
       headers: {
         Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
       },
@@ -91,7 +91,7 @@ export const organizationhierarchy = ({selectedProd}) => {
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: `/tenants/users/free`,
+      url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/users/free`,
       headers: {
         Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
       },
@@ -129,7 +129,7 @@ export const organizationhierarchy = ({selectedProd}) => {
     let config = {
       method: 'delete',
       maxBodyLength: Infinity,
-      url: '/tenants/hierarchy',
+      url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/hierarchy`,
       headers: {
         userId: id,
         'Content-Type': 'application/json',
@@ -257,7 +257,7 @@ export const organizationhierarchy = ({selectedProd}) => {
             let config = {
               method: 'post',
               maxBodyLength: Infinity,
-              url: '/tenants/hierarchy',
+              url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/hierarchy`,
               headers: {
                 userId: id,
                 'Content-Type': 'application/json',

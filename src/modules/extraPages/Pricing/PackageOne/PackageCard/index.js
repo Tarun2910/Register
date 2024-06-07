@@ -21,7 +21,7 @@ const PackageCard = ({pricing}) => {
     let config = {
       method: 'post',
       maxBodyLength: Infinity,
-      url: `http://localhost:8081/tenants/upgrade?tier=${pricing.tag.toLowerCase()}`,
+      url: `/tenants/upgrade?newTier=${pricing.tag.toUpperCase()}&appName=TeamSync`,
       headers: {
         Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
       },

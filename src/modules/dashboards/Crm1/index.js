@@ -72,7 +72,7 @@ const ProductListing = () => {
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: `/crm/api/roles/`,
+      url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/crm/api/roles/`,
 
       headers: {
         Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
@@ -153,7 +153,9 @@ const ProductListing = () => {
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: `/tenants/users?keyword=${searchQuery}&pageNum=${'0'}`,
+      url: `${
+        window.__ENV__.REACT_APP_MIDDLEWARE
+      }/tenants/users?keyword=${searchQuery}&pageNum=${'0'}`,
       headers: {
         Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
       },

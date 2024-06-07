@@ -9,7 +9,13 @@ import OrderActions from './Action';
 import EditIcon from '@mui/icons-material/Edit';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import {RiSplitCellsHorizontal} from 'react-icons/ri';
-import {FormControl, InputLabel, MenuItem, Select} from '@mui/material';
+import {
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  Tooltip,
+} from '@mui/material';
 
 const StyledTableCell = styled(TableCell)(() => ({
   fontSize: 14,
@@ -107,6 +113,14 @@ const TableItem = ({
       setList(newArr);
     }
   };
+  console.log(sessionStorage.getItem('licenceTierTeamsync'));
+  const disableStorage = () => {
+    if (sessionStorage.getItem('licenceTierTeamsync') === 'TRIAL') {
+      return true;
+    } else {
+      return false;
+    }
+  };
 
   return productData.map((data) => (
     <TableRow key={data.id} className='item-hover' sx={{height: '2rem'}}>
@@ -122,33 +136,38 @@ const TableItem = ({
           {ellipsisLines(data.userId)}
         </Box>
       </StyledTableCell>
-      <StyledTableCell align='left'>{data.deptDisplayUsername}</StyledTableCell>
+      {/* <StyledTableCell align='left'>{data.deptDisplayUsername}</StyledTableCell> */}
       <StyledTableCell align='left'>
         {' '}
-        <FormControl variant='outlined' style={{minWidth: 120}} size='small'>
-          <InputLabel>STORAGE</InputLabel>
-          <Select
-            label='STORAGE'
-            value={data?.allowedStorageInBytesDisplay}
-            onChange={(event) =>
-              handleChange(
-                data.id,
-                'allowedStorageInBytesDisplay',
-                event.target.value,
-              )
-            }
-          >
-            <MenuItem value='' disabled>
-              Select Storage
-            </MenuItem>
-            <MenuItem value='25 MB'>25 MB</MenuItem>
-            <MenuItem value='50 MB'>50 MB</MenuItem>
-            <MenuItem value='100 MB'>100 MB</MenuItem>
-            <MenuItem value='200 MB'>200 MB</MenuItem>
-            <MenuItem value='500 MB'>500 MB</MenuItem>
-            <MenuItem value='1 GB'>1 GB</MenuItem>
-          </Select>
-        </FormControl>
+        <Tooltip
+          title={disableStorage && `In free Tier You Can't Change the Storage`}
+        >
+          <FormControl variant='outlined' style={{minWidth: 120}} size='small'>
+            <InputLabel>STORAGE</InputLabel>
+            <Select
+              label='STORAGE'
+              value={data?.allowedStorageInBytesDisplay}
+              disabled={disableStorage}
+              onChange={(event) =>
+                handleChange(
+                  data.id,
+                  'allowedStorageInBytesDisplay',
+                  event.target.value,
+                )
+              }
+            >
+              <MenuItem value='' disabled>
+                Select Storage
+              </MenuItem>
+              <MenuItem value='25 MB'>25 MB</MenuItem>
+              <MenuItem value='50 MB'>50 MB</MenuItem>
+              <MenuItem value='100 MB'>100 MB</MenuItem>
+              <MenuItem value='200 MB'>200 MB</MenuItem>
+              <MenuItem value='500 MB'>500 MB</MenuItem>
+              <MenuItem value='1 GB'>1 GB</MenuItem>
+            </Select>
+          </FormControl>
+        </Tooltip>
       </StyledTableCell>
       <StyledTableCell align='left'>{data.displayStorage}</StyledTableCell>
       <StyledTableCell align='left'>

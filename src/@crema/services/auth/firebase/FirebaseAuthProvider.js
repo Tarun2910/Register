@@ -16,6 +16,7 @@ import {
 } from './firebase';
 import {defaultUser} from '@crema/constants/AppConst';
 import {useNavigate} from 'react-router-dom';
+import axios from 'axios';
 
 const FirebaseContext = createContext();
 const FirebaseActionsContext = createContext();
@@ -169,13 +170,31 @@ const FirebaseAuthProvider = ({
         isLoading: false,
         isAuthenticated: false,
       });
-      sessionStorage.removeItem('jwt_token');
-      sessionStorage.removeItem('roles');
-      sessionStorage.removeItem('sessionId');
-      localStorage.removeItem('refresh_token');
-      localStorage.removeItem('expires_in');
-      localStorage.removeItem('refresh_session');
-      sessionStorage.removeItem('re_intiate');
+      // let config = {
+      //   method: 'post',
+      //   maxBodyLength: Infinity,
+      //   url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants//logout`,
+      //   headers: {},
+      //   body: {},
+      // };
+
+      // axios
+      //   .request(config)
+      //   .then((response) => {
+      //     console.log(JSON.stringify(response.data));
+      //   })
+      //   .catch((error) => {
+      //     console.log(error);
+      //   });
+      // sessionStorage.removeItem('jwt_token');
+      // sessionStorage.removeItem('roles');
+      // sessionStorage.removeItem('sessionId');
+      // localStorage.removeItem('refresh_token');
+      // localStorage.removeItem('expires_in');
+      // localStorage.removeItem('refresh_session');
+      // sessionStorage.removeItem('re_intiate');
+      localStorage.clear();
+      sessionStorage.clear();
       naviagte('/signin');
     } catch (error) {
       setFirebaseData({

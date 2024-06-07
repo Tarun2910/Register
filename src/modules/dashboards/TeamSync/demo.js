@@ -79,7 +79,7 @@ const AdminSettings = () => {
     setIsLoading(true);
     try {
       const response = await Axios.get(
-        '/dms_service_LM/api/dms_admin_service/getUserData',
+        `${window.__ENV__.REACT_APP_MIDDLEWARE}/dms_service_LM/api/dms_admin_service/getUserData`,
         {
           headers: {
             Authorization: 'Bearer ' + sessionStorage.getItem('jwt_token'),
@@ -126,7 +126,7 @@ const AdminSettings = () => {
     setIsLoading(true);
     try {
       const response = await Axios.post(
-        '/dms_service_LM/api/dms_admin_service/setUserData',
+        `${window.__ENV__.REACT_APP_MIDDLEWARE}/dms_service_LM/api/dms_admin_service/setUserData`,
         usersData,
         {
           headers: {
@@ -193,7 +193,7 @@ const AdminSettings = () => {
   const getUsers = async (inputValue) => {
     try {
       const response = await Axios.get(
-        '/dms_service_LM/api/dms_admin_service/getUserSmrt',
+        `${window.__ENV__.REACT_APP_MIDDLEWARE}/dms_service_LM/api/dms_admin_service/getUserSmrt`,
         {
           headers: {
             Authorization: 'Bearer ' + sessionStorage.getItem('jwt_token'),

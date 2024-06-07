@@ -9,4 +9,5 @@ window.__ENV__ = {
   REACT_APP_THEME_MODE: 'light',
   REACT_APP_NAV_STYLE: 'mini-sidebar-onToggleSidebar',
   REACT_APP_LAYOUT_TYPE: 'full-width',
+  REACT_APP_MIDDLEWARE: '',
 };

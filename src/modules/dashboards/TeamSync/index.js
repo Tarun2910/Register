@@ -73,13 +73,13 @@ const ProductListing = () => {
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: `/dms_service_LM/api/dms_admin_service/getUserData`,
+      url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/dms_service_LM/api/dms_admin_service/getUserData`,
 
       headers: {
         Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
         pageSize: '10',
         pageNumber: page,
-        userName: sessionStorage.getItem('AdminName'),
+        userName: sessionStorage.getItem('username'),
         deptName: 'ALL_USER',
       },
     };
@@ -151,13 +151,13 @@ const ProductListing = () => {
     setLoading(true);
     try {
       const response = await axios.post(
-        '/dms_service_LM/api/dms_admin_service/setUserData',
+        `${window.__ENV__.REACT_APP_MIDDLEWARE}/dms_service_LM/api/dms_admin_service/setUserData`,
         list,
         {
           headers: {
             Authorization: 'Bearer ' + sessionStorage.getItem('jwt_token'),
-            username: sessionStorage.getItem('AdminName'),
-            deptName: sessionStorage.getItem('AdminName'),
+            username: sessionStorage.getItem('username'),
+            deptName: sessionStorage.getItem('username'),
             pageNumber: '0',
             pageSize: '10',
           },
@@ -200,7 +200,9 @@ const ProductListing = () => {
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: `/tenants/users?keyword=${searchQuery}&pageNum=${'0'}`,
+      url: `${
+        window.__ENV__.REACT_APP_MIDDLEWARE
+      }/tenants/users?keyword=${searchQuery}&pageNum=${'0'}`,
       headers: {
         Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
       },
