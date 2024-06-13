@@ -421,10 +421,12 @@ const ProductListing = () => {
   };
 
   const handletiername = () => {
-    if (licensetier === 'growth') {
-      return 20;
-    } else if (licensetier === 'pro') {
+    if (licensetier === 'PLATINUM') {
       return 30;
+    } else if (licensetier === 'GOLD') {
+      return 20;
+    } else if (licensetier === 'BASIC') {
+      return 10;
     } else {
       return 5;
     }
@@ -594,7 +596,7 @@ const ProductListing = () => {
                           className='add_user'
                           sx={{
                             color: blue[500],
-                            fontSize: 35,
+                            fontSize: 15,
                             cursor: 'pointer',
                           }}
                         />

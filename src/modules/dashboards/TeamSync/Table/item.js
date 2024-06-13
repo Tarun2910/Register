@@ -114,8 +114,9 @@ const TableItem = ({
     }
   };
   console.log(sessionStorage.getItem('licenceTierTeamsync'));
+  let disable = sessionStorage.getItem('licenceTierTeamsync');
   const disableStorage = () => {
-    if (sessionStorage.getItem('licenceTierTeamsync') === 'TRIAL') {
+    if (disable == 'TRIAL') {
       return true;
     } else {
       return false;
@@ -140,14 +141,16 @@ const TableItem = ({
       <StyledTableCell align='left'>
         {' '}
         <Tooltip
-          title={disableStorage && `In free Tier You Can't Change the Storage`}
+          title={
+            disable == 'TRIAL' && `In free Tier You Can't Change the Storage`
+          }
         >
           <FormControl variant='outlined' style={{minWidth: 120}} size='small'>
             <InputLabel>STORAGE</InputLabel>
             <Select
               label='STORAGE'
               value={data?.allowedStorageInBytesDisplay}
-              disabled={disableStorage}
+              disabled={disable == 'TRIAL'}
               onChange={(event) =>
                 handleChange(
                   data.id,

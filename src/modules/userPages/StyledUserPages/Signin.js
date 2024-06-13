@@ -175,6 +175,33 @@ const Signin = () => {
                     .request(config)
                     .then((response) => {
                       console.log(JSON.stringify(response.data));
+                      let config = {
+                        method: 'get',
+                        maxBodyLength: Infinity,
+                        url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/info`,
+                        headers: {
+                          Authorization: `Bearer ${response.data.access_token}`,
+                        },
+                      };
+
+                      axios
+                        .request(config)
+                        .then((response) => {
+                          console.log(
+                            JSON.stringify(response.data, 'aftersignin'),
+                          );
+                          sessionStorage.setItem(
+                            'AdminName',
+                            response.data.adminName,
+                          );
+                          sessionStorage.setItem(
+                            'licenceTierTeamsync',
+                            response.data.licenseTier.TeamSync,
+                          );
+                        })
+                        .catch((error) => {
+                          console.log(error);
+                        });
                       axios
                         .get(
                           '/multitenant/adminportal/api/deptAndRolesForTenant',
@@ -193,36 +220,6 @@ const Signin = () => {
                             departmentCount,
                           );
                           sessionStorage.setItem('RoleCount', roleCount);
-
-                          let config = {
-                            method: 'get',
-                            maxBodyLength: Infinity,
-                            url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/info`,
-                            headers: {
-                              Authorization: `Bearer ${sessionStorage.getItem(
-                                'jwt_token',
-                              )}`,
-                            },
-                          };
-
-                          axios
-                            .request(config)
-                            .then((response) => {
-                              console.log(
-                                JSON.stringify(response.data, 'aftersignin'),
-                              );
-                              sessionStorage.setItem(
-                                'AdminName',
-                                response.data.adminName,
-                              );
-                              sessionStorage.setItem(
-                                'licenceTierTeamsync',
-                                response.data.licenseTier.TeamSync,
-                              );
-                            })
-                            .catch((error) => {
-                              console.log(error);
-                            });
                         })
                         .catch((error) => {
                           console.error(

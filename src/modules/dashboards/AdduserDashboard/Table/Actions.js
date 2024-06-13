@@ -58,11 +58,14 @@ const OrderActions = ({id, setTotal, setList, list}) => {
         onClose={handleClose}
         TransitionComponent={Fade}
       >
-        <MenuItem
+        {/* <MenuItem
           style={{fontSize: 14}}
           onClick={() => navigate(`/hierarchy/${id}`)}
         >
           Add and View Subordinates
+        </MenuItem> */}
+        <MenuItem style={{fontSize: 14}} onClick={() => navigate(`/roles`)}>
+          Assign Role
         </MenuItem>
         {/* <MenuItem
           style={{fontSize: 14}}
