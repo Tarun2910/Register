@@ -179,6 +179,10 @@ const ProductListing = () => {
       .then((response) => {
         console.log(JSON.stringify(response.data));
         sessionStorage.setItem('AdminName', response.data.adminName);
+        sessionStorage.setItem(
+          'licenceTierTeamsync',
+          response.data.licenseTier.TeamSync,
+        );
         setLicense(response?.data?.usersRemaining);
         setLicenseTier(response?.data?.licenseTier);
       })

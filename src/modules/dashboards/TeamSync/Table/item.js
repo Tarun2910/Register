@@ -96,7 +96,7 @@ const TableItem = ({
       let totalBytes;
       let valueArr = newValue?.split(' ');
       if (valueArr[1] === 'GB') {
-        totalBytes = 1073741824;
+        totalBytes = parseFloat(valueArr[0]) * 1024 * 1024 * 1024;
       } else {
         totalBytes = valueArr[0] * 1024 * 1024;
       }
@@ -162,12 +162,16 @@ const TableItem = ({
               <MenuItem value='' disabled>
                 Select Storage
               </MenuItem>
-              <MenuItem value='25 MB'>25 MB</MenuItem>
-              <MenuItem value='50 MB'>50 MB</MenuItem>
-              <MenuItem value='100 MB'>100 MB</MenuItem>
-              <MenuItem value='200 MB'>200 MB</MenuItem>
-              <MenuItem value='500 MB'>500 MB</MenuItem>
-              <MenuItem value='1 GB'>1 GB</MenuItem>
+              <MenuItem value='200.00 MB'>200 MB</MenuItem>
+              <MenuItem value='400.00 MB'>400 MB</MenuItem>
+              <MenuItem value='600.00 MB'>600 MB</MenuItem>
+              <MenuItem value='800.00 MB'>800 MB</MenuItem>
+              <MenuItem value='1.00 GB'>1 GB</MenuItem>
+              <MenuItem value='1.20 GB'>1.2 GB</MenuItem>
+              <MenuItem value='1.40 GB'>1.4 GB</MenuItem>
+              <MenuItem value='1.60 GB'>1.6 GB</MenuItem>
+              <MenuItem value='1.80 GB'>1.8 GB</MenuItem>
+              <MenuItem value='2.00 GB'>2 GB</MenuItem>
             </Select>
           </FormControl>
         </Tooltip>

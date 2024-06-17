@@ -83,15 +83,17 @@ const ProductListing = () => {
         deptName: 'ALL_USER',
       },
     };
-
+    setLoading(true);
     axios
       .request(config)
       .then((response) => {
+        setLoading(false);
         console.log(response.data);
         setList(response?.data?.data);
         setTotal(response?.data?.count);
       })
       .catch((error) => {
+        setLoading(false);
         console.log(error);
       });
   }, [page]);

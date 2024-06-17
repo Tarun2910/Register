@@ -170,29 +170,27 @@ const FirebaseAuthProvider = ({
         isLoading: false,
         isAuthenticated: false,
       });
+      // let formData = new FormData();
+      // formData.append('refresh_token', sessionStorage.getItem('refresh_token'));
       // let config = {
       //   method: 'post',
       //   maxBodyLength: Infinity,
       //   url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants//logout`,
       //   headers: {},
-      //   body: {},
+      //   body: {formData},
       // };
 
       // axios
       //   .request(config)
       //   .then((response) => {
       //     console.log(JSON.stringify(response.data));
+      //     localStorage.clear();
+      //     sessionStorage.clear();
+      //     naviagte('/signin');
       //   })
       //   .catch((error) => {
       //     console.log(error);
       //   });
-      // sessionStorage.removeItem('jwt_token');
-      // sessionStorage.removeItem('roles');
-      // sessionStorage.removeItem('sessionId');
-      // localStorage.removeItem('refresh_token');
-      // localStorage.removeItem('expires_in');
-      // localStorage.removeItem('refresh_session');
-      // sessionStorage.removeItem('re_intiate');
       localStorage.clear();
       sessionStorage.clear();
       naviagte('/signin');

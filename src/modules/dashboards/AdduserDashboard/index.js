@@ -79,6 +79,8 @@ const ProductListing = () => {
   const [product, setProduct] = useState(10);
   const [applicationName, setApplicationName] = useState('TeamSync');
 
+  sessionStorage.setItem('appName', applicationName);
+
   const handleChange = (event) => {
     setProduct(event.target.value);
     switch (event.target.value) {
@@ -190,6 +192,10 @@ const ProductListing = () => {
       .then((response) => {
         console.log(JSON.stringify(response.data));
         sessionStorage.setItem('AdminName', response.data.adminName);
+        sessionStorage.setItem(
+          'licenceTierTeamsync',
+          response.data.licenseTier.TeamSync,
+        );
         const applicationuserRemaining =
           response?.data?.usersRemaining[applicationName];
         setLicense(applicationuserRemaining || '');
@@ -219,15 +225,17 @@ const ProductListing = () => {
         appName: applicationName,
       },
     };
-
+    setLoading(true);
     axios
       .request(config)
       .then((response) => {
+        setLoading(false);
         console.log(JSON.stringify(response.data));
         setList(response?.data?.content);
         setTotal(response?.data?.totalElements);
       })
       .catch((error) => {
+        setLoading(false);
         console.log(error);
       });
   }, [page, product, applicationName]);
@@ -348,10 +356,11 @@ const ProductListing = () => {
       },
       data: updatedItemsState,
     };
-
+    setLoading(true);
     axios
       .request(config)
       .then((response) => {
+        setLoading(false);
         console.log(JSON.stringify(response.data));
         // const RemainingUsers = response.headers['usersRemaining'];
         const applicationuserRemaining =
@@ -363,6 +372,7 @@ const ProductListing = () => {
         setItemsState([]);
       })
       .catch((error) => {
+        setLoading(false);
         console.log(error);
       });
   };
@@ -570,7 +580,7 @@ const ProductListing = () => {
                       alignItems='center'
                       justifyContent='flex-end'
                     >
-                      <Button
+                      {/* <Button
                         sx={{marginRight: '10px'}}
                         color='primary'
                         variant='contained'
@@ -578,7 +588,7 @@ const ProductListing = () => {
                         onClick={handleopenDomain}
                       >
                         Add domain
-                      </Button>
+                      </Button> */}
                       <Button
                         sx={{marginRight: '10px'}}
                         color='primary'
@@ -596,7 +606,7 @@ const ProductListing = () => {
                           className='add_user'
                           sx={{
                             color: blue[500],
-                            fontSize: 15,
+                            fontSize: 35,
                             cursor: 'pointer',
                           }}
                         />

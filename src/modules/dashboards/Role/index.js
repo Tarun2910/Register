@@ -120,16 +120,18 @@ const ProductListing = () => {
       },
       data: {filter: null},
     };
-
+    setLoading(true);
     axios
       .request(config)
       .then((response) => {
+        setLoading(false);
         console.log(response.data);
         setList(response?.data?.data);
         setTotal(response?.data?.lenght);
         sessionStorage.setItem('RoleCount', response?.data?.lenght);
       })
       .catch((error) => {
+        setLoading(false);
         console.log(error);
       });
   }, [page, triggerApi]);

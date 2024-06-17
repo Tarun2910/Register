@@ -233,6 +233,10 @@ const Signin = () => {
                         'jwt_token',
                         response.data.access_token,
                       );
+                      sessionStorage.setItem(
+                        'refresh_token',
+                        response.data.refresh_token,
+                      );
 
                       navigate('/department');
                     })
