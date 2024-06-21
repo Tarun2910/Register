@@ -330,6 +330,10 @@ const ProductListing = () => {
                   </Box>
                 </AppsHeader>
               }
+              sx={{
+                minHeight: 'calc(100vh - 168px)',
+                height: '100px',
+              }}
               headerStyle={{p: 0}}
               contentStyle={{p: 0}}
             >

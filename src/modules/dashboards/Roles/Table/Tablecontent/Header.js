@@ -5,7 +5,7 @@ import TableHeader from '@crema/components/AppTable/TableHeader';
 const TableHeading = () => {
   return (
     <TableHeader>
-      <TableCell>Display Username</TableCell>
+      {/* <TableCell>Display Username</TableCell> */}
       <TableCell align='left'>Roles</TableCell>
       <TableCell align='left'>Assign User</TableCell>
       <TableCell align='left'>Action</TableCell>

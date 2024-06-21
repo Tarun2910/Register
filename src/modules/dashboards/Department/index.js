@@ -11,6 +11,9 @@ import {
   Hidden,
   Tooltip,
   Paper,
+  Divider,
+  IconButton,
+  TextField,
 } from '@mui/material';
 import React, {useEffect, useState} from 'react';
 import {useIntl} from 'react-intl';
@@ -27,10 +30,10 @@ import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
 import {blue} from '@mui/material/colors';
 import {useNavigate} from 'react-router-dom';
 import CustomizedBreadcrumbs from 'modules/muiComponents/navigation/Breadcrumbs/CustomizedBreadcrumbs';
-
-import Draggable from 'react-draggable';
+import CloseIcon from '@mui/icons-material/Close';
 
 import {debounce} from 'lodash';
+import {toast} from 'react-toastify';
 
 const ProductListing = () => {
   const {messages} = useIntl();
@@ -47,16 +50,26 @@ const ProductListing = () => {
   const [tableData, setTableData] = useState([]);
   const [itemsState, setItemsState] = useState([]);
   const [open, setOpen] = useState(false);
+  const [opendept, setOpenDept] = useState(false);
   const [selectedIds, setSelectedIds] = useState([]);
   const [isAllSelected, setIsAllSelected] = useState(false);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+  const [deptname, setdeptName] = useState('');
+  const [deptdisplayname, setdeptDisplayName] = useState('');
+  const [branch, setbranchCity] = useState('');
+  const [triggerApi, setTriggerApi] = useState(false);
+  const [searchData, setSearchData] = useState('');
+  const [isedit, setIsEdit] = useState(false);
+  const [rowData, setRowData] = useState('');
+  const [selectedDeptId, setSelectedDeptId] = useState(null);
 
   const handleClose = () => {
     setOpen(false);
   };
+
+  const debouncedSearch = debounce((searchQuery) => {
+    setSearchData(searchQuery);
+    setPage(0); // Reset page when performing a new search
+  }, 500);
 
   const activeUsersCount = updatedItemsState.filter(
     (item) => item.active === true,
@@ -70,9 +83,9 @@ const ProductListing = () => {
   useEffect(() => {
     setLoading(true);
     let config = {
-      method: 'post',
+      method: 'get',
       maxBodyLength: Infinity,
-      url: `/multitenant/adminportal/api/getAllDept`,
+      url: `/tenants/departments?search=${searchData}`,
 
       headers: {
         Accept: 'application/json',
@@ -82,88 +95,58 @@ const ProductListing = () => {
         pageNumber: page,
         userName: sessionStorage.getItem('username'),
       },
-      data: {filter: null},
     };
 
     axios
       .request(config)
       .then((response) => {
-        console.log(response.data);
         setLoading(false);
-        setList(response?.data?.data);
-        setTotal(response?.data?.lenght);
-        sessionStorage.setItem('DepartmentCount', response?.data?.lenght);
+        setList(response?.data?.content);
+        setTotal(response?.data?.totalElements);
+        sessionStorage.setItem(
+          'DepartmentCount',
+          response?.data?.totalElements,
+        );
       })
       .catch((error) => {
         console.log(error);
         setLoading(false);
       });
-  }, [page]);
-
-  // const searchProduct = (title) => {
-  //   setFilterData({...filterData, title});
-  // };
+  }, [page, triggerApi, searchData]);
 
   const HandleNavigate = () => {
     Navigate('/add-department');
   };
 
-  // const handlesaveChanges = () => {
-  //   // Check if remaining license is less than the count of active users
-  //   const activeUsersCount = updatedItemsState.filter(
-  //     (item) => item.active === true,
-  //   ).length;
-
-  //   const inactiveUsersCount = updatedItemsState.filter(
-  //     (item) => item.active === false,
-  //   ).length;
-
-  //   const TotalLength = activeUsersCount - inactiveUsersCount;
-
-  //   console.log(TotalLength, license, 'activeuserCount');
-
-  //   if (license < TotalLength) {
-  //     handleClickOpen();
-  //   }
-  //   let config = {
-  //     method: 'post',
-  //     maxBodyLength: Infinity,
-  //     url: '/tenants/users/status',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //       Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
-  //     },
-  //     data: updatedItemsState,
-  //   };
-
-  //   axios
-  //     .request(config)
-  //     .then((response) => {
-  //       console.log(JSON.stringify(response.data));
-  //       // const RemainingUsers = response.headers['usersRemaining'];
-  //       setLicense(response?.data?.usersRemaining);
-  //       setList(response?.data?.allUsers?.content);
-  //       setTotal(response?.data?.allUsers?.totalElements);
-  //       setItemsState([]);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // };
-
   const navigatetoUpgrade = () => {
     Navigate('/upgrade');
   };
 
-  const searchData = (searchQuery) => {
-    setLoading(true);
+  const handleopenDept = () => {
+    setOpenDept(true);
+    setIsEdit(false);
+  };
+
+  const handlecloseDept = () => {
+    setOpenDept(false);
+    setIsEdit(false);
+  };
+
+  const handleCreateDept = () => {
     let config = {
-      method: 'get',
+      method: 'post',
       maxBodyLength: Infinity,
-      url: `/tenants/users?keyword=${searchQuery}&pageNum=${'0'}`,
+      url: `/tenants/departments`,
       headers: {
         Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
       },
+      data: [
+        {
+          deptName: deptname,
+          deptDisplayName: deptdisplayname,
+          branchCity: branch,
+        },
+      ],
     };
 
     axios
@@ -171,41 +154,58 @@ const ProductListing = () => {
       .then((response) => {
         setLoading(false);
         console.log(JSON.stringify(response.data));
-        setList(response?.data?.content);
-        setTotal(response?.data?.totalElements);
+        setTriggerApi((prevState) => !prevState);
+        handlecloseDept();
+        toast.success('Department Created successfully!');
       })
       .catch((error) => {
         console.log(error);
         setLoading(false);
+        handlecloseDept();
+        toast.error(error?.response?.data?.error);
       });
   };
 
-  // const handlegotoupgrade = () => {
-  //   Navigate('/upgrade');
-  // };
+  const updateDepartment = () => {
+    setOpenDept(true);
+    setIsEdit(true);
+  };
+  const handleupdate = () => {
+    const config = {
+      method: 'put',
+      url: `/tenants/departments`,
+      headers: {
+        Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
+      },
+      data: {
+        deptName: deptname,
+        deptDisplayName: deptdisplayname,
+        branchCity: branch,
+        tenantId: rowData.tenantId,
+        id: rowData.id,
+      },
+    };
 
-  // const handletiername = () => {
-  //   if (licensetier === 'growth') {
-  //     return 20;
-  //   } else if (licensetier === 'pro') {
-  //     return 30;
-  //   } else {
-  //     return 5;
-  //   }
-  // };
-
-  // const handleAddDomain = () => {
-  //   console.log('clicked');
-  // };
-
-  // const handleopenDomain = () => {
-  //   setOpenDomain(true);
-  // };
-
-  // const handlecloseDomain = () => {
-  //   setOpenDomain(false);
-  // };
-
+    axios
+      .request(config)
+      .then((response) => {
+        setLoading(false);
+        setTriggerApi((prev) => !prev);
+        handlecloseDept();
+        toast.success('Department Updated successfully!');
+      })
+      .catch((error) => {
+        setLoading(false);
+        handlecloseDept();
+        toast.error(
+          error?.response?.data?.error || 'Failed to update department',
+        );
+      });
+  };
+  const handlesubmit = (e) => {
+    e.preventDefault();
+    isedit ? handleupdate() : handleCreateDept();
+  };
   return (
     <>
       {/* <div style={{marginBottom: '1rem'}}>
@@ -246,7 +246,7 @@ const ProductListing = () => {
                     <AppSearchBar
                       iconPosition='right'
                       overlap={false}
-                      onChange={(event) => searchData(event.target.value)}
+                      onChange={(event) => debouncedSearch(event.target.value)}
                       placeholder={messages['common.searchHere']}
                     />
                     <Box
@@ -255,27 +255,7 @@ const ProductListing = () => {
                       alignItems='center'
                       justifyContent='flex-end'
                     >
-                      {/* <Button
-                        sx={{marginRight: '10px'}}
-                        color='primary'
-                        variant='contained'
-                        size='small'
-                        onClick={handleopenDomain}
-                      >
-                        Add domain
-                      </Button>
-                      <Button
-                        sx={{marginRight: '10px'}}
-                        color='primary'
-                        variant='contained'
-                        size='small'
-                        onClick={handlesaveChanges}
-                        disabled={disable}
-                      >
-                        Save Changes
-                      </Button> */}
-
-                      <Tooltip title='ADD Department' onClick={HandleNavigate}>
+                      <Tooltip title='ADD Department' onClick={handleopenDept}>
                         <AddCircleRoundedIcon
                           sx={{
                             color: blue[500],
@@ -323,6 +303,13 @@ const ProductListing = () => {
                   selectedIds={selectedIds}
                   isAllSelected={isAllSelected}
                   setIsAllSelected={setIsAllSelected}
+                  setIsEdit={setIsEdit}
+                  updateDepartment={updateDepartment}
+                  setSelectedDeptId={setSelectedDeptId}
+                  setdeptName={setdeptName}
+                  setdeptDisplayName={setdeptDisplayName}
+                  setbranchCity={setbranchCity}
+                  setRowData={setRowData}
                 />
               </AppsContent>
               <Hidden smUp>
@@ -359,22 +346,17 @@ const ProductListing = () => {
         </DialogActions>
       </Dialog>
 
-      {/* <Dialog
-        open={opendomain}
+      <Dialog
+        open={opendept}
         keepMounted
-        aria-labelledby='draggable-dialog-title'
-        PaperComponent={PaperComponent}
+        aria-describedby='alert-dialog-slide-description'
         maxWidth='md'
         fullWidth={true}
       >
-        <DialogTitle
-          style={{cursor: 'move', fontSize: '15px'}}
-          id='draggable-dialog-title'
-          className='dialofAction'
-        >
+        <DialogTitle sx={{fontSize: '16px'}}>
           <Tooltip title='CLOSE'>
             <IconButton
-              onClick={handlecloseDomain}
+              onClick={handlecloseDept}
               aria-label='close'
               style={{
                 position: 'absolute',
@@ -385,34 +367,74 @@ const ProductListing = () => {
               <CloseIcon />
             </IconButton>
           </Tooltip>
-          ADD DOMAIN
+          {isedit ? 'EDIT DEPARTMENT' : 'CREATE DEPARTMENT'}
         </DialogTitle>
         <Divider />
-        <DialogContent>
-          <DialogContentText id='alert-dialog-slide-description'>
-            <AddDomain
-              setLoading={setLoading}
-              setDomainStatus={setDomainStatus}
-              setDomain={setDomain}
-              loading={loading}
-              domain={domain}
-              domainStatus={domainStatus}
-            />
-          </DialogContentText>
-        </DialogContent>
-        <Divider />
-        <DialogActions>
-          <Button onClick={handlecloseDomain}>Cancel</Button>
-          <Button
-            variant='contained'
-            color='primary'
-            disabled={loading || domainStatus === 'unavailable'}
-            onClick={handlecloseDomain}
-          >
-            Save
-          </Button>
-        </DialogActions>
-      </Dialog> */}
+        <form onSubmit={handlesubmit}>
+          <DialogContent>
+            <DialogContentText id='alert-dialog-slide-description'>
+              <Grid item xs={12} sm={12}>
+                {' '}
+                <TextField
+                  variant='outlined'
+                  value={deptname}
+                  placeholder='Enter your department'
+                  sx={{
+                    width: '100%',
+                    my: 2,
+                  }}
+                  onChange={(event) => {
+                    const {value} = event.target;
+                    setdeptName(value);
+                  }}
+                  label={'Department Name'}
+                />
+              </Grid>
+              <Grid item xs={12} sm={12}>
+                {' '}
+                <TextField
+                  variant='outlined'
+                  value={deptdisplayname}
+                  placeholder='Enter your displayName'
+                  sx={{
+                    width: '100%',
+                    my: 2,
+                  }}
+                  onChange={(event) => {
+                    const {value} = event.target;
+                    setdeptDisplayName(value);
+                  }}
+                  label={'Department Displayname'}
+                />
+              </Grid>
+              <Grid item xs={12} sm={12}>
+                {' '}
+                <TextField
+                  variant='outlined'
+                  value={branch}
+                  placeholder='Enter your Branch'
+                  sx={{
+                    width: '100%',
+                    my: 2,
+                  }}
+                  onChange={(event) => {
+                    const {value} = event.target;
+                    setbranchCity(value);
+                  }}
+                  label={'Branch'}
+                />
+              </Grid>
+            </DialogContentText>
+          </DialogContent>
+          <Divider />
+          <DialogActions>
+            <Button onClick={handlecloseDept}>Cancel</Button>
+            <Button variant='contained' color='primary' type='submit'>
+              {isedit ? 'Update' : 'Save'}
+            </Button>
+          </DialogActions>
+        </form>
+      </Dialog>
     </>
   );
 };

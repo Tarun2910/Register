@@ -33,6 +33,7 @@ export const organizationhierarchy = ({selectedProd}) => {
   const [selectedCreator, setSelectedCreator] = useState([]);
   const [selectedCoordinator, setSelectedCoordinator] = useState('');
   const [uploadedFiles, setUploadedFiles] = useState([]);
+  const [searchData, setSearchData] = useState('');
   const infoViewActionsContext = useInfoViewActionsContext();
   const navigate = useNavigate();
   const [productInfo, setProductInfo] = React.useState([
@@ -77,9 +78,9 @@ export const organizationhierarchy = ({selectedProd}) => {
 
   useEffect(() => {
     let config = {
-      method: 'post',
+      method: 'get',
       maxBodyLength: Infinity,
-      url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/multitenant/adminportal/api/getAllRoleDept`,
+      url: `/tenants/departments/${deptName}/roles?search=${searchData}`,
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json; charset=utf8',
@@ -89,7 +90,6 @@ export const organizationhierarchy = ({selectedProd}) => {
         deptName: deptName,
         Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
       },
-      data: {filter: null},
     };
 
     axios
@@ -97,36 +97,36 @@ export const organizationhierarchy = ({selectedProd}) => {
       .then((response) => {
         console.log(JSON.stringify(response.data));
 
-        setList(response.data.data);
+        setList(response?.data?.content);
       })
       .catch((error) => {
         console.log(error);
       });
-  }, [triggerApi]);
+  }, [triggerApi, searchData]);
 
-  useEffect(() => {
-    let config = {
-      method: 'get',
-      maxBodyLength: Infinity,
-      url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/users/free`,
-      headers: {
-        Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
-      },
-    };
+  // useEffect(() => {
+  //   let config = {
+  //     method: 'get',
+  //     maxBodyLength: Infinity,
+  //     url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/users/free`,
+  //     headers: {
+  //       Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
+  //     },
+  //   };
 
-    axios
-      .request(config)
-      .then((response) => {
-        console.log(JSON.stringify(response.data));
-        const filteredList = response.data.filter(
-          (user) => user.name !== AdmName,
-        );
-        setShowUser(filteredList);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, [triggerApi]);
+  //   axios
+  //     .request(config)
+  //     .then((response) => {
+  //       console.log(JSON.stringify(response.data));
+  //       const filteredList = response.data.filter(
+  //         (user) => user.name !== AdmName,
+  //       );
+  //       setShowUser(filteredList);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // }, [triggerApi]);
 
   const Tags = selectedTags.map((item) => {
     return item.name;
@@ -182,8 +182,8 @@ export const organizationhierarchy = ({selectedProd}) => {
         <span>
           <CustomizedBreadcrumbs
             label='Add Roles'
-            link={`/roles/${id}`}
-            showComponentName={window.location.pathname === `/roles/${id}`}
+            link={`/role/${id}`}
+            showComponentName={window.location.pathname === `/role/${id}`}
           />
         </span>
       </Box>
@@ -271,7 +271,7 @@ export const organizationhierarchy = ({selectedProd}) => {
             let config = {
               method: 'post',
               maxBodyLength: Infinity,
-              url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/multitenant/adminportal/api/createRoles`,
+              url: `/tenants/departments/${deptName}/roles`,
               headers: {
                 userId: id,
                 'Content-Type': 'application/json',
@@ -324,6 +324,8 @@ export const organizationhierarchy = ({selectedProd}) => {
               setList={setList}
               setTriggerApi={setTriggerApi}
               handleDeleteSubordinate={handleDeleteSubordinate}
+              deptName={deptName}
+              setSearchData={setSearchData}
             />
             {/* </AppGridContainer> */}
           </Form>

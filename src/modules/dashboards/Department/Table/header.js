@@ -6,9 +6,8 @@ const TableHeading = () => {
   return (
     <TableHeader>
       <TableCell>Department</TableCell>
-      <TableCell align='left'>Display Username</TableCell>
+      <TableCell align='left'>Display Name</TableCell>
       <TableCell align='left'>Branch</TableCell>
-      <TableCell align='left'>CAU</TableCell>
       <TableCell align='left'></TableCell>
     </TableHeader>
   );

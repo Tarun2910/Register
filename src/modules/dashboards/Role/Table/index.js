@@ -18,6 +18,10 @@ const ProductTable = ({
   setItemsState,
   itemsState,
   setTriggerApi,
+  updateRole,
+  setRoleName,
+  setRoleDisplayName,
+  setRowData,
 }) => {
   return (
     <AppTableContainer>
@@ -40,6 +44,10 @@ const ProductTable = ({
               setItemsState={setItemsState}
               itemsState={itemsState}
               setTriggerApi={setTriggerApi}
+              updateRole={updateRole}
+              setRoleName={setRoleName}
+              setRoleDisplayName={setRoleDisplayName}
+              setRowData={setRowData}
             />
             // ))
           )}
@@ -65,4 +73,8 @@ ProductTable.propTypes = {
   setItemsState: PropTypes.any,
   itemsState: PropTypes.any,
   setTriggerApi: PropTypes.any,
+  updateRole: PropTypes.any,
+  setRoleName: PropTypes.any,
+  setRoleDisplayName: PropTypes.any,
+  setRowData: PropTypes.any,
 };

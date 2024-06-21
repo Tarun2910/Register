@@ -1,5 +1,5 @@
 import React from 'react';
-import AppCard from '@crema/components/AppCard';
+import AppCard from '@crema/components/AppCardOne';
 import PropTypes from 'prop-types';
 import StatGraphs from './StatGraphs';
 import {useIntl} from 'react-intl';

@@ -87,29 +87,29 @@ export const organizationhierarchy = ({selectedProd}) => {
       });
   }, [triggerApi]);
 
-  useEffect(() => {
-    let config = {
-      method: 'get',
-      maxBodyLength: Infinity,
-      url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/users/free`,
-      headers: {
-        Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
-      },
-    };
+  // useEffect(() => {
+  //   let config = {
+  //     method: 'get',
+  //     maxBodyLength: Infinity,
+  //     url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/users/free`,
+  //     headers: {
+  //       Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
+  //     },
+  //   };
 
-    axios
-      .request(config)
-      .then((response) => {
-        console.log(JSON.stringify(response.data));
-        const filteredList = response.data.filter(
-          (user) => user.name !== AdmName,
-        );
-        setShowUser(filteredList);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, [triggerApi]);
+  //   axios
+  //     .request(config)
+  //     .then((response) => {
+  //       console.log(JSON.stringify(response.data));
+  //       const filteredList = response.data.filter(
+  //         (user) => user.name !== AdmName,
+  //       );
+  //       setShowUser(filteredList);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // }, [triggerApi]);
 
   const Admin = selectedAdmin.map((item) => {
     return item.id;

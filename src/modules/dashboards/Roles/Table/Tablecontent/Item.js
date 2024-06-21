@@ -40,13 +40,15 @@ const TableItem = ({
   setItemsState,
   handleDeleteSubordinate,
   setTriggerApi,
+  deptName,
 }) => {
   // const [itemsState, setItemsState] = useState([]);
-  const [opendialog, setOpenDialog] = React.useState(false);
+  const [opendialogassign, setOpenDialogAssign] = React.useState(false);
   const [user, setUser] = React.useState('');
   const [selecteduser, setselectedUser] = React.useState(null);
   const [roleName, setRoleName] = React.useState(null);
   const [Isuserassigned, setIsuserAssigned] = React.useState(null);
+  const [roleid, setRoleId] = React.useState('');
 
   useEffect(() => {
     // Initialize itemsState with default values from productData
@@ -101,25 +103,23 @@ const TableItem = ({
   console.log(itemsState, 'itemsState');
 
   const handleCloseDialog = () => {
-    setOpenDialog(false);
+    setOpenDialogAssign(false);
   };
 
   const handleOpenDialog = (data) => {
-    setOpenDialog(true);
+    setOpenDialogAssign(true);
     setRoleName(data?.roleName);
-    setIsuserAssigned(data?.userDetails?.deptUsername);
+    setIsuserAssigned(data?.user?.name);
+    setRoleId(data?.id);
 
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: `/multitenant/adminportal/api/getUserNameSmart`,
+      url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/users?pageNum=${0}`,
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
-        DeptName: 'ALL_USER',
-        patternString: '',
-        userName: '',
-        userRole: '',
+        appName: 'TeamSync',
       },
     };
 
@@ -127,7 +127,7 @@ const TableItem = ({
       .request(config)
       .then((response) => {
         console.log(response, 'response');
-        setUser(response?.data?.data);
+        setUser(response?.data?.content);
       })
       .catch((error) => {
         toast.error(error.message);
@@ -136,14 +136,19 @@ const TableItem = ({
 
   const handleAssignUser = () => {
     let config = {
-      method: 'post',
+      method: 'put',
       maxBodyLength: Infinity,
-      url: `/multitenant/adminportal/api/assignRoleLst`,
+      url: `/tenants/departments/${deptName}/roles`,
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
       },
-      data: [{roleName: roleName, userName: selecteduser?.deptUsername}],
+      data: [
+        {
+          id: roleid,
+          user: {email: selecteduser.email},
+        },
+      ],
     };
 
     axios
@@ -187,7 +192,7 @@ const TableItem = ({
   return productData.map((data) => (
     <>
       <TableRow key={data.id} className='item-hover' style={{height: '4rem'}}>
-        <StyledTableCell align='left' sx={{width: 400}}>
+        {/* <StyledTableCell align='left' sx={{width: 400}}>
           <Box
             sx={{
               display: 'flex',
@@ -198,19 +203,15 @@ const TableItem = ({
           >
             {ellipsisLines(data.displayRoleName)}
           </Box>
-        </StyledTableCell>
+        </StyledTableCell> */}
         <StyledTableCell align='left'>{data.roleName}</StyledTableCell>
         <StyledTableCell align='left'>
-          {data?.userDetails?.deptUsername || 'User not Assigned Yet'}
+          {data?.user?.name || 'User not Assigned Yet'}
         </StyledTableCell>
 
         <StyledTableCell align='left' onClick={() => handleOpenDialog(data)}>
-          <Tooltip
-            title={
-              data?.userDetails?.deptUsername ? 'Switch User' : 'Assign User'
-            }
-          >
-            {data?.userDetails?.deptUsername ? (
+          <Tooltip title={data?.user?.name ? 'Switch User' : 'Assign User'}>
+            {data?.user?.name ? (
               <FlipCameraAndroidIcon style={{cursor: 'pointer'}} />
             ) : (
               <PersonAddOutlinedIcon style={{cursor: 'pointer'}} />
@@ -229,7 +230,7 @@ const TableItem = ({
             // paddingRight: 0,
           },
         }}
-        open={opendialog}
+        open={opendialogassign}
       >
         <DialogTitle
           sx={{
@@ -270,7 +271,7 @@ const TableItem = ({
           <Autocomplete
             id='tags-outlined'
             options={user}
-            getOptionLabel={(option) => option.deptDisplayUsername}
+            getOptionLabel={(option) => option.name}
             value={selecteduser}
             onChange={(event, value) => setselectedUser(value)}
             filterSelectedOptions
@@ -289,7 +290,7 @@ const TableItem = ({
           <Button
             color='primary'
             variant='contained'
-            onClick={Isuserassigned ? handleSwitchUser : handleAssignUser}
+            onClick={handleAssignUser}
             disabled={selecteduser === null}
           >
             {'SAVE'}
@@ -308,4 +309,5 @@ TableItem.propTypes = {
   setTableData: PropTypes.any,
   handleDeleteSubordinate: PropTypes.any,
   setTriggerApi: PropTypes.any,
+  deptName: PropTypes.any,
 };

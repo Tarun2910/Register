@@ -26,8 +26,8 @@ const AppCard = ({
       sx={{
         display: 'flex',
         flexDirection: 'column',
-        height: 'calc(100vh - 170px)',
-        // height: 'calc(100% - 0px)',
+        height: 'calc(100% - 0px)',
+        // height: 'calc(100vh - 160px)',
         ...sxStyle,
       }}
       {...rest}

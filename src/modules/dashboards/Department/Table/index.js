@@ -17,6 +17,12 @@ const ProductTable = ({
   setList,
   setItemsState,
   itemsState,
+  updateDepartment,
+  setSelectedDeptId,
+  setdeptName,
+  setdeptDisplayName,
+  setbranchCity,
+  setRowData,
 }) => {
   return (
     <AppTableContainer>
@@ -38,6 +44,12 @@ const ProductTable = ({
               setList={setList}
               setItemsState={setItemsState}
               itemsState={itemsState}
+              updateDepartment={updateDepartment}
+              setSelectedDeptId={setSelectedDeptId}
+              setdeptName={setdeptName}
+              setdeptDisplayName={setdeptDisplayName}
+              setbranchCity={setbranchCity}
+              setRowData={setRowData}
             />
             // ))
           )}
@@ -62,6 +74,12 @@ ProductTable.propTypes = {
   setList: PropTypes.any,
   setItemsState: PropTypes.any,
   itemsState: PropTypes.any,
+  updateDepartment: PropTypes.any,
+  setSelectedDeptId: PropTypes.any,
+  setdeptName: PropTypes.any,
+  setdeptDisplayName: PropTypes.any,
+  setbranchCity: PropTypes.any,
+  setRowData: PropTypes.any,
 };
 
 // style={{minHeight: '70vh'}}

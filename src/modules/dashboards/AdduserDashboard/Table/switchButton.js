@@ -59,19 +59,16 @@ const IOSSwitch = styled((props) => (
   },
 }));
 
-export default function CustomizedSwitches({checked, onChange, hasRole}) {
+export default function CustomizedSwitches({checked, onChange}) {
   console.log(checked, 'checked');
   return (
     <FormGroup>
-      <Tooltip title={!hasRole && 'Assign role to this user to enable this '}>
-        <FormControlLabel
-          control={
-            <IOSSwitch sx={{m: 2}} checked={checked} onChange={onChange} />
-          }
-          disabled={!hasRole}
-          // label='Active licence'
-        />
-      </Tooltip>
+      <FormControlLabel
+        control={
+          <IOSSwitch sx={{m: 2}} checked={checked} onChange={onChange} />
+        }
+        // label='Active licence'
+      />
     </FormGroup>
   );
 }
@@ -79,5 +76,4 @@ export default function CustomizedSwitches({checked, onChange, hasRole}) {
 CustomizedSwitches.propTypes = {
   checked: PropTypes.any,
   onChange: PropTypes.any,
-  hasRole: PropTypes.any,
 };

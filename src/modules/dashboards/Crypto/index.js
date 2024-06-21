@@ -1,6 +1,6 @@
 import React from 'react';
 import Grid from '@mui/material/Grid';
-import AppGridContainer from '@crema/components/AppGridContainer';
+import AppGridContainer from '@crema/components/AppGridContainerOne';
 import AppAnimate from '@crema/components/AppAnimate';
 import {useGetDataApi} from '@crema/hooks/APIHooks';
 import TotalBalance from './TotalBalance';
@@ -20,47 +20,33 @@ const Crypto = () => {
 
   return (
     <>
-      <AppLoader />
-      {/* {loading ? (
+      {loading ? (
+        <AppLoader />
       ) : (
         <AppAnimate animation='transition.slideUpIn' delay={200}>
           <AppGridContainer>
-            <Grid item xs={12} md={5}>
-              <TotalBalance totalBalanceData={cryptoData.totalBalanceData} />
+            <Grid item xs={12} md={8} lg={6}>
+              <CardDetails cardDetails={cryptoData.cardDetails} />
             </Grid>
-
-            <Grid item xs={12} md={7}>
-              <Coins coinsData={cryptoData.coinsData} />
-            </Grid>
-            <Grid item xs={12} md={8} lg={9}>
+            <Grid item xs={12} md={8} lg={6}>
               <TradingChart />
             </Grid>
-            <Grid item xs={12} md={4} lg={3}>
-              <BuySell buySell={cryptoData.buySell} />
-            </Grid>
-            <Grid item xs={12} md={6} lg={8}>
+
+            <Grid item xs={12} md={8} lg={6}>
               <OrdersActivities
                 ordersActivities={cryptoData.ordersActivities}
               />
             </Grid>
-            <Grid item xs={12} md={6} lg={4}>
-              <TopStories stories={cryptoData.stories} />
-            </Grid>
+
             <Grid item xs={12} md={6}>
               <GainerLooser data={cryptoData.gainerLooser} />
             </Grid>
             <Grid item xs={12} md={6}>
               <ATCStatics data={cryptoData.atcStatics} />
             </Grid>
-            <Grid item xs={12} md={6}>
-              <CardDetails cardDetails={cryptoData.cardDetails} />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <QuickTransfer quickTransfer={cryptoData.quickTransfer} />
-            </Grid>
           </AppGridContainer>
         </AppAnimate>
-      )} */}
+      )}
     </>
   );
 };

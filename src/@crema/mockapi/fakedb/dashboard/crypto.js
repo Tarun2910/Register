@@ -758,45 +758,45 @@ const cryptoData = {
     cardDetail: [
       {
         id: 1,
-        title: 'Card Holder',
+        title: 'Department',
         name: 'Demo One',
       },
-      {
-        id: 2,
-        title: 'Bank Name',
-        name: 'HDFC First Bank',
-      },
-      {
-        id: 3,
-        title: 'Card Number',
-        name: '**** **** **** 1234',
-      },
-      {
-        id: 4,
-        title: 'Valid Date',
-        name: '12/21',
-      },
+      // {
+      //   id: 2,
+      //   title: 'Bank Name',
+      //   name: 'HDFC First Bank',
+      // },
+      // {
+      //   id: 3,
+      //   title: 'Card Number',
+      //   name: '**** **** **** 1234',
+      // },
+      // {
+      //   id: 4,
+      //   title: 'Valid Date',
+      //   name: '12/21',
+      // },
     ],
     monthlyLimit: [
       {
         id: 1,
         value: 66,
         activeColor: '#F04F47',
-        title: 'Main Limits',
+        title: 'Dept Name Total Used',
         income: '$10,000',
       },
       {
         id: 2,
         value: 31,
         activeColor: '#0BBFDB',
-        title: 'Seconds',
+        title: 'User Used',
         income: '$500',
       },
       {
         id: 3,
         value: 17,
         activeColor: '#3D5AFE',
-        title: 'Others',
+        title: 'Role Used',
         income: '$100',
       },
     ],

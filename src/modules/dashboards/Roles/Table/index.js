@@ -27,7 +27,7 @@ import AppsPagination from '@crema/components/AppsPagination';
 import AppSearchBar from '@crema/components/AppSearchBar';
 import AppGridContainer from '@crema/components/AppGridContainer';
 import {Fonts} from '@crema/constants/AppEnums';
-import AppCard from '@crema/components/AppCard';
+import AppCard from '@crema/components/AppCardOne';
 import Slide from '@mui/material/Slide';
 import ListingTable from './Tablecontent';
 import axios from 'axios';
@@ -50,6 +50,8 @@ const ProductListing = ({
   setList,
   handleDeleteSubordinate,
   setTriggerApi,
+  deptName,
+  setSearchData,
 }) => {
   const {messages} = useIntl();
   const Navigate = useNavigate();
@@ -265,29 +267,34 @@ const ProductListing = ({
     Navigate('/upgrade');
   };
 
-  const searchData = (searchQuery) => {
-    let config = {
-      method: 'get',
-      maxBodyLength: Infinity,
-      url: `${
-        window.__ENV__.REACT_APP_MIDDLEWARE
-      }/tenants/users?keyword=${searchQuery}&pageNum=${'0'}`,
-      headers: {
-        Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
-      },
-    };
+  const debouncedSearch = debounce((searchQuery) => {
+    setSearchData(searchQuery);
+    setPage(0); // Reset page when performing a new search
+  }, 500);
 
-    axios
-      .request(config)
-      .then((response) => {
-        console.log(JSON.stringify(response.data));
-        setList(response?.data?.content);
-        setTotal(response?.data?.totalElements);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
+  // const searchData = (searchQuery) => {
+  //   let config = {
+  //     method: 'get',
+  //     maxBodyLength: Infinity,
+  //     url: `${
+  //       window.__ENV__.REACT_APP_MIDDLEWARE
+  //     }/tenants/users?keyword=${searchQuery}&pageNum=${'0'}`,
+  //     headers: {
+  //       Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
+  //     },
+  //   };
+
+  //   axios
+  //     .request(config)
+  //     .then((response) => {
+  //       console.log(JSON.stringify(response.data));
+  //       setList(response?.data?.content);
+  //       setTotal(response?.data?.totalElements);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // };
 
   const handlegotoupgrade = () => {
     Navigate('/upgrade');
@@ -318,7 +325,16 @@ const ProductListing = ({
   return (
     <>
       <Slide direction='right' in mountOnEnter unmountOnExit>
-        <Grid item xs={12} lg={12} sx={{marginTop: '10px'}}>
+        <Grid
+          item
+          xs={12}
+          lg={12}
+          sx={{
+            marginTop: '10px',
+            height: 'calc(100vh - 460px)',
+            maxHeight: 'calc(100vh - 460px)',
+          }}
+        >
           <AppCard
             title={
               <AppsHeader>
@@ -332,7 +348,7 @@ const ProductListing = ({
                   <AppSearchBar
                     iconPosition='right'
                     overlap={false}
-                    onChange={(event) => searchData(event.target.value)}
+                    onChange={(event) => debouncedSearch(event.target.value)}
                     placeholder={messages['common.searchHere']}
                   />
                   <Box
@@ -377,6 +393,7 @@ const ProductListing = ({
                 itemsState={itemsState}
                 handleDeleteSubordinate={handleDeleteSubordinate}
                 setTriggerApi={setTriggerApi}
+                deptName={deptName}
               />
             </AppsContent>
             <Hidden smUp>
@@ -422,4 +439,6 @@ ProductListing.propTypes = {
   setList: PropTypes.any,
   handleDeleteSubordinate: PropTypes.any,
   setTriggerApi: PropTypes.any,
+  deptName: PropTypes.any,
+  setSearchData: PropTypes.any,
 };

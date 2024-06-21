@@ -21,6 +21,9 @@ const OmniLearn = React.lazy(() =>
 const TeamSync = React.lazy(() =>
   import('../../../modules/dashboards/TeamSync'),
 );
+const TeamSyncDashBoard = React.lazy(() =>
+  import('../../../modules/dashboards/TeamSyncDashBoard'),
+);
 const Crm = React.lazy(() => import('../../../modules/dashboards/Crm1'));
 const Integration = React.lazy(() =>
   import('../../../modules/dashboards/Integration'),
@@ -64,6 +67,11 @@ export const dashBoardConfigs = [
   },
   {
     permittedRole: [RoutePermittedRole.User, RoutePermittedRole.Admin],
+    path: '/teamsyncDashboard',
+    element: <TeamSyncDashBoard />,
+  },
+  {
+    permittedRole: [RoutePermittedRole.User, RoutePermittedRole.Admin],
     path: '/crm',
     element: <Crm />,
   },
@@ -99,7 +107,7 @@ export const dashBoardConfigs = [
   },
   {
     permittedRole: [RoutePermittedRole.User, RoutePermittedRole.Admin],
-    path: '/roles/:id',
+    path: 'role/:id',
     element: <Roles />,
   },
   {

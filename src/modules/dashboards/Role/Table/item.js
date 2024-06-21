@@ -29,6 +29,10 @@ const TableItem = ({
   itemsState,
   setItemsState,
   setTriggerApi,
+  updateRole,
+  setRoleName,
+  setRoleDisplayName,
+  setRowData,
 }) => {
   // const [itemsState, setItemsState] = useState([]);
 
@@ -95,13 +99,13 @@ const TableItem = ({
             color: 'primary.main',
           }}
         >
-          {ellipsisLines(data.department)}
+          {ellipsisLines(data.deptName)}
         </Box>
       </StyledTableCell>
-      <StyledTableCell align='left'>{data.department}</StyledTableCell>
-      <StyledTableCell align='left'>{data.displayRoleName}</StyledTableCell>
+      <StyledTableCell align='left'>{data.roleName}</StyledTableCell>
+      {/* <StyledTableCell align='left'>{data.displayRoleName}</StyledTableCell> */}
       <StyledTableCell align='left'>
-        {data?.userDetails?.deptUsername || 'User not Assigned Yet'}
+        {data?.user?.name || 'User not Assigned Yet'}
       </StyledTableCell>
       <TableCell align='right'>
         {/* <EditIcon />
@@ -113,6 +117,10 @@ const TableItem = ({
           displayname={data.deptDisplayName}
           deptName={data.deptName}
           setTriggerApi={setTriggerApi}
+          updateRole={updateRole}
+          setRoleName={data.roleName}
+          setRoleDisplayName={data.roleName}
+          setRowData={data}
           // setTotal={setTotal}
           // setPage={setPage}
           // setList={setList}
@@ -130,4 +138,8 @@ TableItem.propTypes = {
   onItemsStateUpdate: PropTypes.any,
   setTableData: PropTypes.any,
   setTriggerApi: PropTypes.any,
+  setRoleName: PropTypes.any,
+  setRoleDisplayName: PropTypes.any,
+  updateRole: PropTypes.any,
+  setRowData: PropTypes.any,
 };

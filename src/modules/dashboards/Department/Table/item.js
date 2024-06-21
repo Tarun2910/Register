@@ -28,6 +28,12 @@ const TableItem = ({
   setTableData,
   itemsState,
   setItemsState,
+  updateDepartment,
+  setSelectedDeptId,
+  setdeptName,
+  setdeptDisplayName,
+  setbranchCity,
+  setRowData,
 }) => {
   // const [itemsState, setItemsState] = useState([]);
 
@@ -98,16 +104,22 @@ const TableItem = ({
         </Box>
       </StyledTableCell>
       <StyledTableCell align='left'>{data.deptDisplayName}</StyledTableCell>
-      <StyledTableCell align='left'>{data.branch}</StyledTableCell>
-      <StyledTableCell align='left'>{data.cau}</StyledTableCell>
+      <StyledTableCell align='left'>{data.branchCity}</StyledTableCell>
       <TableCell align='right'>
         {/* <EditIcon />
         <VisibilityIcon />
         <RiSplitCellsHorizontal /> */}
         <OrderActions
           id={data.id}
+          data={data}
           displayname={data.deptDisplayName}
           deptName={data.deptName}
+          updateDepartment={updateDepartment}
+          setSelectedDeptId={setSelectedDeptId}
+          setdeptName={setdeptName}
+          setdeptDisplayName={setdeptDisplayName}
+          setbranchCity={setbranchCity}
+          setRowData={setRowData}
           // setTotal={setTotal}
           // setPage={setPage}
           // setList={setList}
@@ -124,4 +136,10 @@ TableItem.propTypes = {
   productData: PropTypes.arrayOf(PropTypes.object),
   onItemsStateUpdate: PropTypes.any,
   setTableData: PropTypes.any,
+  updateDepartment: PropTypes.any,
+  setSelectedDeptId: PropTypes.any,
+  setdeptName: PropTypes.any,
+  setdeptDisplayName: PropTypes.any,
+  setbranchCity: PropTypes.any,
+  setRowData: PropTypes.any,
 };

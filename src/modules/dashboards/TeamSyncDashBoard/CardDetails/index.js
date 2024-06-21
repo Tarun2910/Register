@@ -1,5 +1,5 @@
 import React from 'react';
-import AppCard from '@crema/components/AppCardOne';
+import AppCard from '@crema/components/AppCard';
 import CardDetailItem from './CardDetailItem';
 import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
@@ -27,7 +27,7 @@ const CardDetails = ({cardDetails}) => {
             mx: -2.5,
           }}
         >
-          {cardDetails.cardDetail.map((data, index) => (
+          {cardDetails?.cardDetail?.map((data, index) => (
             <Box
               sx={{
                 px: 2.5,
@@ -62,7 +62,7 @@ const CardDetails = ({cardDetails}) => {
             mx: -2.5,
           }}
         >
-          {cardDetails.monthlyLimit.map((data, index) => (
+          {cardDetails?.monthlyLimit?.map((data, index) => (
             <Box
               sx={{
                 px: 2.5,

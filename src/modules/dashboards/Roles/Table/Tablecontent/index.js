@@ -19,6 +19,7 @@ const ProductTable = ({
   itemsState,
   handleDeleteSubordinate,
   setTriggerApi,
+  deptName,
 }) => {
   return (
     <AppTableContainer>
@@ -42,6 +43,7 @@ const ProductTable = ({
               itemsState={itemsState}
               handleDeleteSubordinate={handleDeleteSubordinate}
               setTriggerApi={setTriggerApi}
+              deptName={deptName}
             />
             // ))
           )}
@@ -68,4 +70,5 @@ ProductTable.propTypes = {
   itemsState: PropTypes.any,
   handleDeleteSubordinate: PropTypes.any,
   setTriggerApi: PropTypes.any,
+  deptName: PropTypes.any,
 };

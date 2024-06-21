@@ -9,14 +9,14 @@ import {
   TextField,
 } from '@mui/material';
 import AppTextField from '@crema/components/AppFormComponents/AppTextField';
-import AppCard from '@crema/components/AppCard';
+import AppCard from '@crema/components/AppCardOne';
 import styled from '@emotion/styled';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import AppScrollbar from '@crema/components/AppScrollbar';
 import Slide from '@mui/material/Slide';
 import PropTypes from 'prop-types';
-import AppGridContainer from '@crema/components/AppGridContainer';
+import AppGridContainer from '@crema/components/AppGridContainerOne';
 import {useNavigate, useParams} from 'react-router-dom';
 import axios from 'axios';
 
@@ -140,13 +140,6 @@ const ProductContent = ({
                     width: '100%',
                     my: 2,
                   }}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position='start'>
-                        {`${deptName.toUpperCase()}`}
-                      </InputAdornment>
-                    ),
-                  }}
                   onChange={(event) => {
                     const {value} = event.target;
                     setRoles(value);
@@ -166,7 +159,7 @@ const ProductContent = ({
                     const {value} = event.target;
                     setUser(value);
                   }}
-                  label={'User'}
+                  label={'Display RoleName'}
                 />
               </Grid>
             </AppGridContainer>

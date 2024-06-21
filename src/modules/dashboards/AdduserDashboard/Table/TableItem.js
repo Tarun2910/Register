@@ -109,7 +109,6 @@ const TableItem = ({
               data.active
             }
             onChange={() => handleSwitchChange(data)}
-            hasRole={data.hasRole}
           />
         </Box>
       </StyledTableCell>

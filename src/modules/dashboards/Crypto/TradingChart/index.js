@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactApexChart from 'react-apexcharts';
-import AppCard from '@crema/components/AppCard';
+import AppCard from '@crema/components/AppCardOne';
 import ChartHeader from './ChartHeader';
 import TimeSelection from './TimeSelection';
 import Box from '@mui/material/Box';

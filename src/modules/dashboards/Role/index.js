@@ -15,6 +15,7 @@ import {
   InputAdornment,
   Autocomplete,
   Divider,
+  IconButton,
 } from '@mui/material';
 import React, {useEffect, useState} from 'react';
 import {useIntl} from 'react-intl';
@@ -31,6 +32,7 @@ import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
 import {blue} from '@mui/material/colors';
 import {useNavigate} from 'react-router-dom';
 import CustomizedBreadcrumbs from 'modules/muiComponents/navigation/Breadcrumbs/CustomizedBreadcrumbs';
+import CloseIcon from '@mui/icons-material/Close';
 
 import Draggable from 'react-draggable';
 
@@ -56,12 +58,17 @@ const ProductListing = () => {
   const [isAllSelected, setIsAllSelected] = useState(false);
   const [triggerApi, setTriggerApi] = useState(false);
   const [department, setDepartment] = useState([]);
-  const [opendialog, setOpenDialog] = useState(false);
+  const [opendialogdept, setOpenDialogDept] = useState(false);
   const [openrole, setOpenRole] = useState(false);
   const [deptdata, setDeptData] = useState([]);
   const [selecteddept, setselectedDept] = useState(null);
   const [roles, setRoles] = useState('');
   const [user, setUser] = useState('');
+  const [searchData, setSearchData] = useState('');
+  const [isedit, setIsEdit] = useState(false);
+  const [roleName, setRoleName] = useState('');
+  const [roleDisplayname, setRoleDisplayName] = useState('');
+  const [rowdata, setRowData] = useState('');
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -78,12 +85,12 @@ const ProductListing = () => {
 
   useEffect(() => {
     if (Departmentcounts == 0) {
-      setOpenDialog(true);
+      setOpenDialogDept(true);
     }
   }, []);
 
   const handleCloseDialog = () => {
-    setOpenDialog(false);
+    setOpenDialogDept(false);
   };
 
   const handleClose = () => {
@@ -105,9 +112,9 @@ const ProductListing = () => {
 
   useEffect(() => {
     let config = {
-      method: 'post',
+      method: 'get',
       maxBodyLength: Infinity,
-      url: `/multitenant/adminportal/api/getAllRoleDept`,
+      url: `/tenants/roles?search=${searchData}`,
 
       headers: {
         Accept: 'application/json',
@@ -118,7 +125,6 @@ const ProductListing = () => {
         userName: sessionStorage.getItem('username'),
         deptName: 'ALL_USER',
       },
-      data: {filter: null},
     };
     setLoading(true);
     axios
@@ -126,15 +132,15 @@ const ProductListing = () => {
       .then((response) => {
         setLoading(false);
         console.log(response.data);
-        setList(response?.data?.data);
-        setTotal(response?.data?.lenght);
-        sessionStorage.setItem('RoleCount', response?.data?.lenght);
+        setList(response?.data?.content);
+        setTotal(response?.data?.totalElements);
+        sessionStorage.setItem('RoleCount', response?.data?.totalElements);
       })
       .catch((error) => {
         setLoading(false);
         console.log(error);
       });
-  }, [page, triggerApi]);
+  }, [page, triggerApi, searchData]);
 
   // const searchProduct = (title) => {
   //   setFilterData({...filterData, title});
@@ -191,27 +197,32 @@ const ProductListing = () => {
     Navigate('/upgrade');
   };
 
-  const searchData = (searchQuery) => {
-    let config = {
-      method: 'get',
-      maxBodyLength: Infinity,
-      url: `/tenants/users?keyword=${searchQuery}&pageNum=${'0'}`,
-      headers: {
-        Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
-      },
-    };
+  const debouncedSearch = debounce((searchQuery) => {
+    setSearchData(searchQuery);
+    setPage(0); // Reset page when performing a new search
+  }, 500);
 
-    axios
-      .request(config)
-      .then((response) => {
-        console.log(JSON.stringify(response.data));
-        setList(response?.data?.content);
-        setTotal(response?.data?.totalElements);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
+  // const searchData = (searchQuery) => {
+  //   let config = {
+  //     method: 'get',
+  //     maxBodyLength: Infinity,
+  //     url: `/tenants/users?keyword=${searchQuery}&pageNum=${'0'}`,
+  //     headers: {
+  //       Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
+  //     },
+  //   };
+
+  //   axios
+  //     .request(config)
+  //     .then((response) => {
+  //       console.log(JSON.stringify(response.data));
+  //       setList(response?.data?.content);
+  //       setTotal(response?.data?.totalElements);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // };
 
   // const handlegotoupgrade = () => {
   //   Navigate('/upgrade');
@@ -241,10 +252,11 @@ const ProductListing = () => {
 
   const handleAddRole = () => {
     setOpenRole(true);
+    setIsEdit(false);
     let config = {
-      method: 'post',
+      method: 'get',
       maxBodyLength: Infinity,
-      url: `/multitenant/adminportal/api/getAllDept`,
+      url: `/tenants/departments?search=${''}`,
 
       headers: {
         Accept: 'application/json',
@@ -254,15 +266,13 @@ const ProductListing = () => {
         pageNumber: page,
         userName: sessionStorage.getItem('username'),
       },
-      data: {filter: null},
     };
 
     axios
       .request(config)
       .then((response) => {
-        console.log(response.data);
         setLoading(false);
-        setDeptData(response?.data?.data);
+        setDeptData(response?.data?.content);
       })
       .catch((error) => {
         console.log(error);
@@ -272,6 +282,7 @@ const ProductListing = () => {
 
   const handleCloseRole = () => {
     setOpenRole(false);
+    setIsEdit(false);
   };
 
   const handlesaveRole = () => {
@@ -279,13 +290,13 @@ const ProductListing = () => {
     let config = {
       method: 'post',
       maxBodyLength: Infinity,
-      url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/multitenant/adminportal/api/createRoles`,
+      url: `/tenants/departments/${selecteddept.deptName}/roles`,
       headers: {
         userId: selecteddept.id,
         'Content-Type': 'application/json',
         Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
       },
-      data: JSON.stringify(userData),
+      data: [{roleName: roles, roleDisplayName: user}],
     };
 
     axios
@@ -297,6 +308,45 @@ const ProductListing = () => {
       .catch((error) => {
         toast.error(error.message);
       });
+  };
+
+  const updateRole = () => {
+    setOpenRole(true);
+    setIsEdit(true);
+  };
+  const handleupdate = () => {
+    const config = {
+      method: 'put',
+      url: `/tenants/roles`,
+      headers: {
+        Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
+      },
+      data: {
+        roleName: roleName,
+        roleDisplayName: roleDisplayname,
+        tenantId: rowdata.tenantId,
+        id: rowdata.id,
+      },
+    };
+
+    axios
+      .request(config)
+      .then((response) => {
+        setLoading(false);
+        setTriggerApi((prev) => !prev);
+        handleCloseRole();
+        toast.success('Role Updated successfully!');
+      })
+      .catch((error) => {
+        setLoading(false);
+        handleCloseRole();
+        toast.error(error?.response?.data?.error || 'Failed to update Role');
+      });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    isedit ? handleupdate() : handlesaveRole();
   };
 
   return (
@@ -339,7 +389,7 @@ const ProductListing = () => {
                     <AppSearchBar
                       iconPosition='right'
                       overlap={false}
-                      onChange={(event) => searchData(event.target.value)}
+                      onChange={(event) => debouncedSearch(event.target.value)}
                       placeholder={messages['common.searchHere']}
                     />
                     <Box
@@ -417,6 +467,11 @@ const ProductListing = () => {
                   isAllSelected={isAllSelected}
                   setIsAllSelected={setIsAllSelected}
                   setTriggerApi={setTriggerApi}
+                  setIsEdit={setIsEdit}
+                  updateRole={updateRole}
+                  setRoleName={setRoleName}
+                  setRoleDisplayName={setRoleDisplayName}
+                  setRowData={setRowData}
                 />
               </AppsContent>
               <Hidden smUp>
@@ -453,7 +508,7 @@ const ProductListing = () => {
         </DialogActions>
       </Dialog>
       <Dialog
-        open={opendialog}
+        open={opendialogdept}
         keepMounted
         onClose={handleCloseDialog}
         aria-describedby='alert-dialog-slide-description'
@@ -474,74 +529,97 @@ const ProductListing = () => {
       <Dialog
         open={openrole}
         keepMounted
-        onClose={handleCloseRole}
         aria-describedby='alert-dialog-slide-description'
         maxWidth='md'
         fullWidth={true}
       >
-        <DialogTitle>{'CREATE ROLE'}</DialogTitle>
+        <DialogTitle sx={{fontSize: '16px'}}>
+          <Tooltip title='CLOSE'>
+            <IconButton
+              onClick={handleCloseRole}
+              aria-label='close'
+              style={{
+                position: 'absolute',
+                right: '8px',
+                top: '8px',
+              }}
+            >
+              <CloseIcon />
+            </IconButton>
+          </Tooltip>
+          CREATE ROLE
+        </DialogTitle>
         <Divider />
-        <DialogContent>
-          <DialogContentText id='alert-dialog-slide-description'>
-            <Grid item xs={12} sm={12}>
-              <Autocomplete
-                id='tags-outlined'
-                options={deptdata}
-                getOptionLabel={(option) => option.deptName}
-                value={selecteddept}
-                onChange={(event, value) => setselectedDept(value)}
-                filterSelectedOptions
-                renderInput={(params) => (
-                  <TextField
-                    sx={{
-                      width: '100%',
-                      my: 2,
-                    }}
-                    {...params}
-                    variant='outlined'
-                    label='Select Department'
-                    fullWidth
+        <form onSubmit={handleSubmit}>
+          <DialogContent>
+            <DialogContentText id='alert-dialog-slide-description'>
+              {!isedit && (
+                <Grid item xs={12} sm={12}>
+                  <Autocomplete
+                    id='tags-outlined'
+                    options={deptdata}
+                    getOptionLabel={(option) => option.deptName}
+                    value={selecteddept}
+                    onChange={(event, value) => setselectedDept(value)}
+                    filterSelectedOptions
+                    renderInput={(params) => (
+                      <TextField
+                        sx={{
+                          width: '100%',
+                          my: 2,
+                        }}
+                        {...params}
+                        variant='outlined'
+                        label='Select Department'
+                        placeholder='Select The Department'
+                        fullWidth
+                      />
+                    )}
                   />
-                )}
-              />
-            </Grid>
-            <Grid item xs={6} sm={6}>
-              <TextField
-                variant='outlined'
-                value={roles}
-                sx={{
-                  width: '100%',
-                  my: 2,
-                }}
-                onChange={(event) => {
-                  const {value} = event.target;
-                  setRoles(value);
-                }}
-                label={'Role'}
-              />
-            </Grid>
-            <Grid item xs={6} sm={6}>
-              <TextField
-                variant='outlined'
-                value={user}
-                sx={{
-                  width: '100%',
-                  my: 2,
-                }}
-                onChange={(event) => {
-                  const {value} = event.target;
-                  setUser(value);
-                }}
-                label={'User'}
-              />
-            </Grid>
-          </DialogContentText>
-        </DialogContent>
-        <Divider />
-        <DialogActions>
-          <Button onClick={handleCloseRole}>Cancel</Button>
-          <Button onClick={handlesaveRole}>Save</Button>
-        </DialogActions>
+                </Grid>
+              )}
+              <Grid item xs={12} sm={12}>
+                <TextField
+                  variant='outlined'
+                  value={roles}
+                  sx={{
+                    width: '100%',
+                    my: 2,
+                  }}
+                  onChange={(event) => {
+                    const {value} = event.target;
+                    setRoles(value);
+                  }}
+                  label={'RoleName'}
+                  placeholder='Enter RoleName'
+                />
+              </Grid>
+              <Grid item xs={12} sm={12}>
+                <TextField
+                  variant='outlined'
+                  value={user}
+                  sx={{
+                    width: '100%',
+                    my: 2,
+                  }}
+                  onChange={(event) => {
+                    const {value} = event.target;
+                    setUser(value);
+                  }}
+                  label={'Display RoleName'}
+                  placeholder='Enter Display RoleName'
+                />
+              </Grid>
+            </DialogContentText>
+          </DialogContent>
+          <Divider />
+          <DialogActions>
+            <Button onClick={handleCloseRole}>Cancel</Button>
+            <Button variant='contained' color='primary' type='submit'>
+              Save
+            </Button>
+          </DialogActions>
+        </form>
       </Dialog>
     </>
   );

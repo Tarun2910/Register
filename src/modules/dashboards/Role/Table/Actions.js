@@ -30,13 +30,17 @@ const OrderActions = ({
   deptName,
   setTriggerApi,
   data,
+  updateRole,
+  setRoleName,
+  setRoleDisplayName,
+  setRowData,
 }) => {
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [opendialog, setOpenDialog] = React.useState(false);
   const [user, setUser] = React.useState('');
   const [selecteduser, setselectedUser] = React.useState(null);
-  const [roleName, setRoleName] = React.useState(null);
+  const [roleNameone, setRoleNameone] = React.useState(null);
   const [Isuserassigned, setIsuserAssigned] = React.useState(null);
   const open = Boolean(anchorEl);
 
@@ -77,20 +81,17 @@ const OrderActions = ({
 
   const handleOpenDialog = () => {
     setOpenDialog(true);
-    setRoleName(data?.roleName);
+    setRoleNameone(data?.roleName);
     setIsuserAssigned(data?.userDetails?.deptUsername);
 
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/multitenant/adminportal/api/getUserNameSmart`,
+      url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/users?pageNum=${0}`,
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
-        DeptName: 'ALL_USER',
-        patternString: '',
-        userName: '',
-        userRole: '',
+        appName: 'TeamSync',
       },
     };
 
@@ -98,7 +99,7 @@ const OrderActions = ({
       .request(config)
       .then((response) => {
         console.log(response, 'response');
-        setUser(response?.data?.data);
+        setUser(response?.data?.content);
       })
       .catch((error) => {
         toast.error(error.message);
@@ -107,14 +108,19 @@ const OrderActions = ({
 
   const handleAssignUser = () => {
     let config = {
-      method: 'post',
+      method: 'put',
       maxBodyLength: Infinity,
-      url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/multitenant/adminportal/api/assignRoleLst`,
+      url: `tenants/departments/${deptName}/roles`,
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
       },
-      data: [{roleName: roleName, userName: selecteduser?.deptUsername}],
+      data: [
+        {
+          id: id,
+          user: {email: selecteduser.email},
+        },
+      ],
     };
 
     axios
@@ -138,7 +144,7 @@ const OrderActions = ({
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
-        roleName: roleName,
+        roleName: roleNameone,
         currentUserName: Isuserassigned,
         newUserName: selecteduser?.deptUsername,
       },
@@ -175,7 +181,23 @@ const OrderActions = ({
           onClose={handleClose}
           TransitionComponent={Fade}
         >
-          <MenuItem style={{fontSize: 14}} onClick={handleOpenDialog}>
+          <MenuItem
+            style={{fontSize: 14}}
+            onClick={() => {
+              updateRole();
+              setRoleName(data.roleName);
+              setRoleDisplayName(data.roleDisplayName);
+              setRowData(data);
+            }}
+          >
+            Edit Role
+          </MenuItem>
+          <MenuItem
+            style={{fontSize: 14}}
+            onClick={() => {
+              handleOpenDialog();
+            }}
+          >
             {Isuserassigned ? 'Switch User' : 'Assign User'}
           </MenuItem>
         </Menu>
@@ -232,7 +254,7 @@ const OrderActions = ({
           <Autocomplete
             id='tags-outlined'
             options={user}
-            getOptionLabel={(option) => option.deptDisplayUsername}
+            getOptionLabel={(option) => option?.name}
             value={selecteduser}
             onChange={(event, value) => setselectedUser(value)}
             filterSelectedOptions
@@ -251,7 +273,7 @@ const OrderActions = ({
           <Button
             color='primary'
             variant='contained'
-            onClick={Isuserassigned ? handleSwitchUser : handleAssignUser}
+            onClick={handleAssignUser}
             disabled={selecteduser === null}
           >
             {'SAVE'}
@@ -272,4 +294,8 @@ OrderActions.propTypes = {
   deptName: PropTypes.any,
   setTriggerApi: PropTypes.any,
   data: PropTypes.any,
+  updateRole: PropTypes.any,
+  setRoleName: PropTypes.any,
+  setRowData: PropTypes.any,
+  setRoleDisplayName: PropTypes.any,
 };

@@ -10,7 +10,21 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 import {toast} from 'react-toastify';
 
-const OrderActions = ({id, setTotal, setList, list, displayname, deptName}) => {
+const OrderActions = ({
+  id,
+  setTotal,
+  setList,
+  list,
+  displayname,
+  deptName,
+  updateDepartment,
+  setSelectedDeptId,
+  setdeptDisplayName,
+  setdeptName,
+  setbranchCity,
+  data,
+  setRowData,
+}) => {
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -43,7 +57,7 @@ const OrderActions = ({id, setTotal, setList, list, displayname, deptName}) => {
 
   const handlestate = (id, displayname) => {
     // Navigate to the specific id route and pass data through state
-    navigate(`/roles/${id}`, {state: {displayname, deptName}});
+    navigate(`/role/${id}`, {state: {displayname, deptName}});
   };
 
   return (
@@ -65,9 +79,15 @@ const OrderActions = ({id, setTotal, setList, list, displayname, deptName}) => {
       >
         <MenuItem
           style={{fontSize: 14}}
-          onClick={() =>
-            navigate(`/edit-department/${id}`, {state: {deptName}})
-          }
+          onClick={() => {
+            updateDepartment();
+            setSelectedDeptId(deptName);
+            setbranchCity(data.branchCity);
+            setdeptName(data.deptName);
+            setdeptDisplayName(data.deptDisplayName);
+            setRowData(data);
+            handleClose();
+          }}
         >
           Edit Department
         </MenuItem>
@@ -77,13 +97,7 @@ const OrderActions = ({id, setTotal, setList, list, displayname, deptName}) => {
         >
           Add and View Roles
         </MenuItem>
-        <MenuItem
-          style={{fontSize: 14}}
-          // onClick={() => navigate(`/hierarchy/${id}`)}
-          onClick={handleClose}
-        >
-          Spilt Department
-        </MenuItem>
+
         {/* <MenuItem
           style={{fontSize: 14}}
           onClick={() => navigate(`/ecommerce/edit-products/${id}`)}
@@ -103,4 +117,11 @@ OrderActions.propTypes = {
   list: PropTypes.any,
   displayname: PropTypes.any,
   deptName: PropTypes.any,
+  updateDepartment: PropTypes.any,
+  setSelectedDeptId: PropTypes.any,
+  setdeptName: PropTypes.any,
+  setbranchCity: PropTypes.any,
+  setdeptDisplayName: PropTypes.any,
+  data: PropTypes.any,
+  setRowData: PropTypes.any,
 };
