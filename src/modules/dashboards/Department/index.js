@@ -85,7 +85,7 @@ const ProductListing = () => {
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: `/tenants/departments?search=${searchData}`,
+      url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/departments?search=${searchData}`,
 
       headers: {
         Accept: 'application/json',
@@ -136,7 +136,7 @@ const ProductListing = () => {
     let config = {
       method: 'post',
       maxBodyLength: Infinity,
-      url: `/tenants/departments`,
+      url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/departments`,
       headers: {
         Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
       },
@@ -173,7 +173,7 @@ const ProductListing = () => {
   const handleupdate = () => {
     const config = {
       method: 'put',
-      url: `/tenants/departments`,
+      url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/departments`,
       headers: {
         Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
       },

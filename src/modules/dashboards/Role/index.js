@@ -114,7 +114,7 @@ const ProductListing = () => {
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: `/tenants/roles?search=${searchData}`,
+      url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/roles?search=${searchData}`,
 
       headers: {
         Accept: 'application/json',
@@ -256,7 +256,9 @@ const ProductListing = () => {
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: `/tenants/departments?search=${''}`,
+      url: `${
+        window.__ENV__.REACT_APP_MIDDLEWARE
+      }/tenants/departments?search=${''}`,
 
       headers: {
         Accept: 'application/json',
@@ -290,7 +292,7 @@ const ProductListing = () => {
     let config = {
       method: 'post',
       maxBodyLength: Infinity,
-      url: `/tenants/departments/${selecteddept.deptName}/roles`,
+      url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/departments/${selecteddept.deptName}/roles`,
       headers: {
         userId: selecteddept.id,
         'Content-Type': 'application/json',
@@ -317,7 +319,7 @@ const ProductListing = () => {
   const handleupdate = () => {
     const config = {
       method: 'put',
-      url: `/tenants/roles`,
+      url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/roles`,
       headers: {
         Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
       },
