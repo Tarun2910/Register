@@ -100,10 +100,10 @@ const TableItem = ({
             color: 'primary.main',
           }}
         >
-          {ellipsisLines(data.deptName)}
+          {ellipsisLines(data.deptDisplayName)}
         </Box>
       </StyledTableCell>
-      <StyledTableCell align='left'>{data.deptDisplayName}</StyledTableCell>
+      <StyledTableCell align='left'>{data.deptName}</StyledTableCell>
       <StyledTableCell align='left'>{data.branchCity}</StyledTableCell>
       <TableCell align='right'>
         {/* <EditIcon />

@@ -99,10 +99,10 @@ const TableItem = ({
             color: 'primary.main',
           }}
         >
-          {ellipsisLines(data.deptName)}
+          {ellipsisLines(data.roleName)}
         </Box>
       </StyledTableCell>
-      <StyledTableCell align='left'>{data.roleName}</StyledTableCell>
+      <StyledTableCell align='left'>{data.roleDisplayName}</StyledTableCell>
       {/* <StyledTableCell align='left'>{data.displayRoleName}</StyledTableCell> */}
       <StyledTableCell align='left'>
         {data?.user?.name || 'User not Assigned Yet'}
@@ -118,9 +118,9 @@ const TableItem = ({
           deptName={data.deptName}
           setTriggerApi={setTriggerApi}
           updateRole={updateRole}
-          setRoleName={data.roleName}
-          setRoleDisplayName={data.roleName}
-          setRowData={data}
+          setRoleName={setRoleName}
+          setRoleDisplayName={setRoleDisplayName}
+          setRowData={setRowData}
           // setTotal={setTotal}
           // setPage={setPage}
           // setList={setList}

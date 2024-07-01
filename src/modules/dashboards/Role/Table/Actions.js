@@ -44,6 +44,7 @@ const OrderActions = ({
   const [Isuserassigned, setIsuserAssigned] = React.useState(null);
   const open = Boolean(anchorEl);
 
+  console.log(data, 'data');
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -185,8 +186,8 @@ const OrderActions = ({
             style={{fontSize: 14}}
             onClick={() => {
               updateRole();
-              setRoleName(data.roleName);
-              setRoleDisplayName(data.roleDisplayName);
+              setRoleName(data?.roleName);
+              setRoleDisplayName(data?.roleDisplayName);
               setRowData(data);
             }}
           >

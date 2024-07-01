@@ -123,6 +123,9 @@ const ProductListing = () => {
   };
 
   const handleopenDept = () => {
+    setdeptDisplayName('');
+    setdeptName('');
+    setbranchCity('');
     setOpenDept(true);
     setIsEdit(false);
   };
@@ -140,13 +143,11 @@ const ProductListing = () => {
       headers: {
         Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
       },
-      data: [
-        {
-          deptName: deptname,
-          deptDisplayName: deptdisplayname,
-          branchCity: branch,
-        },
-      ],
+      data: {
+        deptName: deptname,
+        deptDisplayName: deptdisplayname,
+        branchCity: branch,
+      },
     };
 
     axios
@@ -374,28 +375,11 @@ const ProductListing = () => {
           <DialogContent>
             <DialogContentText id='alert-dialog-slide-description'>
               <Grid item xs={12} sm={12}>
-                {' '}
-                <TextField
-                  variant='outlined'
-                  value={deptname}
-                  placeholder='Enter your department'
-                  sx={{
-                    width: '100%',
-                    my: 2,
-                  }}
-                  onChange={(event) => {
-                    const {value} = event.target;
-                    setdeptName(value);
-                  }}
-                  label={'Department Name'}
-                />
-              </Grid>
-              <Grid item xs={12} sm={12}>
-                {' '}
                 <TextField
                   variant='outlined'
                   value={deptdisplayname}
-                  placeholder='Enter your displayName'
+                  placeholder='Enter Department Name'
+                  required
                   sx={{
                     width: '100%',
                     my: 2,
@@ -404,11 +388,27 @@ const ProductListing = () => {
                     const {value} = event.target;
                     setdeptDisplayName(value);
                   }}
-                  label={'Department Displayname'}
+                  label={'Department Name'}
                 />
               </Grid>
               <Grid item xs={12} sm={12}>
-                {' '}
+                <TextField
+                  variant='outlined'
+                  value={deptname}
+                  required
+                  placeholder='Enter department Short Name'
+                  sx={{
+                    width: '100%',
+                    my: 2,
+                  }}
+                  onChange={(event) => {
+                    const {value} = event.target;
+                    setdeptName(value);
+                  }}
+                  label={'Department Short Name'}
+                />
+              </Grid>
+              <Grid item xs={12} sm={12}>
                 <TextField
                   variant='outlined'
                   value={branch}
@@ -429,7 +429,12 @@ const ProductListing = () => {
           <Divider />
           <DialogActions>
             <Button onClick={handlecloseDept}>Cancel</Button>
-            <Button variant='contained' color='primary' type='submit'>
+            <Button
+              variant='contained'
+              color='primary'
+              type='submit'
+              disabled={loading}
+            >
               {isedit ? 'Update' : 'Save'}
             </Button>
           </DialogActions>

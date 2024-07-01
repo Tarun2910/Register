@@ -10,17 +10,19 @@ import {
   Typography,
 } from '@mui/material';
 import AppTextField from '@crema/components/AppFormComponents/AppTextField';
-import AppCard from '@crema/components/AppCard';
+import AppCard from '@crema/components/AppCardOne';
 import styled from '@emotion/styled';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import AppScrollbar from '@crema/components/AppScrollbar';
 import Slide from '@mui/material/Slide';
 import PropTypes from 'prop-types';
-import AppGridContainer from '@crema/components/AppGridContainer';
+import AppGridContainer from '@crema/components/AppGridContainerOne';
 import {useNavigate} from 'react-router-dom';
 import axios from 'axios';
 import Divider from '@mui/material/Divider';
+import {saveAs} from 'file-saver';
+import {toast} from 'react-toastify';
 
 const ReactQuillWrapper = styled(ReactQuill)(() => {
   return {
@@ -52,10 +54,14 @@ const ProductContent = ({
   chapterId,
   setDifficulty,
   loading,
+  setLoading,
 }) => {
   const fileInputRef = useRef(null);
   const navigate = useNavigate();
   const [chapterData, setChapterData] = useState('');
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [isFormValid, setIsFormValid] = useState(false);
+  const [loadingupload, setLoadingupload] = useState(false);
 
   const Difficult = ['Easy', 'Medium', 'Hard'];
   const difficultyMapping = {
@@ -77,20 +83,99 @@ const ProductContent = ({
     }
   };
 
-  const handleDownloadClick = () => {
-    // Create a workbook and add a worksheet
-    console.log('download Clicked');
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    setSelectedFile(file);
+    handleUploadClick(file);
   };
 
-  const handleUploadClick = () => {
-    // Add logic to handle the file upload
-    // You can use an input element with type="file" and handle the change event.
-    // Example:
-    // const handleFileUpload = (event) => {
-    //   const file = event.target.files[0];
-    //   // Process the uploaded file
-    // };
-    // <input type="file" onChange={handleFileUpload} />
+  const handleDownloadClick = () => {
+    let config = {
+      method: 'get',
+      maxBodyLength: Infinity,
+      url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/users/template`,
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
+      },
+      responseType: 'blob', // Ensure response is treated as a blob
+    };
+
+    axios
+      .request(config)
+      .then((response) => {
+        // Use file-saver to save the blob
+        saveAs(response.data, 'template.xlsx');
+      })
+      .catch((error) => {
+        console.error('Error during file download:', error);
+      });
+  };
+
+  const handleUploadClick = (file) => {
+    setLoadingupload(true);
+    if (!file) {
+      console.error('No file selected');
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('file', file);
+
+    const config = {
+      method: 'post',
+      maxBodyLength: Infinity,
+      url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/users/template`,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
+      },
+      data: formData,
+    };
+
+    axios
+      .request(config)
+      .then((response) => {
+        setLoadingupload(false);
+        setSelectedFile(null);
+        if (fileInputRef.current) {
+          fileInputRef.current.value = ''; // Reset the file input
+        }
+        toast.success('File uploaded successfully');
+        console.log('File uploaded successfully', response.data);
+      })
+      .catch((error) => {
+        setLoadingupload(false);
+        toast.error('Error uploading file');
+        console.error('Error uploading file:', error);
+      });
+  };
+  const validateForm = (productSpec) => {
+    let isValid = true;
+    for (const item of productSpec) {
+      if (!item.Question || !item.choice1 || !isValidEmail(item.choice1)) {
+        isValid = false;
+        break;
+      }
+    }
+    setIsFormValid(isValid);
+  };
+
+  const isValidEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  useEffect(() => {
+    validateForm(productSpec);
+  }, [productSpec]);
+
+  const handleInputChange = (event, index, field) => {
+    const {value} = event.target;
+    const newProductSpec = [...productSpec];
+    newProductSpec[index][field] = value;
+    setProductSpec(newProductSpec);
+    validateForm(newProductSpec);
   };
 
   return (
@@ -99,11 +184,8 @@ const ProductContent = ({
         <Grid item xs={12} lg={12}>
           <AppScrollbar>
             <AppCard
-              title='Add Users via Excel '
-              sx={{
-                width: '100%',
-                // my: 4,
-              }}
+              title='Add Users via Excel'
+              sx={{width: '100%'}}
               action={
                 <>
                   <Button
@@ -114,13 +196,23 @@ const ProductContent = ({
                   >
                     Download
                   </Button>
-                  <Button
-                    variant='contained'
-                    color='primary'
-                    onClick={handleUploadClick}
-                  >
-                    Upload
-                  </Button>
+                  <input
+                    type='file'
+                    onChange={handleFileChange}
+                    ref={fileInputRef}
+                    style={{display: 'none'}}
+                    id='file-upload'
+                  />
+                  <label htmlFor='file-upload'>
+                    <Button
+                      variant='contained'
+                      color='primary'
+                      component='span'
+                      disabled={loadingupload}
+                    >
+                      Upload
+                    </Button>
+                  </label>
                 </>
               }
             ></AppCard>
@@ -153,7 +245,6 @@ const ProductContent = ({
                         choice1: '',
                         choice2: '',
                         choice3: '',
-                        choice4: '',
                         correct: '',
                       },
                     ]);
@@ -164,119 +255,82 @@ const ProductContent = ({
               }
             >
               <AppGridContainer spacing={4}>
-                {productSpec.map((productItem, index) => {
-                  return (
-                    <React.Fragment key={index}>
-                      <Grid item xs={12} sm={6}>
-                        <TextField
-                          variant='outlined'
-                          value={productItem.Question}
-                          sx={{
-                            width: '100%',
-                            my: 2,
-                          }}
-                          onChange={(event) => {
-                            const {value} = event.target;
+                {productSpec.map((productItem, index) => (
+                  <React.Fragment key={index}>
+                    <Grid item xs={12} sm={6}>
+                      <TextField
+                        variant='outlined'
+                        value={productItem.Question}
+                        sx={{width: '100%', my: 2}}
+                        onChange={(event) =>
+                          handleInputChange(event, index, 'Question')
+                        }
+                        label={'Name'}
+                      />
+                    </Grid>
+                    <Grid
+                      item
+                      xs={index === 0 ? 12 : 6}
+                      sm={index === 0 ? 6 : 5}
+                    >
+                      <TextField
+                        variant='outlined'
+                        value={productItem.choice1}
+                        sx={{width: '100%', my: 2}}
+                        onChange={(event) =>
+                          handleInputChange(event, index, 'choice1')
+                        }
+                        label='Email'
+                        error={
+                          productItem.choice1 &&
+                          !isValidEmail(productItem.choice1)
+                        }
+                        helperText={
+                          productItem.choice1 &&
+                          !isValidEmail(productItem.choice1)
+                            ? 'Invalid email format'
+                            : ''
+                        }
+                      />
+                    </Grid>
+                    {index > 0 && (
+                      <Grid item xs={12} sm={1}>
+                        <Button
+                          variant='contained'
+                          color='secondary'
+                          sx={{my: 2}}
+                          onClick={() => {
                             const newProductInfo = [...productSpec];
-                            newProductInfo[index].Question = value;
-                            setProductInfo(newProductInfo);
+                            newProductInfo.splice(index, 1);
+                            setProductSpec(newProductInfo);
                           }}
-                          label={'Name'}
-                        />
+                        >
+                          Remove
+                        </Button>
                       </Grid>
-
-                      <Grid
-                        item
-                        xs={index === 0 ? 12 : 6}
-                        sm={index === 0 ? 6 : 5}
-                      >
-                        <TextField
-                          variant='outlined'
-                          value={productItem.choice1}
-                          sx={{
-                            width: '100%',
-                            my: 2,
-                          }}
-                          onChange={(event) => {
-                            const {value} = event.target;
-                            const newProductInfo = [...productSpec];
-                            newProductInfo[index].choice1 = value;
-                            setProductInfo(newProductInfo);
-                          }}
-                          label='Email'
-                        />
-                      </Grid>
-                      {/* <Grid
-                        item
-                        xs={index === 0 ? 12 : 6}
-                        sm={index === 0 ? 6 : 6}
-                      >
-                        <TextField
-                          variant='outlined'
-                          value={productItem.choice2}
-                          sx={{
-                            width: '100%',
-                            my: 2,
-                          }}
-                          onChange={(event) => {
-                            const {value} = event.target;
-                            const newProductInfo = [...productSpec];
-                            newProductInfo[index].choice2 = value;
-                            setProductInfo(newProductInfo);
-                          }}
-                          label='Username'
-                        />
-                      </Grid> */}
-
-                      {index > 0 && (
-                        <Grid item xs={12} sm={1}>
-                          <Button
-                            variant='contained'
-                            color='secondary'
-                            sx={{
-                              my: 2,
-                            }}
-                            onClick={() => {
-                              const newProductInfo = [...productSpec];
-                              newProductInfo.splice(index, 1);
-                              setProductSpec(newProductInfo);
-                            }}
-                          >
-                            Remove
-                          </Button>
-                        </Grid>
-                      )}
-                    </React.Fragment>
-                  );
-                })}
+                    )}
+                  </React.Fragment>
+                ))}
               </AppGridContainer>
             </AppCard>
-
             <Stack
               spacing={3}
               direction='row'
               sx={{justifyContent: 'flex-end', mt: 4}}
             >
               <Button
-                sx={{
-                  minWidth: 100,
-                  color: 'text.secondary',
-                }}
+                sx={{minWidth: 100, color: 'text.secondary'}}
                 variant='text'
                 onClick={() => navigate(-1)}
               >
                 Cancel
               </Button>
-
               <Button
-                sx={{
-                  display: 'block',
-                  minWidth: 100,
-                }}
+                sx={{display: 'block', minWidth: 100}}
                 color='primary'
                 variant='contained'
                 type='submit'
-                disabled={loading}
+                disabled={loading || !isFormValid} // Disable button if loading or form is invalid
               >
                 {loading ? 'Loading...' : 'ADD'}
               </Button>
@@ -304,4 +358,5 @@ ProductContent.propTypes = {
   chapterId: PropTypes.any,
   setDifficulty: PropTypes.any,
   loading: PropTypes.any,
+  setLoading: PropTypes.any,
 };

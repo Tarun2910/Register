@@ -217,6 +217,7 @@ export const AddChapter = ({selectedProd}) => {
                 chapterId={chapterId}
                 setDifficulty={setDifficulty}
                 loading={loading}
+                setLoading={setLoading}
               />
             </AppGridContainer>
           </Form>

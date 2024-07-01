@@ -53,14 +53,14 @@ const routesConfig = [
   //   type: 'group',
   //   children: [
 
-  {
-    id: 'academy',
-    title: 'Academy',
-    messageId: 'sidebar.app.dashboard',
-    type: 'item',
-    icon: <MdOutlineSpaceDashboard />,
-    url: '/teamsyncDashboard',
-  },
+  // {
+  //   id: 'academy',
+  //   title: 'Academy',
+  //   messageId: 'sidebar.app.dashboard',
+  //   type: 'item',
+  //   icon: <MdOutlineSpaceDashboard />,
+  //   url: '/teamsyncDashboard',
+  // },
 
   {
     id: 'academy',

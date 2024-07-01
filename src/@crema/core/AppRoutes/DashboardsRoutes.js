@@ -19,7 +19,7 @@ const OmniLearn = React.lazy(() =>
   import('../../../modules/dashboards/OmniLearn'),
 );
 const TeamSync = React.lazy(() =>
-  import('../../../modules/dashboards/TeamSync'),
+  import('../../../modules/dashboards/TeamSync/TeamsyncTab'),
 );
 const TeamSyncDashBoard = React.lazy(() =>
   import('../../../modules/dashboards/TeamSyncDashBoard'),

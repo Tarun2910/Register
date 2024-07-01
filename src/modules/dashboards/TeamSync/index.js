@@ -188,7 +188,7 @@ const ProductListing = () => {
       toast.success('Users Permissions Updated Successfully');
     } catch (error) {
       console.log(error);
-      toast.error(false, error.message);
+      toast.error(error?.response?.data?.error);
     } finally {
       setLoading(false);
     }
@@ -250,29 +250,6 @@ const ProductListing = () => {
 
   return (
     <>
-      {/* <div style={{marginBottom: '1rem'}}>
-        <CustomizedBreadcrumbs label='Home' showComponentName={false} />
-      </div> */}
-      <Box
-        component='h2'
-        variant='h2'
-        sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          fontSize: 15,
-          color: 'text.primary',
-          fontWeight: Fonts.SEMI_BOLD,
-          mb: {
-            xs: 2,
-            lg: 4,
-          },
-        }}
-      >
-        <span>
-          {/* <CustomizedBreadcrumbs label='Home' showComponentName={false} /> */}
-          <Typography sx={{fontWeight: Fonts.SEMI_BOLD}}>TeamSync</Typography>
-        </span>
-      </Box>
       <AppGridContainer spacing={7}>
         <Slide direction='right' in mountOnEnter unmountOnExit>
           <Grid item xs={12} lg={12}>

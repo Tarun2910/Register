@@ -284,7 +284,6 @@ const ProductListing = () => {
 
   const handleCloseRole = () => {
     setOpenRole(false);
-    setIsEdit(false);
   };
 
   const handlesaveRole = () => {
@@ -298,7 +297,7 @@ const ProductListing = () => {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
       },
-      data: [{roleName: roles, roleDisplayName: user}],
+      data: [{roleName: roleName, roleDisplayName: roleDisplayname}],
     };
 
     axios
@@ -313,8 +312,8 @@ const ProductListing = () => {
   };
 
   const updateRole = () => {
-    setOpenRole(true);
     setIsEdit(true);
+    setOpenRole(true);
   };
   const handleupdate = () => {
     const config = {
@@ -325,7 +324,7 @@ const ProductListing = () => {
       },
       data: {
         roleName: roleName,
-        roleDisplayName: roleDisplayname,
+        roleDisplayName: `${rowdata.roleName.split('.')[0]}.${roleDisplayname}`,
         tenantId: rowdata.tenantId,
         id: rowdata.id,
       },
@@ -549,7 +548,7 @@ const ProductListing = () => {
               <CloseIcon />
             </IconButton>
           </Tooltip>
-          CREATE ROLE
+          {isedit ? 'EDIT ROLE' : 'CREATE ROLE'}
         </DialogTitle>
         <Divider />
         <form onSubmit={handleSubmit}>
@@ -572,6 +571,7 @@ const ProductListing = () => {
                         }}
                         {...params}
                         variant='outlined'
+                        required
                         label='Select Department'
                         placeholder='Select The Department'
                         fullWidth
@@ -580,36 +580,39 @@ const ProductListing = () => {
                   />
                 </Grid>
               )}
+
               <Grid item xs={12} sm={12}>
                 <TextField
                   variant='outlined'
-                  value={roles}
+                  value={roleDisplayname}
+                  required
                   sx={{
                     width: '100%',
                     my: 2,
                   }}
                   onChange={(event) => {
                     const {value} = event.target;
-                    setRoles(value);
+                    setRoleDisplayName(value);
                   }}
-                  label={'RoleName'}
-                  placeholder='Enter RoleName'
+                  label={'Role Name'}
+                  placeholder='Enter Role Name'
                 />
               </Grid>
               <Grid item xs={12} sm={12}>
                 <TextField
                   variant='outlined'
-                  value={user}
+                  value={roleName}
+                  required
                   sx={{
                     width: '100%',
                     my: 2,
                   }}
                   onChange={(event) => {
                     const {value} = event.target;
-                    setUser(value);
+                    setRoleName(value);
                   }}
-                  label={'Display RoleName'}
-                  placeholder='Enter Display RoleName'
+                  label={'Role Short Name'}
+                  placeholder='Enter Role Short Name'
                 />
               </Grid>
             </DialogContentText>
@@ -617,8 +620,13 @@ const ProductListing = () => {
           <Divider />
           <DialogActions>
             <Button onClick={handleCloseRole}>Cancel</Button>
-            <Button variant='contained' color='primary' type='submit'>
-              Save
+            <Button
+              variant='contained'
+              color='primary'
+              type='submit'
+              disabled={loading}
+            >
+              {isedit ? 'Update' : 'Save'}
             </Button>
           </DialogActions>
         </form>

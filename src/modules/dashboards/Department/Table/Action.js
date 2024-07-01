@@ -29,6 +29,8 @@ const OrderActions = ({
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
 
+  console.log(data, 'data');
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };

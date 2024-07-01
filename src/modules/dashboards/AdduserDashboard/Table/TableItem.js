@@ -27,7 +27,7 @@ const TableItem = ({
   itemsState,
   setItemsState,
 }) => {
-  // const [itemsState, setItemsState] = useState([]);
+  let licenceTier = sessionStorage.getItem('licenceTierTeamsync');
 
   useEffect(() => {
     // Initialize itemsState with default values from productData
@@ -62,6 +62,7 @@ const TableItem = ({
   const handleSwitchChange = (data) => {
     const id = data.id;
     const itemIndex = itemsState.findIndex((item) => item.id === id);
+    const isActive = itemsState ? itemsState.active : data.active;
 
     setItemsState((prevItemsState) => {
       const updatedItemsState = [...prevItemsState];
@@ -109,6 +110,10 @@ const TableItem = ({
               data.active
             }
             onChange={() => handleSwitchChange(data)}
+            disabled={
+              data.active &&
+              sessionStorage.getItem('licenceTierTeamsync') == 'TRIAL'
+            }
           />
         </Box>
       </StyledTableCell>

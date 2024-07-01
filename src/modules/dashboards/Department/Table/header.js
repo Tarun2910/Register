@@ -5,8 +5,8 @@ import TableHeader from '@crema/components/AppTable/TableHeader';
 const TableHeading = () => {
   return (
     <TableHeader>
-      <TableCell>Department</TableCell>
-      <TableCell align='left'>Display Name</TableCell>
+      <TableCell align='left'>Department Name</TableCell>
+      <TableCell>Department Short Name</TableCell>
       <TableCell align='left'>Branch</TableCell>
       <TableCell align='left'></TableCell>
     </TableHeader>

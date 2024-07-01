@@ -409,7 +409,7 @@ const ProductListing = () => {
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: '${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/applications',
+      url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/applications`,
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
@@ -538,14 +538,14 @@ const ProductListing = () => {
               <MenuItem value={30}>Claros</MenuItem>
             </Select>
           </FormControl>
-          <Button
+          {/* <Button
             color='primary'
             variant='outlined'
             size='small'
             onClick={handlegotoupgrade}
           >
             Activate new plan
-          </Button>
+          </Button> */}
           <Typography
             variant='body1'
             sx={{marginLeft: '10px', fontWeight: Fonts.SEMI_BOLD}}
