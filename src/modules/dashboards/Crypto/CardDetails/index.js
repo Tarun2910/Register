@@ -68,7 +68,7 @@ const CardDetails = ({cardDetails}) => {
             mt: 4,
           }}
         >
-          {cardDetails.map((data, index) => (
+          {cardDetails?.map((data, index) => (
             <Box
               sx={{
                 px: 2.5,
