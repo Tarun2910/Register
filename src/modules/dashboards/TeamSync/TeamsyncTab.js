@@ -10,6 +10,7 @@ import axios from 'axios';
 import {Fonts} from '@crema/constants/AppEnums';
 import {Box, Button, Typography} from '@mui/material';
 import {useNavigate} from 'react-router-dom';
+import Adduser from '../AdduserDashboard';
 
 const TeamSyncTab = () => {
   const [{apiData: cryptoData, loading}] = useGetDataApi('/dashboard/crypto');
@@ -145,13 +146,16 @@ const TeamSyncTab = () => {
       ) : (
         <AppAnimate animation='transition.slideUpIn' delay={200}>
           <AppGridContainer>
-            <Grid item xs={12} md={8} lg={5}>
+            <Grid item xs={12} md={12} lg={5}>
               {/* <CardDetails cardDetails={cryptoData.cardDetails} /> */}
               <CardDetails cardDetails={formatStorageData(storageData)} />
             </Grid>
-            <Grid item xs={12} md={8} lg={7}>
+            <Grid item xs={12} md={12} lg={7}>
               <TeamsyncTable />
             </Grid>
+            {/* <Grid item xs={12} md={12} lg={6}>
+              <Adduser />
+            </Grid> */}
           </AppGridContainer>
         </AppAnimate>
       )}

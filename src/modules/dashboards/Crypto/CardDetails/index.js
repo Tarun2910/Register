@@ -4,9 +4,10 @@ import CardDetailItem from './CardDetailItem';
 import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import MonthlyLimitItem from './MonthlyLimitItem';
-import {Typography} from '@mui/material';
+import {Divider, Typography} from '@mui/material';
 import {useIntl} from 'react-intl';
 import {Fonts} from '@crema/constants/AppEnums';
+import CustomizedProgressBars from './Progressbar';
 
 const CardDetails = ({cardDetails}) => {
   const {messages} = useIntl();
@@ -68,7 +69,7 @@ const CardDetails = ({cardDetails}) => {
             mt: 4,
           }}
         >
-          {cardDetails?.map((data, index) => (
+          {/* {cardDetails?.map((data, index) => (
             <Box
               sx={{
                 px: 2.5,
@@ -78,8 +79,9 @@ const CardDetails = ({cardDetails}) => {
             >
               <MonthlyLimitItem monthlyLimit={data} />
             </Box>
-          ))}
-          {/* {cardDetails ? (
+          ))} */}
+
+          {cardDetails ? (
             cardDetails.map((data, index) => (
               <Box
                 sx={{
@@ -103,7 +105,34 @@ const CardDetails = ({cardDetails}) => {
             >
               <Typography>No Record Available</Typography>
             </Box>
-          )} */}
+          )}
+        </Box>
+        <Divider
+          sx={{
+            my: 4,
+            borderBottom: (theme) => `solid 2px ${theme.palette.divider}`,
+          }}
+        />
+        <Typography
+          sx={{
+            fontWeight: Fonts.SEMI_BOLD,
+            textAlign: 'start',
+            fontSize: 16,
+            pb: 1,
+            mb: 4,
+          }}
+        >
+          Active User
+        </Typography>
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            mb: 2.5,
+          }}
+        >
+          <CustomizedProgressBars />
         </Box>
         {/* </Box> */}
       </AppCard>
@@ -114,5 +143,5 @@ const CardDetails = ({cardDetails}) => {
 export default CardDetails;
 
 CardDetails.propTypes = {
-  cardDetails: PropTypes.object.isRequired,
+  cardDetails: PropTypes.any.isRequired,
 };
