@@ -138,7 +138,7 @@ const TableItem = ({
     let config = {
       method: 'put',
       maxBodyLength: Infinity,
-      url: `/tenants/departments/${deptName}/roles`,
+      url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/departments/${deptName}/roles`,
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,

@@ -80,7 +80,7 @@ export const organizationhierarchy = ({selectedProd}) => {
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: `/tenants/departments/${deptName}/roles?search=${searchData}`,
+      url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/departments/${deptName}/roles?search=${searchData}`,
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json; charset=utf8',
@@ -271,7 +271,7 @@ export const organizationhierarchy = ({selectedProd}) => {
             let config = {
               method: 'post',
               maxBodyLength: Infinity,
-              url: `/tenants/departments/${deptName}/roles`,
+              url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/departments/${deptName}/roles`,
               headers: {
                 userId: id,
                 'Content-Type': 'application/json',
