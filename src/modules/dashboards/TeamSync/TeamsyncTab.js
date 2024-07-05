@@ -10,16 +10,15 @@ import axios from 'axios';
 import {Fonts} from '@crema/constants/AppEnums';
 import {Box, Button, Typography} from '@mui/material';
 import {useNavigate} from 'react-router-dom';
-import Adduser from '../AdduserDashboard';
 
 const TeamSyncTab = () => {
   const [{apiData: cryptoData, loading}] = useGetDataApi('/dashboard/crypto');
   const [storageData, setStorageData] = useState([]);
   const [list, setList] = useState([]);
-  const Navigate = useNavigate();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    let config = {
+    const config = {
       method: 'get',
       maxBodyLength: Infinity,
       url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/dms_service_LM/api/storageStats`,
@@ -32,10 +31,10 @@ const TeamSyncTab = () => {
     axios
       .request(config)
       .then((response) => {
+        console.log(response, 'response');
         setStorageData(response?.data);
         const transformedData = transformApiResponse(response?.data);
         setList(transformedData);
-        // setTotal(response?.data?.count);
       })
       .catch((error) => {
         console.log(error);
@@ -43,7 +42,7 @@ const TeamSyncTab = () => {
   }, []);
 
   const handlegotoupgrade = () => {
-    Navigate('/upgrade');
+    navigate('/upgrade');
   };
 
   const handleNaN = (value) => {
@@ -53,9 +52,9 @@ const TeamSyncTab = () => {
   const formatStorageData = (data) => {
     if (
       !data ||
-      !data?.deptsAggregate ||
-      !data?.organizationStats ||
-      !data?.usersAggregate
+      !data.deptsAggregate ||
+      !data.organizationStats ||
+      !data.usersAggregate
     ) {
       return null;
     }
@@ -65,15 +64,15 @@ const TeamSyncTab = () => {
         value: handleNaN(
           parseFloat(
             (
-              (data?.deptsAggregate?.currentlyUsedStorage /
-                data?.deptsAggregate?.totalAllocatedStorage) *
+              (data.deptsAggregate.currentlyUsedStorage /
+                data.deptsAggregate.totalAllocatedStorage) *
               100
             ).toFixed(2),
           ),
         ),
         activeColor: '#F04F47',
         income: `${handleNaN(
-          (data?.deptsAggregate?.currentlyUsedStorage / 1024 / 1024).toFixed(2),
+          (data.deptsAggregate.currentlyUsedStorage / 1024 / 1024).toFixed(2),
         )} MB`,
       },
       {
@@ -81,8 +80,8 @@ const TeamSyncTab = () => {
         value: handleNaN(
           parseFloat(
             (
-              (data?.organizationStats?.currentlyUsedStorage /
-                data?.organizationStats?.totalAllocatedStorage) *
+              (data.organizationStats.currentlyUsedStorage /
+                data.organizationStats.totalAllocatedStorage) *
               100
             ).toFixed(2),
           ),
@@ -90,7 +89,7 @@ const TeamSyncTab = () => {
         activeColor: '#0BBFDB',
         income: `${handleNaN(
           (
-            data?.organizationStats?.currentlyUsedStorage /
+            data.organizationStats.currentlyUsedStorage /
             1024 /
             1024 /
             1024
@@ -102,79 +101,77 @@ const TeamSyncTab = () => {
         value: handleNaN(
           parseFloat(
             (
-              (data?.usersAggregate?.currentlyUsedStorage /
-                data?.usersAggregate?.totalAllocatedStorage) *
+              (data.usersAggregate.currentlyUsedStorage /
+                data.usersAggregate.totalAllocatedStorage) *
               100
             ).toFixed(2),
           ),
         ),
         activeColor: '#3D5AFE',
         income: `${handleNaN(
-          (data?.usersAggregate?.currentlyUsedStorage / 1024 / 1024).toFixed(2),
+          (data.usersAggregate.currentlyUsedStorage / 1024 / 1024).toFixed(2),
         )} MB`,
       },
     ];
   };
+
   const totalUserCount = storageData?.totalUserCount || 0;
   const activeUserCount = storageData?.activeUserCount || 0;
 
   const transformApiResponse = (data) => {
-    // Map individual user stats
-    const userStats = data.usersPerms.map((user) => ({
-      id: user.userName,
-      userId: user.userName,
-      deptName: null,
-      accessLevel: null,
-      accessCode: null,
-      displayStorage: `${(user.currentlyUsedStorage / 1024).toFixed(2)} KB`,
-      allowedStorageInBytes: user.totalAllocatedStorage,
-      currentStorageInBytes: user.currentlyUsedStorage,
-      allowedStorageInBytesDisplay: `${(
-        user.totalAllocatedStorage /
-        (1024 * 1024 * 1024)
-      ).toFixed(2)} GB`,
-      usedPercent:
-        (user.currentlyUsedStorage / user.totalAllocatedStorage) * 100,
-      deptUsername: null,
-      deptDisplayUsername: null,
-      roleName: null,
-      displayRoleName: null,
-      tenantId: null,
-      licenseTier: null,
-      isDMS_CreateType: false,
-      userOrDept: user.userOrDept,
-      active: user.active,
-    }));
+    if (!data) {
+      return [];
+    }
 
-    // Map individual department stats
-    const deptStats = data.deptPerms.map((dept) => ({
-      id: dept.deptName,
-      userId: dept.deptName,
-      deptName: dept.deptName,
-      accessLevel: null,
-      accessCode: null,
-      displayStorage: `${(dept.currentlyUsedStorage / 1024).toFixed(2)} KB`,
-      allowedStorageInBytes: dept.totalAllocatedStorage,
-      currentStorageInBytes: dept.currentlyUsedStorage,
-      allowedStorageInBytesDisplay: `${(
-        dept.totalAllocatedStorage /
-        (1024 * 1024 * 1024)
-      ).toFixed(2)} GB`,
-      usedPercent:
-        (dept.currentlyUsedStorage / dept.totalAllocatedStorage) * 100,
-      deptUsername: null,
-      deptDisplayUsername: null,
-      roleName: null,
-      displayRoleName: null,
-      tenantId: null,
-      licenseTier: null,
-      isDMS_CreateType: false,
-      userOrDept: dept.userOrDept,
-    }));
+    const userStats =
+      data.userPerms?.map((user) => ({
+        id: user.userId,
+        userId: user.userId,
+        deptName: user.deptName,
+        accessLevel: user.accessLevel,
+        accessCode: user.accessCode,
+        displayStorage: user.displayStorage,
+        allowedStorageInBytes: user.allowedStorageInBytes,
+        currentStorageInBytes: user.currentStorageInBytes,
+        allowedStorageInBytesDisplay: user.allowedStorageInBytesDisplay,
+        usedPercent: user.usedPercent,
+        deptUsername: user.deptUsername,
+        deptDisplayUsername: user.deptDisplayUsername,
+        roleName: user.roleName,
+        displayRoleName: user.displayRoleName,
+        tenantId: user.tenantId,
+        licenseTier: user.licenseTier,
+        isDMS_CreateType: user.isDMS_CreateType,
+        userOrDept: 'User',
+        active: user.active,
+      })) || [];
 
-    // Combine user and department stats
+    const deptStats =
+      data.deptPerms?.map((dept) => ({
+        id: dept.userId,
+        userId: dept.userId,
+        deptName: dept.deptName,
+        accessLevel: dept.accessLevel,
+        accessCode: dept.accessCode,
+        displayStorage: dept.displayStorage,
+        allowedStorageInBytes: dept.allowedStorageInBytes,
+        currentStorageInBytes: dept.currentStorageInBytes,
+        allowedStorageInBytesDisplay: dept.allowedStorageInBytesDisplay,
+        usedPercent: dept.usedPercent,
+        deptUsername: dept.deptUsername,
+        deptDisplayUsername: dept.deptDisplayUsername,
+        roleName: dept.roleName,
+        displayRoleName: dept.displayRoleName,
+        tenantId: dept.tenantId,
+        licenseTier: dept.licenseTier,
+        isDMS_CreateType: dept.isDMS_CreateType,
+        userOrDept: 'Department',
+        active: dept.active,
+      })) || [];
+
     return [...userStats, ...deptStats];
   };
+
   return (
     <>
       <Box
@@ -210,7 +207,6 @@ const TeamSyncTab = () => {
         <AppAnimate animation='transition.slideUpIn' delay={200}>
           <AppGridContainer>
             <Grid item xs={12} md={12} lg={5}>
-              {/* <CardDetails cardDetails={cryptoData.cardDetails} /> */}
               <CardDetails
                 cardDetails={formatStorageData(storageData)}
                 activeUserCount={activeUserCount}
@@ -220,9 +216,6 @@ const TeamSyncTab = () => {
             <Grid item xs={12} md={12} lg={7}>
               <TeamsyncTable storageData={list} list={list} setList={setList} />
             </Grid>
-            {/* <Grid item xs={12} md={12} lg={6}>
-              <Adduser />
-            </Grid> */}
           </AppGridContainer>
         </AppAnimate>
       )}
