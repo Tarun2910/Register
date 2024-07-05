@@ -16,6 +16,7 @@ import {
   Select,
   Tooltip,
 } from '@mui/material';
+import CustomizedSwitches from 'modules/dashboards/AdduserDashboard/Table/switchButton';
 
 const StyledTableCell = styled(TableCell)(() => ({
   fontSize: 14,
@@ -36,8 +37,11 @@ const TableItem = ({
   itemsState,
   setItemsState,
   setList,
+  showUsers,
 }) => {
   // const [itemsState, setItemsState] = useState([]);
+
+  console.log(productData, 'data in');
 
   useEffect(() => {
     // Initialize itemsState with default values from productData
@@ -177,15 +181,31 @@ const TableItem = ({
         </Tooltip>
       </StyledTableCell>
       <StyledTableCell align='left'>{data.displayStorage}</StyledTableCell>
-      <StyledTableCell align='left'>
-        <OrderActions
-          id={data.id}
-          // setTotal={setTotal}
-          // setPage={setPage}
-          // setList={setList}
-          // list={list}
-        />
-      </StyledTableCell>
+      {showUsers ? (
+        <StyledTableCell align='left'>
+          <CustomizedSwitches
+            checked={
+              itemsState.find((item) => item.id === data.id)?.active ??
+              data.active
+            }
+            onChange={() => handleSwitchChange(data)}
+            disabled={
+              data.active &&
+              sessionStorage.getItem('licenceTierTeamsync') == 'TRIAL'
+            }
+          />
+        </StyledTableCell>
+      ) : (
+        <StyledTableCell align='left'>
+          <OrderActions
+            id={data.id}
+            // setTotal={setTotal}
+            // setPage={setPage}
+            // setList={setList}
+            // list={list}
+          />
+        </StyledTableCell>
+      )}
     </TableRow>
   ));
 };
@@ -197,4 +217,5 @@ TableItem.propTypes = {
   onItemsStateUpdate: PropTypes.any,
   setTableData: PropTypes.any,
   setList: PropTypes.any,
+  showUsers: PropTypes.any,
 };

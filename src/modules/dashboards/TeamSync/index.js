@@ -28,18 +28,18 @@ import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
 import {blue} from '@mui/material/colors';
 import {useNavigate} from 'react-router-dom';
 import CustomizedBreadcrumbs from 'modules/muiComponents/navigation/Breadcrumbs/CustomizedBreadcrumbs';
+import PropTypes from 'prop-types';
 
 import Draggable from 'react-draggable';
 
 import {debounce} from 'lodash';
 import {toast} from 'react-toastify';
 
-const ProductListing = () => {
+const ProductListing = ({list, setList}) => {
   const {messages} = useIntl();
   const Navigate = useNavigate();
 
   const [page, setPage] = useState(0);
-  const [list, setList] = useState([]);
   const [thumbnailUrls, setThumbnailUrls] = useState([]);
   const [total, setTotal] = useState(0);
 
@@ -51,6 +51,9 @@ const ProductListing = () => {
   const [open, setOpen] = useState(false);
   const [selectedIds, setSelectedIds] = useState([]);
   const [isAllSelected, setIsAllSelected] = useState(false);
+  const [showUsers, setShowUsers] = useState(true);
+
+  console.log(list, 'storageData');
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -69,34 +72,93 @@ const ProductListing = () => {
     console.log(value, 'value');
   };
 
-  useEffect(() => {
-    let config = {
-      method: 'get',
-      maxBodyLength: Infinity,
-      url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/dms_service_LM/api/dms_admin_service/getUserData`,
+  // useEffect(() => {
+  //   let config = {
+  //     method: 'get',
+  //     maxBodyLength: Infinity,
+  //     url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/dms_service_LM/api/dms_admin_service/getUserData`,
 
-      headers: {
-        Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
-        pageSize: '10',
-        pageNumber: page,
-        userName: sessionStorage.getItem('username'),
-        deptName: 'ALL_USER',
-      },
-    };
-    setLoading(true);
-    axios
-      .request(config)
-      .then((response) => {
-        setLoading(false);
-        console.log(response.data);
-        setList(response?.data?.data);
-        setTotal(response?.data?.count);
-      })
-      .catch((error) => {
-        setLoading(false);
-        console.log(error);
-      });
-  }, [page]);
+  //     headers: {
+  //       Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
+  //       pageSize: '10',
+  //       pageNumber: page,
+  //       userName: sessionStorage.getItem('username'),
+  //       deptName: 'ALL_USER',
+  //     },
+  //   };
+  //   setLoading(true);
+  //   axios
+  //     .request(config)
+  //     .then((response) => {
+  //       setLoading(false);
+  //       console.log(response.data);
+  //       setList(response?.data?.data);
+  //       setTotal(response?.data?.count);
+  //     })
+  //     .catch((error) => {
+  //       setLoading(false);
+  //       console.log(error);
+  //     });
+  // }, [page]);
+
+  console.log(list, 'list');
+
+  const transformApiResponse = (data) => {
+    // Map individual user stats
+    const userStats = data.individualUsersStats.map((user) => ({
+      id: user.userName,
+      userId: user.userName,
+      deptName: null,
+      accessLevel: null,
+      accessCode: null,
+      displayStorage: `${(user.currentlyUsedStorage / 1024).toFixed(2)} KB`,
+      allowedStorageInBytes: user.totalAllocatedStorage,
+      currentStorageInBytes: user.currentlyUsedStorage,
+      allowedStorageInBytesDisplay: `${(
+        user.totalAllocatedStorage /
+        (1024 * 1024 * 1024)
+      ).toFixed(2)} GB`,
+      usedPercent:
+        (user.currentlyUsedStorage / user.totalAllocatedStorage) * 100,
+      deptUsername: null,
+      deptDisplayUsername: null,
+      roleName: null,
+      displayRoleName: null,
+      tenantId: null,
+      licenseTier: null,
+      isDMS_CreateType: false,
+      userOrDept: user.userOrDept,
+    }));
+
+    // Map individual department stats
+    const deptStats = data.individualDeptsStats.map((dept) => ({
+      id: dept.deptName,
+      userId: dept.deptName,
+      deptName: dept.deptName,
+      accessLevel: null,
+      accessCode: null,
+      displayStorage: `${(dept.currentlyUsedStorage / 1024).toFixed(2)} KB`,
+      allowedStorageInBytes: dept.totalAllocatedStorage,
+      currentStorageInBytes: dept.currentlyUsedStorage,
+      allowedStorageInBytesDisplay: `${(
+        dept.totalAllocatedStorage /
+        (1024 * 1024 * 1024)
+      ).toFixed(2)} GB`,
+      usedPercent:
+        (dept.currentlyUsedStorage / dept.totalAllocatedStorage) * 100,
+      deptUsername: null,
+      deptDisplayUsername: null,
+      roleName: null,
+      displayRoleName: null,
+      tenantId: null,
+      licenseTier: null,
+      isDMS_CreateType: false,
+      userOrDept: dept.userOrDept,
+    }));
+
+    // Combine user and department stats
+    return [...userStats, ...deptStats];
+  };
 
   // const searchProduct = (title) => {
   //   setFilterData({...filterData, title});
@@ -248,6 +310,12 @@ const ProductListing = () => {
   //   setOpenDomain(false);
   // };
 
+  const filteredData = showUsers
+    ? list.filter((item) => item.userOrDept === 'User')
+    : list.filter((item) => item.userOrDept === 'Department');
+
+  console.log(filteredData, 'filteredData');
+
   return (
     <>
       <AppGridContainer spacing={7}>
@@ -286,6 +354,14 @@ const ProductListing = () => {
                       </Button> */}
                       <Button
                         sx={{marginRight: '10px'}}
+                        variant='contained'
+                        size='small'
+                        onClick={() => setShowUsers(!showUsers)}
+                      >
+                        {showUsers ? 'Show Departments' : 'Show Users'}
+                      </Button>
+                      <Button
+                        sx={{marginRight: '10px'}}
                         color='primary'
                         variant='contained'
                         size='small'
@@ -321,7 +397,7 @@ const ProductListing = () => {
                 }}
               >
                 <ListingTable
-                  productData={list || []}
+                  productData={filteredData || []}
                   thumbnailUrls={thumbnailUrls}
                   loading={loading}
                   setTotal={setTotal}
@@ -337,6 +413,7 @@ const ProductListing = () => {
                   selectedIds={selectedIds}
                   isAllSelected={isAllSelected}
                   setIsAllSelected={setIsAllSelected}
+                  showUsers={showUsers}
                 />
               </AppsContent>
               <Hidden smUp>
@@ -377,3 +454,8 @@ const ProductListing = () => {
 };
 
 export default ProductListing;
+
+ProductListing.propTypes = {
+  list: PropTypes.any,
+  setList: PropTypes.any,
+};

@@ -58,7 +58,7 @@ const CheckMail = () => {
       method: 'post',
       maxBodyLength: Infinity,
       url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/public/sendTokenAgain`,
-      headers: {email: sessionStorage.getItem('username')},
+      headers: {email: sessionStorage.getItem('AdminEmail')},
     };
 
     axios

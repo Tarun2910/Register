@@ -9,7 +9,8 @@ import {useIntl} from 'react-intl';
 import {Fonts} from '@crema/constants/AppEnums';
 import CustomizedProgressBars from './Progressbar';
 
-const CardDetails = ({cardDetails}) => {
+const CardDetails = ({cardDetails, activeUserCount, totalUserCount}) => {
+  console.log(activeUserCount, totalUserCount, 'final');
   const {messages} = useIntl();
   return (
     <>
@@ -132,7 +133,10 @@ const CardDetails = ({cardDetails}) => {
             mb: 2.5,
           }}
         >
-          <CustomizedProgressBars />
+          <CustomizedProgressBars
+            totalUserCount={totalUserCount}
+            activeUserCount={activeUserCount}
+          />
         </Box>
         {/* </Box> */}
       </AppCard>
@@ -144,4 +148,6 @@ export default CardDetails;
 
 CardDetails.propTypes = {
   cardDetails: PropTypes.any.isRequired,
+  totalUserCount: PropTypes.any.isRequired,
+  activeUserCount: PropTypes.any.isRequired,
 };

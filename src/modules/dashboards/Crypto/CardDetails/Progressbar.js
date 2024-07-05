@@ -9,6 +9,7 @@ import LinearProgress, {
   linearProgressClasses,
 } from '@mui/material/LinearProgress';
 import {Typography} from '@mui/material';
+import PropTypes from 'prop-types';
 
 const BorderLinearProgress = styled(LinearProgress)(({theme}) => ({
   height: 5,
@@ -23,7 +24,6 @@ const BorderLinearProgress = styled(LinearProgress)(({theme}) => ({
   },
 }));
 
-// Inspired by the former Facebook spinners.
 function FacebookCircularProgress(props) {
   return (
     <Box sx={{position: 'relative'}}>
@@ -59,8 +59,6 @@ function FacebookCircularProgress(props) {
   );
 }
 
-// From https://github.com/mui/material-ui/issues/9496#issuecomment-959408221
-
 function GradientCircularProgress() {
   return (
     <React.Fragment>
@@ -77,7 +75,10 @@ function GradientCircularProgress() {
   );
 }
 
-export default function CustomizedProgressBars() {
+const CustomizedProgressBars = ({totalUserCount, activeUserCount}) => {
+  const progress =
+    totalUserCount > 0 ? (activeUserCount / totalUserCount) * 100 : 0;
+
   return (
     <Stack spacing={2} sx={{flexGrow: 1}}>
       <Box
@@ -89,13 +90,20 @@ export default function CustomizedProgressBars() {
       >
         <BorderLinearProgress
           variant='determinate'
-          value={50}
+          value={progress}
           sx={{flexGrow: 1}}
         />
         <Typography variant='body2' color='text.secondary' sx={{ml: 2}}>
-          3/5
+          {`${activeUserCount}/${totalUserCount}`}
         </Typography>
       </Box>
     </Stack>
   );
-}
+};
+
+CustomizedProgressBars.propTypes = {
+  totalUserCount: PropTypes.number.isRequired,
+  activeUserCount: PropTypes.number.isRequired,
+};
+
+export default CustomizedProgressBars;

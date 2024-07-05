@@ -17,6 +17,7 @@ const ProductTable = ({
   setList,
   setItemsState,
   itemsState,
+  showUsers,
 }) => {
   return (
     <AppTableContainer>
@@ -38,6 +39,7 @@ const ProductTable = ({
               setList={setList}
               setItemsState={setItemsState}
               itemsState={itemsState}
+              showUsers={showUsers}
             />
             // ))
           )}
@@ -62,4 +64,5 @@ ProductTable.propTypes = {
   setList: PropTypes.any,
   setItemsState: PropTypes.any,
   itemsState: PropTypes.any,
+  showUsers: PropTypes.any,
 };

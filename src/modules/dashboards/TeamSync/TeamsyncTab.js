@@ -15,6 +15,7 @@ import Adduser from '../AdduserDashboard';
 const TeamSyncTab = () => {
   const [{apiData: cryptoData, loading}] = useGetDataApi('/dashboard/crypto');
   const [storageData, setStorageData] = useState([]);
+  const [list, setList] = useState([]);
   const Navigate = useNavigate();
 
   useEffect(() => {
@@ -32,7 +33,9 @@ const TeamSyncTab = () => {
       .request(config)
       .then((response) => {
         setStorageData(response?.data);
-        console.log(response);
+        const transformedData = transformApiResponse(response?.data);
+        setList(transformedData);
+        // setTotal(response?.data?.count);
       })
       .catch((error) => {
         console.log(error);
@@ -112,6 +115,66 @@ const TeamSyncTab = () => {
       },
     ];
   };
+  const totalUserCount = storageData?.totalUserCount || 0;
+  const activeUserCount = storageData?.activeUserCount || 0;
+
+  const transformApiResponse = (data) => {
+    // Map individual user stats
+    const userStats = data.usersPerms.map((user) => ({
+      id: user.userName,
+      userId: user.userName,
+      deptName: null,
+      accessLevel: null,
+      accessCode: null,
+      displayStorage: `${(user.currentlyUsedStorage / 1024).toFixed(2)} KB`,
+      allowedStorageInBytes: user.totalAllocatedStorage,
+      currentStorageInBytes: user.currentlyUsedStorage,
+      allowedStorageInBytesDisplay: `${(
+        user.totalAllocatedStorage /
+        (1024 * 1024 * 1024)
+      ).toFixed(2)} GB`,
+      usedPercent:
+        (user.currentlyUsedStorage / user.totalAllocatedStorage) * 100,
+      deptUsername: null,
+      deptDisplayUsername: null,
+      roleName: null,
+      displayRoleName: null,
+      tenantId: null,
+      licenseTier: null,
+      isDMS_CreateType: false,
+      userOrDept: user.userOrDept,
+      active: user.active,
+    }));
+
+    // Map individual department stats
+    const deptStats = data.deptPerms.map((dept) => ({
+      id: dept.deptName,
+      userId: dept.deptName,
+      deptName: dept.deptName,
+      accessLevel: null,
+      accessCode: null,
+      displayStorage: `${(dept.currentlyUsedStorage / 1024).toFixed(2)} KB`,
+      allowedStorageInBytes: dept.totalAllocatedStorage,
+      currentStorageInBytes: dept.currentlyUsedStorage,
+      allowedStorageInBytesDisplay: `${(
+        dept.totalAllocatedStorage /
+        (1024 * 1024 * 1024)
+      ).toFixed(2)} GB`,
+      usedPercent:
+        (dept.currentlyUsedStorage / dept.totalAllocatedStorage) * 100,
+      deptUsername: null,
+      deptDisplayUsername: null,
+      roleName: null,
+      displayRoleName: null,
+      tenantId: null,
+      licenseTier: null,
+      isDMS_CreateType: false,
+      userOrDept: dept.userOrDept,
+    }));
+
+    // Combine user and department stats
+    return [...userStats, ...deptStats];
+  };
   return (
     <>
       <Box
@@ -148,10 +211,14 @@ const TeamSyncTab = () => {
           <AppGridContainer>
             <Grid item xs={12} md={12} lg={5}>
               {/* <CardDetails cardDetails={cryptoData.cardDetails} /> */}
-              <CardDetails cardDetails={formatStorageData(storageData)} />
+              <CardDetails
+                cardDetails={formatStorageData(storageData)}
+                activeUserCount={activeUserCount}
+                totalUserCount={totalUserCount}
+              />
             </Grid>
             <Grid item xs={12} md={12} lg={7}>
-              <TeamsyncTable />
+              <TeamsyncTable storageData={list} list={list} setList={setList} />
             </Grid>
             {/* <Grid item xs={12} md={12} lg={6}>
               <Adduser />
