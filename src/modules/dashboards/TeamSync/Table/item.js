@@ -41,7 +41,7 @@ const TableItem = ({
 }) => {
   // const [itemsState, setItemsState] = useState([]);
 
-  console.log(productData, 'data in');
+  console.log(itemsState, 'data in');
 
   useEffect(() => {
     // Initialize itemsState with default values from productData
@@ -72,6 +72,26 @@ const TableItem = ({
       onButtonDisable(true);
     }
   }, [itemsState, onItemsStateUpdate]);
+
+  // const handleSwitchChange = (data) => {
+  //   const id = data.id;
+  //   const itemIndex = itemsState.findIndex((item) => item.id === id);
+
+  //   setItemsState((prevItemsState) => {
+  //     const updatedItemsState = [...prevItemsState];
+
+  //     if (itemIndex !== -1) {
+  //       // If the item is already in the state, update only the specific item
+  //       updatedItemsState[itemIndex].active =
+  //         !updatedItemsState[itemIndex].active;
+  //     } else {
+  //       // If the item is not in the state, add it to the state
+  //       updatedItemsState.push({id, active: !data.active});
+  //     }
+
+  //     return updatedItemsState;
+  //   });
+  // };
 
   const handleSwitchChange = (data) => {
     const id = data.id;

@@ -198,7 +198,7 @@ const ProductListing = () => {
         );
         const applicationuserRemaining =
           response?.data?.usersRemaining[applicationName];
-        setLicense(applicationuserRemaining || '');
+        setLicense(applicationuserRemaining || '0');
         const applicationLicenseTier =
           response?.data?.licenseTier[applicationName];
         setLicenseTier(applicationLicenseTier || '');
@@ -365,7 +365,7 @@ const ProductListing = () => {
         // const RemainingUsers = response.headers['usersRemaining'];
         const applicationuserRemaining =
           response?.data?.usersRemaining[applicationName];
-        setLicense(applicationuserRemaining || '');
+        setLicense(applicationuserRemaining || '0');
         // setLicense(response?.data?.usersRemaining);
         setList(response?.data?.allUsers?.content);
         setTotal(response?.data?.allUsers?.totalElements);

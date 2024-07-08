@@ -15,16 +15,20 @@ const TeamSyncTab = () => {
   const [{apiData: cryptoData, loading}] = useGetDataApi('/dashboard/crypto');
   const [storageData, setStorageData] = useState([]);
   const [list, setList] = useState([]);
+  const [total, setTotal] = useState(0);
+  const [page, setPage] = useState(0);
   const navigate = useNavigate();
 
   useEffect(() => {
     const config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/dms_service_LM/api/storageStats`,
+      url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/dms_service_LM/api/dms_admin_service/storageStats`,
       headers: {
         Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
         username: sessionStorage.getItem('username'),
+        pageSize: '10',
+        pageNumber: page,
       },
     };
 
@@ -34,6 +38,7 @@ const TeamSyncTab = () => {
         console.log(response, 'response');
         setStorageData(response?.data);
         const transformedData = transformApiResponse(response?.data);
+
         setList(transformedData);
       })
       .catch((error) => {
@@ -116,6 +121,7 @@ const TeamSyncTab = () => {
   };
 
   const totalUserCount = storageData?.totalUserCount || 0;
+  const totalDeptCount = storageData?.totalDeptCount || 0;
   const activeUserCount = storageData?.activeUserCount || 0;
 
   const transformApiResponse = (data) => {
@@ -125,7 +131,7 @@ const TeamSyncTab = () => {
 
     const userStats =
       data.userPerms?.map((user) => ({
-        id: user.userId,
+        id: user.id,
         userId: user.userId,
         deptName: user.deptName,
         accessLevel: user.accessLevel,
@@ -148,7 +154,7 @@ const TeamSyncTab = () => {
 
     const deptStats =
       data.deptPerms?.map((dept) => ({
-        id: dept.userId,
+        id: dept.id,
         userId: dept.userId,
         deptName: dept.deptName,
         accessLevel: dept.accessLevel,
@@ -214,7 +220,15 @@ const TeamSyncTab = () => {
               />
             </Grid>
             <Grid item xs={12} md={12} lg={7}>
-              <TeamsyncTable storageData={list} list={list} setList={setList} />
+              <TeamsyncTable
+                storageData={list}
+                list={list}
+                setList={setList}
+                totalUserCount={totalUserCount}
+                totalDeptCount={totalDeptCount}
+                setPage={setPage}
+                page={page}
+              />
             </Grid>
           </AppGridContainer>
         </AppAnimate>

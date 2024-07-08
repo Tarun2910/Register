@@ -81,7 +81,7 @@ const SetPassword = () => {
   };
 
   const Gotosign = () => {
-    navigate('http://3.7.32.64:3009');
+    window.location.href = 'http://3.7.32.64:3009';
   };
 
   return (
@@ -383,6 +383,7 @@ const SetPassword = () => {
                         <IntlMessages id='common.forgetPassword' />
                       </Box>
                     </Box> */}
+
                     {message !== 'success' ? (
                       <Button
                         variant='contained'

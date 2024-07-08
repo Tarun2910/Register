@@ -35,11 +35,18 @@ import Draggable from 'react-draggable';
 import {debounce} from 'lodash';
 import {toast} from 'react-toastify';
 
-const ProductListing = ({list, setList}) => {
+const ProductListing = ({
+  list,
+  setList,
+  totalUserCount,
+  totalDeptCount,
+  page,
+  setPage,
+}) => {
+  console.log(totalUserCount, totalDeptCount, 'jjj');
   const {messages} = useIntl();
   const Navigate = useNavigate();
 
-  const [page, setPage] = useState(0);
   const [thumbnailUrls, setThumbnailUrls] = useState([]);
   const [total, setTotal] = useState(0);
 
@@ -211,12 +218,77 @@ const ProductListing = ({list, setList}) => {
   //     });
   // };
 
+  // const updateUsersPermissions = async () => {
+  //   setLoading(true);
+  //   try {
+  //     const response = await axios.post(
+  //       `${window.__ENV__.REACT_APP_MIDDLEWARE}/dms_service_LM/api/dms_admin_service/setUserData`,
+  //       list,
+  //       {
+  //         headers: {
+  //           Authorization: 'Bearer ' + sessionStorage.getItem('jwt_token'),
+  //           username: sessionStorage.getItem('username'),
+  //           deptName: sessionStorage.getItem('username'),
+  //           pageNumber: '0',
+  //           pageSize: '10',
+  //         },
+  //       },
+  //     );
+  //     console.log(response);
+
+  //     // if (searchValue) {
+  //     //   let regex = /^([^\(]+)\s+\(([^)]+)\)$/;
+  //     //   // Executing the regular expression on the input string
+  //     //   let match = searchValue.match(regex);
+
+  //     //   let name = match[1].trim();
+  //     //   let role = match[2].trim();
+
+  //     //   let updatedUser = response.data.data.find(
+  //     //     (user) =>
+  //     //       user?.displayRoleName === role &&
+  //     //       user?.deptDisplayUsername === name,
+  //     //   );
+  //     //   setList([updatedUser]);
+  //     // } else {
+  //     //   setUsersData(response.data.data);
+  //     // }
+
+  //     toast.success('Users Permissions Updated Successfully');
+  //   } catch (error) {
+  //     console.log(error);
+  //     toast.error(error?.response?.data?.error);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
   const updateUsersPermissions = async () => {
     setLoading(true);
+
+    // Create a new list with the updated active statuses and storage information
+    const updatedList = list.map((item) => {
+      console.log(item, 'item');
+      const updatedItem = itemsState.find(
+        (stateItem) => stateItem.id === item.id,
+      );
+
+      return updatedItem
+        ? {
+            ...item,
+            active: updatedItem.active,
+            allowedStorageInBytesDisplay:
+              updatedItem.allowedStorageInBytesDisplay,
+            allowedStorageInBytes: updatedItem.allowedStorageInBytes, // Assuming this is the field name
+            currentStorageInBytes: updatedItem.currentStorageInBytes, // Assuming this is the field name
+          }
+        : item;
+    });
+
     try {
       const response = await axios.post(
         `${window.__ENV__.REACT_APP_MIDDLEWARE}/dms_service_LM/api/dms_admin_service/setUserData`,
-        list,
+        updatedList,
         {
           headers: {
             Authorization: 'Bearer ' + sessionStorage.getItem('jwt_token'),
@@ -228,25 +300,6 @@ const ProductListing = ({list, setList}) => {
         },
       );
       console.log(response);
-
-      // if (searchValue) {
-      //   let regex = /^([^\(]+)\s+\(([^)]+)\)$/;
-      //   // Executing the regular expression on the input string
-      //   let match = searchValue.match(regex);
-
-      //   let name = match[1].trim();
-      //   let role = match[2].trim();
-
-      //   let updatedUser = response.data.data.find(
-      //     (user) =>
-      //       user?.displayRoleName === role &&
-      //       user?.deptDisplayUsername === name,
-      //   );
-      //   setList([updatedUser]);
-      // } else {
-      //   setUsersData(response.data.data);
-      // }
-
       toast.success('Users Permissions Updated Successfully');
     } catch (error) {
       console.log(error);
@@ -374,7 +427,7 @@ const ProductListing = ({list, setList}) => {
                       <Hidden smDown>
                         <AppsPagination
                           rowsPerPage={10}
-                          count={total}
+                          count={showUsers ? totalUserCount : totalDeptCount}
                           page={page}
                           onPageChange={onPageChange}
                         />
@@ -458,4 +511,8 @@ export default ProductListing;
 ProductListing.propTypes = {
   list: PropTypes.any,
   setList: PropTypes.any,
+  totalUserCount: PropTypes.any,
+  totalDeptCount: PropTypes.any,
+  page: PropTypes.any,
+  setPage: PropTypes.any,
 };
