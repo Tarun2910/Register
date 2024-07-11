@@ -41,7 +41,7 @@ const TableItem = ({
 }) => {
   // const [itemsState, setItemsState] = useState([]);
 
-  console.log(itemsState, 'data in');
+  console.log(productData, 'productData321');
 
   useEffect(() => {
     // Initialize itemsState with default values from productData

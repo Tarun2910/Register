@@ -123,59 +123,59 @@ const TeamSyncTab = () => {
   const totalUserCount = storageData?.totalUserCount || 0;
   const totalDeptCount = storageData?.totalDeptCount || 0;
   const activeUserCount = storageData?.activeUserCount || 0;
+  const pendingUserCount = storageData?.pendingUserCount || 0;
+  const inactiveUserCount = storageData?.inactiveUserCount || 0;
 
   const transformApiResponse = (data) => {
     if (!data) {
       return [];
     }
 
-    const userStats =
-      data.userPerms?.map((user) => ({
-        id: user.id,
-        userId: user.userId,
-        deptName: user.deptName,
-        accessLevel: user.accessLevel,
-        accessCode: user.accessCode,
-        displayStorage: user.displayStorage,
-        allowedStorageInBytes: user.allowedStorageInBytes,
-        currentStorageInBytes: user.currentStorageInBytes,
-        allowedStorageInBytesDisplay: user.allowedStorageInBytesDisplay,
-        usedPercent: user.usedPercent,
-        deptUsername: user.deptUsername,
-        deptDisplayUsername: user.deptDisplayUsername,
-        roleName: user.roleName,
-        displayRoleName: user.displayRoleName,
-        tenantId: user.tenantId,
-        licenseTier: user.licenseTier,
-        isDMS_CreateType: user.isDMS_CreateType,
-        userOrDept: 'User',
-        active: user.active,
-      })) || [];
+    const mapUserData = (user, userOrDept, status) => ({
+      id: user.id || user.userId,
+      userId: user.userId,
+      deptName: user.deptName,
+      accessLevel: user.accessLevel,
+      accessCode: user.accessCode,
+      displayStorage: user.displayStorage,
+      allowedStorageInBytes: user.allowedStorageInBytes,
+      currentStorageInBytes: user.currentStorageInBytes,
+      allowedStorageInBytesDisplay: user.allowedStorageInBytesDisplay,
+      usedPercent: user.usedPercent,
+      deptUsername: user.deptUsername,
+      deptDisplayUsername: user.deptDisplayUsername,
+      roleName: user.roleName,
+      displayRoleName: user.displayRoleName,
+      tenantId: user.tenantId,
+      licenseTier: user.licenseTier,
+      isDMS_CreateType: user.isDMS_CreateType,
+      userOrDept: userOrDept,
+      active: user.active,
+      status: status,
+    });
 
+    const userActiveStats =
+      data.activeUserPerms?.map((user) =>
+        mapUserData(user, 'User', 'active'),
+      ) || [];
+    const userPendingStats =
+      data.pendingUserPerms?.map((user) =>
+        mapUserData(user, 'User', 'pending'),
+      ) || [];
+    const userInactiveStats =
+      data.inactiveUserPerms?.map((user) =>
+        mapUserData(user, 'User', 'inactive'),
+      ) || [];
     const deptStats =
-      data.deptPerms?.map((dept) => ({
-        id: dept.id,
-        userId: dept.userId,
-        deptName: dept.deptName,
-        accessLevel: dept.accessLevel,
-        accessCode: dept.accessCode,
-        displayStorage: dept.displayStorage,
-        allowedStorageInBytes: dept.allowedStorageInBytes,
-        currentStorageInBytes: dept.currentStorageInBytes,
-        allowedStorageInBytesDisplay: dept.allowedStorageInBytesDisplay,
-        usedPercent: dept.usedPercent,
-        deptUsername: dept.deptUsername,
-        deptDisplayUsername: dept.deptDisplayUsername,
-        roleName: dept.roleName,
-        displayRoleName: dept.displayRoleName,
-        tenantId: dept.tenantId,
-        licenseTier: dept.licenseTier,
-        isDMS_CreateType: dept.isDMS_CreateType,
-        userOrDept: 'Department',
-        active: dept.active,
-      })) || [];
+      data.deptPerms?.map((dept) => mapUserData(dept, 'Department', 'dept')) ||
+      [];
 
-    return [...userStats, ...deptStats];
+    return [
+      ...userActiveStats,
+      ...userInactiveStats,
+      ...userPendingStats,
+      ...deptStats,
+    ];
   };
 
   return (
@@ -225,6 +225,9 @@ const TeamSyncTab = () => {
                 list={list}
                 setList={setList}
                 totalUserCount={totalUserCount}
+                pendingUserCount={pendingUserCount}
+                activeUserCount={activeUserCount}
+                inactiveUserCount={inactiveUserCount}
                 totalDeptCount={totalDeptCount}
                 setPage={setPage}
                 page={page}

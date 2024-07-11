@@ -19,6 +19,7 @@ const ProductTable = ({
   itemsState,
   showUsers,
 }) => {
+  console.log(productData, 'productData123');
   return (
     <AppTableContainer>
       <Table stickyHeader className='table'>

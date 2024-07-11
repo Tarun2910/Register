@@ -12,6 +12,10 @@ import {
   Tooltip,
   Paper,
   Typography,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
 } from '@mui/material';
 import React, {useEffect, useState} from 'react';
 import {useIntl} from 'react-intl';
@@ -39,6 +43,9 @@ const ProductListing = ({
   list,
   setList,
   totalUserCount,
+  pendingUserCount,
+  activeUserCount,
+  inactiveUserCount,
   totalDeptCount,
   page,
   setPage,
@@ -58,6 +65,8 @@ const ProductListing = ({
   const [open, setOpen] = useState(false);
   const [selectedIds, setSelectedIds] = useState([]);
   const [isAllSelected, setIsAllSelected] = useState(false);
+  const [filterStatus, setFilterStatus] = useState('ALL');
+
   const [showUsers, setShowUsers] = useState(true);
 
   console.log(list, 'storageData');
@@ -363,11 +372,30 @@ const ProductListing = ({
   //   setOpenDomain(false);
   // };
 
-  const filteredData = showUsers
-    ? list.filter((item) => item.userOrDept === 'User')
-    : list.filter((item) => item.userOrDept === 'Department');
+  // const filteredData = showUsers
+  //   ? list.filter((item) => item.userOrDept === 'User')
+  //   : list.filter((item) => item.userOrDept === 'Department');
 
-  console.log(filteredData, 'filteredData');
+  // console.log(filteredData, 'filteredData');
+  console.log(pendingUserCount, inactiveUserCount, activeUserCount, 'seedata');
+  const filteredData = list.filter((item) => {
+    if (!showUsers) return item.userOrDept === 'Department';
+    if (filterStatus === 'ALL') return item.userOrDept === 'User';
+    if (filterStatus === 'ACTIVE') return item.status === 'active';
+    if (filterStatus === 'INACTIVE') return item.status === 'inactive';
+    if (filterStatus === 'PENDING') return item.status === 'pending';
+    return true;
+  });
+
+  console.log(filterStatus, 'filterStatus');
+
+  useEffect(() => {
+    if (!showUsers) {
+      setFilterStatus('DEPT');
+    } else {
+      setFilterStatus('ALL');
+    }
+  }, [showUsers]);
 
   return (
     <>
@@ -405,6 +433,27 @@ const ProductListing = ({
                       >
                         Add domain
                       </Button> */}
+
+                      {showUsers && (
+                        <FormControl
+                          variant='outlined'
+                          sx={{minWidth: 120, marginRight: '10px'}}
+                          disabled={!showUsers}
+                        >
+                          <InputLabel>Status</InputLabel>
+                          <Select
+                            sx={{height: '2rem', width: '100%'}}
+                            value={filterStatus}
+                            onChange={(e) => setFilterStatus(e.target.value)}
+                            label='Status'
+                          >
+                            <MenuItem value='ALL'>ALL</MenuItem>
+                            <MenuItem value='ACTIVE'>ACTIVE</MenuItem>
+                            <MenuItem value='INACTIVE'>INACTIVE</MenuItem>
+                            <MenuItem value='PENDING'>PENDING</MenuItem>
+                          </Select>
+                        </FormControl>
+                      )}
                       <Button
                         sx={{marginRight: '10px'}}
                         variant='contained'
@@ -427,7 +476,20 @@ const ProductListing = ({
                       <Hidden smDown>
                         <AppsPagination
                           rowsPerPage={10}
-                          count={showUsers ? totalUserCount : totalDeptCount}
+                          // count={showUsers ? totalUserCount : totalDeptCount}
+                          count={
+                            filterStatus === 'ALL'
+                              ? totalUserCount
+                              : filterStatus === 'ACTIVE '
+                              ? activeUserCount
+                              : filterStatus === 'INACTIVE'
+                              ? inactiveUserCount
+                              : filterStatus === 'PENDING'
+                              ? pendingUserCount
+                              : filterStatus === 'DEPT'
+                              ? totalDeptCount
+                              : 0
+                          }
                           page={page}
                           onPageChange={onPageChange}
                         />
@@ -515,4 +577,7 @@ ProductListing.propTypes = {
   totalDeptCount: PropTypes.any,
   page: PropTypes.any,
   setPage: PropTypes.any,
+  activeUserCount: PropTypes.any,
+  inactiveUserCount: PropTypes.any,
+  pendingUserCount: PropTypes.any,
 };
