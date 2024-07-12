@@ -9,6 +9,7 @@ import {Fonts} from '@crema/constants/AppEnums';
 import {useNavigate} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {useAuthMethod, useAuthUser} from '@crema/hooks/AuthHooks';
+import {blue} from '@mui/material/colors';
 
 const UserInfo = ({color}) => {
   const {logout} = useAuthMethod();
@@ -54,7 +55,7 @@ const UserInfo = ({color}) => {
                 height: 40,
                 width: 40,
                 fontSize: 24,
-                backgroundColor: orange[500],
+                backgroundColor: blue[500],
               }}
               src={''}
             />

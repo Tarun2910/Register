@@ -11,26 +11,30 @@ import AuthRoutes from '@crema/components/AuthRoutes';
 import AppLayout from '@crema/core/AppLayout';
 import '@crema/mockapi';
 import './styles/index.css';
+import {Provider} from 'react-redux';
+import {store} from 'redux/store';
 
 const App = () => (
-  <AppContextProvider>
-    <AppThemeProvider>
-      <AppStyleProvider>
-        <AppLocaleProvider>
-          <BrowserRouter>
-            <InfoViewContextProvider>
-              <AppAuthProvider>
-                <AuthRoutes>
-                  <CssBaseline />
-                  <AppLayout />
-                </AuthRoutes>
-              </AppAuthProvider>
-            </InfoViewContextProvider>
-          </BrowserRouter>
-        </AppLocaleProvider>
-      </AppStyleProvider>
-    </AppThemeProvider>
-  </AppContextProvider>
+  <Provider store={store}>
+    <AppContextProvider>
+      <AppThemeProvider>
+        <AppStyleProvider>
+          <AppLocaleProvider>
+            <BrowserRouter>
+              <InfoViewContextProvider>
+                <AppAuthProvider>
+                  <AuthRoutes>
+                    <CssBaseline />
+                    <AppLayout />
+                  </AuthRoutes>
+                </AppAuthProvider>
+              </InfoViewContextProvider>
+            </BrowserRouter>
+          </AppLocaleProvider>
+        </AppStyleProvider>
+      </AppThemeProvider>
+    </AppContextProvider>
+  </Provider>
 );
 
 export default App;

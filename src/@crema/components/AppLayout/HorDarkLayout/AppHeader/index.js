@@ -121,11 +121,11 @@ const AppHeader = ({toggleNavCollapsed, routesConfig}) => {
           >
             <AppSearchBar iconPosition='right' placeholder='Search…' />
           </Box>
-          {allowMultiLanguage && (
-            <Box sx={{ml: 4}}>
+          {/* {allowMultiLanguage && (
+            <Box sx={{ ml: 4 }}>
               <AppLngSwitcher iconOnly={true} tooltipPosition='bottom' />
             </Box>
-          )}
+          )} */}
 
           <Box
             sx={{

@@ -59,7 +59,7 @@ const AppHeader = (props) => {
           paddingRight: {xs: 5, md: 7.5},
         }}
       >
-        <Hidden lgDown>
+        {/* <Hidden lgDown>
           <IconButton
             sx={{color: 'text.secondary'}}
             edge='start'
@@ -94,7 +94,7 @@ const AppHeader = (props) => {
               }}
             />
           </IconButton>
-        </Hidden>
+        </Hidden> */}
         <Box
           sx={{
             '& .logo-text': {
@@ -123,11 +123,11 @@ const AppHeader = (props) => {
           <AppSearchBar iconPosition='right' placeholder='Search…' />
         </Box>
 
-        {allowMultiLanguage && (
+        {/* {allowMultiLanguage && (
           <Box sx={{ml: 4}}>
             <AppLngSwitcher iconOnly={true} tooltipPosition='bottom' />
           </Box>
-        )}
+        )} */}
 
         <Box sx={{ml: 4}}>
           <Hidden smDown>

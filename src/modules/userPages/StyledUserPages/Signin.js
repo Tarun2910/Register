@@ -238,7 +238,7 @@ const Signin = () => {
                         response.data.refresh_token,
                       );
 
-                      navigate('/department');
+                      navigate('/teamSync');
                     })
                     .catch((error) => {
                       setLoading(false);
