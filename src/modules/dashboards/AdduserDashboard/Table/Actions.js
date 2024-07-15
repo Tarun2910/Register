@@ -47,8 +47,12 @@ const OrderActions = ({id, setTotal, setList, list}) => {
         aria-controls='alpha-menu'
         aria-haspopup='true'
         onClick={handleClick}
+        sx={{
+          padding: '0px', // Reduce padding
+          fontSize: '0.77rem', // Reduce font size
+        }}
       >
-        <MoreVertIcon />
+        <MoreVertIcon fontSize='small' />
       </IconButton>
       <Menu
         id='alpha-menu'
@@ -57,26 +61,20 @@ const OrderActions = ({id, setTotal, setList, list}) => {
         open={open}
         onClose={handleClose}
         TransitionComponent={Fade}
+        sx={{
+          '& .MuiPaper-root': {
+            minWidth: '100px', // Reduce menu width
+          },
+        }}
       >
-        {/* <MenuItem
-          style={{fontSize: 14}}
-          onClick={() => navigate(`/hierarchy/${id}`)}
-        >
-          Add and View Subordinates
-        </MenuItem> */}
         <MenuItem style={{fontSize: 14}} onClick={() => navigate(`/roles`)}>
           Assign Role
         </MenuItem>
-        {/* <MenuItem
-          style={{fontSize: 14}}
-          onClick={() => navigate(`/ecommerce/edit-products/${id}`)}
-        >
-          View
-        </MenuItem> */}
       </Menu>
     </Box>
   );
 };
+
 export default OrderActions;
 
 OrderActions.propTypes = {

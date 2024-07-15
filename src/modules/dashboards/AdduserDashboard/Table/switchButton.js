@@ -3,23 +3,21 @@ import {styled} from '@mui/material/styles';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
-import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
-import PropTypes from 'prop-types';
 import {Tooltip} from '@mui/material';
+import PropTypes from 'prop-types';
 
 const IOSSwitch = styled((props) => (
   <Switch focusVisibleClassName='.Mui-focusVisible' disableRipple {...props} />
 ))(({theme}) => ({
-  width: 42,
-  height: 26,
+  width: 34, // Reduced width
+  height: 20, // Reduced height
   padding: 0,
   '& .MuiSwitch-switchBase': {
     padding: 0,
-    margin: 2,
+    margin: 2, // Adjusted margin for compactness
     transitionDuration: '300ms',
     '&.Mui-checked': {
-      transform: 'translateX(16px)',
+      transform: 'translateX(14px)', // Adjusted transform for the new size
       color: '#fff',
       '& + .MuiSwitch-track': {
         backgroundColor: theme.palette.mode === 'dark' ? '#2ECA45' : '#65C466',
@@ -32,7 +30,7 @@ const IOSSwitch = styled((props) => (
     },
     '&.Mui-focusVisible .MuiSwitch-thumb': {
       color: '#33cf4d',
-      border: '6px solid #fff',
+      border: '4px solid #fff', // Adjusted border size
     },
     '&.Mui-disabled .MuiSwitch-thumb': {
       color:
@@ -46,11 +44,11 @@ const IOSSwitch = styled((props) => (
   },
   '& .MuiSwitch-thumb': {
     boxSizing: 'border-box',
-    width: 22,
-    height: 22,
+    width: 16, // Reduced thumb width
+    height: 16, // Reduced thumb height
   },
   '& .MuiSwitch-track': {
-    borderRadius: 26 / 2,
+    borderRadius: 20 / 2, // Adjusted border-radius
     backgroundColor: theme.palette.mode === 'light' ? '#E9E9EA' : '#39393D',
     opacity: 1,
     transition: theme.transitions.create(['background-color'], {
@@ -71,9 +69,8 @@ export default function CustomizedSwitches({checked, onChange, disabled}) {
       >
         <FormControlLabel
           control={
-            <IOSSwitch sx={{m: 2}} checked={checked} onChange={onChange} />
+            <IOSSwitch sx={{m: 1}} checked={checked} onChange={onChange} />
           }
-          // label='Active licence'
           disabled={disabled}
         />
       </Tooltip>

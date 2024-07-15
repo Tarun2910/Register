@@ -44,6 +44,7 @@ const ProductHeader = ({
         <AppSearch
           placeholder='Search here'
           onChange={(e) => onSearch(e.target.value)}
+          // sx={{fontSize:"13px"}}
         />
       </Box>
 

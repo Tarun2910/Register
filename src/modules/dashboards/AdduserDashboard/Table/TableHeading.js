@@ -9,7 +9,7 @@ const TableHeading = () => {
       <TableCell align='left'>User Email</TableCell>
       {/* <TableCell align='left'>Username</TableCell> */}
       <TableCell align='left'>Active Licence</TableCell>
-      <TableCell align='left'></TableCell>
+      <TableCell align='right'></TableCell>
     </TableHeader>
   );
 };

@@ -9,8 +9,8 @@ import CustomizedSwitches from './switchButton';
 import OrderActions from './Actions';
 
 const StyledTableCell = styled(TableCell)(() => ({
-  fontSize: 14,
-  padding: 8,
+  fontSize: '0.77rem',
+  padding: 4,
   '&:first-of-type': {
     paddingLeft: 20,
   },
@@ -27,66 +27,40 @@ const TableItem = ({
   itemsState,
   setItemsState,
 }) => {
-  let licenceTier = sessionStorage.getItem('licenceTierTeamsync');
-
   useEffect(() => {
-    // Initialize itemsState with default values from productData
     const initialItemsState = productData.map((data) => ({
       id: data.id,
       active: data.active,
     }));
     setTableData(initialItemsState);
-  }, [itemsState]);
+  }, [productData, setTableData]);
 
   useEffect(() => {
-    // Call the callback function to send the updated state to the parent
     onItemsStateUpdate(itemsState);
-    // if (itemsState.length <= 0) {
-    //   onButtonDisable(true);
-    // } else {
-    //   onButtonDisable(false);
-    // }
-    console.log(itemsState, productData, 'productData');
     const isAnyItemInactive = itemsState.some(
       (item) =>
         item.active !== productData.find((d) => d.id === item.id).active,
     );
-
-    if (isAnyItemInactive) {
-      onButtonDisable(false);
-    } else {
-      onButtonDisable(true);
-    }
-  }, [itemsState, onItemsStateUpdate]);
+    onButtonDisable(!isAnyItemInactive);
+  }, [itemsState, onItemsStateUpdate, onButtonDisable, productData]);
 
   const handleSwitchChange = (data) => {
     const id = data.id;
-    const itemIndex = itemsState.findIndex((item) => item.id === id);
-    const isActive = itemsState ? itemsState.active : data.active;
-
     setItemsState((prevItemsState) => {
-      const updatedItemsState = [...prevItemsState];
-
-      if (itemIndex !== -1) {
-        // If the item is already in the state, update only the specific item
-        updatedItemsState[itemIndex].active =
-          !updatedItemsState[itemIndex].active;
-      } else {
-        // If the item is not in the state, add it to the state
-        updatedItemsState.push({id, active: !data.active});
-      }
-
-      return updatedItemsState;
+      const updatedItemsState = prevItemsState.map((item) =>
+        item.id === id ? {...item, active: !item.active} : item,
+      );
+      return updatedItemsState.length
+        ? updatedItemsState
+        : [...prevItemsState, {id, active: !data.active}];
     });
   };
 
-  console.log(itemsState, 'itemsState');
   const adminName = sessionStorage.getItem('AdminName');
-  console.log(adminName, 'adminName');
 
   return productData.map((data) => (
     <TableRow key={data.id} className='item-hover'>
-      <StyledTableCell align='left' sx={{width: 400}}>
+      <StyledTableCell align='left'>
         <Box
           sx={{
             display: 'flex',
@@ -101,31 +75,22 @@ const TableItem = ({
         </Box>
       </StyledTableCell>
       <StyledTableCell align='left'>{data.email}</StyledTableCell>
-      {/* <StyledTableCell align='left'>{data.username}</StyledTableCell> */}
       <StyledTableCell align='center'>
-        <Box>
-          <CustomizedSwitches
-            checked={
-              itemsState.find((item) => item.id === data.id)?.active ??
-              data.active
-            }
-            onChange={() => handleSwitchChange(data)}
-            disabled={
-              data.active &&
-              sessionStorage.getItem('licenceTierTeamsync') == 'TRIAL'
-            }
-          />
-        </Box>
-      </StyledTableCell>
-      <TableCell align='right'>
-        <OrderActions
-          id={data.id}
-          // setTotal={setTotal}
-          // setPage={setPage}
-          // setList={setList}
-          // list={list}
+        <CustomizedSwitches
+          checked={
+            itemsState.find((item) => item.id === data.id)?.active ??
+            data.active
+          }
+          onChange={() => handleSwitchChange(data)}
+          disabled={
+            data.active &&
+            sessionStorage.getItem('licenceTierTeamsync') === 'TRIAL'
+          }
         />
-      </TableCell>
+      </StyledTableCell>
+      <StyledTableCell align='right'>
+        <OrderActions id={data.id} />
+      </StyledTableCell>
     </TableRow>
   ));
 };
@@ -133,7 +98,10 @@ const TableItem = ({
 export default TableItem;
 
 TableItem.propTypes = {
-  productData: PropTypes.arrayOf(PropTypes.object),
-  onItemsStateUpdate: PropTypes.any,
-  setTableData: PropTypes.any,
+  productData: PropTypes.arrayOf(PropTypes.object).isRequired,
+  onItemsStateUpdate: PropTypes.func.isRequired,
+  onButtonDisable: PropTypes.func.isRequired,
+  setTableData: PropTypes.func.isRequired,
+  itemsState: PropTypes.arrayOf(PropTypes.object).isRequired,
+  setItemsState: PropTypes.func.isRequired,
 };
