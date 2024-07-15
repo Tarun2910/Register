@@ -330,7 +330,7 @@ const ProductListing = ({
         window.__ENV__.REACT_APP_MIDDLEWARE
       }/tenants/users?keyword=${searchQuery}&pageNum=${'0'}`,
       headers: {
-        Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
       },
     };
 

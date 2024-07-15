@@ -28,6 +28,7 @@ export const getStorageData = createAsyncThunkWithTokenRefresh(
             username: localStorage.getItem('username'),
             pageSize: payload.pageSize,
             pageNumber: payload.pageNumber,
+            searchText: payload.searchText,
           },
           maxBodyLength: Infinity,
         },
@@ -43,6 +44,10 @@ export const teamSyncSlice = createSlice({
   name: 'teamSync',
   initialState,
   reducers: {
+    setStorageDataPageNumber(state, action) {
+      state.pageNumber = action.payload;
+    },
+
     resetStorageData(state) {
       state.storageData = {};
       state.storageDataIsLoading = false;
@@ -79,6 +84,7 @@ export const teamSyncSlice = createSlice({
   },
 });
 
-export const {resetStorageData} = teamSyncSlice.actions;
+export const {resetStorageData, setStorageDataPageNumber} =
+  teamSyncSlice.actions;
 
 export default teamSyncSlice.reducer;

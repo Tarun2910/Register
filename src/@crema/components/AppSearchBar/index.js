@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import SearchIcon from '@mui/icons-material/Search';
@@ -8,6 +8,10 @@ import {
   SearchInputBase,
   SearchWrapper,
 } from './index.style';
+import {useLocation} from 'react-router-dom';
+import {useDispatch} from 'react-redux';
+import {getStorageData} from 'redux/features/teamSyncSlice';
+import _debounce from 'lodash/debounce';
 
 const AppSearch = ({
   placeholder,
@@ -19,6 +23,26 @@ const AppSearch = ({
   iconStyle,
   ...rest
 }) => {
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const currentPath = location.pathname.split('/')[1];
+  const [searchText, setSearchText] = useState('');
+
+  const debounceFn = useCallback(
+    _debounce(() => dispatch(getStorageData({searchText})), 1000),
+    [],
+  );
+
+  useEffect(() => {
+    if (currentPath === 'teamSync' && searchText) {
+      debounceFn();
+    }
+  }, [searchText]);
+
+  useEffect(() => {
+    searchText && setSearchText('');
+  }, [currentPath]);
+
   return (
     <SearchWrapper sx={rest.sx} iconPosition={iconPosition}>
       <SearchIconBox
@@ -40,8 +64,10 @@ const AppSearch = ({
         </SearchIconWrapper>
         <SearchInputBase
           {...rest}
+          value={searchText}
           placeholder={placeholder || 'Search…'}
           inputProps={{'aria-label': 'search'}}
+          onChange={(e) => setSearchText(e.target.value)}
         />
       </SearchIconBox>
     </SearchWrapper>
