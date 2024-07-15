@@ -95,7 +95,7 @@ const ProductListing = ({
   //     url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/dms_service_LM/api/dms_admin_service/getUserData`,
 
   //     headers: {
-  //       Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
+  //       Authorization: `Bearer ${sessionStorage.getItem('token')}`,
   //       pageSize: '10',
   //       pageNumber: page,
   //       userName: sessionStorage.getItem('username'),
@@ -207,7 +207,7 @@ const ProductListing = ({
   //     url: '/tenants/users/status',
   //     headers: {
   //       'Content-Type': 'application/json',
-  //       Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
+  //       Authorization: `Bearer ${sessionStorage.getItem('token')}`,
   //     },
   //     data: updatedItemsState,
   //   };
@@ -235,7 +235,7 @@ const ProductListing = ({
   //       list,
   //       {
   //         headers: {
-  //           Authorization: 'Bearer ' + sessionStorage.getItem('jwt_token'),
+  //           Authorization: 'Bearer ' + sessionStorage.getItem('token'),
   //           username: sessionStorage.getItem('username'),
   //           deptName: sessionStorage.getItem('username'),
   //           pageNumber: '0',
@@ -300,7 +300,7 @@ const ProductListing = ({
         updatedList,
         {
           headers: {
-            Authorization: 'Bearer ' + sessionStorage.getItem('jwt_token'),
+            Authorization: 'Bearer ' + sessionStorage.getItem('token'),
             username: sessionStorage.getItem('username'),
             deptName: sessionStorage.getItem('username'),
             pageNumber: '0',
@@ -330,7 +330,7 @@ const ProductListing = ({
         window.__ENV__.REACT_APP_MIDDLEWARE
       }/tenants/users?keyword=${searchQuery}&pageNum=${'0'}`,
       headers: {
-        Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
+        Authorization: `Bearer ${sessionStorage.getItem('token')}`,
       },
     };
 

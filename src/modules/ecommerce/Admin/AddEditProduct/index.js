@@ -128,9 +128,7 @@ export const AddEditProduct = ({selectedProd}) => {
             axios
               .put(`/kms/courses/${id}`, formData, {
                 headers: {
-                  Authorization: `Bearer ${sessionStorage.getItem(
-                    'jwt_token',
-                  )}`,
+                  Authorization: `Bearer ${sessionStorage.getItem('token')}`,
                 },
               })
               .then(() => {
@@ -192,9 +190,7 @@ export const AddEditProduct = ({selectedProd}) => {
             axios
               .post(`/kms/courses`, formData, {
                 headers: {
-                  Authorization: `Bearer ${sessionStorage.getItem(
-                    'jwt_token',
-                  )}`,
+                  Authorization: `Bearer ${sessionStorage.getItem('token')}`,
                 },
               })
 

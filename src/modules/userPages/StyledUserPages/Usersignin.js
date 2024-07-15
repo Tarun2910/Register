@@ -177,7 +177,7 @@ const Usersignin = () => {
                       console.log(JSON.stringify(response.data));
                       setLoading(false);
                       // sessionStorage.setItem(
-                      //   'jwt_token',
+                      //   'token',
                       //   response.data.access_token,
                       // );
                       //   navigate('/dashboards');
@@ -193,7 +193,7 @@ const Usersignin = () => {
                     });
 
                   //   // for testing
-                  //   sessionStorage.setItem('jwt_token', 'hello');
+                  //   sessionStorage.setItem('token', 'hello');
                   //   navigate('/dashboards');
                 }}
               >

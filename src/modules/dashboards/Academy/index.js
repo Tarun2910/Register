@@ -35,7 +35,7 @@ const Academy = () => {
       try {
         const response = await axios.get(`/kms/courses`, {
           headers: {
-            Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
+            Authorization: `Bearer ${sessionStorage.getItem('token')}`,
           },
         });
         setAllCourses(response?.data);
@@ -54,9 +54,7 @@ const Academy = () => {
               `/kms/courses/file/${thumbnail}?fileType=thumbnail`,
               {
                 headers: {
-                  Authorization: `Bearer ${sessionStorage.getItem(
-                    'jwt_token',
-                  )}`,
+                  Authorization: `Bearer ${sessionStorage.getItem('token')}`,
                 },
                 responseType: 'arraybuffer',
               },
@@ -94,7 +92,7 @@ const Academy = () => {
       try {
         const response = await axios.get(`/kms/courses/random`, {
           headers: {
-            Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
+            Authorization: `Bearer ${sessionStorage.getItem('token')}`,
           },
         });
         setRandomCourses(response?.data);
@@ -109,9 +107,7 @@ const Academy = () => {
               `/kms/courses/file/${thumbnail}?fileType=thumbnail`,
               {
                 headers: {
-                  Authorization: `Bearer ${sessionStorage.getItem(
-                    'jwt_token',
-                  )}`,
+                  Authorization: `Bearer ${sessionStorage.getItem('token')}`,
                 },
                 responseType: 'arraybuffer',
               },
@@ -149,7 +145,7 @@ const Academy = () => {
       try {
         const response = await axios.get(`/kms/courses/stats`, {
           headers: {
-            Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
+            Authorization: `Bearer ${sessionStorage.getItem('token')}`,
           },
         });
 

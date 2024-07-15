@@ -42,7 +42,7 @@ const Quiz = () => {
     try {
       const course = await axios.get(`/kms/users/course?courseId=${id}`, {
         headers: {
-          Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
+          Authorization: `Bearer ${sessionStorage.getItem('token')}`,
           retry: 'false',
         },
       });
@@ -53,7 +53,7 @@ const Quiz = () => {
       if (course.data === 'not attempted') {
         const response = await axios.get(`/kms/courses/course/${id}/quiz`, {
           headers: {
-            Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
+            Authorization: `Bearer ${sessionStorage.getItem('token')}`,
           },
         });
 
@@ -95,7 +95,7 @@ const Quiz = () => {
     try {
       const course = await axios.get(`/kms/users/course?courseId=${id}`, {
         headers: {
-          Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
+          Authorization: `Bearer ${sessionStorage.getItem('token')}`,
           retry: retry,
         },
       });
@@ -104,7 +104,7 @@ const Quiz = () => {
       if (course.data === 'not attempted') {
         const response = await axios.get(`/kms/courses/course/${id}/quiz`, {
           headers: {
-            Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
+            Authorization: `Bearer ${sessionStorage.getItem('token')}`,
           },
         });
 
@@ -147,7 +147,7 @@ const Quiz = () => {
         '',
         {
           headers: {
-            Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
+            Authorization: `Bearer ${sessionStorage.getItem('token')}`,
           },
         },
       );

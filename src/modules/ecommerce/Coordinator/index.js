@@ -41,7 +41,7 @@ const ProductListing = () => {
           `/kms/courses?pageNo=${page + 1}&pageSize=10`,
           {
             headers: {
-              Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
+              Authorization: `Bearer ${sessionStorage.getItem('token')}`,
             },
           },
         );
@@ -59,9 +59,7 @@ const ProductListing = () => {
               `/kms/courses/file/${thumbnail}?fileType=thumbnail`,
               {
                 headers: {
-                  Authorization: `Bearer ${sessionStorage.getItem(
-                    'jwt_token',
-                  )}`,
+                  Authorization: `Bearer ${sessionStorage.getItem('token')}`,
                 },
                 responseType: 'arraybuffer',
               },
@@ -109,7 +107,7 @@ const ProductListing = () => {
     try {
       const response = await axios.get(`/kms/courses/by-everything`, {
         headers: {
-          Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
+          Authorization: `Bearer ${sessionStorage.getItem('token')}`,
           keyword: searchQuery,
           tags: null,
         },
@@ -127,7 +125,7 @@ const ProductListing = () => {
             `/kms/courses/file/${thumbnail}?fileType=thumbnail`,
             {
               headers: {
-                Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
+                Authorization: `Bearer ${sessionStorage.getItem('token')}`,
               },
               responseType: 'arraybuffer',
             },

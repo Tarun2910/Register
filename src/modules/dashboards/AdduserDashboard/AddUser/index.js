@@ -127,7 +127,7 @@ export const AddChapter = ({selectedProd}) => {
             //   .put(`/kms/courses/${id}`, updatedProd, {
             //     headers: {
             //       Authorization: `Bearer ${sessionStorage.getItem(
-            //         'jwt_token',
+            //         'token',
             //       )}`,
             //     },
             //   })
@@ -159,7 +159,7 @@ export const AddChapter = ({selectedProd}) => {
             //   .post(`/kms/courses/${id}/quiz`, metaData, {
             //     headers: {
             //       Authorization: `Bearer ${sessionStorage.getItem(
-            //         'jwt_token',
+            //         'token',
             //       )}`,
             //     },
             //   })
@@ -179,7 +179,7 @@ export const AddChapter = ({selectedProd}) => {
               url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/users`,
               headers: {
                 'Content-Type': 'application/json',
-                Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
+                Authorization: `Bearer ${sessionStorage.getItem('token')}`,
               },
               data: metaDataString,
             };

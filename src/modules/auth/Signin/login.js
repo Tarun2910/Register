@@ -92,7 +92,7 @@ const LoginPage = (props) => {
       } else {
         console.log('successmssg');
         // Here means login is successfull
-        sessionStorage.setItem('jwt_token', response.data.access_token);
+        sessionStorage.setItem('token', response.data.access_token);
         sessionStorage.setItem('sessionId', response.data.session_state);
         localStorage.setItem('refresh_token', response.data.refresh_token);
         localStorage.setItem('username', Cred.username);
@@ -155,7 +155,7 @@ const LoginPage = (props) => {
       } else {
         console.log('successmssg');
         // Here means login is successfull
-        sessionStorage.setItem('jwt_token', response.data.access_token);
+        sessionStorage.setItem('token', response.data.access_token);
         sessionStorage.setItem('sessionId', response.data.session_state);
         localStorage.setItem('refresh_token', response.data.refresh_token);
         localStorage.setItem('username', Cred.username);
@@ -241,7 +241,7 @@ const LoginPage = (props) => {
       //   setLoading(false);
       // } else {
       //   // Here means login is successfull
-      //   sessionStorage.setItem("jwt_token", login.access_token);
+      //   sessionStorage.setItem("token", login.access_token);
       //   sessionStorage.setItem("sessionId", login.session_state);
       //   localStorage.setItem("refresh_token", login.refresh_token);
       //   localStorage.setItem("username", Cred.username);
@@ -347,7 +347,7 @@ const LoginPage = (props) => {
         redirectToLogin();
       } // important to clear first because previous logged in might contain some inboxId or imp data
       else if (login.access_token) {
-        sessionStorage.setItem('jwt_token', login.access_token);
+        sessionStorage.setItem('token', login.access_token);
         sessionStorage.setItem('sessionId', login.session_state);
         localStorage.setItem('refresh_token', login.refresh_token);
         localStorage.setItem('expires_in', login.expires_in);

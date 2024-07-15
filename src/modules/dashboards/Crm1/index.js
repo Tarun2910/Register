@@ -75,7 +75,7 @@ const ProductListing = () => {
       url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/crm/api/roles/`,
 
       headers: {
-        Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
+        Authorization: `Bearer ${sessionStorage.getItem('token')}`,
         'Content-Type': 'application/json',
         pageSize: '10',
         pageNumber: page,
@@ -125,7 +125,7 @@ const ProductListing = () => {
   //     url: '/tenants/users/status',
   //     headers: {
   //       'Content-Type': 'application/json',
-  //       Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
+  //       Authorization: `Bearer ${sessionStorage.getItem('token')}`,
   //     },
   //     data: updatedItemsState,
   //   };
@@ -157,7 +157,7 @@ const ProductListing = () => {
         window.__ENV__.REACT_APP_MIDDLEWARE
       }/tenants/users?keyword=${searchQuery}&pageNum=${'0'}`,
       headers: {
-        Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
+        Authorization: `Bearer ${sessionStorage.getItem('token')}`,
       },
     };
 

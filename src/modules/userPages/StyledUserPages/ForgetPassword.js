@@ -212,7 +212,7 @@ const ForgetPassword = () => {
                       console.log(JSON.stringify(response.data));
                       // setLoading(false);
                       sessionStorage.setItem(
-                        'jwt_token',
+                        'token',
                         response.data.access_token,
                       );
                       toast.success('Mail send successfully');

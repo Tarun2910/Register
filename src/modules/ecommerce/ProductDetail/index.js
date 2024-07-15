@@ -38,7 +38,7 @@ const ProductDetail = () => {
       try {
         const response = await axios.get(`/kms/courses/${id}`, {
           headers: {
-            Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
+            Authorization: `Bearer ${sessionStorage.getItem('token')}`,
           },
         });
 
@@ -52,7 +52,7 @@ const ProductDetail = () => {
         const urlPromise = thumbnail
           ? axios.get(`/kms/courses/file/${thumbnail}?fileType=thumbnail`, {
               headers: {
-                Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
+                Authorization: `Bearer ${sessionStorage.getItem('token')}`,
               },
               responseType: 'arraybuffer',
             })
@@ -79,9 +79,7 @@ const ProductDetail = () => {
               `/kms/courses/file/${previewVideoFilename}?fileType=kms`,
               {
                 headers: {
-                  Authorization: `Bearer ${sessionStorage.getItem(
-                    'jwt_token',
-                  )}`,
+                  Authorization: `Bearer ${sessionStorage.getItem('token')}`,
                 },
                 responseType: 'arraybuffer',
               },
@@ -106,7 +104,7 @@ const ProductDetail = () => {
         //   `/kms/courses/file/${course.previewVideoFilename}?fileType=kms`,
         //   {
         //     headers: {
-        //       Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
+        //       Authorization: `Bearer ${sessionStorage.getItem('token')}`,
         //     },
         //     responseType: 'arraybuffer',
         //   },
@@ -137,7 +135,7 @@ const ProductDetail = () => {
       formdata.append('courseId', singlecourseDetails.id);
       axios.post(`/kms/users/subscribe`, formdata, {
         headers: {
-          Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
+          Authorization: `Bearer ${sessionStorage.getItem('token')}`,
         },
       });
       toast.success(
@@ -155,7 +153,7 @@ const ProductDetail = () => {
       formdata.append('courseId', singlecourseDetails.id);
       await axios.post(`/kms/users/unsubscribe`, formdata, {
         headers: {
-          Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
+          Authorization: `Bearer ${sessionStorage.getItem('token')}`,
         },
       });
       toast.success(

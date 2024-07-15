@@ -25,7 +25,7 @@ const PackageCard = ({pricing}) => {
         'appName',
       )}`,
       headers: {
-        Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
+        Authorization: `Bearer ${sessionStorage.getItem('token')}`,
       },
     };
 

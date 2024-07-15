@@ -90,7 +90,7 @@ const BlogSidebar = ({
       try {
         const response = await axios.get(`/kms/users`, {
           headers: {
-            Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
+            Authorization: `Bearer ${sessionStorage.getItem('token')}`,
           },
         });
         setUser(response?.data);

@@ -64,7 +64,7 @@ const Playlist = () => {
       try {
         const response = await axios.get(`/kms/courses/videos`, {
           headers: {
-            Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
+            Authorization: `Bearer ${sessionStorage.getItem('token')}`,
             courseId: id,
           },
         });
@@ -101,7 +101,7 @@ const Playlist = () => {
     try {
       const timestampResponse = await axios.post('/kms/courses/timestamp', '', {
         headers: {
-          Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
+          Authorization: `Bearer ${sessionStorage.getItem('token')}`,
           videoId: videoId,
           timestamp: timestamp,
         },
@@ -205,7 +205,7 @@ const Playlist = () => {
         `/kms/courses/file/${video.filterPath}?fileType=kms`,
         {
           headers: {
-            Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
+            Authorization: `Bearer ${sessionStorage.getItem('token')}`,
           },
           responseType: 'arraybuffer',
         },

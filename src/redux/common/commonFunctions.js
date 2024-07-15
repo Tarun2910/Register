@@ -12,6 +12,7 @@ export const createAxiosConfig = (
     Rolename: currentUser?.roleName,
     ...additionalHeaders,
   },
+  maxBodyLength: Infinity,
 });
 
 // Separate function for token refresh

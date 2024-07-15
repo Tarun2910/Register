@@ -47,7 +47,7 @@ const ProductListing = ({
   //         `/kms/courses?pageNo=${page + 1}&pageSize=10`,
   //         {
   //           headers: {
-  //             Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
+  //             Authorization: `Bearer ${sessionStorage.getItem('token')}`,
   //           },
   //         },
   //       );
@@ -66,7 +66,7 @@ const ProductListing = ({
   //             {
   //               headers: {
   //                 Authorization: `Bearer ${sessionStorage.getItem(
-  //                   'jwt_token',
+  //                   'token',
   //                 )}`,
   //               },
   //               responseType: 'arraybuffer',
@@ -104,7 +104,7 @@ const ProductListing = ({
     try {
       const response = await axios.get(`/kms/courses/by-everything`, {
         headers: {
-          Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
+          Authorization: `Bearer ${sessionStorage.getItem('token')}`,
           keyword: searchQuery,
           tags: null,
         },
@@ -120,7 +120,7 @@ const ProductListing = ({
             `/kms/courses/file/${thumbnail}?fileType=thumbnail`,
             {
               headers: {
-                Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
+                Authorization: `Bearer ${sessionStorage.getItem('token')}`,
               },
               responseType: 'arraybuffer',
             },
@@ -158,7 +158,7 @@ const ProductListing = ({
   //         // If there's a title filter, make a search-specific API call
   //         const searchResponse = await axios.get(`/kms/courses/by-title`, {
   //           headers: {
-  //             Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
+  //             Authorization: `Bearer ${sessionStorage.getItem('token')}`,
   //             title: searchProduct,
   //           },
   //         });
@@ -167,7 +167,7 @@ const ProductListing = ({
   //         // Fetch all courses
   //         const response = await axios.get(`/kms/courses`, {
   //           headers: {
-  //             Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
+  //             Authorization: `Bearer ${sessionStorage.getItem('token')}`,
   //           },
   //         });
   //         setList(response?.data);
@@ -183,7 +183,7 @@ const ProductListing = ({
   //               {
   //                 headers: {
   //                   Authorization: `Bearer ${sessionStorage.getItem(
-  //                     'jwt_token',
+  //                     'token',
   //                   )}`,
   //                 },
   //                 responseType: 'arraybuffer',

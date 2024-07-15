@@ -118,9 +118,7 @@ export const AddChapter = ({selectedProd}) => {
             axios
               .put(`/kms/courses/${id}`, updatedProd, {
                 headers: {
-                  Authorization: `Bearer ${sessionStorage.getItem(
-                    'jwt_token',
-                  )}`,
+                  Authorization: `Bearer ${sessionStorage.getItem('token')}`,
                 },
               })
               .then(() => {
@@ -175,9 +173,7 @@ export const AddChapter = ({selectedProd}) => {
             axios
               .post(`/kms/courses/${id}/quiz-structure`, sendData, {
                 headers: {
-                  Authorization: `Bearer ${sessionStorage.getItem(
-                    'jwt_token',
-                  )}`,
+                  Authorization: `Bearer ${sessionStorage.getItem('token')}`,
                 },
               })
 

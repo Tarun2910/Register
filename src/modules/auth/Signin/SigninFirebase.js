@@ -156,7 +156,7 @@ const SigninFirebase = () => {
     try {
       const response = await axios.get(`/kms/users/detail`, {
         headers: {
-          Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
+          Authorization: `Bearer ${sessionStorage.getItem('token')}`,
         },
       });
       setUserData(response?.data?.roles);
@@ -180,7 +180,7 @@ const SigninFirebase = () => {
           },
         },
       );
-      sessionStorage.setItem('jwt_token', response.data.access_token);
+      sessionStorage.setItem('token', response.data.access_token);
       sessionStorage.setItem('refresh_token', response.data.refresh_token);
       await handleUserDetails();
       logInWithEmailAndPassword({
@@ -229,7 +229,7 @@ const SigninFirebase = () => {
         },
       );
       console.log(response, 'response');
-      sessionStorage.setItem('jwt_token', response.data.access_token);
+      sessionStorage.setItem('token', response.data.access_token);
       sessionStorage.setItem('refresh_token', response.data.refresh_token);
       await handleUserDetails();
       logInWithEmailAndPassword({
@@ -292,7 +292,7 @@ const SigninFirebase = () => {
         redirectToLogin();
       } // important to clear first because previous logged in might contain some inboxId or imp data
       else if (login.access_token) {
-        sessionStorage.setItem('jwt_token', login.access_token);
+        sessionStorage.setItem('token', login.access_token);
         sessionStorage.setItem('sessionId', login.session_state);
         localStorage.setItem('refresh_token', login.refresh_token);
         localStorage.setItem('expires_in', login.expires_in);

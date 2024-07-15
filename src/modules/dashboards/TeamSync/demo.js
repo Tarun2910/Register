@@ -82,7 +82,7 @@ const AdminSettings = () => {
         `${window.__ENV__.REACT_APP_MIDDLEWARE}/dms_service_LM/api/dms_admin_service/getUserData`,
         {
           headers: {
-            Authorization: 'Bearer ' + sessionStorage.getItem('jwt_token'),
+            Authorization: 'Bearer ' + sessionStorage.getItem('token'),
             username: localStorage.getItem('username'),
             deptName: sessionStorage.getItem('department'),
             pageNumber: pageNumber,
@@ -130,7 +130,7 @@ const AdminSettings = () => {
         usersData,
         {
           headers: {
-            Authorization: 'Bearer ' + sessionStorage.getItem('jwt_token'),
+            Authorization: 'Bearer ' + sessionStorage.getItem('token'),
             username: localStorage.getItem('username'),
             deptName: sessionStorage.getItem('department'),
             pageNumber: pageNumber,
@@ -196,7 +196,7 @@ const AdminSettings = () => {
         `${window.__ENV__.REACT_APP_MIDDLEWARE}/dms_service_LM/api/dms_admin_service/getUserSmrt`,
         {
           headers: {
-            Authorization: 'Bearer ' + sessionStorage.getItem('jwt_token'),
+            Authorization: 'Bearer ' + sessionStorage.getItem('token'),
             username: localStorage.getItem('username'),
             deptName: sessionStorage.getItem('department'),
             patternString: inputValue,

@@ -10,41 +10,30 @@ import axios from 'axios';
 import {Fonts} from '@crema/constants/AppEnums';
 import {Box, Button, Typography} from '@mui/material';
 import {useNavigate} from 'react-router-dom';
+import {useDispatch, useSelector} from 'react-redux';
+import {getStorageData} from 'redux/features/teamSyncSlice';
 
 const TeamSyncTab = () => {
+  const {storageData, storageDataIsSuccess} = useSelector(
+    (state) => state.teamSync,
+  );
+  const dispatch = useDispatch();
   const [{apiData: cryptoData, loading}] = useGetDataApi('/dashboard/crypto');
-  const [storageData, setStorageData] = useState([]);
   const [list, setList] = useState([]);
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(0);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const config = {
-      method: 'get',
-      maxBodyLength: Infinity,
-      url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/dms_service_LM/api/dms_admin_service/storageStats`,
-      headers: {
-        Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
-        username: sessionStorage.getItem('username'),
-        pageSize: '10',
-        pageNumber: page,
-      },
-    };
-
-    axios
-      .request(config)
-      .then((response) => {
-        console.log(response, 'response');
-        setStorageData(response?.data);
-        const transformedData = transformApiResponse(response?.data);
-
-        setList(transformedData);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    dispatch(getStorageData({pageNumber: page, pageSize: 10}));
   }, []);
+
+  useEffect(() => {
+    if (storageDataIsSuccess) {
+      const transformedData = transformApiResponse(storageData);
+      setList(transformedData);
+    }
+  }, [storageDataIsSuccess]);
 
   const handlegotoupgrade = () => {
     navigate('/upgrade');

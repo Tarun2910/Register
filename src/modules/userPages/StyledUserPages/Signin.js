@@ -287,7 +287,7 @@ const Signin = () => {
 
                   //     setLoading(false);
                   //     sessionStorage.setItem(
-                  //       'jwt_token',
+                  //       'token',
                   //       response.data.access_token,
                   //     );
                   //     sessionStorage.setItem(
@@ -304,7 +304,7 @@ const Signin = () => {
                   //   });
 
                   // // for testing
-                  // sessionStorage.setItem('jwt_token', 'hello');
+                  // sessionStorage.setItem('token', 'hello');
                   // navigate('/dashboards');
                 }}
               >

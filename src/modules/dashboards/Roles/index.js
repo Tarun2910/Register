@@ -88,7 +88,7 @@ export const organizationhierarchy = ({selectedProd}) => {
         pageNumber: '0',
         userName: sessionStorage.getItem('username'),
         deptName: deptName,
-        Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
+        Authorization: `Bearer ${sessionStorage.getItem('token')}`,
       },
     };
 
@@ -110,7 +110,7 @@ export const organizationhierarchy = ({selectedProd}) => {
   //     maxBodyLength: Infinity,
   //     url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/users/free`,
   //     headers: {
-  //       Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
+  //       Authorization: `Bearer ${sessionStorage.getItem('token')}`,
   //     },
   //   };
 
@@ -140,7 +140,7 @@ export const organizationhierarchy = ({selectedProd}) => {
       headers: {
         userId: id,
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
+        Authorization: `Bearer ${sessionStorage.getItem('token')}`,
       },
       data: [value],
     };
@@ -221,9 +221,7 @@ export const organizationhierarchy = ({selectedProd}) => {
             axios
               .put(`/kms/courses/${id}`, updatedProd, {
                 headers: {
-                  Authorization: `Bearer ${sessionStorage.getItem(
-                    'jwt_token',
-                  )}`,
+                  Authorization: `Bearer ${sessionStorage.getItem('token')}`,
                 },
               })
               .then(() => {
@@ -255,7 +253,7 @@ export const organizationhierarchy = ({selectedProd}) => {
             //   .post(`/tenants/hierarchy`, userId.id, {
             //     headers: {
             //       Authorization: `Bearer ${sessionStorage.getItem(
-            //         'jwt_token',
+            //         'token',
             //       )}`,
             //       userId: id,
             //     },
@@ -275,7 +273,7 @@ export const organizationhierarchy = ({selectedProd}) => {
               headers: {
                 userId: id,
                 'Content-Type': 'application/json',
-                Authorization: `Bearer ${sessionStorage.getItem('jwt_token')}`,
+                Authorization: `Bearer ${sessionStorage.getItem('token')}`,
               },
               data: JSON.stringify(userData),
             };
