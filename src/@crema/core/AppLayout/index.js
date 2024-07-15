@@ -29,7 +29,7 @@ const AppLayout = () => {
   const AppLayout = Layouts[navStyle];
   const [params] = useUrlSearchParams();
 
-  const jwtToken = sessionStorage.getItem('jwt_token');
+  const jwtToken = localStorage.getItem('token');
   let isAuthenticated = false;
 
   if (jwtToken) {
@@ -71,7 +71,7 @@ const AppLayout = () => {
   const generatedRoutes = generateRoutes({
     isAuthenticated: isAuthenticated,
     userRole: user?.role,
-    anonymousStructure: anonymousStructure(initURL),
+    anonymousStructure: anonymousStructure('/signin'),
     authorizedStructure: authorizedStructure(loginUrl),
     publicStructure: publicStructure(initURL),
   });

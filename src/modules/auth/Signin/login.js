@@ -188,7 +188,7 @@ const LoginPage = (props) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setLoading(true);
-
+    console.log(event);
     try {
       const headers = {
         'Content-Type': 'application/json',

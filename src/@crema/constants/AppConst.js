@@ -13,4 +13,4 @@ export const defaultUser = {
 export const allowMultiLanguage =
   window.__ENV__.REACT_APP_MULTILINGUAL === 'true';
 export const fileStackKey = window.__ENV__.REACT_APP_FILESTACK_KEY;
-export const initialUrl = window.__ENV__.REACT_APP_INITIAL_URL; // this url will open after login
+export const initialUrl = '/teamSync'; // this url will open after login

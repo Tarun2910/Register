@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Card from '@mui/material/Card';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import TwitterIcon from '@mui/icons-material/Twitter';
@@ -31,6 +31,22 @@ import {useAuthMethod} from '@crema/hooks/AuthHooks';
 import axios from 'axios';
 import {Visibility, VisibilityOff} from '@mui/icons-material';
 import {toast} from 'react-toastify';
+import {useDispatch, useSelector} from 'react-redux';
+import {
+  loginAction,
+  loginData,
+  loginError,
+  loginIsError,
+  loginIsLoading,
+  loginIsSuccess,
+  resetCheckTokenValidtyAction,
+  resetLoginAction,
+  resetRefreshction,
+} from 'redux/features/authSlice';
+import {
+  getUserDetailsAction,
+  resetgetUserDetailsAction,
+} from 'redux/features/usersSlice';
 
 const validationSchema = yup.object({
   email: yup
@@ -43,9 +59,10 @@ const validationSchema = yup.object({
 });
 
 const Signin = () => {
+  const username = sessionStorage.getItem('username');
+  const dispatch = useDispatch();
   const theme = useTheme();
   const {messages} = useIntl();
-  const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
@@ -56,6 +73,52 @@ const Signin = () => {
   const NavigateForgetpassword = () => {
     navigate('/forgetpassword');
   };
+
+  const data = useSelector(loginData);
+  const isLoading = useSelector(loginIsLoading);
+  const isError = useSelector(loginIsError);
+  const error = useSelector(loginError);
+  const isSuccess = useSelector(loginIsSuccess);
+
+  const userData = useSelector((state) => state.user.userData);
+  const userDataIsLoading = useSelector(
+    (state) => state.user.userDataIsLoading,
+  );
+  const userDataIsError = useSelector((state) => state.user.userDataIsError);
+  const userDataError = useSelector((state) => state.user.userDataError);
+  const userDataIsSuccess = useSelector(
+    (state) => state.user.userDataIsSuccess,
+  );
+
+  useEffect(() => {
+    localStorage.clear();
+    dispatch(resetRefreshction());
+    dispatch(resetCheckTokenValidtyAction());
+    dispatch(resetgetUserDetailsAction());
+  }, []);
+
+  useEffect(() => {
+    if (isSuccess) {
+      localStorage.setItem('token', data?.access_token);
+      localStorage.setItem('sessionId', data?.session_state);
+      localStorage.setItem('username', username);
+      localStorage.setItem('refresh_token', data.refresh_token);
+      dispatch(resetLoginAction());
+      dispatch(getUserDetailsAction());
+    } else if (isError) {
+      toast(error, {autoClose: 2000, type: 'error'});
+      dispatch(resetLoginAction());
+    }
+    if (userDataIsSuccess) {
+      localStorage.setItem('userData', JSON.stringify(userData));
+      dispatch(resetgetUserDetailsAction());
+      console.log('redirect to TS');
+      navigate('/teamSync');
+    } else if (userDataIsError) {
+      toast(userDataError, {autoClose: 2000, type: 'error'});
+      dispatch(resetgetUserDetailsAction());
+    }
+  }, [dispatch, isSuccess, isError, userDataIsError, userDataIsSuccess]);
 
   return (
     <AppAnimate animation='transition.slideUpIn' delay={200}>
@@ -158,93 +221,87 @@ const Signin = () => {
                   console.log(data, 'data');
                   sessionStorage.setItem('username', data.email.toLowerCase());
                   resetForm();
-                  setLoading(true);
-                  let formdata = new FormData();
-                  formdata.append('username', data.email.toLowerCase());
-                  formdata.append('password', data.password);
+                  dispatch(
+                    loginAction({
+                      username: data.email.toLowerCase(),
+                      password: data.password,
+                    }),
+                  );
 
-                  let config = {
-                    method: 'post',
-                    maxBodyLength: Infinity,
-                    url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/public/login`,
-                    headers: {},
-                    data: formdata,
-                  };
+                  // axios
+                  //   .request(config)
+                  //   .then((response) => {
+                  //     console.log(JSON.stringify(response.data));
+                  //     let config = {
+                  //       method: 'get',
+                  //       maxBodyLength: Infinity,
+                  //       url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/info`,
+                  //       headers: {
+                  //         Authorization: `Bearer ${response.data.access_token}`,
+                  //       },
+                  //     };
 
-                  axios
-                    .request(config)
-                    .then((response) => {
-                      console.log(JSON.stringify(response.data));
-                      let config = {
-                        method: 'get',
-                        maxBodyLength: Infinity,
-                        url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/info`,
-                        headers: {
-                          Authorization: `Bearer ${response.data.access_token}`,
-                        },
-                      };
+                  //     axios
+                  //       .request(config)
+                  //       .then((response) => {
+                  //         console.log(
+                  //           JSON.stringify(response.data, 'aftersignin'),
+                  //         );
+                  //         sessionStorage.setItem(
+                  //           'AdminName',
+                  //           response.data.adminName,
+                  //         );
+                  //         sessionStorage.setItem(
+                  //           'licenceTierTeamsync',
+                  //           response.data.licenseTier.TeamSync,
+                  //         );
+                  //       })
+                  //       .catch((error) => {
+                  //         console.log(error);
+                  //       });
+                  //     axios
+                  //       .get(
+                  //         '/multitenant/adminportal/api/deptAndRolesForTenant',
+                  //         {
+                  //           headers: {
+                  //             Authorization: `Bearer ${response.data.access_token}`,
+                  //           },
+                  //         },
+                  //       )
+                  //       .then((response) => {
+                  //         const departmentCount =
+                  //           response.data.numberOfDepartments;
+                  //         const roleCount = response.data.numberOfRoles;
+                  //         sessionStorage.setItem(
+                  //           'DepartmentCount',
+                  //           departmentCount,
+                  //         );
+                  //         sessionStorage.setItem('RoleCount', roleCount);
+                  //       })
+                  //       .catch((error) => {
+                  //         console.error(
+                  //           'Error fetching department and role counts:',
+                  //           error,
+                  //         );
+                  //       });
 
-                      axios
-                        .request(config)
-                        .then((response) => {
-                          console.log(
-                            JSON.stringify(response.data, 'aftersignin'),
-                          );
-                          sessionStorage.setItem(
-                            'AdminName',
-                            response.data.adminName,
-                          );
-                          sessionStorage.setItem(
-                            'licenceTierTeamsync',
-                            response.data.licenseTier.TeamSync,
-                          );
-                        })
-                        .catch((error) => {
-                          console.log(error);
-                        });
-                      axios
-                        .get(
-                          '/multitenant/adminportal/api/deptAndRolesForTenant',
-                          {
-                            headers: {
-                              Authorization: `Bearer ${response.data.access_token}`,
-                            },
-                          },
-                        )
-                        .then((response) => {
-                          const departmentCount =
-                            response.data.numberOfDepartments;
-                          const roleCount = response.data.numberOfRoles;
-                          sessionStorage.setItem(
-                            'DepartmentCount',
-                            departmentCount,
-                          );
-                          sessionStorage.setItem('RoleCount', roleCount);
-                        })
-                        .catch((error) => {
-                          console.error(
-                            'Error fetching department and role counts:',
-                            error,
-                          );
-                        });
+                  //     setLoading(false);
+                  //     sessionStorage.setItem(
+                  //       'jwt_token',
+                  //       response.data.access_token,
+                  //     );
+                  //     sessionStorage.setItem(
+                  //       'refresh_token',
+                  //       response.data.refresh_token,
+                  //     );
 
-                      setLoading(false);
-                      sessionStorage.setItem(
-                        'jwt_token',
-                        response.data.access_token,
-                      );
-                      sessionStorage.setItem(
-                        'refresh_token',
-                        response.data.refresh_token,
-                      );
-
-                      navigate('/teamSync');
-                    })
-                    .catch((error) => {
-                      setLoading(false);
-                      toast.error(error?.response?.data?.error);
-                      console.log(error);
-                    });
+                  //     navigate('/teamSync');
+                  //   })
+                  //   .catch((error) => {
+                  //     setLoading(false);
+                  //     toast.error(error?.response?.data?.error);
+                  //     console.log(error);
+                  //   });
 
                   // // for testing
                   // sessionStorage.setItem('jwt_token', 'hello');
@@ -389,13 +446,13 @@ const Signin = () => {
                       variant='contained'
                       color='primary'
                       type='submit'
-                      disabled={loading}
+                      disabled={isLoading}
                       sx={{
                         width: '100%',
                         height: 44,
                       }}
                     >
-                      {loading ? (
+                      {isLoading ? (
                         'Loading...'
                       ) : (
                         <IntlMessages id='common.login' />

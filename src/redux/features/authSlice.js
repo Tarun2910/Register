@@ -28,13 +28,12 @@ export const loginAction = createAsyncThunk(
   'auth/loginAction',
   async (payload) => {
     try {
-      const response = await axios.post(`/auth/token`, payload, {
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-
-          // isManual: true
-        },
+      let formdata = new FormData();
+      formdata.append('username', payload.username);
+      formdata.append('password', payload.password);
+      const response = await axios.post(`/tenants/public/login`, formdata, {
+        headers: {},
+        maxBodyLength: Infinity,
       });
 
       return response.data;
@@ -58,24 +57,14 @@ export const loginAction = createAsyncThunk(
 );
 
 export const authRefreshAction = createAsyncThunk(
-  'auth/authRefreshAction',
+  '/auth/refresh-token',
   async (thunkAPI) => {
     try {
       const refresh_token = localStorage.getItem('refresh_token');
-
-      const refreshResponse = await axios.post(
-        `/auth/refresh-token`,
-        {
-          refresh_token: refresh_token,
-          grant_type: 'refresh_token',
-        },
-        {
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-          },
-        },
-      );
+      const refreshResponse = await axios.post(`/tenants/public/refreshToken`, {
+        refresh_token: refresh_token,
+        grant_type: 'refresh_token',
+      });
 
       if (refreshResponse.data && refreshResponse.data.access_token) {
         // console.log('refreshResponse', refreshResponse)
@@ -114,7 +103,7 @@ export const checkTokenValidtyAction = createAsyncThunk(
     try {
       const token = localStorage.getItem('token');
 
-      const response = await axios.get(`/user_service/api/version`, {
+      const response = await axios.get(`/tenants/info`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
