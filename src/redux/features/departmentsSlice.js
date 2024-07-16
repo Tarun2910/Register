@@ -44,7 +44,7 @@ export const departmentsSlice = createSlice({
   initialState,
   reducers: {
     resetDepartmentsData(state) {
-      state.departmentsData = {};
+      // state.departmentsData = {};
       state.departmentsDataIsLoading = false;
       state.departmentsDataIsError = false;
       state.departmentsDataError = '';
@@ -67,6 +67,7 @@ export const departmentsSlice = createSlice({
         state.departmentsDataIsError = false;
         state.departmentsDataError = '';
         state.departmentsDataIsSuccess = true;
+        resetDepartmentsData();
       })
       .addCase(getDepartmentsData.rejected, (state, action) => {
         state.departmentsData = {};

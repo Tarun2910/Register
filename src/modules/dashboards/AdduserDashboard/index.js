@@ -54,6 +54,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {
   getApplicationsData,
   getUsersData,
+  resetUsersDashboard,
 } from 'redux/features/usersDashboardSlice';
 
 const ProductListing = () => {
@@ -231,6 +232,7 @@ const ProductListing = () => {
 
   useEffect(() => {
     dispatch(getUsersData({searchText: '', pageNumber: page, applicationName}));
+    // dispatch(resetUsersDashboard());
   }, [page, product, applicationName]);
 
   useEffect(() => {

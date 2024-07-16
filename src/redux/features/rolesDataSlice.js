@@ -45,7 +45,7 @@ export const rolesSlice = createSlice({
   initialState,
   reducers: {
     resetRolesData(state) {
-      state.rolesData = {};
+      // state.rolesData = {};
       state.rolesDataIsLoading = false;
       state.rolesDataIsError = false;
       state.rolesDataError = '';
@@ -68,6 +68,7 @@ export const rolesSlice = createSlice({
         state.rolesDataIsError = false;
         state.rolesDataError = '';
         state.rolesDataIsSuccess = true;
+        resetRolesData();
       })
       .addCase(getRolesData.rejected, (state, action) => {
         state.rolesData = {};

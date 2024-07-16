@@ -49,7 +49,7 @@ export const teamSyncSlice = createSlice({
     },
 
     resetStorageData(state) {
-      state.storageData = {};
+      // state.storageData = {};
       state.storageDataIsLoading = false;
       state.storageDataIsError = false;
       state.storageDataError = '';
@@ -72,6 +72,7 @@ export const teamSyncSlice = createSlice({
         state.storageDataIsError = false;
         state.storageDataError = '';
         state.storageDataIsSuccess = true;
+        resetStorageData();
       })
       .addCase(getStorageData.rejected, (state, action) => {
         state.storageData = {};

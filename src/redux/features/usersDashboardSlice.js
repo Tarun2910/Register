@@ -78,7 +78,7 @@ export const usersDataboardSlice = createSlice({
     },
 
     resetUsersDashboard(state) {
-      state.usersData = {};
+      // state.usersData = {};
       state.usersDataIsLoading = false;
       state.usersDataIsError = false;
       state.usersDataError = '';
@@ -101,6 +101,7 @@ export const usersDataboardSlice = createSlice({
         state.usersDataIsError = false;
         state.usersDataError = '';
         state.usersDataIsSuccess = true;
+        resetUsersDashboard();
       })
       .addCase(getUsersData.rejected, (state, action) => {
         state.usersData = {};

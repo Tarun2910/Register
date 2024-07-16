@@ -39,7 +39,7 @@ import Draggable from 'react-draggable';
 import {debounce} from 'lodash';
 import {toast} from 'react-toastify';
 import {useDispatch, useSelector} from 'react-redux';
-import {getRolesData} from 'redux/features/rolesDataSlice';
+import {getRolesData, resetRolesData} from 'redux/features/rolesDataSlice';
 
 const ProductListing = () => {
   const dispatch = useDispatch();
@@ -157,6 +157,7 @@ const ProductListing = () => {
 
   useEffect(() => {
     dispatch(getRolesData({pageSize: 10, pageNumber: page, searchText: ''}));
+    // dispatch(resetRolesData());
   }, [page, triggerApi]);
 
   // const searchProduct = (title) => {

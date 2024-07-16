@@ -11,7 +11,7 @@ import {Fonts} from '@crema/constants/AppEnums';
 import {Box, Button, Typography} from '@mui/material';
 import {useNavigate} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
-import {getStorageData} from 'redux/features/teamSyncSlice';
+import {getStorageData, resetStorageData} from 'redux/features/teamSyncSlice';
 
 const TeamSyncTab = () => {
   const {storageData, storageDataIsSuccess} = useSelector(
@@ -26,6 +26,7 @@ const TeamSyncTab = () => {
 
   useEffect(() => {
     dispatch(getStorageData({pageNumber: page, pageSize: 10}));
+    // dispatch(resetStorageData());
   }, [page]);
 
   useEffect(() => {
