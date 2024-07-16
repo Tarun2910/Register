@@ -234,6 +234,7 @@ const ProductListing = () => {
   }, [page, product, applicationName]);
 
   useEffect(() => {
+    console.log(usersData);
     if (usersDataIsSuccess) {
       setList(usersData?.content);
       setTotal(usersData?.totalElements);

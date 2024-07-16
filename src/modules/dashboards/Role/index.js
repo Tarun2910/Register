@@ -467,8 +467,8 @@ const ProductListing = () => {
             >
               <AppsContent
                 sx={{
-                  paddingTop: 2.5,
-                  paddingBottom: 2.5,
+                  paddingTop: 2,
+                  paddingBottom: 2,
                 }}
               >
                 <ListingTable

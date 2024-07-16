@@ -73,7 +73,7 @@ const OrderActions = ({
           fontSize: '0.77rem', // Reduce font size
         }}
       >
-        <MoreVertIcon />
+        <MoreVertIcon fontSize='small' />
       </IconButton>
       <Menu
         id='alpha-menu'
@@ -82,13 +82,13 @@ const OrderActions = ({
         open={open}
         onClose={handleClose}
         TransitionComponent={Fade}
+        sx={{
+          '& .MuiPaper-root': {
+            minWidth: '100px', // Reduce menu width
+          },
+        }}
       >
         <MenuItem
-          sx={{
-            '& .MuiPaper-root': {
-              minWidth: '100px', // Reduce menu width
-            },
-          }}
           onClick={() => {
             updateDepartment();
             setSelectedDeptId(deptName);
@@ -102,23 +102,11 @@ const OrderActions = ({
           Edit Department
         </MenuItem>
         <MenuItem
-          // style={{fontSize: 14}}
+          style={{fontSize: 14}}
           onClick={() => handlestate(id, displayname, deptName)}
-          sx={{
-            '& .MuiPaper-root': {
-              minWidth: '100px', // Reduce menu width
-            },
-          }}
         >
           Add and View Roles
         </MenuItem>
-
-        {/* <MenuItem
-          style={{fontSize: 14}}
-          onClick={() => navigate(`/ecommerce/edit-products/${id}`)}
-        >
-          View
-        </MenuItem> */}
       </Menu>
     </Box>
   );
