@@ -212,7 +212,7 @@ const ProductListing = () => {
       {/* <div style={{marginBottom: '1rem'}}>
         <CustomizedBreadcrumbs label='Home' showComponentName={false} />
       </div> */}
-      <Box
+      {/* <Box
         component='h2'
         variant='h2'
         sx={{
@@ -230,7 +230,7 @@ const ProductListing = () => {
         <span>
           <CustomizedBreadcrumbs label='Home' showComponentName={false} />
         </span>
-      </Box>
+      </Box> */}
       <AppGridContainer spacing={7}>
         <Slide direction='right' in mountOnEnter unmountOnExit>
           <Grid item xs={12} lg={12}>

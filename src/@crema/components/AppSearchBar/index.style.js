@@ -43,7 +43,7 @@ export const SearchInputBase = styled(InputBase)(({theme}) => ({
     paddingLeft: `calc(1em + ${theme.spacing(6)})`,
     transition: theme.transitions.create('width'),
     width: 200,
-    height: 30,
+    height: 40,
     boxSizing: 'border-box',
     [theme.breakpoints.down('md')]: {
       width: 110,

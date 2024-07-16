@@ -166,7 +166,7 @@ export const organizationhierarchy = ({selectedProd}) => {
   ];
   return (
     <>
-      <Box
+      {/* <Box
         component='h2'
         variant='h2'
         sx={{
@@ -186,7 +186,7 @@ export const organizationhierarchy = ({selectedProd}) => {
             showComponentName={window.location.pathname === `/role/${id}`}
           />
         </span>
-      </Box>
+      </Box> */}
 
       <Formik
         // validateOnChange={true}

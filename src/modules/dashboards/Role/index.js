@@ -355,7 +355,7 @@ const ProductListing = () => {
       {/* <div style={{marginBottom: '1rem'}}>
         <CustomizedBreadcrumbs label='Home' showComponentName={false} />
       </div> */}
-      <Box
+      {/* <Box
         component='h2'
         variant='h2'
         sx={{
@@ -373,7 +373,7 @@ const ProductListing = () => {
         <span>
           <CustomizedBreadcrumbs label='Home' showComponentName={false} />
         </span>
-      </Box>
+      </Box> */}
       <AppGridContainer spacing={7}>
         <Slide direction='right' in mountOnEnter unmountOnExit>
           <Grid item xs={12} lg={12}>
@@ -387,12 +387,20 @@ const ProductListing = () => {
                     width={1}
                     justifyContent='space-between'
                   >
-                    <AppSearchBar
+                    {/* <AppSearchBar
                       iconPosition='right'
                       overlap={false}
                       onChange={(event) => debouncedSearch(event.target.value)}
                       placeholder={messages['common.searchHere']}
-                    />
+                    /> */}
+                    <Hidden smDown>
+                      <AppsPagination
+                        rowsPerPage={10}
+                        count={total}
+                        page={page}
+                        onPageChange={onPageChange}
+                      />
+                    </Hidden>
                     <Box
                       display='flex'
                       flexDirection='row'
@@ -418,25 +426,21 @@ const ProductListing = () => {
                       >
                         Save Changes
                       </Button> */}
-                      <Tooltip title='ADD ROLE'>
-                        <AddCircleRoundedIcon
-                          sx={{
-                            color: blue[500],
-                            fontSize: 35,
-                            cursor: 'pointer',
-                          }}
-                          onClick={handleAddRole}
-                        />
-                      </Tooltip>
 
-                      <Hidden smDown>
-                        <AppsPagination
-                          rowsPerPage={10}
-                          count={total}
-                          page={page}
-                          onPageChange={onPageChange}
-                        />
-                      </Hidden>
+                      <Tooltip title='ADD ROLE'>
+                        <span>
+                          <IconButton
+                            onClick={handleAddRole}
+                            sx={{
+                              color: blue[500],
+                              fontSize: 30,
+                              cursor: 'pointer',
+                            }}
+                          >
+                            <AddCircleRoundedIcon />
+                          </IconButton>
+                        </span>
+                      </Tooltip>
                     </Box>
                   </Box>
                 </AppsHeader>
