@@ -14,6 +14,7 @@ import {getStorageData} from 'redux/features/teamSyncSlice';
 import _debounce from 'lodash/debounce';
 import {getUsersData} from 'redux/features/usersDashboardSlice';
 import {getRolesData} from 'redux/features/rolesDataSlice';
+import {getDepartmentsData} from 'redux/features/departmentsSlice';
 
 const AppSearch = ({
   placeholder,
@@ -59,11 +60,18 @@ const AppSearch = ({
     _debounce((searchText) => {
       dispatch(
         getRolesData({
-          searchText,
+          pageSize: 10,
           pageNumber: 0,
-          applicationName,
+          searchText,
         }),
       );
+    }, 1000),
+    [],
+  );
+
+  const getDepartmentsTableData = useCallback(
+    _debounce((searchText) => {
+      dispatch(getDepartmentsData({pageNumber: 0, pageSize: 10, searchText}));
     }, 1000),
     [],
   );
@@ -75,6 +83,8 @@ const AppSearch = ({
       getUsersTableData(searchText);
     } else if (currentPath === 'roles' && searchText) {
       getRolesTableData(searchText);
+    } else if (currentPath === 'department' && searchText) {
+      getDepartmentsTableData(searchText);
     }
   }, [searchText]);
 

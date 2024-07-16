@@ -34,8 +34,14 @@ import CloseIcon from '@mui/icons-material/Close';
 
 import {debounce} from 'lodash';
 import {toast} from 'react-toastify';
+import {getDepartmentsData} from 'redux/features/departmentsSlice';
+import {useDispatch, useSelector} from 'react-redux';
 
 const ProductListing = () => {
+  const {departmentsData, departmentsDataIsSuccess} = useSelector(
+    (state) => state.departments,
+  );
+  const dispatch = useDispatch();
   const {messages} = useIntl();
   const Navigate = useNavigate();
 
@@ -80,39 +86,53 @@ const ProductListing = () => {
     console.log(value, 'value');
   };
 
+  // useEffect(() => {
+  //   setLoading(true);
+  //   let config = {
+  //     method: 'get',
+  //     maxBodyLength: Infinity,
+  //     url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/departments?search=${searchData}`,
+
+  //     headers: {
+  //       Accept: 'application/json',
+  //       'Content-Type': 'application/json; charset=utf8',
+  //       Authorization: `Bearer ${localStorage.getItem('token')}`,
+  //       pageSize: '10',
+  //       pageNumber: page,
+  //       userName: sessionStorage.getItem('username'),
+  //     },
+  //   };
+
+  //   axios
+  //     .request(config)
+  //     .then((response) => {
+  //       setLoading(false);
+  //       setList(response?.data?.content);
+  //       setTotal(response?.data?.totalElements);
+  //       sessionStorage.setItem(
+  //         'DepartmentCount',
+  //         response?.data?.totalElements,
+  //       );
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //       setLoading(false);
+  //     });
+  // }, [page, triggerApi, searchData]);
+
   useEffect(() => {
-    setLoading(true);
-    let config = {
-      method: 'get',
-      maxBodyLength: Infinity,
-      url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/departments?search=${searchData}`,
+    dispatch(
+      getDepartmentsData({pageNumber: page, pageSize: 10, searchText: ''}),
+    );
+  }, [page, triggerApi]);
 
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json; charset=utf8',
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-        pageSize: '10',
-        pageNumber: page,
-        userName: sessionStorage.getItem('username'),
-      },
-    };
-
-    axios
-      .request(config)
-      .then((response) => {
-        setLoading(false);
-        setList(response?.data?.content);
-        setTotal(response?.data?.totalElements);
-        sessionStorage.setItem(
-          'DepartmentCount',
-          response?.data?.totalElements,
-        );
-      })
-      .catch((error) => {
-        console.log(error);
-        setLoading(false);
-      });
-  }, [page, triggerApi, searchData]);
+  useEffect(() => {
+    if (departmentsDataIsSuccess) {
+      setList(departmentsData?.content);
+      setTotal(departmentsData?.totalElements);
+      sessionStorage.setItem('DepartmentCount', departmentsData?.totalElements);
+    }
+  }, [departmentsDataIsSuccess]);
 
   const HandleNavigate = () => {
     Navigate('/add-department');
