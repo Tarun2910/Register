@@ -25,8 +25,10 @@ const TeamSyncTab = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    dispatch(getStorageData({pageNumber: page, pageSize: 10}));
-  }, []);
+    if (storageDataIsSuccess) {
+      dispatch(getStorageData({pageNumber: page, pageSize: 10}));
+    }
+  }, [page]);
 
   useEffect(() => {
     if (storageDataIsSuccess) {

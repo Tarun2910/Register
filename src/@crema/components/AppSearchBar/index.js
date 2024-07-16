@@ -9,10 +9,11 @@ import {
   SearchWrapper,
 } from './index.style';
 import {useLocation} from 'react-router-dom';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {getStorageData} from 'redux/features/teamSyncSlice';
 import _debounce from 'lodash/debounce';
 import {getUsersData} from 'redux/features/usersDashboardSlice';
+import {getRolesData} from 'redux/features/rolesDataSlice';
 
 const AppSearch = ({
   placeholder,
@@ -24,16 +25,19 @@ const AppSearch = ({
   iconStyle,
   ...rest
 }) => {
+  const {storageData} = useSelector((state) => state.teamSync);
+  const {rolesData} = useSelector((state) => state.roles);
+  const {userData} = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const location = useLocation();
   const currentPath = location.pathname.split('/')[1];
-  const [searchText, setSearchText] = useState('');
+  const [searchText, setSearchText] = useState(null);
 
   const applicationName = sessionStorage.getItem('appName');
 
   const getStorageTableData = useCallback(
     _debounce((searchText) => {
-      dispatch(getStorageData({searchText, pageNumber: 0}));
+      dispatch(getStorageData({searchText, pageNumber: 0, pageSize: 10}));
     }, 1000),
     [],
   );
@@ -51,11 +55,26 @@ const AppSearch = ({
     [],
   );
 
+  const getRolesTableData = useCallback(
+    _debounce((searchText) => {
+      dispatch(
+        getRolesData({
+          searchText,
+          pageNumber: 0,
+          applicationName,
+        }),
+      );
+    }, 1000),
+    [],
+  );
+
   useEffect(() => {
-    if (currentPath === 'teamSync') {
+    if (currentPath === 'teamSync' && searchText) {
       getStorageTableData(searchText);
-    } else if (currentPath === 'user') {
+    } else if (currentPath === 'user' && searchText) {
       getUsersTableData(searchText);
+    } else if (currentPath === 'roles' && searchText) {
+      getRolesTableData(searchText);
     }
   }, [searchText]);
 
