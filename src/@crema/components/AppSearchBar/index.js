@@ -12,6 +12,7 @@ import {useLocation} from 'react-router-dom';
 import {useDispatch} from 'react-redux';
 import {getStorageData} from 'redux/features/teamSyncSlice';
 import _debounce from 'lodash/debounce';
+import {getUsersData} from 'redux/features/usersDashboardSlice';
 
 const AppSearch = ({
   placeholder,
@@ -28,26 +29,38 @@ const AppSearch = ({
   const currentPath = location.pathname.split('/')[1];
   const [searchText, setSearchText] = useState('');
 
+  const applicationName = sessionStorage.getItem('appName');
+
   const getStorageTableData = useCallback(
-    _debounce(() => dispatch(getStorageData({searchText})), 1000),
+    _debounce((searchText) => {
+      dispatch(getStorageData({searchText, pageNumber: 0}));
+    }, 1000),
     [],
   );
 
   const getUsersTableData = useCallback(
-    _debounce(() => dispatch(getStorageData({searchText})), 1000),
+    _debounce((searchText) => {
+      dispatch(
+        getUsersData({
+          searchText,
+          pageNumber: 0,
+          applicationName,
+        }),
+      );
+    }, 1000),
     [],
   );
 
   useEffect(() => {
-    if (currentPath === 'teamSync' && searchText) {
-      getStorageTableData();
-    } else if (currentPath === 'user' && searchText) {
-      getUsersTableData();
+    if (currentPath === 'teamSync') {
+      getStorageTableData(searchText);
+    } else if (currentPath === 'user') {
+      getUsersTableData(searchText);
     }
   }, [searchText]);
 
   useEffect(() => {
-    searchText && setSearchText('');
+    setSearchText('');
   }, [currentPath]);
 
   return (

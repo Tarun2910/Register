@@ -49,8 +49,14 @@ import DoneIcon from '@mui/icons-material/Done';
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 import AddDomain from './AddDomain';
 import {toast} from 'react-toastify';
+import {useDispatch, useSelector} from 'react-redux';
+import {
+  getApplicationsData,
+  getUsersData,
+} from 'redux/features/usersDashboardSlice';
 
 const ProductListing = () => {
+  const dispatch = useDispatch();
   const {messages} = useIntl();
   const Navigate = useNavigate();
   const [filterData, setFilterData] = useState({
@@ -78,6 +84,13 @@ const ProductListing = () => {
   const [domain, setDomain] = useState('');
   const [product, setProduct] = useState(10);
   const [applicationName, setApplicationName] = useState('TeamSync');
+
+  const {
+    usersData,
+    usersDataIsSuccess,
+    applicationsData,
+    applicationsDataIsSuccess,
+  } = useSelector((state) => state.usersDashboard);
 
   sessionStorage.setItem('appName', applicationName);
 
@@ -216,29 +229,15 @@ const ProductListing = () => {
   console.log(product, 'valueofproduct');
 
   useEffect(() => {
-    let config = {
-      method: 'get',
-      maxBodyLength: Infinity,
-      url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/users?pageNum=${page}`,
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-        appName: applicationName,
-      },
-    };
-    setLoading(true);
-    axios
-      .request(config)
-      .then((response) => {
-        setLoading(false);
-        console.log(JSON.stringify(response.data));
-        setList(response?.data?.content);
-        setTotal(response?.data?.totalElements);
-      })
-      .catch((error) => {
-        setLoading(false);
-        console.log(error);
-      });
+    dispatch(getUsersData({searchText: '', pageNumber: page, applicationName}));
   }, [page, product, applicationName]);
+
+  useEffect(() => {
+    if (usersDataIsSuccess) {
+      setList(usersData?.content);
+      setTotal(usersData?.totalElements);
+    }
+  }, [usersDataIsSuccess]);
 
   const searchProduct = (title) => {
     setFilterData({...filterData, title});
