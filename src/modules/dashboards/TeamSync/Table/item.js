@@ -17,10 +17,13 @@ import {
   Tooltip,
 } from '@mui/material';
 import CustomizedSwitches from 'modules/dashboards/AdduserDashboard/Table/switchButton';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import CancelIcon from '@mui/icons-material/Cancel';
+import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
 
 const StyledTableCell = styled(TableCell)(() => ({
-  fontSize: 14,
-  padding: 8,
+  fontSize: '0.77rem',
+  padding: 4,
   '&:first-of-type': {
     paddingLeft: 20,
   },
@@ -40,6 +43,17 @@ const TableItem = ({
   showUsers,
 }) => {
   // const [itemsState, setItemsState] = useState([]);
+  const ActiveIcon = styled(CheckCircleIcon)(({theme, active}) => ({
+    color: active ? theme.palette.success.main : theme.palette.action.disabled,
+  }));
+
+  const InactiveIcon = styled(CancelIcon)(({theme, active}) => ({
+    color: active ? theme.palette.error.main : theme.palette.action.disabled,
+  }));
+
+  const PendingIcon = styled(HourglassEmptyIcon)(({theme, active}) => ({
+    color: active ? theme.palette.warning.main : theme.palette.action.disabled,
+  }));
 
   console.log(productData, 'productData321');
 
@@ -92,6 +106,7 @@ const TableItem = ({
   //     return updatedItemsState;
   //   });
   // };
+  const iconStyle = {margin: '0 8px'}; // Adjust margin as needed
 
   const handleSwitchChange = (data) => {
     const id = data.id;
@@ -146,6 +161,7 @@ const TableItem = ({
       return false;
     }
   };
+  console.log(productData, 'ggproductData');
 
   return productData.map((data) => (
     <TableRow key={data.id} className='item-hover' sx={{height: '2rem'}}>
@@ -162,7 +178,7 @@ const TableItem = ({
         </Box>
       </StyledTableCell>
       {/* <StyledTableCell align='left'>{data.deptDisplayUsername}</StyledTableCell> */}
-      <StyledTableCell align='left'>
+      {/* <StyledTableCell align='left'>
         {' '}
         <Tooltip
           title={
@@ -199,21 +215,13 @@ const TableItem = ({
             </Select>
           </FormControl>
         </Tooltip>
-      </StyledTableCell>
+      </StyledTableCell> */}
       <StyledTableCell align='left'>{data.displayStorage}</StyledTableCell>
       {showUsers ? (
-        <StyledTableCell align='left'>
-          <CustomizedSwitches
-            checked={
-              itemsState.find((item) => item.id === data.id)?.active ??
-              data.active
-            }
-            onChange={() => handleSwitchChange(data)}
-            disabled={
-              data.active &&
-              sessionStorage.getItem('licenceTierTeamsync') == 'TRIAL'
-            }
-          />
+        <StyledTableCell align='center'>
+          <ActiveIcon active={data.status === 'active'} sx={iconStyle} />
+          <InactiveIcon active={data.status === 'inactive'} sx={iconStyle} />
+          <PendingIcon active={data.status === 'pending'} sx={iconStyle} />
         </StyledTableCell>
       ) : (
         <StyledTableCell align='left'>

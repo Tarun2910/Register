@@ -169,7 +169,7 @@ const TeamSyncTab = () => {
 
   return (
     <>
-      <Box
+      {/* <Box
         component='h2'
         variant='h2'
         sx={{
@@ -195,7 +195,7 @@ const TeamSyncTab = () => {
         >
           Activate new plan
         </Button>
-      </Box>
+      </Box> */}
       {loading ? (
         <AppLoader />
       ) : (
