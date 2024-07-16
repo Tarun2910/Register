@@ -38,8 +38,11 @@ import Draggable from 'react-draggable';
 
 import {debounce} from 'lodash';
 import {toast} from 'react-toastify';
+import {useDispatch} from 'react-redux';
+import {getRolesData} from 'redux/features/rolesDataSlice';
 
 const ProductListing = () => {
+  const dispatch = useDispatch();
   const {messages} = useIntl();
   const Navigate = useNavigate();
 
@@ -143,6 +146,10 @@ const ProductListing = () => {
         console.log(error);
       });
   }, [page, triggerApi, searchData]);
+
+  useEffect(() => {
+    // dispatch(getRolesData({}));
+  }, [page, triggerApi]);
 
   // const searchProduct = (title) => {
   //   setFilterData({...filterData, title});
