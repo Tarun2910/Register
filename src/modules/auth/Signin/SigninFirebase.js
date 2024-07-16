@@ -156,7 +156,7 @@ const SigninFirebase = () => {
     try {
       const response = await axios.get(`/kms/users/detail`, {
         headers: {
-          Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
       });
       setUserData(response?.data?.roles);

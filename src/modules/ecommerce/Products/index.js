@@ -33,7 +33,7 @@ const Products = () => {
           `/kms/courses?pageNo=${page + 1}&pageSize=10`,
           {
             headers: {
-              Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+              Authorization: `Bearer ${localStorage.getItem('token')}`,
             },
           },
         );
@@ -51,7 +51,7 @@ const Products = () => {
               `/kms/courses/file/${thumbnail}?fileType=thumbnail`,
               {
                 headers: {
-                  Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+                  Authorization: `Bearer ${localStorage.getItem('token')}`,
                 },
                 responseType: 'arraybuffer',
               },

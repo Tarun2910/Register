@@ -179,7 +179,7 @@ export const AddChapter = ({selectedProd}) => {
               url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/users`,
               headers: {
                 'Content-Type': 'application/json',
-                Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+                Authorization: `Bearer ${localStorage.getItem('token')}`,
               },
               data: metaDataString,
             };

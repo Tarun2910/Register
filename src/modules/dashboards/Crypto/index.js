@@ -26,7 +26,7 @@ const Crypto = () => {
       maxBodyLength: Infinity,
       url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/dms_service_LM/api/storageStats`,
       headers: {
-        Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
         username: sessionStorage.getItem('username'),
       },
     };

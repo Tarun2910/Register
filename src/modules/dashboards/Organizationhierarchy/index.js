@@ -69,7 +69,7 @@ export const organizationhierarchy = ({selectedProd}) => {
       maxBodyLength: Infinity,
       url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/users`,
       headers: {
-        Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
       },
     };
 
@@ -93,7 +93,7 @@ export const organizationhierarchy = ({selectedProd}) => {
   //     maxBodyLength: Infinity,
   //     url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/users/free`,
   //     headers: {
-  //       Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+  //       Authorization: `Bearer ${localStorage.getItem('token')}`,
   //     },
   //   };
 
@@ -133,7 +133,7 @@ export const organizationhierarchy = ({selectedProd}) => {
       headers: {
         userId: id,
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
       },
       data: [value],
     };
@@ -207,7 +207,7 @@ export const organizationhierarchy = ({selectedProd}) => {
             axios
               .put(`/kms/courses/${id}`, updatedProd, {
                 headers: {
-                  Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+                  Authorization: `Bearer ${localStorage.getItem('token')}`,
                 },
               })
               .then(() => {
@@ -259,7 +259,7 @@ export const organizationhierarchy = ({selectedProd}) => {
               headers: {
                 userId: id,
                 'Content-Type': 'application/json',
-                Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+                Authorization: `Bearer ${localStorage.getItem('token')}`,
               },
               data: JSON.stringify(userIds),
             };

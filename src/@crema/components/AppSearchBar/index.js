@@ -28,14 +28,21 @@ const AppSearch = ({
   const currentPath = location.pathname.split('/')[1];
   const [searchText, setSearchText] = useState('');
 
-  const debounceFn = useCallback(
+  const getStorageTableData = useCallback(
+    _debounce(() => dispatch(getStorageData({searchText})), 1000),
+    [],
+  );
+
+  const getUsersTableData = useCallback(
     _debounce(() => dispatch(getStorageData({searchText})), 1000),
     [],
   );
 
   useEffect(() => {
     if (currentPath === 'teamSync' && searchText) {
-      debounceFn();
+      getStorageTableData();
+    } else if (currentPath === 'user' && searchText) {
+      getUsersTableData();
     }
   }, [searchText]);
 

@@ -160,7 +160,7 @@ const ProductListing = ({list, setList, handleDeleteSubordinate}) => {
   //     maxBodyLength: Infinity,
   //     url: `/tenants/info`,
   //     headers: {
-  //       Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+  //       Authorization: `Bearer ${localStorage.getItem('token')}`,
   //     },
   //   };
 
@@ -187,7 +187,7 @@ const ProductListing = ({list, setList, handleDeleteSubordinate}) => {
   //     maxBodyLength: Infinity,
   //     url: `/tenants/users?pageNum=${page}`,
   //     headers: {
-  //       Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+  //       Authorization: `Bearer ${localStorage.getItem('token')}`,
   //     },
   //   };
 
@@ -234,7 +234,7 @@ const ProductListing = ({list, setList, handleDeleteSubordinate}) => {
       url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/users/status`,
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
       },
       data: updatedItemsState,
     };
@@ -266,7 +266,7 @@ const ProductListing = ({list, setList, handleDeleteSubordinate}) => {
         window.__ENV__.REACT_APP_MIDDLEWARE
       }/tenants/users?keyword=${searchQuery}&pageNum=${'0'}`,
       headers: {
-        Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
       },
     };
 

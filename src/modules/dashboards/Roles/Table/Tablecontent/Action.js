@@ -29,7 +29,7 @@ const OrderActions = ({id, setTotal, setList, list}) => {
         `${window.__ENV__.REACT_APP_MIDDLEWARE}/kms/courses/${id}`,
         {
           headers: {
-            Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
           },
         },
       );

@@ -118,7 +118,7 @@ const TableItem = ({
       url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/users?pageNum=${0}`,
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
         appName: 'TeamSync',
       },
     };
@@ -141,7 +141,7 @@ const TableItem = ({
       url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/departments/${deptName}/roles`,
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
       },
       data: [
         {
@@ -170,7 +170,7 @@ const TableItem = ({
       url: `/multitenant/adminportal/api/switchRole`,
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
         roleName: roleName,
         currentUserName: Isuserassigned,
         newUserName: selecteduser?.deptUsername,

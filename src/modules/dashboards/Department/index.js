@@ -90,7 +90,7 @@ const ProductListing = () => {
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json; charset=utf8',
-        Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
         pageSize: '10',
         pageNumber: page,
         userName: sessionStorage.getItem('username'),
@@ -141,7 +141,7 @@ const ProductListing = () => {
       maxBodyLength: Infinity,
       url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/departments`,
       headers: {
-        Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
       },
       data: {
         deptName: deptname,
@@ -176,7 +176,7 @@ const ProductListing = () => {
       method: 'put',
       url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/departments`,
       headers: {
-        Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
       },
       data: {
         deptName: deptname,
