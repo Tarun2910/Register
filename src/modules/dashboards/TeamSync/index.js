@@ -33,6 +33,10 @@ import {blue} from '@mui/material/colors';
 import {useNavigate} from 'react-router-dom';
 import CustomizedBreadcrumbs from 'modules/muiComponents/navigation/Breadcrumbs/CustomizedBreadcrumbs';
 import PropTypes from 'prop-types';
+import IconButton from '@mui/material/IconButton';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import GroupIcon from '@mui/icons-material/Group';
+import UpdateIcon from '@mui/icons-material/Update';
 
 import Draggable from 'react-draggable';
 
@@ -412,12 +416,33 @@ const ProductListing = ({
                     width={1}
                     justifyContent='space-between'
                   >
-                    <AppSearchBar
+                    {/* <AppSearchBar
                       iconPosition='right'
                       overlap={false}
                       onChange={(event) => searchData(event.target.value)}
                       placeholder={messages['common.searchHere']}
-                    />
+                    /> */}
+                    <Hidden smDown>
+                      <AppsPagination
+                        rowsPerPage={10}
+                        // count={showUsers ? totalUserCount : totalDeptCount}
+                        count={
+                          filterStatus === 'ALL'
+                            ? totalUserCount
+                            : filterStatus === 'ACTIVE '
+                            ? activeUserCount
+                            : filterStatus === 'INACTIVE'
+                            ? inactiveUserCount
+                            : filterStatus === 'PENDING'
+                            ? pendingUserCount
+                            : filterStatus === 'DEPT'
+                            ? totalDeptCount
+                            : 0
+                        }
+                        page={page}
+                        onPageChange={onPageChange}
+                      />
+                    </Hidden>
                     <Box
                       display='flex'
                       flexDirection='row'
@@ -437,63 +462,76 @@ const ProductListing = ({
                       {showUsers && (
                         <FormControl
                           variant='outlined'
-                          sx={{minWidth: 120, marginRight: '10px'}}
+                          sx={{
+                            minWidth: 100,
+                            marginRight: '8px',
+                            fontSize: '0.875rem',
+                          }} // Adjusted minWidth and marginRight
                           disabled={!showUsers}
                         >
-                          <InputLabel>Status</InputLabel>
+                          <InputLabel sx={{fontSize: '0.875rem'}}>
+                            Status
+                          </InputLabel>
                           <Select
-                            sx={{height: '2rem', width: '100%'}}
+                            sx={{
+                              height: '1.5rem',
+                              width: '100%',
+                              fontSize: '0.875rem',
+                              padding: '0.25rem',
+                            }} // Adjusted height, fontSize, and padding
                             value={filterStatus}
                             onChange={(e) => setFilterStatus(e.target.value)}
                             label='Status'
                           >
-                            <MenuItem value='ALL'>ALL</MenuItem>
-                            <MenuItem value='ACTIVE'>ACTIVE</MenuItem>
-                            <MenuItem value='INACTIVE'>INACTIVE</MenuItem>
-                            <MenuItem value='PENDING'>PENDING</MenuItem>
+                            <MenuItem value='ALL' sx={{fontSize: '0.875rem'}}>
+                              ALL
+                            </MenuItem>
+                            <MenuItem
+                              value='ACTIVE'
+                              sx={{fontSize: '0.875rem'}}
+                            >
+                              ACTIVE
+                            </MenuItem>
+                            <MenuItem
+                              value='INACTIVE'
+                              sx={{fontSize: '0.875rem'}}
+                            >
+                              INACTIVE
+                            </MenuItem>
+                            <MenuItem
+                              value='PENDING'
+                              sx={{fontSize: '0.875rem'}}
+                            >
+                              PENDING
+                            </MenuItem>
                           </Select>
                         </FormControl>
                       )}
-                      <Button
-                        sx={{marginRight: '10px'}}
-                        variant='contained'
-                        size='small'
-                        onClick={() => setShowUsers(!showUsers)}
-                      >
-                        {showUsers ? 'Show Departments' : 'Show Users'}
-                      </Button>
-                      <Button
-                        sx={{marginRight: '10px'}}
-                        color='primary'
-                        variant='contained'
-                        size='small'
-                        onClick={updateUsersPermissions}
-                        // disabled={disable}
-                      >
-                        Update
-                      </Button>
 
-                      <Hidden smDown>
-                        <AppsPagination
-                          rowsPerPage={10}
-                          // count={showUsers ? totalUserCount : totalDeptCount}
-                          count={
-                            filterStatus === 'ALL'
-                              ? totalUserCount
-                              : filterStatus === 'ACTIVE '
-                              ? activeUserCount
-                              : filterStatus === 'INACTIVE'
-                              ? inactiveUserCount
-                              : filterStatus === 'PENDING'
-                              ? pendingUserCount
-                              : filterStatus === 'DEPT'
-                              ? totalDeptCount
-                              : 0
-                          }
-                          page={page}
-                          onPageChange={onPageChange}
-                        />
-                      </Hidden>
+                      <Tooltip
+                        title={showUsers ? 'Show Departments' : 'Show Users'}
+                      >
+                        <IconButton
+                          sx={{marginRight: '10px'}}
+                          color='primary'
+                          size='small'
+                          onClick={() => setShowUsers(!showUsers)}
+                        >
+                          {showUsers ? <GroupIcon /> : <VisibilityIcon />}
+                        </IconButton>
+                      </Tooltip>
+
+                      {/* <Tooltip title='Update'>
+                        <IconButton
+                          sx={{marginRight: '10px'}}
+                          color='primary'
+                          size='small'
+                          onClick={updateUsersPermissions}
+                          // disabled={disable}
+                        >
+                          <UpdateIcon />
+                        </IconButton>
+                      </Tooltip> */}
                     </Box>
                   </Box>
                 </AppsHeader>
@@ -507,8 +545,8 @@ const ProductListing = ({
             >
               <AppsContent
                 sx={{
-                  paddingTop: 2.5,
-                  paddingBottom: 2.5,
+                  paddingTop: 2,
+                  paddingBottom: 2,
                 }}
               >
                 <ListingTable
