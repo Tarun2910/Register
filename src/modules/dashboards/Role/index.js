@@ -110,6 +110,8 @@ const ProductListing = () => {
     console.log(value, 'value');
   };
 
+  // useEffect(() => {}, []);
+
   useEffect(() => {
     let config = {
       method: 'get',

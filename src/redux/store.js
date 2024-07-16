@@ -4,6 +4,7 @@ import authReducer from './features/authSlice';
 import usersReducer from './features/usersSlice';
 import teamSyncReducer from './features/teamSyncSlice';
 import usersDashboardReducer from './features/usersDashboardSlice';
+import rolesDataReducer from './features/rolesDataSlice';
 
 export const store = configureStore({
   reducer: {
@@ -11,6 +12,7 @@ export const store = configureStore({
     user: usersReducer,
     teamSync: teamSyncReducer,
     usersDashboard: usersDashboardReducer,
+    roles: rolesDataReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
