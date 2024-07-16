@@ -176,7 +176,7 @@ const OrderActions = ({
             fontSize: '0.77rem', // Reduce font size
           }}
         >
-          <MoreVertIcon />
+          <MoreVertIcon fontSize='small' />
         </IconButton>
         <Menu
           id='alpha-menu'
@@ -185,6 +185,11 @@ const OrderActions = ({
           open={open}
           onClose={handleClose}
           TransitionComponent={Fade}
+          sx={{
+            '& .MuiPaper-root': {
+              minWidth: '100px', // Reduce menu width
+            },
+          }}
         >
           <MenuItem
             style={{fontSize: 14}}

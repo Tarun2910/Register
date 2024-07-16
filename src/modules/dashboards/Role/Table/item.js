@@ -90,7 +90,7 @@ const TableItem = ({
 
   return productData.map((data) => (
     <TableRow key={data.id} className='item-hover'>
-      <StyledTableCell align='left' sx={{width: 400}}>
+      <StyledTableCell align='left'>
         <Box
           sx={{
             display: 'flex',

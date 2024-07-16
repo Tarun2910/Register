@@ -91,7 +91,7 @@ const TableItem = ({
 
   return productData.map((data) => (
     <TableRow key={data.id} className='item-hover'>
-      <StyledTableCell align='left' sx={{width: 400}}>
+      <StyledTableCell align='left'>
         <Box
           sx={{
             display: 'flex',
@@ -106,9 +106,6 @@ const TableItem = ({
       <StyledTableCell align='left'>{data.deptName}</StyledTableCell>
       <StyledTableCell align='left'>{data.branchCity}</StyledTableCell>
       <TableCell align='right'>
-        {/* <EditIcon />
-        <VisibilityIcon />
-        <RiSplitCellsHorizontal /> */}
         <OrderActions
           id={data.id}
           data={data}
@@ -120,10 +117,6 @@ const TableItem = ({
           setdeptDisplayName={setdeptDisplayName}
           setbranchCity={setbranchCity}
           setRowData={setRowData}
-          // setTotal={setTotal}
-          // setPage={setPage}
-          // setList={setList}
-          // list={list}
         />
       </TableCell>
     </TableRow>
