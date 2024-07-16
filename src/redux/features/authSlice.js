@@ -61,9 +61,13 @@ export const authRefreshAction = createAsyncThunk(
   async (thunkAPI) => {
     try {
       const refresh_token = localStorage.getItem('refresh_token');
+      const formData = new FormData();
+      formData.append('refreshToken', localStorage.getItem('refresh_token'));
+      formData.append('userEmail', localStorage.getItem('username'));
+      formData.append('appName', 'TeamSync');
+
       const refreshResponse = await axios.post(`/tenants/public/refreshToken`, {
-        refresh_token: refresh_token,
-        grant_type: 'refresh_token',
+        formData,
       });
 
       if (refreshResponse.data && refreshResponse.data.access_token) {

@@ -68,6 +68,10 @@ const OrderActions = ({
         aria-controls='alpha-menu'
         aria-haspopup='true'
         onClick={handleClick}
+        sx={{
+          padding: '0px', // Reduce padding
+          fontSize: '0.77rem', // Reduce font size
+        }}
       >
         <MoreVertIcon />
       </IconButton>
@@ -80,7 +84,11 @@ const OrderActions = ({
         TransitionComponent={Fade}
       >
         <MenuItem
-          style={{fontSize: 14}}
+          sx={{
+            '& .MuiPaper-root': {
+              minWidth: '100px', // Reduce menu width
+            },
+          }}
           onClick={() => {
             updateDepartment();
             setSelectedDeptId(deptName);
@@ -94,8 +102,13 @@ const OrderActions = ({
           Edit Department
         </MenuItem>
         <MenuItem
-          style={{fontSize: 14}}
+          // style={{fontSize: 14}}
           onClick={() => handlestate(id, displayname, deptName)}
+          sx={{
+            '& .MuiPaper-root': {
+              minWidth: '100px', // Reduce menu width
+            },
+          }}
         >
           Add and View Roles
         </MenuItem>

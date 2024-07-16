@@ -244,36 +244,40 @@ const ProductListing = () => {
                     width={1}
                     justifyContent='space-between'
                   >
-                    <AppSearchBar
+                    {/* <AppSearchBar
                       iconPosition='right'
                       overlap={false}
                       onChange={(event) => debouncedSearch(event.target.value)}
                       placeholder={messages['common.searchHere']}
-                    />
+                    /> */}
+                    <Hidden smDown>
+                      <AppsPagination
+                        rowsPerPage={10}
+                        count={total}
+                        page={page}
+                        onPageChange={onPageChange}
+                      />
+                    </Hidden>
                     <Box
                       display='flex'
                       flexDirection='row'
                       alignItems='center'
                       justifyContent='flex-end'
                     >
-                      <Tooltip title='ADD Department' onClick={handleopenDept}>
-                        <AddCircleRoundedIcon
-                          sx={{
-                            color: blue[500],
-                            fontSize: 35,
-                            cursor: 'pointer',
-                          }}
-                        />
+                      <Tooltip title='ADD Department'>
+                        <span>
+                          <IconButton
+                            onClick={handleopenDept}
+                            sx={{
+                              color: blue[500],
+                              fontSize: 30,
+                              cursor: 'pointer',
+                            }}
+                          >
+                            <AddCircleRoundedIcon />
+                          </IconButton>
+                        </span>
                       </Tooltip>
-
-                      <Hidden smDown>
-                        <AppsPagination
-                          rowsPerPage={10}
-                          count={total}
-                          page={page}
-                          onPageChange={onPageChange}
-                        />
-                      </Hidden>
                     </Box>
                   </Box>
                 </AppsHeader>
