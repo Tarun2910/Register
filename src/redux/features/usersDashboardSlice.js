@@ -12,27 +12,35 @@ const initialState = {
   usersDataIsError: false,
   usersDataError: '',
   usersDataIsSuccess: false,
+
+  applicationsData: {},
+  applicationsDataIsLoading: false,
+  applicationsDataIsError: false,
+  applicationsDataError: '',
+  applicationsDataIsSuccess: false,
 };
 
 export const getUsersData = createAsyncThunkWithTokenRefresh(
-  'users/data',
+  'users/tableData',
   async (token, currentUser, payload) => {
     try {
-      const response = await axios.get(
-        '/dms_service_LM/api/dms_admin_service/storageStats',
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-            username: localStorage.getItem('username'),
-            pageSize: payload.pageSize,
-            pageNumber: payload.pageNumber,
-            searchText: payload.searchText,
-          },
-          maxBodyLength: Infinity,
+      console.log(payload);
+      let url =
+        payload.searchText == ''
+          ? `/tenants/users`
+          : `/tenants/users?keyword=${payload.searchText}&pageNum=${payload.pageNumber}`;
+      const response = await axios.get(url, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          searchText: payload.searchText,
+          appName: payload.applicationName,
+          pageNumber: payload.pageNumber,
         },
-      );
+        maxBodyLength: Infinity,
+      });
+      console.log(response.data);
       return response;
     } catch (e) {
       console.log(e);
@@ -40,7 +48,28 @@ export const getUsersData = createAsyncThunkWithTokenRefresh(
   },
 );
 
-export const teamSyncSlice = createSlice({
+export const getApplicationsData = createAsyncThunkWithTokenRefresh(
+  'users/applicationsData',
+  async (token, currentUser, payload) => {
+    try {
+      const response = await axios.get('/tenants/applications', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          username: localStorage.getItem('username'),
+          searchText: payload.searchText,
+        },
+        maxBodyLength: Infinity,
+      });
+      return response;
+    } catch (e) {
+      console.log(e);
+    }
+  },
+);
+
+export const usersDataboardSlice = createSlice({
   name: 'users',
   initialState,
   reducers: {
@@ -48,43 +77,66 @@ export const teamSyncSlice = createSlice({
       state.pageNumber = action.payload;
     },
 
-    resetStorageData(state) {
-      state.storageData = {};
-      state.storageDataIsLoading = false;
-      state.storageDataIsError = false;
-      state.storageDataError = '';
-      state.storageDataIsSuccess = false;
+    resetUsersDashboard(state) {
+      state.usersData = {};
+      state.usersDataIsLoading = false;
+      state.usersDataIsError = false;
+      state.usersDataError = '';
+      state.usersDataIsSuccess = false;
     },
   },
   extraReducers(builder) {
     builder
       .addCase(getUsersData.pending, (state) => {
-        state.storageData = {};
-        state.storageDataIsLoading = true;
-        state.storageDataIsError = false;
-        state.storageDataError = '';
-        state.storageDataIsSuccess = false;
+        state.usersData = {};
+        state.usersDataIsLoading = true;
+        state.usersDataIsError = false;
+        state.usersDataError = '';
+        state.usersDataIsSuccess = false;
       })
       .addCase(getUsersData.fulfilled, (state, action) => {
         console.log(action.payload);
-        state.storageData = action.payload;
-        state.storageDataIsLoading = false;
-        state.storageDataIsError = false;
-        state.storageDataError = '';
-        state.storageDataIsSuccess = true;
+        state.usersData = action.payload;
+        state.usersDataIsLoading = false;
+        state.usersDataIsError = false;
+        state.usersDataError = '';
+        state.usersDataIsSuccess = true;
       })
       .addCase(getUsersData.rejected, (state, action) => {
-        state.storageData = {};
-        state.storageDataIsLoading = false;
-        state.storageDataIsError = true;
-        state.storageDataError = action.error.message;
-        state.storageDataIsSuccess = false;
+        state.usersData = {};
+        state.usersDataIsLoading = false;
+        state.usersDataIsError = true;
+        state.usersDataError = action.error.message;
+        state.usersDataIsSuccess = false;
+        toast(action.error.message, {autoClose: 2000, type: 'error'});
+      })
+      .addCase(getApplicationsData.pending, (state) => {
+        state.applicationsData = {};
+        state.applicationsDataIsLoading = true;
+        state.applicationsDataIsError = false;
+        state.applicationsDataError = '';
+        state.applicationsDataIsSuccess = false;
+      })
+      .addCase(getApplicationsData.fulfilled, (state, action) => {
+        console.log(action.payload);
+        state.applicationsData = action.payload;
+        state.applicationsDataIsLoading = false;
+        state.applicationsDataIsError = false;
+        state.applicationsDataError = '';
+        state.applicationsDataIsSuccess = true;
+      })
+      .addCase(getApplicationsData.rejected, (state, action) => {
+        state.applicationsData = {};
+        state.applicationsDataIsLoading = false;
+        state.applicationsDataIsError = true;
+        state.applicationsDataError = action.error.message;
+        state.applicationsDataIsSuccess = false;
         toast(action.error.message, {autoClose: 2000, type: 'error'});
       });
   },
 });
 
-export const {resetStorageData, setStorageDataPageNumber} =
-  teamSyncSlice.actions;
+export const {resetUsersDashboard, setStorageDataPageNumber} =
+  usersDataboardSlice.actions;
 
-export default teamSyncSlice.reducer;
+export default usersDataboardSlice.reducer;
