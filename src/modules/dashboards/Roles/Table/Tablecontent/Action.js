@@ -50,6 +50,10 @@ const OrderActions = ({id, setTotal, setList, list}) => {
         aria-controls='alpha-menu'
         aria-haspopup='true'
         onClick={handleClick}
+        sx={{
+          padding: '0px', // Reduce padding
+          fontSize: '0.77rem', // Reduce font size
+        }}
       >
         <MoreVertIcon />
       </IconButton>
@@ -62,7 +66,7 @@ const OrderActions = ({id, setTotal, setList, list}) => {
         TransitionComponent={Fade}
       >
         <MenuItem
-          style={{fontSize: 14}}
+          style={{fontSize: '0.77rem'}}
           onClick={() => navigate(`/hierarchy/${id}`)}
         >
           Add and View Subordinates

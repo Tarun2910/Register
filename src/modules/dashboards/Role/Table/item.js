@@ -11,8 +11,8 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import {RiSplitCellsHorizontal} from 'react-icons/ri';
 
 const StyledTableCell = styled(TableCell)(() => ({
-  fontSize: 14,
-  padding: 8,
+  fontSize: '0.77rem',
+  padding: 4,
   '&:first-of-type': {
     paddingLeft: 20,
   },

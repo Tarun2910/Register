@@ -49,6 +49,7 @@ import DoneIcon from '@mui/icons-material/Done';
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 import AddDomain from './AddDomain';
 import {toast} from 'react-toastify';
+import SaveIcon from '@mui/icons-material/Save';
 import {useDispatch, useSelector} from 'react-redux';
 import {
   getApplicationsData,
@@ -459,30 +460,46 @@ const ProductListing = () => {
                       alignItems='center'
                       justifyContent='flex-end'
                     >
-                      <Button
+                      <Typography
+                        variant='body1'
                         sx={{
-                          marginRight: '8px',
-                          fontSize: '0.75rem',
-                          padding: '4px 8px',
-                        }} // Adjust margin, font size, and padding
-                        color='primary'
-                        variant='contained'
-                        size='small'
-                        onClick={handlesaveChanges}
-                        disabled={disable}
+                          marginRight: '10px',
+                          fontWeight: Fonts.SEMI_BOLD,
+                          fontSize: '0.77rem',
+                        }}
                       >
-                        Save Changes
-                      </Button>
+                        Remaining License: {String(license)} of{' '}
+                        {String(handletiername())}
+                      </Typography>
+                      <Tooltip title='Save Changes'>
+                        <span>
+                          <IconButton
+                            onClick={handlesaveChanges}
+                            disabled={disable}
+                            sx={{
+                              color: blue[500],
+                              fontSize: 30,
+                              cursor: disable ? 'default' : 'pointer',
+                            }}
+                          >
+                            <SaveIcon />
+                          </IconButton>
+                        </span>
+                      </Tooltip>
 
-                      <Tooltip title='ADD USER' onClick={HandleNavigate}>
-                        <AddCircleRoundedIcon
-                          className='add_user'
-                          sx={{
-                            color: blue[500],
-                            fontSize: 30, // Reduce font size
-                            cursor: 'pointer',
-                          }}
-                        />
+                      <Tooltip title='ADD USER'>
+                        <span>
+                          <IconButton
+                            onClick={HandleNavigate}
+                            sx={{
+                              color: blue[500],
+                              fontSize: 30,
+                              cursor: 'pointer',
+                            }}
+                          >
+                            <AddCircleRoundedIcon />
+                          </IconButton>
+                        </span>
                       </Tooltip>
                     </Box>
                   </Box>

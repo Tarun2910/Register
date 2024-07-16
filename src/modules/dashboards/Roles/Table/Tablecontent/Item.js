@@ -21,8 +21,8 @@ import axios from 'axios';
 import FlipCameraAndroidIcon from '@mui/icons-material/FlipCameraAndroid';
 
 const StyledTableCell = styled(TableCell)(() => ({
-  fontSize: 14,
-  padding: 8,
+  fontSize: '0.77rem',
+  padding: 4,
   '&:first-of-type': {
     paddingLeft: 20,
   },

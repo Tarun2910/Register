@@ -171,6 +171,10 @@ const OrderActions = ({
           aria-controls='alpha-menu'
           aria-haspopup='true'
           onClick={handleClick}
+          sx={{
+            padding: '0px', // Reduce padding
+            fontSize: '0.77rem', // Reduce font size
+          }}
         >
           <MoreVertIcon />
         </IconButton>
