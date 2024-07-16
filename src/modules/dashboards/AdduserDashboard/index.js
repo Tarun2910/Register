@@ -240,87 +240,6 @@ const ProductListing = () => {
       });
   }, [page, product, applicationName]);
 
-  // useEffect(() => {
-  //   if (product === 20) {
-  //     setList([
-  //       {
-  //         id: '65d46a043c24ef0fcc7e5047',
-  //         email: 'tarun@apple.com',
-  //         name: 'Tarun',
-  //         tenantId: '65d46a043c24ef0fcc7e5046',
-  //         reportsTo: null,
-  //         subordinates: [],
-  //         roles: [],
-  //         active_status: false,
-  //       },
-  //       {
-  //         id: '65d46b1d3c24ef0fcc7e5048',
-  //         email: 'vishal@apple.com',
-  //         name: 'Vishal',
-  //         tenantId: '65d46a043c24ef0fcc7e5046',
-  //         reportsTo: null,
-  //         subordinates: ['65d46b1f3c24ef0fcc7e504a'],
-  //         roles: ['admin'],
-  //         active_status: false,
-  //       },
-  //       {
-  //         id: '65d46b1e3c24ef0fcc7e5049',
-  //         email: 'rishabh@apple.com',
-  //         name: 'Rishabh',
-  //         tenantId: '65d46a043c24ef0fcc7e5046',
-  //         reportsTo: null,
-  //         subordinates: [],
-  //         roles: [],
-  //         active_status: false,
-  //       },
-  //       {
-  //         id: '65d46b1f3c24ef0fcc7e504a',
-  //         email: 'aman@apple.com',
-  //         name: 'Aman',
-  //         tenantId: '65d46a043c24ef0fcc7e5046',
-  //         reportsTo: '65d46b1d3c24ef0fcc7e5048',
-  //         subordinates: [],
-  //         roles: [],
-  //         active_status: false,
-  //       },
-  //       {
-  //         id: '65d474ff3c24ef0fcc7e504b',
-  //         email: 'dheeraj@amazon.com',
-  //         name: 'Dheeraj',
-  //         tenantId: '65d46a043c24ef0fcc7e5046',
-  //         reportsTo: null,
-  //         subordinates: [],
-  //         roles: [],
-  //         active_status: false,
-  //       },
-  //     ]);
-  //   }
-  //   if (product === 30) {
-  //     setList([
-  //       {
-  //         id: '65d46a043c24ef0fcc7e5047',
-  //         email: 'rishabh@apple.com',
-  //         name: 'Rishabh',
-  //         tenantId: '65d46a043c24ef0fcc7e5046',
-  //         reportsTo: null,
-  //         subordinates: [],
-  //         roles: [],
-  //         active_status: true,
-  //       },
-  //       {
-  //         id: '65d46b1d3c24ef0fcc7e5048',
-  //         email: 'aman@apple.com',
-  //         name: 'Aman',
-  //         tenantId: '65d46a043c24ef0fcc7e5046',
-  //         reportsTo: null,
-  //         subordinates: ['65d46b1f3c24ef0fcc7e504a'],
-  //         roles: ['admin'],
-  //         active_status: false,
-  //       },
-  //     ]);
-  //   }
-  // }, [product]);
-
   const searchProduct = (title) => {
     setFilterData({...filterData, title});
   };
@@ -462,59 +381,13 @@ const ProductListing = () => {
         sx={{
           display: 'flex',
           justifyContent: 'space-between',
-          fontSize: 15,
-          color: 'text.primary',
-          fontWeight: Fonts.SEMI_BOLD,
-          mb: {
-            xs: 3,
-            lg: 6,
-          },
-        }}
-      >
-        <span>
-          <CustomizedBreadcrumbs label='Home' showComponentName={false} />
-        </span>
-
-        <span>
-          <FormControl>
-            <Select
-              sx={{height: '2rem', marginRight: '10px', width: '10rem'}}
-              labelId='demo-simple-select-label'
-              id='demo-simple-select'
-              value={age}
-              label='Product'
-              onChange={handleChange}
-            >
-              <MenuItem value={10}>Ten</MenuItem>
-              <MenuItem value={20}>Twenty</MenuItem>
-              <MenuItem value={30}>Thirty</MenuItem>
-            </Select>
-          </FormControl>
-          <Button
-            sx={{marginRight: '10px'}}
-            color='primary'
-            variant='outlined'
-            size='small'
-            onClick={handlegotoupgrade}
-          >
-            Activate new plan
-          </Button>
-          Remaining License: {license} of {handletiername()}{' '}
-        </span>
-      </Box> */}
-      <Box
-        component='h2'
-        variant='h2'
-        sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
           alignItems: 'center', // Align items vertically
-          fontSize: 15,
+          fontSize: '0.77rem',
           color: 'text.primary',
           fontWeight: Fonts.SEMI_BOLD,
           mb: {
-            xs: 2,
-            lg: 4,
+            xs: 1,
+            lg: 2,
           },
         }}
       >
@@ -538,22 +411,19 @@ const ProductListing = () => {
               <MenuItem value={30}>Claros</MenuItem>
             </Select>
           </FormControl>
-          {/* <Button
-            color='primary'
-            variant='outlined'
-            size='small'
-            onClick={handlegotoupgrade}
-          >
-            Activate new plan
-          </Button> */}
+
           <Typography
             variant='body1'
-            sx={{marginLeft: '10px', fontWeight: Fonts.SEMI_BOLD}}
+            sx={{
+              marginLeft: '10px',
+              fontWeight: Fonts.SEMI_BOLD,
+              fontSize: '0.77rem',
+            }}
           >
             Remaining License: {String(license)} of {String(handletiername())}
           </Typography>
         </span>
-      </Box>
+      </Box> */}
 
       <AppGridContainer spacing={7}>
         <Slide direction='right' in mountOnEnter unmountOnExit>
@@ -567,35 +437,39 @@ const ProductListing = () => {
                     alignItems='center'
                     width={1}
                     justifyContent='space-between'
+                    sx={{padding: '8px 16px'}} // Reduce padding for compactness
                   >
-                    <AppSearchBar
+                    {/* <AppSearchBar
                       iconPosition='right'
                       overlap={false}
                       onChange={(event) => searchData(event.target.value)}
                       placeholder={messages['common.searchHere']}
-                    />
+                      sx={{fontSize: '0.875rem'}} // Adjust font size
+                    /> */}
+                    <Hidden smDown>
+                      <AppsPagination
+                        rowsPerPage={10}
+                        count={total}
+                        page={page}
+                        onPageChange={onPageChange}
+                      />
+                    </Hidden>
                     <Box
                       display='flex'
                       flexDirection='row'
                       alignItems='center'
                       justifyContent='flex-end'
                     >
-                      {/* <Button
-                        sx={{marginRight: '10px'}}
-                        color='primary'
-                        variant='contained'
-                        size='small'
-                        onClick={handleopenDomain}
-                      >
-                        Add domain
-                      </Button> */}
                       <Button
-                        sx={{marginRight: '10px'}}
+                        sx={{
+                          marginRight: '8px',
+                          fontSize: '0.75rem',
+                          padding: '4px 8px',
+                        }} // Adjust margin, font size, and padding
                         color='primary'
                         variant='contained'
                         size='small'
                         onClick={handlesaveChanges}
-                        // onClick={handleOpenNote}
                         disabled={disable}
                       >
                         Save Changes
@@ -606,20 +480,11 @@ const ProductListing = () => {
                           className='add_user'
                           sx={{
                             color: blue[500],
-                            fontSize: 35,
+                            fontSize: 30, // Reduce font size
                             cursor: 'pointer',
                           }}
                         />
                       </Tooltip>
-
-                      <Hidden smDown>
-                        <AppsPagination
-                          rowsPerPage={10}
-                          count={total}
-                          page={page}
-                          onPageChange={onPageChange}
-                        />
-                      </Hidden>
                     </Box>
                   </Box>
                 </AppsHeader>
@@ -629,8 +494,8 @@ const ProductListing = () => {
             >
               <AppsContent
                 sx={{
-                  paddingTop: 2.5,
-                  paddingBottom: 2.5,
+                  paddingTop: 2,
+                  paddingBottom: 2,
                 }}
               >
                 <ListingTable
@@ -660,6 +525,7 @@ const ProductListing = () => {
           </Grid>
         </Slide>
       </AppGridContainer>
+
       <Dialog
         open={open}
         keepMounted

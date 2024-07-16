@@ -7,7 +7,7 @@ const AppsHeader = ({children}) => {
   return (
     <Box
       sx={{
-        height: 60,
+        height: 40,
         display: 'flex',
         alignItems: 'center',
         borderBottom: (theme) => `1px solid ${theme.palette.divider}`,

@@ -103,7 +103,7 @@ const AppContentView = ({sxStyle, routes}) => {
           //   animationDirection: 'alternate',
           // },
         }}
-        className='app-content'
+        className='app-content tarun'
       >
         <AppSuspense>
           <AppErrorBoundary>{routes}</AppErrorBoundary>

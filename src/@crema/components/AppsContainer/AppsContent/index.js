@@ -22,8 +22,10 @@ const AppsContent = ({isDetailView, fullView, children, ...rest}) => {
       {...rest}
       sx={{
         height: {
-          xs: `calc(100% - ${isDetailView ? 60 : 129}px)`,
-          sm: `calc(100% - ${fullView ? 0 : 60}px)`,
+          // xs: `calc(100% - ${isDetailView ? 60 : 129}px)`,
+          // sm: `calc(100% - ${fullView ? 0 : 60}px)`,
+          xs: `calc(100% - ${isDetailView ? 0 : 129}px)`,
+          sm: `calc(100% - ${fullView ? 0 : 0}px)`,
         },
       }}
     >

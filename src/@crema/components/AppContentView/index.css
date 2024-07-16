@@ -6,3 +6,18 @@
     background-position: 1% 100%;
   }
 }
+@media (min-width: 1536px) {
+  .css-663og4,
+  .tarun {
+    padding: 15px;
+    padding-top: 15px;
+  }
+}
+
+@media (min-width: 900px) {
+  .css-663og4,
+  .tarun {
+    padding: 15px;
+    padding-top: 15px;
+  }
+}

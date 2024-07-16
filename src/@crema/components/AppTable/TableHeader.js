@@ -8,8 +8,8 @@ import {Fonts} from '@crema/constants/AppEnums';
 const TableHeaderRow = styled(TableRow)(({theme}) => {
   return {
     '& th': {
-      fontSize: 14,
-      padding: 8,
+      fontSize: '0.77rem',
+      padding: 2,
       fontWeight: Fonts.MEDIUM,
       color: theme.palette.text.primary,
       backgroundColor: theme.palette.common.white,
