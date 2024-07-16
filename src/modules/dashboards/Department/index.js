@@ -41,9 +41,8 @@ import {
 import {useDispatch, useSelector} from 'react-redux';
 
 const ProductListing = () => {
-  const {departmentsData, departmentsDataIsSuccess} = useSelector(
-    (state) => state.departments,
-  );
+  const {departmentsData, departmentsDataIsSuccess, departmentsDataIsLoading} =
+    useSelector((state) => state.departments);
   const dispatch = useDispatch();
   const {messages} = useIntl();
   const Navigate = useNavigate();
@@ -129,6 +128,10 @@ const ProductListing = () => {
     );
     // dispatch(resetDepartmentsData());
   }, [page, triggerApi]);
+
+  useEffect(() => {
+    setLoading(departmentsDataIsLoading);
+  }, [departmentsDataIsLoading]);
 
   useEffect(() => {
     if (departmentsDataIsSuccess) {

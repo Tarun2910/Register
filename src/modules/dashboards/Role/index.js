@@ -39,12 +39,14 @@ import Draggable from 'react-draggable';
 import {debounce} from 'lodash';
 import {toast} from 'react-toastify';
 import {useDispatch, useSelector} from 'react-redux';
-import {getRolesData, resetRolesData} from 'redux/features/rolesDataSlice';
+import {getRolesData} from 'redux/features/rolesDataSlice';
 
 const ProductListing = () => {
   const dispatch = useDispatch();
 
-  const {rolesData, rolesDataIsSuccess} = useSelector((state) => state.roles);
+  const {rolesData, rolesDataIsSuccess, rolesDataIsLoading} = useSelector(
+    (state) => state.roles,
+  );
 
   const {messages} = useIntl();
   const Navigate = useNavigate();
@@ -157,8 +159,11 @@ const ProductListing = () => {
 
   useEffect(() => {
     dispatch(getRolesData({pageSize: 10, pageNumber: page, searchText: ''}));
-    // dispatch(resetRolesData());
   }, [page, triggerApi]);
+
+  useEffect(() => {
+    setLoading(rolesDataIsLoading);
+  }, [rolesDataIsLoading]);
 
   // const searchProduct = (title) => {
   //   setFilterData({...filterData, title});

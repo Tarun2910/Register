@@ -58,6 +58,7 @@ import {
 } from 'redux/features/usersDashboardSlice';
 
 const ProductListing = () => {
+  const {usersDataIsLoading} = useSelector((state) => state.usersDashboard);
   const dispatch = useDispatch();
   const {messages} = useIntl();
   const Navigate = useNavigate();
@@ -232,8 +233,11 @@ const ProductListing = () => {
 
   useEffect(() => {
     dispatch(getUsersData({searchText: '', pageNumber: page, applicationName}));
-    // dispatch(resetUsersDashboard());
   }, [page, product, applicationName]);
+
+  useEffect(() => {
+    setLoading(usersDataIsLoading);
+  }, [usersDataIsLoading]);
 
   useEffect(() => {
     if (usersDataIsSuccess) {

@@ -26,7 +26,6 @@ const TeamSyncTab = () => {
 
   useEffect(() => {
     dispatch(getStorageData({pageNumber: page, pageSize: 10}));
-    // dispatch(resetStorageData());
   }, [page]);
 
   useEffect(() => {
