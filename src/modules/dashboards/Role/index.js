@@ -38,8 +38,14 @@ import Draggable from 'react-draggable';
 
 import {debounce} from 'lodash';
 import {toast} from 'react-toastify';
+import {useDispatch, useSelector} from 'react-redux';
+import {getRolesData} from 'redux/features/rolesDataSlice';
 
 const ProductListing = () => {
+  const dispatch = useDispatch();
+
+  const {rolesData, rolesDataIsSuccess} = useSelector((state) => state.roles);
+
   const {messages} = useIntl();
   const Navigate = useNavigate();
 
@@ -110,39 +116,48 @@ const ProductListing = () => {
     console.log(value, 'value');
   };
 
-  // useEffect(() => {}, []);
+  useEffect(() => {
+    if (rolesDataIsSuccess) {
+      setList(rolesData?.content);
+      setTotal(rolesData?.totalElements);
+      sessionStorage.setItem('RoleCount', rolesData?.totalElements);
+    }
+  }, [rolesDataIsSuccess]);
+
+  // useEffect(() => {
+  // let config = {
+  //   method: 'get',
+  //   maxBodyLength: Infinity,
+  //   url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/roles?search=${searchData}`,
+  //   headers: {
+  //     Accept: 'application/json',
+  //     'Content-Type': 'application/json; charset=utf8',
+  //     Authorization: `Bearer ${localStorage.getItem('token')}`,
+  //     pageSize: '10',
+  //     pageNumber: page,
+  //     userName: sessionStorage.getItem('username'),
+  //     deptName: 'ALL_USER',
+  //   },
+  // };
+  // setLoading(true);
+  // axios
+  //   .request(config)
+  //   .then((response) => {
+  //     setLoading(false);
+  //     console.log(response.data);
+  //     setList(response?.data?.content);
+  //     setTotal(response?.data?.totalElements);
+  //     sessionStorage.setItem('RoleCount', response?.data?.totalElements);
+  //   })
+  //   .catch((error) => {
+  //     setLoading(false);
+  //     console.log(error);
+  //   });
+  // }, [page, triggerApi, searchData]);
 
   useEffect(() => {
-    let config = {
-      method: 'get',
-      maxBodyLength: Infinity,
-      url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/roles?search=${searchData}`,
-
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json; charset=utf8',
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-        pageSize: '10',
-        pageNumber: page,
-        userName: sessionStorage.getItem('username'),
-        deptName: 'ALL_USER',
-      },
-    };
-    setLoading(true);
-    axios
-      .request(config)
-      .then((response) => {
-        setLoading(false);
-        console.log(response.data);
-        setList(response?.data?.content);
-        setTotal(response?.data?.totalElements);
-        sessionStorage.setItem('RoleCount', response?.data?.totalElements);
-      })
-      .catch((error) => {
-        setLoading(false);
-        console.log(error);
-      });
-  }, [page, triggerApi, searchData]);
+    dispatch(getRolesData({pageSize: 10, pageNumber: page, searchText: ''}));
+  }, [page, triggerApi]);
 
   // const searchProduct = (title) => {
   //   setFilterData({...filterData, title});

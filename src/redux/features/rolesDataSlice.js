@@ -28,7 +28,7 @@ export const getRolesData = createAsyncThunkWithTokenRefresh(
             username: localStorage.getItem('username'),
             pageSize: payload.pageSize,
             pageNumber: payload.pageNumber,
-            searchText: payload.searchText,
+            deptName: 'ALL_USER',
           },
           maxBodyLength: Infinity,
         },
