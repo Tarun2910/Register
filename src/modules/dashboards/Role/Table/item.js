@@ -107,16 +107,7 @@ const TableItem = ({
           <Checkbox size='small' onChange={handleCheckboxChange} />
         </Box>
       </StyledTableCell>
-      <StyledTableCell align='center'>
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-          }}
-        >
-          <Checkbox size='small' onChange={handleCheckboxChange} />
-        </Box>
-      </StyledTableCell>
+
       <StyledTableCell align='center'>
         <Box
           sx={{
