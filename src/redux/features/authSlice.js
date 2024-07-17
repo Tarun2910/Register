@@ -31,10 +31,14 @@ export const loginAction = createAsyncThunk(
       let formdata = new FormData();
       formdata.append('username', payload.username);
       formdata.append('password', payload.password);
-      const response = await axios.post(`/tenants/public/login`, formdata, {
-        headers: {},
-        maxBodyLength: Infinity,
-      });
+      const response = await axios.post(
+        `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/public/login`,
+        formdata,
+        {
+          headers: {},
+          maxBodyLength: Infinity,
+        },
+      );
 
       return response.data;
     } catch (error) {
@@ -57,7 +61,7 @@ export const loginAction = createAsyncThunk(
 );
 
 export const authRefreshAction = createAsyncThunk(
-  '/tenants/public/refreshToken',
+  `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/public/refreshToken`,
   async (thunkAPI) => {
     try {
       console.log('Auth REF');
@@ -67,9 +71,12 @@ export const authRefreshAction = createAsyncThunk(
       formData.append('userEmail', localStorage.getItem('username'));
       formData.append('appName', 'TeamSync');
 
-      const refreshResponse = await axios.post(`/tenants/public/refreshToken`, {
-        formData,
-      });
+      const refreshResponse = await axios.post(
+        `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/public/refreshToken`,
+        {
+          formData,
+        },
+      );
 
       if (refreshResponse.data && refreshResponse.data.access_token) {
         // console.log('refreshResponse', refreshResponse)

@@ -19,7 +19,7 @@ export const getDepartmentsData = createAsyncThunkWithTokenRefresh(
   async (token, currentUser, payload) => {
     try {
       const response = await axios.get(
-        `/tenants/departments?search=${payload.searchText}`,
+        `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/departments?search=${payload.searchText}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

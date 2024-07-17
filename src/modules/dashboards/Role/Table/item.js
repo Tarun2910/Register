@@ -9,6 +9,7 @@ import OrderActions from './Actions';
 import EditIcon from '@mui/icons-material/Edit';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import {RiSplitCellsHorizontal} from 'react-icons/ri';
+import {Checkbox} from '@mui/material';
 
 const StyledTableCell = styled(TableCell)(() => ({
   fontSize: '0.77rem',
@@ -86,6 +87,10 @@ const TableItem = ({
     });
   };
 
+  const handleCheckboxChange = (e) => {
+    console.log(e);
+  };
+
   console.log(itemsState, 'itemsState');
 
   return productData.map((data) => (
@@ -99,12 +104,24 @@ const TableItem = ({
             color: 'primary.main',
           }}
         >
+          <Checkbox size='small' onChange={handleCheckboxChange} />
+        </Box>
+      </StyledTableCell>
+      <StyledTableCell align='center'>
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            cursor: 'pointer',
+            color: 'primary.main',
+          }}
+        >
           {ellipsisLines(data.roleName)}
         </Box>
       </StyledTableCell>
-      <StyledTableCell align='left'>{data.roleDisplayName}</StyledTableCell>
-      {/* <StyledTableCell align='left'>{data.displayRoleName}</StyledTableCell> */}
-      <StyledTableCell align='left'>
+      <StyledTableCell align='center'>{data.roleDisplayName}</StyledTableCell>
+      {/* <StyledTableCell align='center'>{data.displayRoleName}</StyledTableCell> */}
+      <StyledTableCell align='center'>
         {data?.user?.name || 'User not Assigned Yet'}
       </StyledTableCell>
       <TableCell align='right'>

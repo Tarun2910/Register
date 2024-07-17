@@ -24,7 +24,7 @@ export const refreshAccessToken = async (thunkAPI) => {
     formData.append('appName', 'TeamSync');
 
     const refreshResponse = await axios.post(
-      `/tenants/public/refreshToken`,
+      `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/public/refreshToken`,
       formData,
       {
         headers: {
@@ -123,7 +123,7 @@ export const createAsyncThunkWithTokenRefresh = (type, requestFunction) =>
               type: 'error',
             });
             setTimeout(() => {
-              window.location.href = '/login';
+              window.location.href = '/signin';
 
               return;
             }, 1000);

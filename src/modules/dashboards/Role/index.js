@@ -16,6 +16,7 @@ import {
   Autocomplete,
   Divider,
   IconButton,
+  Fab,
 } from '@mui/material';
 import React, {useEffect, useState} from 'react';
 import {useIntl} from 'react-intl';
@@ -40,6 +41,7 @@ import {debounce} from 'lodash';
 import {toast} from 'react-toastify';
 import {useDispatch, useSelector} from 'react-redux';
 import {getRolesData} from 'redux/features/rolesDataSlice';
+import {Add} from '@mui/icons-material';
 
 const ProductListing = () => {
   const dispatch = useDispatch();
@@ -375,102 +377,10 @@ const ProductListing = () => {
 
   return (
     <>
-      {/* <div style={{marginBottom: '1rem'}}>
-        <CustomizedBreadcrumbs label='Home' showComponentName={false} />
-      </div> */}
-      {/* <Box
-        component='h2'
-        variant='h2'
-        sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          fontSize: 15,
-          color: 'text.primary',
-          fontWeight: Fonts.SEMI_BOLD,
-          mb: {
-            xs: 2,
-            lg: 4,
-          },
-        }}
-      >
-        <span>
-          <CustomizedBreadcrumbs label='Home' showComponentName={false} />
-        </span>
-      </Box> */}
       <AppGridContainer spacing={7}>
         <Slide direction='right' in mountOnEnter unmountOnExit>
           <Grid item xs={12} lg={12}>
-            <AppCard
-              title={
-                <AppsHeader>
-                  <Box
-                    display='flex'
-                    flexDirection='row'
-                    alignItems='center'
-                    width={1}
-                    justifyContent='space-between'
-                  >
-                    {/* <AppSearchBar
-                      iconPosition='right'
-                      overlap={false}
-                      onChange={(event) => debouncedSearch(event.target.value)}
-                      placeholder={messages['common.searchHere']}
-                    /> */}
-                    <Hidden smDown>
-                      <AppsPagination
-                        rowsPerPage={10}
-                        count={total}
-                        page={page}
-                        onPageChange={onPageChange}
-                      />
-                    </Hidden>
-                    <Box
-                      display='flex'
-                      flexDirection='row'
-                      alignItems='center'
-                      justifyContent='flex-end'
-                    >
-                      {/* <Button
-                        sx={{marginRight: '10px'}}
-                        color='primary'
-                        variant='contained'
-                        size='small'
-                        onClick={handleopenDomain}
-                      >
-                        Add domain
-                      </Button>
-                      <Button
-                        sx={{marginRight: '10px'}}
-                        color='primary'
-                        variant='contained'
-                        size='small'
-                        onClick={handlesaveChanges}
-                        disabled={disable}
-                      >
-                        Save Changes
-                      </Button> */}
-
-                      <Tooltip title='ADD ROLE'>
-                        <span>
-                          <IconButton
-                            onClick={handleAddRole}
-                            sx={{
-                              color: blue[500],
-                              fontSize: 30,
-                              cursor: 'pointer',
-                            }}
-                          >
-                            <AddCircleRoundedIcon />
-                          </IconButton>
-                        </span>
-                      </Tooltip>
-                    </Box>
-                  </Box>
-                </AppsHeader>
-              }
-              headerStyle={{p: 0}}
-              contentStyle={{p: 0}}
-            >
+            <AppCard headerStyle={{p: 0}} contentStyle={{p: 0}}>
               <AppsContent
                 sx={{
                   paddingTop: 2,
@@ -514,6 +424,42 @@ const ProductListing = () => {
           </Grid>
         </Slide>
       </AppGridContainer>
+      <Tooltip title='ADD ROLE'>
+        <Fab
+          style={{color: '#fff'}}
+          id='fabBtn'
+          color='primary'
+          aria-label='add'
+          onClick={handleAddRole}
+          size='small'
+          sx={{
+            position: 'absolute',
+            bottom: 19,
+            right: 18,
+            color: blue[500],
+          }}
+        >
+          <Add />
+        </Fab>
+      </Tooltip>
+      <Box
+        position='absolute'
+        bottom={10}
+        left={15}
+        display='flex'
+        flexDirection='row'
+        alignItems='center'
+        justifyContent='space-between'
+      >
+        <Hidden smDown>
+          <AppsPagination
+            rowsPerPage={10}
+            count={total}
+            page={page}
+            onPageChange={onPageChange}
+          />
+        </Hidden>
+      </Box>
       <Dialog
         open={open}
         keepMounted

@@ -5,11 +5,11 @@ import TableHeader from '@crema/components/AppTable/TableHeader';
 const TableHeading = () => {
   return (
     <TableHeader>
-      {/* <TableCell>Department Name</TableCell> */}
-      <TableCell align='left'>Role Name</TableCell>
-      <TableCell align='left'>Role Short Name</TableCell>
-      <TableCell align='left'>Assigned User</TableCell>
-      <TableCell align='left'></TableCell>
+      <TableCell></TableCell>
+      <TableCell align='center'>Role Name</TableCell>
+      <TableCell align='center'>Role Short Name</TableCell>
+      <TableCell align='center'>Assigned User</TableCell>
+      <TableCell align='center'></TableCell>
     </TableHeader>
   );
 };

@@ -16,7 +16,7 @@ const refreshAccessToken = async (thunkAPI) => {
     const refresh_token = localStorage.getItem('refresh_token');
 
     const refreshResponse = await axios.post(
-      `/auth/refresh-token`,
+      `${window.__ENV__.REACT_APP_MIDDLEWARE}/auth/refresh-token`,
       {
         refresh_token: refresh_token,
         grant_type: 'refresh_token',
@@ -59,12 +59,15 @@ export const getUserDetailsAction = createAsyncThunk(
         headers['Authorization'] = `Bearer ${token}`;
       }
 
-      const response = await axios.get(`/tenants/info`, {
-        headers: {
-          Accept: 'application/json',
-          ...headers,
+      const response = await axios.get(
+        `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/info`,
+        {
+          headers: {
+            Accept: 'application/json',
+            ...headers,
+          },
         },
-      });
+      );
 
       sessionStorage.setItem('AdminName', response.data.adminName);
       sessionStorage.setItem(
