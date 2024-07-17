@@ -65,13 +65,9 @@ const TableItem = ({
           sx={{
             display: 'flex',
             alignItems: 'center',
-            cursor: 'pointer',
-            color: 'primary.main',
           }}
         >
-          {ellipsisLines(
-            data.name === adminName ? `${data.name} (Admin)` : data.name,
-          )}
+          ( data.name === adminName ? `${data.name} (Admin)` : {data.name}, )
         </Box>
       </StyledTableCell>
       <StyledTableCell align='left'>{data.email}</StyledTableCell>

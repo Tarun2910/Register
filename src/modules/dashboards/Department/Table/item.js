@@ -96,11 +96,9 @@ const TableItem = ({
           sx={{
             display: 'flex',
             alignItems: 'center',
-            cursor: 'pointer',
-            color: 'primary.main',
           }}
         >
-          {ellipsisLines(data.deptDisplayName)}
+          (data.deptDisplayName)
         </Box>
       </StyledTableCell>
       <StyledTableCell align='left'>{data.deptName}</StyledTableCell>

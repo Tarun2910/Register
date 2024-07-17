@@ -170,11 +170,9 @@ const TableItem = ({
           sx={{
             display: 'flex',
             alignItems: 'center',
-            cursor: 'pointer',
-            color: 'primary.main',
           }}
         >
-          {ellipsisLines(data.userId)}
+          {data.userId}
         </Box>
       </StyledTableCell>
       {/* <StyledTableCell align='left'>{data.deptDisplayUsername}</StyledTableCell> */}

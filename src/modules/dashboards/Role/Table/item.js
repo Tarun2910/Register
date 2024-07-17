@@ -95,11 +95,9 @@ const TableItem = ({
           sx={{
             display: 'flex',
             alignItems: 'center',
-            cursor: 'pointer',
-            color: 'primary.main',
           }}
         >
-          {ellipsisLines(data.roleName)}
+          {data.roleName}
         </Box>
       </StyledTableCell>
       <StyledTableCell align='left'>{data.roleDisplayName}</StyledTableCell>
