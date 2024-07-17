@@ -180,7 +180,7 @@ const TableItem = ({
         {' '}
         <Tooltip
           title={
-            disable == 'TRIAL' && `In free Tier You Can't Change the Storage`
+            disable == 'TRIAL' && `In free Tier You Can't Change the Storage` 
           }
         >
           <FormControl variant='outlined' style={{minWidth: 120}} size='small'>
