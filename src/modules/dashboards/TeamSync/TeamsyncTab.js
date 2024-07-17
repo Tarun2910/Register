@@ -69,6 +69,23 @@ const TeamSyncTab = () => {
           (data.deptsAggregate.currentlyUsedStorage / 1024 / 1024).toFixed(2),
         )} MB`,
       },
+
+      {
+        title: 'Users',
+        value: handleNaN(
+          parseFloat(
+            (
+              (data.usersAggregate.currentlyUsedStorage /
+                data.usersAggregate.totalAllocatedStorage) *
+              100
+            ).toFixed(2),
+          ),
+        ),
+        activeColor: '#3D5AFE',
+        income: `${handleNaN(
+          (data.usersAggregate.currentlyUsedStorage / 1024 / 1024).toFixed(2),
+        )} MB`,
+      },
       {
         title: 'Organization',
         value: handleNaN(
@@ -89,22 +106,6 @@ const TeamSyncTab = () => {
             1024
           ).toFixed(2),
         )} GB`,
-      },
-      {
-        title: 'Users',
-        value: handleNaN(
-          parseFloat(
-            (
-              (data.usersAggregate.currentlyUsedStorage /
-                data.usersAggregate.totalAllocatedStorage) *
-              100
-            ).toFixed(2),
-          ),
-        ),
-        activeColor: '#3D5AFE',
-        income: `${handleNaN(
-          (data.usersAggregate.currentlyUsedStorage / 1024 / 1024).toFixed(2),
-        )} MB`,
       },
     ];
   };
@@ -204,8 +205,10 @@ const TeamSyncTab = () => {
             <Grid item xs={12} md={12} lg={5}>
               <CardDetails
                 cardDetails={formatStorageData(storageData)}
-                activeUserCount={activeUserCount}
                 totalUserCount={totalUserCount}
+                activeUserCount={activeUserCount}
+                inactiveUserCount={inactiveUserCount}
+                pendingUserCount={pendingUserCount}
               />
             </Grid>
             <Grid item xs={12} md={12} lg={7}>
