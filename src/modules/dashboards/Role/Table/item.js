@@ -112,11 +112,19 @@ const TableItem = ({
           sx={{
             display: 'flex',
             alignItems: 'center',
-            cursor: 'pointer',
-            color: 'primary.main',
           }}
         >
-          {ellipsisLines(data.roleName)}
+          <Checkbox size='small' onChange={handleCheckboxChange} />
+        </Box>
+      </StyledTableCell>
+      <StyledTableCell align='center'>
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+          }}
+        >
+          {data.roleName}
         </Box>
       </StyledTableCell>
       <StyledTableCell align='center'>{data.roleDisplayName}</StyledTableCell>
