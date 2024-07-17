@@ -22,6 +22,7 @@ import {
   FormControl,
   InputLabel,
   Typography,
+  Fab,
 } from '@mui/material';
 import React, {useEffect, useState} from 'react';
 import {Form, Formik} from 'formik';
@@ -56,6 +57,7 @@ import {
   getUsersData,
   resetUsersDashboard,
 } from 'redux/features/usersDashboardSlice';
+import {Add} from '@mui/icons-material';
 
 const ProductListing = () => {
   const {usersDataIsLoading} = useSelector((state) => state.usersDashboard);
@@ -72,6 +74,7 @@ const ProductListing = () => {
   const [list, setList] = useState([]);
   const [thumbnailUrls, setThumbnailUrls] = useState([]);
   const [total, setTotal] = useState(0);
+  const [selectedUsers, setSelectedUsers] = useState([]);
 
   const [updatedItemsState, setUpdatedItemsState] = useState([]);
   const [disable, setDisable] = useState(false);
@@ -351,6 +354,15 @@ const ProductListing = () => {
       });
   }, []);
 
+  const handleToggleActiveState = () => {
+    const updatedState = itemsState.map((item) =>
+      selectedUsers.some((user) => user.id === item.id)
+        ? {...item, active: !item.active}
+        : item,
+    );
+    setItemsState(updatedState);
+  };
+
   const handlegotoupgrade = () => {
     Navigate('/upgrade');
   };
@@ -435,82 +447,75 @@ const ProductListing = () => {
         <Slide direction='right' in mountOnEnter unmountOnExit>
           <Grid item xs={12} lg={12}>
             <AppCard
-              title={
-                <AppsHeader>
-                  <Box
-                    display='flex'
-                    flexDirection='row'
-                    alignItems='center'
-                    width={1}
-                    justifyContent='space-between'
-                    sx={{padding: '8px 16px'}} // Reduce padding for compactness
-                  >
-                    {/* <AppSearchBar
-                      iconPosition='right'
-                      overlap={false}
-                      onChange={(event) => searchData(event.target.value)}
-                      placeholder={messages['common.searchHere']}
-                      sx={{fontSize: '0.875rem'}} // Adjust font size
-                    /> */}
-                    <Hidden smDown>
-                      <AppsPagination
-                        rowsPerPage={10}
-                        count={total}
-                        page={page}
-                        onPageChange={onPageChange}
-                      />
-                    </Hidden>
-                    <Box
-                      display='flex'
-                      flexDirection='row'
-                      alignItems='center'
-                      justifyContent='flex-end'
-                    >
-                      <Typography
-                        variant='body1'
-                        sx={{
-                          marginRight: '10px',
-                          fontWeight: Fonts.SEMI_BOLD,
-                          fontSize: '0.77rem',
-                        }}
-                      >
-                        Remaining License: {String(license)} of{' '}
-                        {String(handletiername())}
-                      </Typography>
-                      <Tooltip title='Save Changes'>
-                        <span>
-                          <IconButton
-                            onClick={handlesaveChanges}
-                            disabled={disable}
-                            sx={{
-                              color: blue[500],
-                              fontSize: 30,
-                              cursor: disable ? 'default' : 'pointer',
-                            }}
-                          >
-                            <SaveIcon />
-                          </IconButton>
-                        </span>
-                      </Tooltip>
+              // title={
+              //   <AppsHeader>
+              //     {/* <Box
+              //       display='flex'
+              //       flexDirection='row'
+              //       alignItems='center'
+              //       width={1}
+              //       justifyContent='space-between'
+              //       sx={{padding: '8px 16px'}}
+              //     >
+              //       <Hidden smDown>
+              //         <AppsPagination
+              //           rowsPerPage={10}
+              //           count={total}
+              //           page={page}
+              //           onPageChange={onPageChange}
+              //         />
+              //       </Hidden>
+              //       <Box
+              //         display='flex'
+              //         flexDirection='row'
+              //         alignItems='center'
+              //         justifyContent='flex-end'
+              //       >
+              //         <Typography
+              //           variant='body1'
+              //           sx={{
+              //             marginRight: '10px',
+              //             fontWeight: Fonts.SEMI_BOLD,
+              //             fontSize: '0.77rem',
+              //           }}
+              //         >
+              //           Remaining License: {String(license)} of{' '}
+              //           {String(handletiername())}
+              //         </Typography>
+              //         <Tooltip title='Save Changes'>
+              //           <span>
+              //             <IconButton
+              //               onClick={handlesaveChanges}
+              //               disabled={disable}
+              //               sx={{
+              //                 color: blue[500],
+              //                 fontSize: 30,
+              //                 cursor: disable ? 'default' : 'pointer',
+              //               }}
+              //             >
+              //               <SaveIcon />
+              //             </IconButton>
+              //           </span>
+              //         </Tooltip>
 
-                      <Tooltip title='ADD USER'>
-                        <span>
-                          <IconButton
-                            onClick={HandleNavigate}
-                            sx={{
-                              color: blue[500],
-                              fontSize: 30,
-                              cursor: 'pointer',
-                            }}
-                          >
-                            <AddCircleRoundedIcon />
-                          </IconButton>
-                        </span>
-                      </Tooltip>
-                    </Box>
-                  </Box>
-                </AppsHeader>
-              }
+              //         <Tooltip title='ADD USER'>
+              //           <span>
+              //             <IconButton
+              //               onClick={HandleNavigate}
+              //               sx={{
+              //                 color: blue[500],
+              //                 fontSize: 30,
+              //                 cursor: 'pointer',
+              //               }}
+              //             >
+              //               <AddCircleRoundedIcon />
+              //             </IconButton>
+              //           </span>
+              //         </Tooltip>
+              //       </Box>
+              //     </Box> */}
+              //   </AppsHeader>
+              // }
               headerStyle={{p: 0}}
               contentStyle={{p: 0}}
             >
@@ -533,6 +538,11 @@ const ProductListing = () => {
                   setTableData={setTableData}
                   setItemsState={setItemsState}
                   itemsState={itemsState}
+                  license={license}
+                  handletiername={handletiername}
+                  setSelectedUsers={setSelectedUsers}
+                  selectedUsers={selectedUsers}
+                  handleToggleActiveState={handleToggleActiveState}
                 />
               </AppsContent>
               <Hidden smUp>
@@ -548,6 +558,61 @@ const ProductListing = () => {
         </Slide>
       </AppGridContainer>
 
+      <Tooltip title='SAVE CHANGES'>
+        <Fab
+          id='fabBtn'
+          color='primary'
+          style={{color: '#fff'}}
+          aria-label='add'
+          onClick={handlesaveChanges}
+          disabled={disable}
+          size='small'
+          sx={{
+            position: 'absolute',
+            bottom: 19,
+            right: 15,
+            color: blue[500],
+          }}
+        >
+          <SaveIcon />
+        </Fab>
+      </Tooltip>
+      <Tooltip title='ADD USER'>
+        <Fab
+          style={{color: '#fff'}}
+          id='fabBtn'
+          color='primary'
+          aria-label='add'
+          onClick={HandleNavigate}
+          size='small'
+          sx={{
+            position: 'absolute',
+            bottom: 19,
+            right: 65,
+            color: blue[500],
+          }}
+        >
+          <Add />
+        </Fab>
+      </Tooltip>
+      <Box
+        position='absolute'
+        bottom={10}
+        left={15}
+        display='flex'
+        flexDirection='row'
+        alignItems='center'
+        justifyContent='space-between'
+      >
+        <Hidden smDown>
+          <AppsPagination
+            rowsPerPage={10}
+            count={total}
+            page={page}
+            onPageChange={onPageChange}
+          />
+        </Hidden>
+      </Box>
       <Dialog
         open={open}
         keepMounted

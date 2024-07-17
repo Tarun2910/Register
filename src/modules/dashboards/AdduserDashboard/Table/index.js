@@ -17,12 +17,16 @@ const ProductTable = ({
   setList,
   setItemsState,
   itemsState,
+  license,
+  handletiername,
+  selectedUsers,
+  setSelectedUsers,
 }) => {
   return (
     <AppTableContainer>
       <Table stickyHeader>
         <TableHead>
-          <TableHeading />
+          <TableHeading license={license} handletiername={handletiername} />
         </TableHead>
         <TableBody>
           {loading ? (
@@ -38,6 +42,8 @@ const ProductTable = ({
               setList={setList}
               setItemsState={setItemsState}
               itemsState={itemsState}
+              setSelectedUsers={setSelectedUsers}
+              selectedUsers={selectedUsers}
             />
             // ))
           )}
@@ -62,4 +68,8 @@ ProductTable.propTypes = {
   setList: PropTypes.any,
   setItemsState: PropTypes.any,
   itemsState: PropTypes.any,
+  license: PropTypes.any,
+  handletiername: PropTypes.any,
+  setSelectedUsers: PropTypes.any,
+  selectedUsers: PropTypes.any,
 };
