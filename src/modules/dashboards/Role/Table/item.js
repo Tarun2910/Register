@@ -108,7 +108,7 @@ const TableItem = ({
         </Box>
       </StyledTableCell>
 
-      <StyledTableCell align='center'>
+      <StyledTableCell align='left'>
         <Box
           sx={{
             display: 'flex',
@@ -118,9 +118,9 @@ const TableItem = ({
           {data.roleName}
         </Box>
       </StyledTableCell>
-      <StyledTableCell align='center'>{data.roleDisplayName}</StyledTableCell>
+      <StyledTableCell align='left'>{data.roleDisplayName}</StyledTableCell>
       {/* <StyledTableCell align='center'>{data.displayRoleName}</StyledTableCell> */}
-      <StyledTableCell align='center'>
+      <StyledTableCell align='left'>
         {data?.user?.name || 'User not Assigned Yet'}
       </StyledTableCell>
       <TableCell align='right'>

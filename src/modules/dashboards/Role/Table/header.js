@@ -6,10 +6,10 @@ const TableHeading = () => {
   return (
     <TableHeader>
       <TableCell></TableCell>
-      <TableCell align='center'>Role Name</TableCell>
-      <TableCell align='center'>Role Short Name</TableCell>
-      <TableCell align='center'>Assigned User</TableCell>
-      <TableCell align='center'></TableCell>
+      <TableCell align='left'>Role Name</TableCell>
+      <TableCell align='left'>Role Short Name</TableCell>
+      <TableCell align='left'>Assigned User</TableCell>
+      <TableCell align='right'></TableCell>
     </TableHeader>
   );
 };
