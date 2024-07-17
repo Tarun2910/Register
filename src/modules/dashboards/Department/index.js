@@ -14,6 +14,7 @@ import {
   Divider,
   IconButton,
   TextField,
+  Fab,
 } from '@mui/material';
 import React, {useEffect, useState} from 'react';
 import {useIntl} from 'react-intl';
@@ -39,6 +40,7 @@ import {
   resetDepartmentsData,
 } from 'redux/features/departmentsSlice';
 import {useDispatch, useSelector} from 'react-redux';
+import {Add} from '@mui/icons-material';
 
 const ProductListing = () => {
   const {departmentsData, departmentsDataIsSuccess, departmentsDataIsLoading} =
@@ -69,6 +71,7 @@ const ProductListing = () => {
   const [isedit, setIsEdit] = useState(false);
   const [rowData, setRowData] = useState('');
   const [selectedDeptId, setSelectedDeptId] = useState(null);
+  const [selectedList, setSelectedList] = useState([]);
 
   const handleClose = () => {
     setOpen(false);
@@ -261,57 +264,7 @@ const ProductListing = () => {
       <AppGridContainer spacing={7}>
         <Slide direction='right' in mountOnEnter unmountOnExit>
           <Grid item xs={12} lg={12}>
-            <AppCard
-              title={
-                <AppsHeader>
-                  <Box
-                    display='flex'
-                    flexDirection='row'
-                    alignItems='center'
-                    width={1}
-                    justifyContent='space-between'
-                  >
-                    {/* <AppSearchBar
-                      iconPosition='right'
-                      overlap={false}
-                      onChange={(event) => debouncedSearch(event.target.value)}
-                      placeholder={messages['common.searchHere']}
-                    /> */}
-                    <Hidden smDown>
-                      <AppsPagination
-                        rowsPerPage={10}
-                        count={total}
-                        page={page}
-                        onPageChange={onPageChange}
-                      />
-                    </Hidden>
-                    <Box
-                      display='flex'
-                      flexDirection='row'
-                      alignItems='center'
-                      justifyContent='flex-end'
-                    >
-                      <Tooltip title='ADD Department'>
-                        <span>
-                          <IconButton
-                            onClick={handleopenDept}
-                            sx={{
-                              color: blue[500],
-                              fontSize: 30,
-                              cursor: 'pointer',
-                            }}
-                          >
-                            <AddCircleRoundedIcon />
-                          </IconButton>
-                        </span>
-                      </Tooltip>
-                    </Box>
-                  </Box>
-                </AppsHeader>
-              }
-              headerStyle={{p: 0}}
-              contentStyle={{p: 0}}
-            >
+            <AppCard headerStyle={{p: 0}} contentStyle={{p: 0}}>
               <AppsContent
                 sx={{
                   paddingTop: 2,
@@ -342,6 +295,8 @@ const ProductListing = () => {
                   setdeptDisplayName={setdeptDisplayName}
                   setbranchCity={setbranchCity}
                   setRowData={setRowData}
+                  selectedList={selectedList}
+                  setSelectedList={setSelectedList}
                 />
               </AppsContent>
               <Hidden smUp>
@@ -356,6 +311,42 @@ const ProductListing = () => {
           </Grid>
         </Slide>
       </AppGridContainer>
+      <Tooltip title='Add Department'>
+        <Fab
+          style={{color: '#fff'}}
+          id='fabBtn'
+          color='primary'
+          aria-label='add'
+          onClick={handleopenDept}
+          size='small'
+          sx={{
+            position: 'absolute',
+            bottom: 19,
+            right: 18,
+            color: blue[500],
+          }}
+        >
+          <Add />
+        </Fab>
+      </Tooltip>
+      <Box
+        position='absolute'
+        bottom={10}
+        left={15}
+        display='flex'
+        flexDirection='row'
+        alignItems='center'
+        justifyContent='space-between'
+      >
+        <Hidden smDown>
+          <AppsPagination
+            rowsPerPage={10}
+            count={total}
+            page={page}
+            onPageChange={onPageChange}
+          />
+        </Hidden>
+      </Box>
       <Dialog
         open={open}
         keepMounted

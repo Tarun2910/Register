@@ -9,6 +9,7 @@ import OrderActions from './Action';
 import EditIcon from '@mui/icons-material/Edit';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import {RiSplitCellsHorizontal} from 'react-icons/ri';
+import {Checkbox} from '@mui/material';
 
 const StyledTableCell = styled(TableCell)(() => ({
   fontSize: '0.77rem',
@@ -34,6 +35,8 @@ const TableItem = ({
   setdeptDisplayName,
   setbranchCity,
   setRowData,
+  selectedList,
+  setSelectedList,
 }) => {
   // const [itemsState, setItemsState] = useState([]);
 
@@ -89,8 +92,25 @@ const TableItem = ({
 
   console.log(itemsState, 'itemsState');
 
+  const handleCheckboxSelection = (e) => {
+    console.log(e);
+  };
+
   return productData.map((data) => (
     <TableRow key={data.id} className='item-hover'>
+      <StyledTableCell align='left'>
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+          }}
+        >
+          <Checkbox
+            size='small'
+            onChange={() => handleCheckboxSelection(data)}
+          />
+        </Box>
+      </StyledTableCell>
       <StyledTableCell align='left'>
         <Box
           sx={{
@@ -133,4 +153,6 @@ TableItem.propTypes = {
   setdeptDisplayName: PropTypes.any,
   setbranchCity: PropTypes.any,
   setRowData: PropTypes.any,
+  selectedList: PropTypes.any,
+  setSelectedList: PropTypes.any,
 };
