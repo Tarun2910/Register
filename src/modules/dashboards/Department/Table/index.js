@@ -23,6 +23,8 @@ const ProductTable = ({
   setdeptDisplayName,
   setbranchCity,
   setRowData,
+  selectedList,
+  setSelectedList,
 }) => {
   return (
     <AppTableContainer>
@@ -50,6 +52,8 @@ const ProductTable = ({
               setdeptDisplayName={setdeptDisplayName}
               setbranchCity={setbranchCity}
               setRowData={setRowData}
+              selectedList={selectedList}
+              setSelectedList={setSelectedList}
             />
             // ))
           )}
@@ -80,6 +84,8 @@ ProductTable.propTypes = {
   setdeptDisplayName: PropTypes.any,
   setbranchCity: PropTypes.any,
   setRowData: PropTypes.any,
+  selectedList: PropTypes.any,
+  setSelectedList: PropTypes.any,
 };
 
 // style={{minHeight: '70vh'}}
