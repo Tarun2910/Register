@@ -18,14 +18,14 @@ export const createAxiosConfig = (
 // Separate function for token refresh
 export const refreshAccessToken = async (thunkAPI) => {
   try {
-    const refresh_token = localStorage.getItem('refresh_token');
+    const formData = new FormData();
+    formData.append('refreshToken', localStorage.getItem('refresh_token'));
+    formData.append('userEmail', localStorage.getItem('username'));
+    formData.append('appName', 'TeamSync');
 
     const refreshResponse = await axios.post(
-      `/auth/refresh-token`,
-      {
-        refresh_token: refresh_token,
-        grant_type: 'refresh_token',
-      },
+      `/tenants/public/refreshToken`,
+      formData,
       {
         headers: {
           Accept: 'application/json',

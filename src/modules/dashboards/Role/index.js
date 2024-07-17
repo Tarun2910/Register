@@ -44,7 +44,9 @@ import {getRolesData} from 'redux/features/rolesDataSlice';
 const ProductListing = () => {
   const dispatch = useDispatch();
 
-  const {rolesData, rolesDataIsSuccess} = useSelector((state) => state.roles);
+  const {rolesData, rolesDataIsSuccess, rolesDataIsLoading} = useSelector(
+    (state) => state.roles,
+  );
 
   const {messages} = useIntl();
   const Navigate = useNavigate();
@@ -158,6 +160,10 @@ const ProductListing = () => {
   useEffect(() => {
     dispatch(getRolesData({pageSize: 10, pageNumber: page, searchText: ''}));
   }, [page, triggerApi]);
+
+  useEffect(() => {
+    setLoading(rolesDataIsLoading);
+  }, [rolesDataIsLoading]);
 
   // const searchProduct = (title) => {
   //   setFilterData({...filterData, title});

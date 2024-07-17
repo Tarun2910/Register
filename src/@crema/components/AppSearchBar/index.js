@@ -26,9 +26,19 @@ const AppSearch = ({
   iconStyle,
   ...rest
 }) => {
-  const {storageData} = useSelector((state) => state.teamSync);
-  const {rolesData} = useSelector((state) => state.roles);
-  const {userData} = useSelector((state) => state.user);
+  const {storageDataIsLoading, storageDataIsSuccess, storageDataIsError} =
+    useSelector((state) => state.teamSync);
+  const {rolesDataIsLoading, rolesDataIsSuccess, rolesDataIsError} =
+    useSelector((state) => state.roles);
+  const {userDataIsLoading, userDataIsSuccess, userDataIsError} = useSelector(
+    (state) => state.user,
+  );
+  const {
+    departmentsDataIsLoading,
+    departmentsDataIsError,
+    departmentsDataIsSuccess,
+  } = useSelector((state) => state.departments);
+
   const dispatch = useDispatch();
   const location = useLocation();
   const currentPath = location.pathname.split('/')[1];
@@ -77,14 +87,22 @@ const AppSearch = ({
   );
 
   useEffect(() => {
-    if (currentPath === 'teamSync' && searchText) {
-      getStorageTableData(searchText);
-    } else if (currentPath === 'user' && searchText) {
-      getUsersTableData(searchText);
-    } else if (currentPath === 'roles' && searchText) {
-      getRolesTableData(searchText);
-    } else if (currentPath === 'department' && searchText) {
-      getDepartmentsTableData(searchText);
+    if (currentPath === 'teamSync') {
+      if (!storageDataIsLoading || !storageDataIsSuccess || !storageDataIsError)
+        getStorageTableData(searchText);
+    } else if (currentPath === 'user') {
+      if (!userDataIsLoading || !userDataIsSuccess || !userDataIsError)
+        getUsersTableData(searchText);
+    } else if (currentPath === 'roles') {
+      if (!rolesDataIsLoading || !rolesDataIsSuccess || !rolesDataIsError)
+        getRolesTableData(searchText);
+    } else if (currentPath === 'department') {
+      if (
+        !departmentsDataIsLoading ||
+        !departmentsDataIsError ||
+        !departmentsDataIsSuccess
+      )
+        getDepartmentsTableData(searchText);
     }
   }, [searchText]);
 

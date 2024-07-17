@@ -54,9 +54,11 @@ import {useDispatch, useSelector} from 'react-redux';
 import {
   getApplicationsData,
   getUsersData,
+  resetUsersDashboard,
 } from 'redux/features/usersDashboardSlice';
 
 const ProductListing = () => {
+  const {usersDataIsLoading} = useSelector((state) => state.usersDashboard);
   const dispatch = useDispatch();
   const {messages} = useIntl();
   const Navigate = useNavigate();
@@ -234,7 +236,10 @@ const ProductListing = () => {
   }, [page, product, applicationName]);
 
   useEffect(() => {
-    console.log(usersData);
+    setLoading(usersDataIsLoading);
+  }, [usersDataIsLoading]);
+
+  useEffect(() => {
     if (usersDataIsSuccess) {
       setList(usersData?.content);
       setTotal(usersData?.totalElements);

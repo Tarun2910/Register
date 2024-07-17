@@ -57,9 +57,10 @@ export const loginAction = createAsyncThunk(
 );
 
 export const authRefreshAction = createAsyncThunk(
-  '/auth/refresh-token',
+  '/tenants/public/refreshToken',
   async (thunkAPI) => {
     try {
+      console.log('Auth REF');
       const refresh_token = localStorage.getItem('refresh_token');
       const formData = new FormData();
       formData.append('refreshToken', localStorage.getItem('refresh_token'));

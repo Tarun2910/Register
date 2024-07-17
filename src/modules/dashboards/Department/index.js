@@ -34,13 +34,15 @@ import CloseIcon from '@mui/icons-material/Close';
 
 import {debounce} from 'lodash';
 import {toast} from 'react-toastify';
-import {getDepartmentsData} from 'redux/features/departmentsSlice';
+import {
+  getDepartmentsData,
+  resetDepartmentsData,
+} from 'redux/features/departmentsSlice';
 import {useDispatch, useSelector} from 'react-redux';
 
 const ProductListing = () => {
-  const {departmentsData, departmentsDataIsSuccess} = useSelector(
-    (state) => state.departments,
-  );
+  const {departmentsData, departmentsDataIsSuccess, departmentsDataIsLoading} =
+    useSelector((state) => state.departments);
   const dispatch = useDispatch();
   const {messages} = useIntl();
   const Navigate = useNavigate();
@@ -124,7 +126,12 @@ const ProductListing = () => {
     dispatch(
       getDepartmentsData({pageNumber: page, pageSize: 10, searchText: ''}),
     );
+    // dispatch(resetDepartmentsData());
   }, [page, triggerApi]);
+
+  useEffect(() => {
+    setLoading(departmentsDataIsLoading);
+  }, [departmentsDataIsLoading]);
 
   useEffect(() => {
     if (departmentsDataIsSuccess) {
