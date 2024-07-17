@@ -7,6 +7,7 @@ import {styled} from '@mui/material/styles';
 import {ellipsisLines} from '@crema/helpers/StringHelper';
 import CustomizedSwitches from './switchButton';
 import OrderActions from './Actions';
+import {Checkbox} from '@mui/material';
 
 const StyledTableCell = styled(TableCell)(() => ({
   fontSize: '0.77rem',
@@ -60,6 +61,9 @@ const TableItem = ({
 
   return productData.map((data) => (
     <TableRow key={data.id} className='item-hover'>
+      <StyledTableCell>
+        <Checkbox sx={{padding: '0px', fontSize: '0.77rem'}} />
+      </StyledTableCell>
       <StyledTableCell align='left'>
         <Box
           sx={{
@@ -67,9 +71,10 @@ const TableItem = ({
             alignItems: 'center',
           }}
         >
-          ( data.name === adminName ? `${data.name} (Admin)` : {data.name}, )
+          {data.name === adminName ? `${data.name} (Admin)` : data.name}
         </Box>
       </StyledTableCell>
+      <StyledTableCell align='left'>{data.email}</StyledTableCell>
       <StyledTableCell align='left'>{data.email}</StyledTableCell>
       <StyledTableCell align='center'>
         <CustomizedSwitches
