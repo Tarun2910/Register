@@ -7,7 +7,7 @@ const TableHeading = () => {
   return (
     <TableHeader>
       <TableCell>
-        <Checkbox sx={{padding: '0px', fontSize: '0.77rem'}} />
+        <Checkbox size='small' sx={{padding: '0px', fontSize: '0.77rem'}} />
       </TableCell>
       <TableCell>Name</TableCell>
       <TableCell align='left'>User Email</TableCell>
