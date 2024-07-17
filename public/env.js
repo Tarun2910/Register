@@ -1,5 +1,3 @@
-const isDev = process.env.NODE_ENV == 'development';
-
 window.__ENV__ = {
   REACT_APP_INITIAL_URL: 'dashboards',
   REACT_APP_STATE_TYPE: 'context',
@@ -11,5 +9,5 @@ window.__ENV__ = {
   REACT_APP_THEME_MODE: 'light',
   REACT_APP_NAV_STYLE: 'mini-sidebar-onToggleSidebar',
   REACT_APP_LAYOUT_TYPE: 'full-width',
-  REACT_APP_MIDDLEWARE: isDev ? '' : '/api',
+  REACT_APP_MIDDLEWARE: '/api',
 };
