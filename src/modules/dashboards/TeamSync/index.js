@@ -407,137 +407,104 @@ const ProductListing = ({
         <Slide direction='right' in mountOnEnter unmountOnExit>
           <Grid item xs={12} lg={12}>
             <AppCard
-              title={
-                <AppsHeader>
-                  <Box
-                    display='flex'
-                    flexDirection='row'
-                    alignItems='center'
-                    width={1}
-                    justifyContent='space-between'
-                  >
-                    {/* <AppSearchBar
-                      iconPosition='right'
-                      overlap={false}
-                      onChange={(event) => searchData(event.target.value)}
-                      placeholder={messages['common.searchHere']}
-                    /> */}
-                    <Hidden smDown>
-                      <AppsPagination
-                        rowsPerPage={10}
-                        // count={showUsers ? totalUserCount : totalDeptCount}
-                        count={
-                          filterStatus === 'ALL'
-                            ? totalUserCount
-                            : filterStatus === 'ACTIVE '
-                            ? activeUserCount
-                            : filterStatus === 'INACTIVE'
-                            ? inactiveUserCount
-                            : filterStatus === 'PENDING'
-                            ? pendingUserCount
-                            : filterStatus === 'DEPT'
-                            ? totalDeptCount
-                            : 0
-                        }
-                        page={page}
-                        onPageChange={onPageChange}
-                      />
-                    </Hidden>
-                    <Box
-                      display='flex'
-                      flexDirection='row'
-                      alignItems='center'
-                      justifyContent='flex-end'
-                    >
-                      {/* <Button
-                        sx={{marginRight: '10px'}}
-                        color='primary'
-                        variant='contained'
-                        size='small'
-                        onClick={handleopenDomain}
-                      >
-                        Add domain
-                      </Button> */}
+              // title={
+              //   <AppsHeader>
+              //     <Box
+              //       display='flex'
+              //       flexDirection='row'
+              //       alignItems='center'
+              //       width={1}
+              //       justifyContent='space-between'
+              //     >
+              //       {/* <AppSearchBar
+              //         iconPosition='right'
+              //         overlap={false}
+              //         onChange={(event) => searchData(event.target.value)}
+              //         placeholder={messages['common.searchHere']}
+              //       /> */}
 
-                      {showUsers && (
-                        <FormControl
-                          variant='outlined'
-                          sx={{
-                            minWidth: 100,
-                            marginRight: '8px',
-                            fontSize: '0.875rem',
-                          }} // Adjusted minWidth and marginRight
-                          disabled={!showUsers}
-                        >
-                          <InputLabel sx={{fontSize: '0.875rem'}}>
-                            Status
-                          </InputLabel>
-                          <Select
-                            sx={{
-                              height: '1.5rem',
-                              width: '100%',
-                              fontSize: '0.875rem',
-                              padding: '0.25rem',
-                            }} // Adjusted height, fontSize, and padding
-                            value={filterStatus}
-                            onChange={(e) => setFilterStatus(e.target.value)}
-                            label='Status'
-                          >
-                            <MenuItem value='ALL' sx={{fontSize: '0.875rem'}}>
-                              ALL
-                            </MenuItem>
-                            <MenuItem
-                              value='ACTIVE'
-                              sx={{fontSize: '0.875rem'}}
-                            >
-                              ACTIVE
-                            </MenuItem>
-                            <MenuItem
-                              value='INACTIVE'
-                              sx={{fontSize: '0.875rem'}}
-                            >
-                              INACTIVE
-                            </MenuItem>
-                            <MenuItem
-                              value='PENDING'
-                              sx={{fontSize: '0.875rem'}}
-                            >
-                              PENDING
-                            </MenuItem>
-                          </Select>
-                        </FormControl>
-                      )}
+              //       <Box
+              //         display='flex'
+              //         flexDirection='row'
+              //         alignItems='center'
+              //         justifyContent='flex-end'
+              //       >
+              //         {/* <Button
+              //           sx={{marginRight: '10px'}}
+              //           color='primary'
+              //           variant='contained'
+              //           size='small'
+              //           onClick={handleopenDomain}
+              //         >
+              //           Add domain
+              //         </Button> */}
 
-                      <Tooltip
-                        title={showUsers ? 'Show Departments' : 'Show Users'}
-                      >
-                        <IconButton
-                          sx={{marginRight: '10px'}}
-                          color='primary'
-                          size='small'
-                          onClick={() => setShowUsers(!showUsers)}
-                        >
-                          {showUsers ? <GroupIcon /> : <VisibilityIcon />}
-                        </IconButton>
-                      </Tooltip>
+              //         {/* {showUsers && (
+              //           <FormControl
+              //             variant='outlined'
+              //             sx={{
+              //               minWidth: 100,
+              //               marginRight: '8px',
+              //               fontSize: '0.875rem',
+              //             }} // Adjusted minWidth and marginRight
+              //             disabled={!showUsers}
+              //           >
+              //             <InputLabel sx={{fontSize: '0.875rem'}}>
+              //               Status
+              //             </InputLabel>
+              //             <Select
+              //               sx={{
+              //                 height: '1.5rem',
+              //                 width: '100%',
+              //                 fontSize: '0.875rem',
+              //                 padding: '0.25rem',
+              //               }} // Adjusted height, fontSize, and padding
+              //               value={filterStatus}
+              //               onChange={(e) => setFilterStatus(e.target.value)}
+              //               label='Status'
+              //             >
+              //               <MenuItem value='ALL' sx={{fontSize: '0.875rem'}}>
+              //                 ALL
+              //               </MenuItem>
+              //               <MenuItem
+              //                 value='ACTIVE'
+              //                 sx={{fontSize: '0.875rem'}}
+              //               >
+              //                 ACTIVE
+              //               </MenuItem>
+              //               <MenuItem
+              //                 value='INACTIVE'
+              //                 sx={{fontSize: '0.875rem'}}
+              //               >
+              //                 INACTIVE
+              //               </MenuItem>
+              //               <MenuItem
+              //                 value='PENDING'
+              //                 sx={{fontSize: '0.875rem'}}
+              //               >
+              //                 PENDING
+              //               </MenuItem>
+              //             </Select>
+              //           </FormControl>
+              //         )} */}
 
-                      {/* <Tooltip title='Update'>
-                        <IconButton
-                          sx={{marginRight: '10px'}}
-                          color='primary'
-                          size='small'
-                          onClick={updateUsersPermissions}
-                          // disabled={disable}
-                        >
-                          <UpdateIcon />
-                        </IconButton>
-                      </Tooltip> */}
-                    </Box>
-                  </Box>
-                </AppsHeader>
-              }
+              //         {/* <Tooltip title='Update'>
+              //           <IconButton
+              //             sx={{marginRight: '10px'}}
+              //             color='primary'
+              //             size='small'
+              //             onClick={updateUsersPermissions}
+              //             // disabled={disable}
+              //           >
+              //             <UpdateIcon />
+              //           </IconButton>
+              //         </Tooltip> */}
+              //       </Box>
+              //     </Box>
+              //   </AppsHeader>
+              // }
               sx={{
-                minHeight: 'calc(100vh - 168px)',
+                minHeight: 'calc(100vh - 100px)',
                 height: '100px',
               }}
               headerStyle={{p: 0}}
@@ -567,20 +534,47 @@ const ProductListing = ({
                   isAllSelected={isAllSelected}
                   setIsAllSelected={setIsAllSelected}
                   showUsers={showUsers}
+                  setShowUsers={setShowUsers}
+                  filterStatus={filterStatus}
+                  setFilterStatus={setFilterStatus}
                 />
               </AppsContent>
-              <Hidden smUp>
-                <AppsPagination
-                  rowsPerPage={10}
-                  count={total}
-                  page={page}
-                  onPageChange={onPageChange}
-                />
-              </Hidden>
             </AppCard>
           </Grid>
         </Slide>
       </AppGridContainer>
+
+      <Box
+        position='absolute'
+        bottom={10}
+        right={10} // Adjusted to center horizontally
+        display='flex'
+        flexDirection='row'
+        alignItems='center'
+        justifyContent='space-between'
+      >
+        <Hidden smDown>
+          <AppsPagination
+            rowsPerPage={10}
+            // count={showUsers ? totalUserCount : totalDeptCount}
+            count={
+              filterStatus === 'ALL'
+                ? totalUserCount
+                : filterStatus === 'ACTIVE '
+                ? activeUserCount
+                : filterStatus === 'INACTIVE'
+                ? inactiveUserCount
+                : filterStatus === 'PENDING'
+                ? pendingUserCount
+                : filterStatus === 'DEPT'
+                ? totalDeptCount
+                : 0
+            }
+            page={page}
+            onPageChange={onPageChange}
+          />
+        </Hidden>
+      </Box>
       <Dialog
         open={open}
         keepMounted

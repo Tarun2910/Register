@@ -1,83 +1,25 @@
 import * as React from 'react';
-import {styled} from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
-import CircularProgress, {
-  circularProgressClasses,
-} from '@mui/material/CircularProgress';
-import LinearProgress, {
-  linearProgressClasses,
-} from '@mui/material/LinearProgress';
-import {Typography} from '@mui/material';
+import LinearProgress from '@mui/material/LinearProgress';
+import Typography from '@mui/material/Typography';
 import PropTypes from 'prop-types';
 
-const BorderLinearProgress = styled(LinearProgress)(({theme}) => ({
-  height: 5,
-  borderRadius: 5,
-  [`&.${linearProgressClasses.colorPrimary}`]: {
-    backgroundColor:
-      theme.palette.grey[theme.palette.mode === 'light' ? 200 : 800],
-  },
-  [`& .${linearProgressClasses.bar}`]: {
-    borderRadius: 5,
-    backgroundColor: theme.palette.mode === 'light' ? '#1a90ff' : '#308fe8',
-  },
-}));
-
-function FacebookCircularProgress(props) {
-  return (
-    <Box sx={{position: 'relative'}}>
-      <CircularProgress
-        variant='determinate'
-        sx={{
-          color: (theme) =>
-            theme.palette.grey[theme.palette.mode === 'light' ? 200 : 800],
-        }}
-        size={40}
-        thickness={4}
-        {...props}
-        value={100}
-      />
-      <CircularProgress
-        variant='indeterminate'
-        disableShrink
-        sx={{
-          color: (theme) =>
-            theme.palette.mode === 'light' ? '#1a90ff' : '#308fe8',
-          animationDuration: '550ms',
-          position: 'absolute',
-          left: 0,
-          [`& .${circularProgressClasses.circle}`]: {
-            strokeLinecap: 'round',
-          },
-        }}
-        size={40}
-        thickness={4}
-        {...props}
-      />
-    </Box>
-  );
-}
-
-function GradientCircularProgress() {
-  return (
-    <React.Fragment>
-      <svg width={0} height={0}>
-        <defs>
-          <linearGradient id='my_gradient' x1='0%' y1='0%' x2='0%' y2='100%'>
-            <stop offset='0%' stopColor='#e01cd5' />
-            <stop offset='100%' stopColor='#1CB5E0' />
-          </linearGradient>
-        </defs>
-      </svg>
-      <CircularProgress sx={{'svg circle': {stroke: 'url(#my_gradient)'}}} />
-    </React.Fragment>
-  );
-}
-
-const CustomizedProgressBars = ({totalUserCount, activeUserCount}) => {
-  const progress =
+const CustomizedProgressBars = ({
+  totalUserCount,
+  activeUserCount,
+  inactiveUserCount,
+  pendingUserCount,
+}) => {
+  const activeProgress =
     totalUserCount > 0 ? (activeUserCount / totalUserCount) * 100 : 0;
+  const inactiveProgress =
+    totalUserCount > 0 ? (inactiveUserCount / totalUserCount) * 100 : 0;
+  const pendingProgress =
+    totalUserCount > 0 ? (pendingUserCount / totalUserCount) * 100 : 0;
+
+  // Calculate the combined progress percentage
+  const combinedProgress = activeProgress + pendingProgress + inactiveProgress;
 
   return (
     <Stack spacing={2} sx={{flexGrow: 1}}>
@@ -86,15 +28,63 @@ const CustomizedProgressBars = ({totalUserCount, activeUserCount}) => {
           display: 'flex',
           alignItems: 'center',
           width: '100%',
+          borderRadius: 5, // Border radius for the combined bar
+          overflow: 'hidden', // Hide overflow to maintain border radius
         }}
       >
-        <BorderLinearProgress
-          variant='determinate'
-          value={progress}
-          sx={{flexGrow: 1}}
-        />
-        <Typography variant='body2' color='text.secondary' sx={{ml: 2}}>
-          {`${activeUserCount}/${totalUserCount}`}
+        {totalUserCount > 0 && (
+          <>
+            {activeUserCount > 0 && (
+              <Box
+                sx={{
+                  flexGrow: activeProgress,
+                  backgroundColor: '#4caf50',
+                }}
+              >
+                <Typography
+                  variant='body2'
+                  sx={{textAlign: 'center', color: 'white', px: 1}}
+                >
+                  {activeUserCount} Active
+                </Typography>
+              </Box>
+            )}
+            {pendingUserCount > 0 && (
+              <Box
+                sx={{
+                  flexGrow: pendingProgress,
+                  backgroundColor: '#ffeb3b',
+                }}
+              >
+                <Typography
+                  variant='body2'
+                  sx={{textAlign: 'center', color: 'black', px: 1}}
+                >
+                  {pendingUserCount} Pending
+                </Typography>
+              </Box>
+            )}
+            {inactiveUserCount > 0 && (
+              <Box
+                sx={{
+                  flexGrow: inactiveProgress,
+                  backgroundColor: '#f44336',
+                }}
+              >
+                <Typography
+                  variant='body2'
+                  sx={{textAlign: 'center', color: 'white', px: 1}}
+                >
+                  {inactiveUserCount} Inactive
+                </Typography>
+              </Box>
+            )}
+          </>
+        )}
+      </Box>
+      <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
+        <Typography variant='body2' color='text.secondary'>
+          Total: {totalUserCount}
         </Typography>
       </Box>
     </Stack>
@@ -104,6 +94,8 @@ const CustomizedProgressBars = ({totalUserCount, activeUserCount}) => {
 CustomizedProgressBars.propTypes = {
   totalUserCount: PropTypes.number.isRequired,
   activeUserCount: PropTypes.number.isRequired,
+  inactiveUserCount: PropTypes.number.isRequired,
+  pendingUserCount: PropTypes.number.isRequired,
 };
 
 export default CustomizedProgressBars;

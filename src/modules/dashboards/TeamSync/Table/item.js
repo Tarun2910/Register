@@ -52,7 +52,7 @@ const TableItem = ({
   }));
 
   const PendingIcon = styled(HourglassEmptyIcon)(({theme, active}) => ({
-    color: active ? theme.palette.warning.main : theme.palette.action.disabled,
+    color: active ? 'rgb(255, 215, 0)' : theme.palette.action.disabled,
   }));
 
   console.log(productData, 'productData321');
@@ -218,8 +218,8 @@ const TableItem = ({
       {showUsers ? (
         <StyledTableCell align='center'>
           <ActiveIcon active={data.status === 'active'} sx={iconStyle} />
-          <InactiveIcon active={data.status === 'inactive'} sx={iconStyle} />
           <PendingIcon active={data.status === 'pending'} sx={iconStyle} />
+          <InactiveIcon active={data.status === 'inactive'} sx={iconStyle} />
         </StyledTableCell>
       ) : (
         <StyledTableCell align='left'>
