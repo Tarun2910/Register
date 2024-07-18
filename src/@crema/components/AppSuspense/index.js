@@ -37,11 +37,11 @@ const AppSuspense = (props) => {
     <ResetPasswordAwsCognito />
   ) : location.pathname === '/check-mail' ? (
     <CheckMail />
-  ) : location.pathname === '/token/:token' ? (
+  ) : location.pathname.match('/token') ? (
     <Verified />
-  ) : location.pathname === '/reset-password/:token' ? (
+  ) : location.pathname.match('/reset-password') ? (
     <VerifiedForgetPass />
-  ) : location.pathname === '/set-password/:token' ? (
+  ) : location.pathname.match('/set-password') ? (
     <SetPassword />
   ) : (
     <Signin />
