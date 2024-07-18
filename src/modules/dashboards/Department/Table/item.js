@@ -84,9 +84,12 @@ const TableItem = ({
     setItemsState((prev) => [
       ...prev,
       {
-        ...data.permissions,
-        allowedStorageInBytesDisplay,
-        allowedStorageInBytes: totalBytes,
+        active: true,
+        permissions: {
+          ...data.permissions,
+          allowedStorageInBytesDisplay,
+          allowedStorageInBytes: totalBytes,
+        },
       },
     ]);
   };
