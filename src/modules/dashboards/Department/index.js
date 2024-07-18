@@ -257,6 +257,8 @@ const ProductListing = () => {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${localStorage.getItem('token')}`,
         username: localStorage.getItem('username'),
+        pageNumber: page,
+        pageSize: 10,
       },
       data: itemsState,
     };
