@@ -9,7 +9,7 @@ import OrderActions from './Actions';
 import EditIcon from '@mui/icons-material/Edit';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import {RiSplitCellsHorizontal} from 'react-icons/ri';
-import {Checkbox} from '@mui/material';
+import {Button, Checkbox} from '@mui/material';
 
 const StyledTableCell = styled(TableCell)(() => ({
   fontSize: '0.77rem',
@@ -34,6 +34,9 @@ const TableItem = ({
   setRoleName,
   setRoleDisplayName,
   setRowData,
+  rolesList,
+  setRolesList,
+  setOpenRoles,
 }) => {
   // const [itemsState, setItemsState] = useState([]);
 
@@ -120,8 +123,19 @@ const TableItem = ({
       </StyledTableCell>
       <StyledTableCell align='left'>{data.roleDisplayName}</StyledTableCell>
       {/* <StyledTableCell align='center'>{data.displayRoleName}</StyledTableCell> */}
-      <StyledTableCell align='left'>
-        {data?.user?.name || 'User not Assigned Yet'}
+      <StyledTableCell align='center'>
+        {data?.user?.length ? (
+          <Button
+            variant='contained'
+            size='small'
+            onClick={() => {
+              setOpenRoles(true);
+              setRolesList(data?.user);
+            }}
+          >{`${data?.user?.length} users`}</Button>
+        ) : (
+          'User not Assigned Yet'
+        )}
       </StyledTableCell>
       <TableCell align='right'>
         {/* <EditIcon />
@@ -130,8 +144,8 @@ const TableItem = ({
         <OrderActions
           id={data.id}
           data={data}
-          displayname={data.deptDisplayName}
-          deptName={data.deptName}
+          displayname={data.department.deptDisplayName}
+          deptName={data.department.deptName}
           setTriggerApi={setTriggerApi}
           updateRole={updateRole}
           setRoleName={setRoleName}
