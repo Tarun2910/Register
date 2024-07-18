@@ -81,6 +81,7 @@ const ProductListing = () => {
   const [domain, setDomain] = useState('');
   const [product, setProduct] = useState(10);
   const [applicationName, setApplicationName] = useState('TeamSync');
+  const [toggleStatus, setToggleStatus] = useState(false);
 
   const {
     usersData,
@@ -227,7 +228,7 @@ const ProductListing = () => {
 
   useEffect(() => {
     dispatch(getUsersData({searchText: '', pageNumber: page, applicationName}));
-  }, [page, product, applicationName]);
+  }, [page, product, applicationName, toggleStatus]);
 
   useEffect(() => {
     setLoading(usersDataIsLoading);
@@ -272,6 +273,7 @@ const ProductListing = () => {
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${localStorage.getItem('token')}`,
+        userName: localStorage.getItem('username'),
       },
       data: updatedItemsState,
     };
@@ -412,6 +414,8 @@ const ProductListing = () => {
                   setSelectedUsers={setSelectedUsers}
                   selectedUsers={selectedUsers}
                   handleToggleActiveState={handleToggleActiveState}
+                  setToggleStatus={setToggleStatus}
+                  setLoading={setLoading}
                 />
               </AppsContent>
               <Hidden smUp>

@@ -65,21 +65,54 @@ const TableItem = ({
     }
   }, [itemsState, onItemsStateUpdate]);
 
+  // const handleSwitchChange = (data) => {
+  //   const id = data.id;
+  //   const itemIndex = itemsState.findIndex((item) => item.id === id);
+  //   const isActive = itemsState ? itemsState.active : data.active;
+
+  //   setItemsState((prevItemsState) => {
+  //     const updatedItemsState = [...prevItemsState];
+
+  //     if (itemIndex !== -1) {
+  //       // If the item is already in the state, update only the specific item
+  //       updatedItemsState[itemIndex].active =
+  //         !updatedItemsState[itemIndex].active;
+  //     } else {
+  //       // If the item is not in the state, add it to the state
+  //       updatedItemsState.push({id, active: !data.active});
+  //     }
+
+  //     return updatedItemsState;
+  //   });
+  // };
+
   const handleSwitchChange = (data) => {
     const id = data.id;
     const itemIndex = itemsState.findIndex((item) => item.id === id);
-    const isActive = itemsState ? itemsState.active : data.active;
 
     setItemsState((prevItemsState) => {
       const updatedItemsState = [...prevItemsState];
 
       if (itemIndex !== -1) {
         // If the item is already in the state, update only the specific item
-        updatedItemsState[itemIndex].active =
-          !updatedItemsState[itemIndex].active;
+        updatedItemsState[itemIndex] = {
+          ...updatedItemsState[itemIndex],
+          active: !updatedItemsState[itemIndex].active,
+          permissions: {
+            ...updatedItemsState[itemIndex].permissions,
+            active: !updatedItemsState[itemIndex].active, // Update active status in permissions
+          },
+        };
       } else {
         // If the item is not in the state, add it to the state
-        updatedItemsState.push({id, active: !data.active});
+        updatedItemsState.push({
+          id,
+          active: !data.active,
+          permissions: {
+            ...data.permissions,
+            active: !data.active, // Ensure active status is correctly set in permissions
+          },
+        });
       }
 
       return updatedItemsState;
@@ -90,29 +123,76 @@ const TableItem = ({
   const adminName = sessionStorage.getItem('AdminName');
   console.log(adminName, 'adminName');
 
+  // const handleChange = (userId, field, newValue) => {
+  //   console.log(userId, field, newValue, 'jdjdj');
+  //   if (field === 'allowedStorageInBytesDisplay') {
+  //     let totalBytes;
+  //     let valueArr = newValue?.split(' ');
+  //     if (valueArr[1] === 'GB') {
+  //       totalBytes = parseFloat(valueArr[0]) * 1024 * 1024 * 1024;
+  //     } else {
+  //       totalBytes = valueArr[0] * 1024 * 1024;
+  //     }
+  //     const newArr = productData.map((user) =>
+  //       user.id === userId
+  //         ? {...user, [field]: newValue, allowedStorageInBytes: totalBytes}
+  //         : user,
+  //     );
+  //     setList(newArr);
+  //   } else {
+  //     const newArr = productData.map((user) =>
+  //       user.id === userId ? {...user, [field]: newValue} : user,
+  //     );
+  //     setList(newArr);
+  //   }
+  // };
+
   const handleChange = (userId, field, newValue) => {
-    console.log(userId, field, newValue);
-    if (field === 'allowedStorageInBytesDisplay') {
-      let totalBytes;
-      let valueArr = newValue?.split(' ');
-      if (valueArr[1] === 'GB') {
-        totalBytes = parseFloat(valueArr[0]) * 1024 * 1024 * 1024;
-      } else {
-        totalBytes = valueArr[0] * 1024 * 1024;
-      }
-      const newArr = productData.map((user) =>
-        user.id === userId
-          ? {...user, [field]: newValue, allowedStorageInBytes: totalBytes}
-          : user,
-      );
-      setList(newArr);
+    let totalBytes;
+    let valueArr = newValue?.split(' ');
+
+    // Calculate totalBytes based on selected value
+    if (valueArr[1] === 'GB') {
+      totalBytes = parseFloat(valueArr[0]) * 1024 * 1024 * 1024;
     } else {
-      const newArr = productData.map((user) =>
-        user.id === userId ? {...user, [field]: newValue} : user,
-      );
-      setList(newArr);
+      totalBytes = parseFloat(valueArr[0]) * 1024 * 1024;
     }
+
+    console.log(totalBytes, newValue, 'totalBytes');
+
+    // Update productData with new storage values
+    const updatedProductData = productData.map((user) =>
+      user?.permissions?.id === userId
+        ? {
+            ...user,
+            permissions: {
+              ...user.permissions,
+              allowedStorageInBytesDisplay: newValue,
+              allowedStorageInBytes: totalBytes,
+            },
+          }
+        : user,
+    );
+
+    // Update itemsState with updated active status if necessary
+    const updatedItemsState = itemsState.map((item) =>
+      item?.permissions?.id === userId
+        ? {
+            ...item,
+            permissions: {
+              ...item.permissions,
+              allowedStorageInBytesDisplay: newValue,
+              allowedStorageInBytes: totalBytes,
+            },
+          }
+        : item,
+    );
+
+    // Update state with updated productData and itemsState
+    // setList(updatedProductData);
+    setItemsState(updatedProductData);
   };
+
   console.log(sessionStorage.getItem('licenceTierTeamsync'));
   let disable = sessionStorage.getItem('licenceTierTeamsync');
   const disableStorage = () => {
@@ -157,7 +237,6 @@ const TableItem = ({
       </StyledTableCell>
       <StyledTableCell align='left'>{data.email}</StyledTableCell>
       <StyledTableCell align='left'>
-        {' '}
         <Tooltip
           title={
             disable == 'TRIAL' && `In free Tier You Can't Change the Storage`

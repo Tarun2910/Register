@@ -21,12 +21,22 @@ const ProductTable = ({
   handletiername,
   selectedUsers,
   setSelectedUsers,
+  setToggleStatus,
+  setLoading,
 }) => {
   return (
     <AppTableContainer>
       <Table stickyHeader>
         <TableHead>
-          <TableHeading license={license} handletiername={handletiername} />
+          <TableHeading
+            license={license}
+            handletiername={handletiername}
+            selectedUsers={selectedUsers}
+            setSelectedUsers={setSelectedUsers}
+            setToggleStatus={setToggleStatus}
+            productData={productData}
+            setLoading={setLoading}
+          />
         </TableHead>
         <TableBody>
           {loading ? (
@@ -72,4 +82,6 @@ ProductTable.propTypes = {
   handletiername: PropTypes.any,
   setSelectedUsers: PropTypes.any,
   selectedUsers: PropTypes.any,
+  setToggleStatus: PropTypes.any,
+  setLoading: PropTypes.any,
 };
