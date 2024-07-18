@@ -1,5 +1,3 @@
-import AppsHeader from '@crema/components/AppsContainer/AppsHeader';
-import {useGetDataApi} from '@crema/hooks/APIHooks';
 import {
   DialogActions,
   Box,
@@ -15,13 +13,6 @@ import {
   Paper,
   IconButton,
   Divider,
-  CircularProgress,
-  InputAdornment,
-  Select,
-  MenuItem,
-  FormControl,
-  InputLabel,
-  Typography,
   Fab,
 } from '@mui/material';
 import React, {useEffect, useState} from 'react';
@@ -277,7 +268,7 @@ const ProductListing = () => {
     let config = {
       method: 'post',
       maxBodyLength: Infinity,
-      url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/users/status?appName=${applicationName}`,
+      url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/dms_service_LM/api/dms_admin_service/setUserData`,
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -393,132 +384,10 @@ const ProductListing = () => {
 
   return (
     <>
-      {/* <Box
-        component='h2'
-        variant='h2'
-        sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center', // Align items vertically
-          fontSize: '0.77rem',
-          color: 'text.primary',
-          fontWeight: Fonts.SEMI_BOLD,
-          mb: {
-            xs: 1,
-            lg: 2,
-          },
-        }}
-      >
-        <span>
-          <CustomizedBreadcrumbs label='Home' showComponentName={false} />
-        </span>
-
-        <span style={{display: 'inline-flex', alignItems: 'center'}}>
-          <FormControl sx={{minWidth: '10rem', marginRight: '10px'}}>
-            <InputLabel id='demo-simple-select-label'>Products</InputLabel>
-            <Select
-              sx={{height: '2rem', width: '100%'}} // Set height and width
-              labelId='demo-simple-select-label'
-              id='demo-simple-select'
-              value={product}
-              label='Products'
-              onChange={handleChange}
-            >
-              <MenuItem value={10}>TeamSync</MenuItem>
-              <MenuItem value={20}>OmniLearn</MenuItem>
-              <MenuItem value={30}>Claros</MenuItem>
-            </Select>
-          </FormControl>
-
-          <Typography
-            variant='body1'
-            sx={{
-              marginLeft: '10px',
-              fontWeight: Fonts.SEMI_BOLD,
-              fontSize: '0.77rem',
-            }}
-          >
-            Remaining License: {String(license)} of {String(handletiername())}
-          </Typography>
-        </span>
-      </Box> */}
-
       <AppGridContainer spacing={7}>
         <Slide direction='right' in mountOnEnter unmountOnExit>
           <Grid item xs={12} lg={12}>
-            <AppCard
-              // title={
-              //   <AppsHeader>
-              //     {/* <Box
-              //       display='flex'
-              //       flexDirection='row'
-              //       alignItems='center'
-              //       width={1}
-              //       justifyContent='space-between'
-              //       sx={{padding: '8px 16px'}}
-              //     >
-              //       <Hidden smDown>
-              //         <AppsPagination
-              //           rowsPerPage={10}
-              //           count={total}
-              //           page={page}
-              //           onPageChange={onPageChange}
-              //         />
-              //       </Hidden>
-              //       <Box
-              //         display='flex'
-              //         flexDirection='row'
-              //         alignItems='center'
-              //         justifyContent='flex-end'
-              //       >
-              //         <Typography
-              //           variant='body1'
-              //           sx={{
-              //             marginRight: '10px',
-              //             fontWeight: Fonts.SEMI_BOLD,
-              //             fontSize: '0.77rem',
-              //           }}
-              //         >
-              //           Remaining License: {String(license)} of{' '}
-              //           {String(handletiername())}
-              //         </Typography>
-              //         <Tooltip title='Save Changes'>
-              //           <span>
-              //             <IconButton
-              //               onClick={handlesaveChanges}
-              //               disabled={disable}
-              //               sx={{
-              //                 color: blue[500],
-              //                 fontSize: 30,
-              //                 cursor: disable ? 'default' : 'pointer',
-              //               }}
-              //             >
-              //               <SaveIcon />
-              //             </IconButton>
-              //           </span>
-              //         </Tooltip>
-
-              //         <Tooltip title='ADD USER'>
-              //           <span>
-              //             <IconButton
-              //               onClick={HandleNavigate}
-              //               sx={{
-              //                 color: blue[500],
-              //                 fontSize: 30,
-              //                 cursor: 'pointer',
-              //               }}
-              //             >
-              //               <AddCircleRoundedIcon />
-              //             </IconButton>
-              //           </span>
-              //         </Tooltip>
-              //       </Box>
-              //     </Box> */}
-              //   </AppsHeader>
-              // }
-              headerStyle={{p: 0}}
-              contentStyle={{p: 0}}
-            >
+            <AppCard headerStyle={{p: 0}} contentStyle={{p: 0}}>
               <AppsContent
                 sx={{
                   paddingTop: 2,
@@ -565,7 +434,7 @@ const ProductListing = () => {
           style={{color: '#fff'}}
           aria-label='add'
           onClick={handlesaveChanges}
-          disabled={disable}
+          // disabled={disable}
           size='small'
           sx={{
             position: 'absolute',

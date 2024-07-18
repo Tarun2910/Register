@@ -118,7 +118,7 @@ const TableItem = ({
             alignItems: 'center',
           }}
         >
-          (data.deptDisplayName)
+          {data.deptDisplayName}
         </Box>
       </StyledTableCell>
       <StyledTableCell align='left'>{data.deptName}</StyledTableCell>

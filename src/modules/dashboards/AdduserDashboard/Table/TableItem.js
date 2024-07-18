@@ -96,6 +96,7 @@ const TableItem = ({
   console.log(adminName, 'adminName');
 
   const handleChange = (userId, field, newValue) => {
+    console.log(userId, field, newValue);
     if (field === 'allowedStorageInBytesDisplay') {
       let totalBytes;
       let valueArr = newValue?.split(' ');
@@ -167,15 +168,19 @@ const TableItem = ({
             disable == 'TRIAL' && `In free Tier You Can't Change the Storage`
           }
         >
-          <FormControl variant='outlined' style={{minWidth: 120}} size='small'>
+          <FormControl
+            variant='outlined'
+            style={{minWidth: 120, padding: '0px'}}
+            size='small'
+          >
             <InputLabel>STORAGE</InputLabel>
             <Select
               label='STORAGE'
-              value={data?.allowedStorageInBytesDisplay}
-              disabled={disable == 'TRIAL'}
+              value={data?.permissions?.allowedStorageInBytesDisplay}
+              // disabled={disable == 'TRIAL'}
               onChange={(event) =>
                 handleChange(
-                  data.id,
+                  data?.permissions?.id,
                   'allowedStorageInBytesDisplay',
                   event.target.value,
                 )
