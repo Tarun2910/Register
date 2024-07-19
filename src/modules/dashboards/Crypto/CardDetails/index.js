@@ -15,6 +15,7 @@ const CardDetails = ({
   totalUserCount,
   inactiveUserCount,
   pendingUserCount,
+  totalUsersAllowedInLicenseTier,
 }) => {
   console.log(activeUserCount, totalUserCount, 'final');
   const {messages} = useIntl();
@@ -144,6 +145,7 @@ const CardDetails = ({
             activeUserCount={activeUserCount}
             inactiveUserCount={inactiveUserCount}
             pendingUserCount={pendingUserCount}
+            totalUsersAllowedInLicenseTier={totalUsersAllowedInLicenseTier}
           />
         </Box>
         {/* </Box> */}
@@ -160,4 +162,5 @@ CardDetails.propTypes = {
   activeUserCount: PropTypes.any.isRequired,
   inactiveUserCount: PropTypes.any.isRequired,
   pendingUserCount: PropTypes.any.isRequired,
+  totalUsersAllowedInLicenseTier: PropTypes.any.isRequired,
 };
