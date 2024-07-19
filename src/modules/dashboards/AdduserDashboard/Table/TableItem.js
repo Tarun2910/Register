@@ -39,6 +39,12 @@ const TableItem = ({
   selectedUsers,
 }) => {
   let licenceTier = sessionStorage.getItem('licenceTierTeamsync');
+  const [selectedStorage, setSelectedStorage] = useState(
+    productData.reduce((acc, user) => {
+      acc[user.permissions.id] = user.permissions.allowedStorageInBytesDisplay;
+      return acc;
+    }, {}),
+  );
 
   useEffect(() => {
     // Initialize itemsState with default values from productData
@@ -149,7 +155,9 @@ const TableItem = ({
 
   const handleChange = (userId, field, newValue) => {
     let totalBytes;
-    let valueArr = newValue?.split(' ');
+    let valueArr = newValue;
+
+    console.log(newValue, 'hh');
 
     // Calculate totalBytes based on selected value
     if (valueArr[1] === 'GB') {
@@ -191,6 +199,7 @@ const TableItem = ({
     // Update state with updated productData and itemsState
     // setList(updatedProductData);
     setItemsState(updatedProductData);
+    setSelectedStorage((prev) => ({...prev, [userId]: newValue}));
   };
 
   console.log(sessionStorage.getItem('licenceTierTeamsync'));
@@ -239,7 +248,11 @@ const TableItem = ({
       <StyledTableCell align='left'>
         <Tooltip
           title={
-            disable == 'TRIAL' && `In free Tier You Can't Change the Storage`
+            disable == 'TRIAL'
+              ? `In free Tier You Can't Change the Storage`
+              : !data?.permissions?.id
+              ? 'The user must log in to drive first.'
+              : ''
           }
         >
           <FormControl
@@ -250,7 +263,7 @@ const TableItem = ({
             <InputLabel>STORAGE</InputLabel>
             <Select
               label='STORAGE'
-              value={data?.permissions?.allowedStorageInBytesDisplay}
+              value={selectedStorage[data?.permissions?.id] || ''}
               // disabled={disable == 'TRIAL'}
               onChange={(event) =>
                 handleChange(
@@ -259,6 +272,7 @@ const TableItem = ({
                   event.target.value,
                 )
               }
+              disabled={!data?.permissions?.id}
             >
               <MenuItem value='' disabled>
                 Select Storage
