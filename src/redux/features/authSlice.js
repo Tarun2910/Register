@@ -115,11 +115,14 @@ export const checkTokenValidtyAction = createAsyncThunk(
     try {
       const token = localStorage.getItem('token');
 
-      const response = await axios.get(`/tenants/info`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
+      const response = await axios.get(
+        `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/info`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         },
-      });
+      );
 
       return response.data;
     } catch (error) {
@@ -137,11 +140,14 @@ export const checkTokenValidtyAction = createAsyncThunk(
 
           // console.log('checkError', refreshedToken.payload.access_token)
 
-          const retryResponse = await axios.get(`/user_service/api/version`, {
-            headers: {
-              Authorization: `Bearer ${refreshedToken.payload.access_token}`,
+          const retryResponse = await axios.get(
+            `${window.__ENV__.REACT_APP_MIDDLEWARE}/user_service/api/version`,
+            {
+              headers: {
+                Authorization: `Bearer ${refreshedToken.payload.access_token}`,
+              },
             },
-          });
+          );
 
           // console.log('refreshedToken', refreshedToken)
           localStorage.setItem('token', refreshedToken.payload.access_token);
