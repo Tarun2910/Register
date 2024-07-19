@@ -10,6 +10,13 @@ import {
   Typography,
 } from '@mui/material';
 import AppTextField from '@crema/components/AppFormComponents/AppTextField';
+import DownloadIcon from '@mui/icons-material/Download';
+import UploadIcon from '@mui/icons-material/Upload';
+import AddIcon from '@mui/icons-material/Add';
+import RemoveIcon from '@mui/icons-material/Remove';
+import CancelIcon from '@mui/icons-material/Cancel';
+import CheckIcon from '@mui/icons-material/Check';
+import Tooltip from '@mui/material/Tooltip';
 import AppCard from '@crema/components/AppCardOne';
 import styled from '@emotion/styled';
 import ReactQuill from 'react-quill';
@@ -23,22 +30,7 @@ import axios from 'axios';
 import Divider from '@mui/material/Divider';
 import {saveAs} from 'file-saver';
 import {toast} from 'react-toastify';
-
-const ReactQuillWrapper = styled(ReactQuill)(() => {
-  return {
-    '& .ql-editor, & .ql-container': {
-      maxHeight: '100% !important',
-    },
-    '& .ql-toolbar': {
-      borderRadius: '8px 8px 0 0',
-    },
-    '& .ql-container': {
-      borderRadius: '0 0 8px 8px',
-      minHeight: 150,
-      maxHeight: 200,
-    },
-  };
-});
+import MinHeightTextarea from 'modules/muiComponents/utils/Text/MinHeightTextarea';
 
 const ProductContent = ({
   content,
@@ -178,6 +170,46 @@ const ProductContent = ({
     validateForm(newProductSpec);
   };
 
+  const StyledIconButton = styled(IconButton)(({theme}) => ({
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.common.white,
+    borderRadius: '50%',
+    width: 30,
+    height: 30,
+    '& .MuiSvgIcon-root': {
+      fontSize: 15,
+    },
+    '&:hover': {
+      backgroundColor: theme.palette.primary.dark,
+    },
+  }));
+
+  const RemoveStyledIconButton = styled(StyledIconButton)(({theme}) => ({
+    backgroundColor: theme.palette.secondary.main,
+    '&:hover': {
+      backgroundColor: theme.palette.secondary.dark,
+    },
+  }));
+
+  const FloatingIconButton = styled(IconButton)(({disabled}) => ({
+    backgroundColor: disabled ? '#d3d3d3' : '#FF8C00', // Orange when enabled, light grey when disabled
+    color: '#fff',
+    borderRadius: '50%',
+    width: 40,
+    height: 40,
+    position: 'fixed',
+    bottom: 20,
+    right: 10,
+    zIndex: 1,
+    display: disabled ? 'none' : 'inline-flex',
+    '& .MuiSvgIcon-root': {
+      fontSize: 20,
+    },
+    '&:hover': {
+      backgroundColor: disabled ? '#d3d3d3' : '#FF4500', // Darker orange on hover
+    },
+  }));
+
   return (
     <>
       <Slide direction='right' in mountOnEnter unmountOnExit>
@@ -188,14 +220,14 @@ const ProductContent = ({
               sx={{width: '100%'}}
               action={
                 <>
-                  <Button
-                    sx={{marginRight: 2}}
-                    variant='contained'
-                    color='primary'
-                    onClick={handleDownloadClick}
-                  >
-                    Download
-                  </Button>
+                  <Tooltip title='Download Template'>
+                    <StyledIconButton
+                      sx={{marginRight: 2}}
+                      onClick={handleDownloadClick}
+                    >
+                      <DownloadIcon />
+                    </StyledIconButton>
+                  </Tooltip>
                   <input
                     type='file'
                     onChange={handleFileChange}
@@ -204,14 +236,14 @@ const ProductContent = ({
                     id='file-upload'
                   />
                   <label htmlFor='file-upload'>
-                    <Button
-                      variant='contained'
-                      color='primary'
-                      component='span'
-                      disabled={loadingupload}
-                    >
-                      Upload
-                    </Button>
+                    <Tooltip title='Upload Excel'>
+                      <StyledIconButton
+                        component='span'
+                        disabled={loadingupload}
+                      >
+                        <UploadIcon />
+                      </StyledIconButton>
+                    </Tooltip>
                   </label>
                 </>
               }
@@ -224,117 +256,136 @@ const ProductContent = ({
                 my: 4,
               }}
             >
-              <Divider sx={{width: '45%', height: '1px'}} />
+              <Divider sx={{width: '45%'}} />
               <Typography variant='subtitle1' sx={{mx: 2}}>
                 OR
               </Typography>
-              <Divider sx={{width: '45%', height: '1px'}} />
+              <Divider sx={{width: '45%'}} />
             </Box>
             <AppCard
+              sxStyle={{height: '55vh'}}
               title='Add Users'
               action={
-                <Button
-                  variant='contained'
-                  color='primary'
-                  onClick={() => {
-                    setProductSpec([
-                      ...productSpec,
-                      {
-                        id: productSpec.length + 1,
-                        Question: '',
-                        choice1: '',
-                        choice2: '',
-                        choice3: '',
-                        correct: '',
-                      },
-                    ]);
-                  }}
-                >
-                  Add New
-                </Button>
+                <Tooltip title='Add New User'>
+                  <StyledIconButton
+                    onClick={() => {
+                      setProductSpec([
+                        ...productSpec,
+                        {
+                          id: productSpec.length + 1,
+                          Question: '',
+                          choice1: '',
+                          choice2: '',
+                          choice3: '',
+                          correct: '',
+                        },
+                      ]);
+                    }}
+                  >
+                    <AddIcon />
+                  </StyledIconButton>
+                </Tooltip>
               }
             >
-              <AppGridContainer spacing={4}>
-                {productSpec.map((productItem, index) => (
-                  <React.Fragment key={index}>
-                    <Grid item xs={12} sm={6}>
-                      <TextField
-                        variant='outlined'
-                        value={productItem.Question}
-                        sx={{width: '100%', my: 2}}
-                        onChange={(event) =>
-                          handleInputChange(event, index, 'Question')
-                        }
-                        label={'Name'}
-                      />
-                    </Grid>
-                    <Grid
-                      item
-                      xs={index === 0 ? 12 : 6}
-                      sm={index === 0 ? 6 : 5}
-                    >
-                      <TextField
-                        variant='outlined'
-                        value={productItem.choice1}
-                        sx={{width: '100%', my: 2}}
-                        onChange={(event) =>
-                          handleInputChange(event, index, 'choice1')
-                        }
-                        label='Email'
-                        error={
-                          productItem.choice1 &&
-                          !isValidEmail(productItem.choice1)
-                        }
-                        helperText={
-                          productItem.choice1 &&
-                          !isValidEmail(productItem.choice1)
-                            ? 'Invalid email format'
-                            : ''
-                        }
-                      />
-                    </Grid>
-                    {index > 0 && (
-                      <Grid item xs={12} sm={1}>
-                        <Button
-                          variant='contained'
-                          color='secondary'
-                          sx={{my: 2}}
-                          onClick={() => {
-                            const newProductInfo = [...productSpec];
-                            newProductInfo.splice(index, 1);
-                            setProductSpec(newProductInfo);
-                          }}
-                        >
-                          Remove
-                        </Button>
-                      </Grid>
-                    )}
-                  </React.Fragment>
-                ))}
-              </AppGridContainer>
+              <AppScrollbar>
+                <Box>
+                  <AppGridContainer spacing={4}>
+                    {productSpec.map((productItem, index) => (
+                      <React.Fragment key={index}>
+                        <Grid item xs={12} sm={6}>
+                          <TextField
+                            variant='outlined'
+                            value={productItem.Question}
+                            sx={{width: '100%', my: 2}}
+                            onChange={(event) =>
+                              handleInputChange(event, index, 'Question')
+                            }
+                            label={'FullName'}
+                          />
+                        </Grid>
+                        <Grid item xs={index === 0 ? 12 : 6} sm={5}>
+                          <TextField
+                            variant='outlined'
+                            value={productItem.choice1}
+                            sx={{width: '100%', my: 2}}
+                            onChange={(event) =>
+                              handleInputChange(event, index, 'choice1')
+                            }
+                            label='Email'
+                            error={
+                              productItem.choice1 &&
+                              !isValidEmail(productItem.choice1)
+                            }
+                            helperText={
+                              productItem.choice1 &&
+                              !isValidEmail(productItem.choice1)
+                                ? 'Invalid email format'
+                                : ''
+                            }
+                          />
+                        </Grid>
+                        {index > 0 && (
+                          <Grid item xs={12} sm={1}>
+                            <Tooltip title='Remove User'>
+                              <RemoveStyledIconButton
+                                onClick={() => {
+                                  const newProductInfo = [...productSpec];
+                                  newProductInfo.splice(index, 1);
+                                  setProductSpec(newProductInfo);
+                                }}
+                              >
+                                <RemoveIcon />
+                              </RemoveStyledIconButton>
+                            </Tooltip>
+                          </Grid>
+                        )}
+                      </React.Fragment>
+                    ))}
+                  </AppGridContainer>
+                </Box>
+              </AppScrollbar>
             </AppCard>
-            <Stack
-              spacing={3}
-              direction='row'
-              sx={{justifyContent: 'flex-end', mt: 4}}
+            <Box
+              sx={{
+                position: 'fixed',
+                bottom: 20,
+                right: 20,
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 2,
+              }}
             >
-              <Button
-                sx={{minWidth: 100, color: 'text.secondary'}}
-                variant='text'
-                onClick={() => navigate(-1)}
-              >
-                Cancel
-              </Button>
-              <Button
-                sx={{display: 'block', minWidth: 100}}
-                color='primary'
-                variant='contained'
-                type='submit'
-                disabled={loading || !isFormValid} // Disable button if loading or form is invalid
-              >
-                {loading ? 'Loading...' : 'ADD'}
-              </Button>
-            </Stack>
+              <Tooltip title='Cancel'>
+                <FloatingIconButton
+                  onClick={() => navigate(-1)}
+                  disabled={false}
+                >
+                  <CancelIcon />
+                </FloatingIconButton>
+              </Tooltip>
+              {!(loading || !isFormValid) && (
+                <Tooltip title='Add User'>
+                  <FloatingIconButton
+                    onClick={() => {
+                      setProductSpec([
+                        ...productSpec,
+                        {
+                          id: productSpec.length + 1,
+                          Question: '',
+                          choice1: '',
+                          choice2: '',
+                          choice3: '',
+                          correct: '',
+                        },
+                      ]);
+                    }}
+                    disabled={loading || !isFormValid}
+                  >
+                    <CheckIcon />
+                  </FloatingIconButton>
+                </Tooltip>
+              )}
+            </Box>
           </AppScrollbar>
         </Grid>
       </Slide>

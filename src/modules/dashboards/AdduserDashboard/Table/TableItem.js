@@ -37,8 +37,15 @@ const TableItem = ({
   setList,
   setSelectedUsers,
   selectedUsers,
+  setToggleStatus,
 }) => {
   let licenceTier = sessionStorage.getItem('licenceTierTeamsync');
+  const [selectedStorage, setSelectedStorage] = useState(
+    productData.reduce((acc, user) => {
+      acc[user.permissions.id] = user.permissions.allowedStorageInBytesDisplay;
+      return acc;
+    }, {}),
+  );
 
   useEffect(() => {
     // Initialize itemsState with default values from productData
@@ -65,21 +72,54 @@ const TableItem = ({
     }
   }, [itemsState, onItemsStateUpdate]);
 
+  // const handleSwitchChange = (data) => {
+  //   const id = data.id;
+  //   const itemIndex = itemsState.findIndex((item) => item.id === id);
+  //   const isActive = itemsState ? itemsState.active : data.active;
+
+  //   setItemsState((prevItemsState) => {
+  //     const updatedItemsState = [...prevItemsState];
+
+  //     if (itemIndex !== -1) {
+  //       // If the item is already in the state, update only the specific item
+  //       updatedItemsState[itemIndex].active =
+  //         !updatedItemsState[itemIndex].active;
+  //     } else {
+  //       // If the item is not in the state, add it to the state
+  //       updatedItemsState.push({id, active: !data.active});
+  //     }
+
+  //     return updatedItemsState;
+  //   });
+  // };
+
   const handleSwitchChange = (data) => {
     const id = data.id;
     const itemIndex = itemsState.findIndex((item) => item.id === id);
-    const isActive = itemsState ? itemsState.active : data.active;
 
     setItemsState((prevItemsState) => {
       const updatedItemsState = [...prevItemsState];
 
       if (itemIndex !== -1) {
         // If the item is already in the state, update only the specific item
-        updatedItemsState[itemIndex].active =
-          !updatedItemsState[itemIndex].active;
+        updatedItemsState[itemIndex] = {
+          ...updatedItemsState[itemIndex],
+          active: !updatedItemsState[itemIndex].active,
+          permissions: {
+            ...updatedItemsState[itemIndex].permissions,
+            active: !updatedItemsState[itemIndex].active, // Update active status in permissions
+          },
+        };
       } else {
         // If the item is not in the state, add it to the state
-        updatedItemsState.push({id, active: !data.active});
+        updatedItemsState.push({
+          id,
+          active: !data.active,
+          permissions: {
+            ...data.permissions,
+            active: !data.active, // Ensure active status is correctly set in permissions
+          },
+        });
       }
 
       return updatedItemsState;
@@ -90,28 +130,78 @@ const TableItem = ({
   const adminName = sessionStorage.getItem('AdminName');
   console.log(adminName, 'adminName');
 
+  // const handleChange = (userId, field, newValue) => {
+  //   console.log(userId, field, newValue, 'jdjdj');
+  //   if (field === 'allowedStorageInBytesDisplay') {
+  //     let totalBytes;
+  //     let valueArr = newValue?.split(' ');
+  //     if (valueArr[1] === 'GB') {
+  //       totalBytes = parseFloat(valueArr[0]) * 1024 * 1024 * 1024;
+  //     } else {
+  //       totalBytes = valueArr[0] * 1024 * 1024;
+  //     }
+  //     const newArr = productData.map((user) =>
+  //       user.id === userId
+  //         ? {...user, [field]: newValue, allowedStorageInBytes: totalBytes}
+  //         : user,
+  //     );
+  //     setList(newArr);
+  //   } else {
+  //     const newArr = productData.map((user) =>
+  //       user.id === userId ? {...user, [field]: newValue} : user,
+  //     );
+  //     setList(newArr);
+  //   }
+  // };
+
   const handleChange = (userId, field, newValue) => {
-    if (field === 'allowedStorageInBytesDisplay') {
-      let totalBytes;
-      let valueArr = newValue?.split(' ');
-      if (valueArr[1] === 'GB') {
-        totalBytes = parseFloat(valueArr[0]) * 1024 * 1024 * 1024;
-      } else {
-        totalBytes = valueArr[0] * 1024 * 1024;
-      }
-      const newArr = productData.map((user) =>
-        user.id === userId
-          ? {...user, [field]: newValue, allowedStorageInBytes: totalBytes}
-          : user,
-      );
-      setList(newArr);
+    // Split the newValue to get the numeric part and the unit part
+    const [value, unit] = newValue.split(' ');
+
+    // Calculate totalBytes based on the unit
+    let totalBytes;
+    if (unit === 'GB') {
+      totalBytes = parseFloat(value) * 1024 * 1024 * 1024;
     } else {
-      const newArr = productData.map((user) =>
-        user.id === userId ? {...user, [field]: newValue} : user,
-      );
-      setList(newArr);
+      totalBytes = parseFloat(value) * 1024 * 1024;
     }
+
+    // Log the totalBytes for debugging
+    console.log(totalBytes, newValue, 'totalBytes');
+
+    // Update productData with new storage values
+    const updatedProductData = productData.map((user) =>
+      user?.permissions?.id === userId
+        ? {
+            ...user,
+            permissions: {
+              ...user.permissions,
+              allowedStorageInBytesDisplay: newValue,
+              allowedStorageInBytes: totalBytes,
+            },
+          }
+        : user,
+    );
+
+    // Update itemsState with updated active status if necessary
+    const updatedItemsState = itemsState.map((item) =>
+      item?.permissions?.id === userId
+        ? {
+            ...item,
+            permissions: {
+              ...item.permissions,
+              allowedStorageInBytesDisplay: newValue,
+              allowedStorageInBytes: totalBytes,
+            },
+          }
+        : item,
+    );
+
+    // Update state with updated productData and itemsState
+    setItemsState(updatedProductData);
+    setSelectedStorage((prev) => ({...prev, [userId]: newValue}));
   };
+
   console.log(sessionStorage.getItem('licenceTierTeamsync'));
   let disable = sessionStorage.getItem('licenceTierTeamsync');
   const disableStorage = () => {
@@ -156,25 +246,33 @@ const TableItem = ({
       </StyledTableCell>
       <StyledTableCell align='left'>{data.email}</StyledTableCell>
       <StyledTableCell align='left'>
-        {' '}
         <Tooltip
           title={
-            disable == 'TRIAL' && `In free Tier You Can't Change the Storage`
+            disable == 'TRIAL'
+              ? `In free Tier You Can't Change the Storage`
+              : !data?.permissions?.id
+              ? 'The user must log in to drive first.'
+              : ''
           }
         >
-          <FormControl variant='outlined' style={{minWidth: 120}} size='small'>
+          <FormControl
+            variant='outlined'
+            style={{minWidth: 120, padding: '0px'}}
+            size='small'
+          >
             <InputLabel>STORAGE</InputLabel>
             <Select
               label='STORAGE'
-              value={data?.allowedStorageInBytesDisplay}
-              disabled={disable == 'TRIAL'}
+              value={selectedStorage[data?.permissions?.id] || ''}
+              // disabled={disable == 'TRIAL'}
               onChange={(event) =>
                 handleChange(
-                  data.id,
+                  data?.permissions?.id,
                   'allowedStorageInBytesDisplay',
                   event.target.value,
                 )
               }
+              disabled={!data?.permissions?.id}
             >
               <MenuItem value='' disabled>
                 Select Storage
@@ -229,4 +327,5 @@ TableItem.propTypes = {
   setList: PropTypes.any,
   setSelectedUsers: PropTypes.any,
   selectedUsers: PropTypes.any,
+  setToggleStatus: PropTypes.any,
 };
