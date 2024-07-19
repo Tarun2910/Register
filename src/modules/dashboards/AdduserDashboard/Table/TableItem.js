@@ -37,6 +37,7 @@ const TableItem = ({
   setList,
   setSelectedUsers,
   selectedUsers,
+  setToggleStatus,
 }) => {
   let licenceTier = sessionStorage.getItem('licenceTierTeamsync');
   const [selectedStorage, setSelectedStorage] = useState(
@@ -154,18 +155,18 @@ const TableItem = ({
   // };
 
   const handleChange = (userId, field, newValue) => {
+    // Split the newValue to get the numeric part and the unit part
+    const [value, unit] = newValue.split(' ');
+
+    // Calculate totalBytes based on the unit
     let totalBytes;
-    let valueArr = newValue;
-
-    console.log(newValue, 'hh');
-
-    // Calculate totalBytes based on selected value
-    if (valueArr[1] === 'GB') {
-      totalBytes = parseFloat(valueArr[0]) * 1024 * 1024 * 1024;
+    if (unit === 'GB') {
+      totalBytes = parseFloat(value) * 1024 * 1024 * 1024;
     } else {
-      totalBytes = parseFloat(valueArr[0]) * 1024 * 1024;
+      totalBytes = parseFloat(value) * 1024 * 1024;
     }
 
+    // Log the totalBytes for debugging
     console.log(totalBytes, newValue, 'totalBytes');
 
     // Update productData with new storage values
@@ -197,7 +198,6 @@ const TableItem = ({
     );
 
     // Update state with updated productData and itemsState
-    // setList(updatedProductData);
     setItemsState(updatedProductData);
     setSelectedStorage((prev) => ({...prev, [userId]: newValue}));
   };
@@ -327,4 +327,5 @@ TableItem.propTypes = {
   setList: PropTypes.any,
   setSelectedUsers: PropTypes.any,
   selectedUsers: PropTypes.any,
+  setToggleStatus: PropTypes.any,
 };
