@@ -9,7 +9,14 @@ import OrderActions from './Action';
 import EditIcon from '@mui/icons-material/Edit';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import {RiSplitCellsHorizontal} from 'react-icons/ri';
-import {Checkbox} from '@mui/material';
+import {
+  Checkbox,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  Tooltip,
+} from '@mui/material';
 
 const StyledTableCell = styled(TableCell)(() => ({
   fontSize: '0.77rem',
@@ -37,63 +44,54 @@ const TableItem = ({
   setRowData,
   selectedList,
   setSelectedList,
+  setList,
 }) => {
+  let disable = sessionStorage.getItem('licenceTierTeamsync');
+
   // const [itemsState, setItemsState] = useState([]);
 
-  useEffect(() => {
-    // Initialize itemsState with default values from productData
-    const initialItemsState = productData.map((data) => ({
-      id: data.id,
-      active: data.active,
-    }));
-    setTableData(initialItemsState);
-  }, [itemsState]);
-
-  useEffect(() => {
-    // Call the callback function to send the updated state to the parent
-    onItemsStateUpdate(itemsState);
-    // if (itemsState.length <= 0) {
-    //   onButtonDisable(true);
-    // } else {
-    //   onButtonDisable(false);
-    // }
-    console.log(itemsState, productData, 'productData');
-    const isAnyItemInactive = itemsState.some(
-      (item) =>
-        item.active !== productData.find((d) => d.id === item.id).active,
-    );
-
-    if (isAnyItemInactive) {
-      onButtonDisable(false);
-    } else {
-      onButtonDisable(true);
-    }
-  }, [itemsState, onItemsStateUpdate]);
-
-  const handleSwitchChange = (data) => {
-    const id = data.id;
-    const itemIndex = itemsState.findIndex((item) => item.id === id);
-
-    setItemsState((prevItemsState) => {
-      const updatedItemsState = [...prevItemsState];
-
-      if (itemIndex !== -1) {
-        // If the item is already in the state, update only the specific item
-        updatedItemsState[itemIndex].active =
-          !updatedItemsState[itemIndex].active;
-      } else {
-        // If the item is not in the state, add it to the state
-        updatedItemsState.push({id, active: !data.active});
-      }
-
-      return updatedItemsState;
-    });
-  };
-
-  console.log(itemsState, 'itemsState');
+  // useEffect(() => {
+  //   // Initialize itemsState with default values from productData
+  //   const initialItemsState = productData.map((data) => ({
+  //     id: data.id,
+  //     active: data.active,
+  //   }));
+  //   setTableData(initialItemsState);
+  // }, [itemsState]);
 
   const handleCheckboxSelection = (e) => {
     console.log(e);
+  };
+
+  const handleChange = (data, allowedStorageInBytesDisplay) => {
+    let newArr = [];
+    productData.map((item) => {
+      if (item.id == data.id) {
+        const permissions = {
+          ...item.permissions,
+          allowedStorageInBytesDisplay: allowedStorageInBytesDisplay,
+        };
+        newArr.push({...item, permissions});
+      } else newArr.push(item);
+    });
+    setList(newArr);
+    let totalBytes = allowedStorageInBytesDisplay.split(' ')[0];
+    if (allowedStorageInBytesDisplay.split(' ')[1] == 'GB') {
+      totalBytes = totalBytes * 1024 ** 3;
+    } else {
+      totalBytes = totalBytes * 1024 ** 2;
+    }
+    setItemsState((prev) => [
+      ...prev,
+      {
+        active: true,
+        permissions: {
+          ...data.permissions,
+          allowedStorageInBytesDisplay,
+          allowedStorageInBytes: totalBytes,
+        },
+      },
+    ]);
   };
 
   return productData.map((data) => (
@@ -118,11 +116,43 @@ const TableItem = ({
             alignItems: 'center',
           }}
         >
-          (data.deptDisplayName)
+          {data.deptDisplayName}
         </Box>
       </StyledTableCell>
       <StyledTableCell align='left'>{data.deptName}</StyledTableCell>
       <StyledTableCell align='left'>{data.branchCity}</StyledTableCell>
+      <StyledTableCell align='center'>
+        {' '}
+        <Tooltip
+          title={
+            disable == 'TRIAL' && `In free Tier You Can't Change the Storage`
+          }
+        >
+          <FormControl variant='outlined' style={{minWidth: 120}} size='small'>
+            <InputLabel>STORAGE</InputLabel>
+            <Select
+              label='STORAGE'
+              value={data?.permissions?.allowedStorageInBytesDisplay}
+              // disabled={disable == 'TRIAL'}
+              onChange={(event) => handleChange(data, event.target.value)}
+            >
+              <MenuItem value='' disabled>
+                Select Storage
+              </MenuItem>
+              <MenuItem value='200.00 MB'>200 MB</MenuItem>
+              <MenuItem value='400.00 MB'>400 MB</MenuItem>
+              <MenuItem value='600.00 MB'>600 MB</MenuItem>
+              <MenuItem value='800.00 MB'>800 MB</MenuItem>
+              <MenuItem value='1.00 GB'>1 GB</MenuItem>
+              <MenuItem value='1.20 GB'>1.2 GB</MenuItem>
+              <MenuItem value='1.40 GB'>1.4 GB</MenuItem>
+              <MenuItem value='1.60 GB'>1.6 GB</MenuItem>
+              <MenuItem value='1.80 GB'>1.8 GB</MenuItem>
+              <MenuItem value='2.00 GB'>2 GB</MenuItem>
+            </Select>
+          </FormControl>
+        </Tooltip>
+      </StyledTableCell>
       <TableCell align='right'>
         <OrderActions
           id={data.id}

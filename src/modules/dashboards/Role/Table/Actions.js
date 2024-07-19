@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Fade from '@mui/material/Fade';
@@ -39,12 +39,11 @@ const OrderActions = ({
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [opendialog, setOpenDialog] = React.useState(false);
   const [user, setUser] = React.useState('');
-  const [selecteduser, setselectedUser] = React.useState(null);
+  const [selecteduser, setselectedUser] = React.useState([]);
   const [roleNameone, setRoleNameone] = React.useState(null);
   const [Isuserassigned, setIsuserAssigned] = React.useState(null);
   const open = Boolean(anchorEl);
 
-  console.log(data, 'data');
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -108,6 +107,8 @@ const OrderActions = ({
   };
 
   const handleAssignUser = () => {
+    let users = [];
+    selecteduser.map((item) => users.push(item.email));
     let config = {
       method: 'put',
       maxBodyLength: Infinity,
@@ -115,13 +116,9 @@ const OrderActions = ({
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${localStorage.getItem('token')}`,
+        roleName: roleNameone,
       },
-      data: [
-        {
-          id: id,
-          user: {email: selecteduser.email},
-        },
-      ],
+      data: users,
     };
 
     axios
@@ -262,8 +259,9 @@ const OrderActions = ({
       {children}
     </AppScrollbar> */}
           <Autocomplete
+            multiple
             id='tags-outlined'
-            options={user}
+            options={user || []}
             getOptionLabel={(option) => option?.name}
             value={selecteduser}
             onChange={(event, value) => setselectedUser(value)}

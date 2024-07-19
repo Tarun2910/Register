@@ -10,6 +10,7 @@ const CustomizedProgressBars = ({
   activeUserCount,
   inactiveUserCount,
   pendingUserCount,
+  totalUsersAllowedInLicenseTier,
 }) => {
   const activeProgress =
     totalUserCount > 0 ? (activeUserCount / totalUserCount) * 100 : 0;
@@ -84,7 +85,7 @@ const CustomizedProgressBars = ({
       </Box>
       <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
         <Typography variant='body2' color='text.secondary'>
-          Total: {totalUserCount}
+          Total: {totalUserCount}/{totalUsersAllowedInLicenseTier}
         </Typography>
       </Box>
     </Stack>
@@ -96,6 +97,7 @@ CustomizedProgressBars.propTypes = {
   activeUserCount: PropTypes.number.isRequired,
   inactiveUserCount: PropTypes.number.isRequired,
   pendingUserCount: PropTypes.number.isRequired,
+  totalUsersAllowedInLicenseTier: PropTypes.number.isRequired,
 };
 
 export default CustomizedProgressBars;

@@ -4,29 +4,13 @@ import AppLoader from '../AppLoader';
 import Signin from 'modules/userPages/StyledUserPages/Signin';
 import {useLocation} from 'react-router-dom';
 import Signup from 'modules/userPages/StyledUserPages/Signup';
-
-const CheckMail = React.lazy(() =>
-  import('modules/userPages/StyledUserPages/CheckMail'),
-);
-const Verified = React.lazy(() =>
-  import('modules/userPages/StyledUserPages/Verified'),
-);
-const VerifiedForgetPass = React.lazy(() =>
-  import('modules/userPages/StyledUserPages/VerifiedForgetpass'),
-);
-const SetPassword = React.lazy(() =>
-  import('modules/userPages/StyledUserPages/SetPassword'),
-);
-const ForgotPassword = React.lazy(() => import('modules/auth/ForgetPassword'));
-const ForgetPassword2 = React.lazy(() =>
-  import('modules/userPages/StyledUserPages/ForgetPassword'),
-);
-const ConfirmSignupAwsCognito = React.lazy(() =>
-  import('modules/auth/Signup/ConfirmSignupAwsCognito'),
-);
-const ResetPasswordAwsCognito = React.lazy(() =>
-  import('modules/auth/ForgetPassword/ResetPasswordAwsCognito'),
-);
+import ForgetPassword2 from 'modules/userPages/StyledUserPages/ForgetPassword';
+import CheckMail from 'modules/userPages/StyledUserPages/CheckMail';
+import Verified from 'modules/userPages/StyledUserPages/Verified';
+import SetPassword from 'modules/userPages/StyledUserPages/SetPassword';
+import VerifiedForgetPass from 'modules/userPages/StyledUserPages/VerifiedForgetpass';
+import ConfirmSignupAwsCognito from 'modules/auth/Signup/ConfirmSignupAwsCognito';
+import ResetPasswordAwsCognito from 'modules/auth/ForgetPassword/ResetPasswordAwsCognito';
 
 const AppSuspense = (props) => {
   const jwtToken = localStorage.getItem('token');
@@ -45,8 +29,6 @@ const AppSuspense = (props) => {
     <React.Suspense fallback={<AppLoader />}>{props.children}</React.Suspense>
   ) : location.pathname === '/signup' ? (
     <Signup />
-  ) : location.pathname === '/forget-password' ? (
-    <ForgotPassword />
   ) : location.pathname === '/forgetpassword' ? (
     <ForgetPassword2 />
   ) : location.pathname === '/confirm-signup' ? (
@@ -55,11 +37,11 @@ const AppSuspense = (props) => {
     <ResetPasswordAwsCognito />
   ) : location.pathname === '/check-mail' ? (
     <CheckMail />
-  ) : location.pathname === '/token/:token' ? (
+  ) : location.pathname.match('/token') ? (
     <Verified />
-  ) : location.pathname === '/reset-password/:token' ? (
+  ) : location.pathname.match('/reset-password') ? (
     <VerifiedForgetPass />
-  ) : location.pathname === '/set-password/:token' ? (
+  ) : location.pathname.match('/set-password') ? (
     <SetPassword />
   ) : (
     <Signin />

@@ -9,6 +9,7 @@ const TableHeading = () => {
       <TableCell align='left'>Department Name</TableCell>
       <TableCell align='left'>Department Short Name</TableCell>
       <TableCell align='left'>Branch</TableCell>
+      <TableCell align='center'>Manage Storage</TableCell>
       <TableCell></TableCell>
     </TableHeader>
   );

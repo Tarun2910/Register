@@ -40,7 +40,7 @@ import {
   resetDepartmentsData,
 } from 'redux/features/departmentsSlice';
 import {useDispatch, useSelector} from 'react-redux';
-import {Add} from '@mui/icons-material';
+import {Add, Save} from '@mui/icons-material';
 
 const ProductListing = () => {
   const {departmentsData, departmentsDataIsSuccess, departmentsDataIsLoading} =
@@ -144,6 +144,14 @@ const ProductListing = () => {
     }
   }, [departmentsDataIsSuccess]);
 
+  useEffect(() => {
+    if (itemsState.length) {
+      setDisable(false);
+    } else {
+      setDisable(true);
+    }
+  }, [itemsState.length]);
+
   const HandleNavigate = () => {
     Navigate('/add-department');
   };
@@ -237,6 +245,38 @@ const ProductListing = () => {
     e.preventDefault();
     isedit ? handleupdate() : handleCreateDept();
   };
+
+  const handlesaveChanges = () => {
+    // Check if remaining license is less than the count of active users
+
+    let config = {
+      method: 'post',
+      maxBodyLength: Infinity,
+      url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/dms_service_LM/api/dms_admin_service/setUserData`,
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        username: localStorage.getItem('username'),
+        pageNumber: page,
+        pageSize: 10,
+      },
+      data: itemsState,
+    };
+    setLoading(true);
+    axios
+      .request(config)
+      .then(() => {
+        setLoading(false);
+        dispatch(
+          getDepartmentsData({pageNumber: page, pageSize: 10, searchText: ''}),
+        );
+        setItemsState([]);
+      })
+      .catch((error) => {
+        setLoading(false);
+        console.log(error);
+      });
+  };
   return (
     <>
       {/* <div style={{marginBottom: '1rem'}}>
@@ -311,6 +351,25 @@ const ProductListing = () => {
           </Grid>
         </Slide>
       </AppGridContainer>
+      <Tooltip title='SAVE CHANGES'>
+        <Fab
+          id='fabBtn'
+          color='primary'
+          style={{color: '#fff'}}
+          aria-label='add'
+          onClick={handlesaveChanges}
+          disabled={disable}
+          size='small'
+          sx={{
+            position: 'absolute',
+            bottom: 19,
+            right: 65,
+            color: blue[500],
+          }}
+        >
+          <Save />
+        </Fab>
+      </Tooltip>
       <Tooltip title='Add Department'>
         <Fab
           style={{color: '#fff'}}

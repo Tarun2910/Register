@@ -50,13 +50,8 @@ const TableItem = ({
   }, [itemsState]);
 
   useEffect(() => {
-    // Call the callback function to send the updated state to the parent
     onItemsStateUpdate(itemsState);
-    // if (itemsState.length <= 0) {
-    //   onButtonDisable(true);
-    // } else {
-    //   onButtonDisable(false);
-    // }
+
     console.log(itemsState, productData, 'productData');
     const isAnyItemInactive = itemsState.some(
       (item) =>

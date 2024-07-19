@@ -17,6 +17,7 @@ import {
   Divider,
   IconButton,
   Fab,
+  Chip,
 } from '@mui/material';
 import React, {useEffect, useState} from 'react';
 import {useIntl} from 'react-intl';
@@ -30,18 +31,46 @@ import Slide from '@mui/material/Slide';
 import ListingTable from './Table';
 import axios from 'axios';
 import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
-import {blue} from '@mui/material/colors';
+import {blue, orange} from '@mui/material/colors';
 import {useNavigate} from 'react-router-dom';
 import CustomizedBreadcrumbs from 'modules/muiComponents/navigation/Breadcrumbs/CustomizedBreadcrumbs';
 import CloseIcon from '@mui/icons-material/Close';
-
+import Draggables from 'react-draggable';
+import {Cancel} from '@mui/icons-material';
 import Draggable from 'react-draggable';
-
+import {makeStyles} from '@mui/styles';
 import {debounce} from 'lodash';
 import {toast} from 'react-toastify';
 import {useDispatch, useSelector} from 'react-redux';
 import {getRolesData} from 'redux/features/rolesDataSlice';
 import {Add} from '@mui/icons-material';
+
+const useStyles = makeStyles((theme) => ({
+  flexBetween: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingRight: '1rem',
+    flexWrap: 'wrap',
+  },
+
+  chip: {
+    backgroundColor: theme.palette.primary.light,
+    color: theme.palette.common.white,
+    padding: '5px',
+  },
+}));
+
+const PaperComponent = (props) => {
+  return (
+    <Draggables
+      handle='#draggable-dialog-title'
+      cancel={'[class*="MuiDialogContent-root"]'}
+    >
+      <Paper {...props} />
+    </Draggables>
+  );
+};
 
 const ProductListing = () => {
   const dispatch = useDispatch();
@@ -79,7 +108,10 @@ const ProductListing = () => {
   const [roleName, setRoleName] = useState('');
   const [roleDisplayname, setRoleDisplayName] = useState('');
   const [rowdata, setRowData] = useState('');
+  const [rolesList, setRolesList] = useState([]);
+  const [openRoles, setOpenRoles] = useState(false);
 
+  const classes = useStyles();
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -410,6 +442,9 @@ const ProductListing = () => {
                   setRoleName={setRoleName}
                   setRoleDisplayName={setRoleDisplayName}
                   setRowData={setRowData}
+                  rolesList={rolesList}
+                  setRolesList={setRolesList}
+                  setOpenRoles={setOpenRoles}
                 />
               </AppsContent>
               <Hidden smUp>
@@ -603,6 +638,37 @@ const ProductListing = () => {
             </Button>
           </DialogActions>
         </form>
+      </Dialog>
+      <Dialog
+        open={openRoles}
+        onClose={() => setOpenRoles(false)}
+        aria-labelledby='draggable-dialog-title'
+        PaperComponent={PaperComponent}
+        fullWidth
+        maxWidth='xs'
+      >
+        <Box className={classes.flexBetween}>
+          <DialogTitle
+            id='draggable-dialog-title'
+            className={classes.dialogTitle}
+            style={{cursor: 'move'}}
+          >
+            Users
+          </DialogTitle>
+          <Tooltip title='CLOSE'>
+            <IconButton
+              onClick={() => setOpenRoles(false)}
+              className={classes.closeButton}
+            >
+              <Cancel />
+            </IconButton>
+          </Tooltip>
+        </Box>
+        <DialogContent dividers className={classes.dialogContent}>
+          {rolesList.map((item, index) => (
+            <Chip key={index} label={item.name} className={classes.chip} />
+          ))}
+        </DialogContent>
       </Dialog>
     </>
   );
