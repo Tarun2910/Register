@@ -115,6 +115,8 @@ const TeamSyncTab = () => {
   const activeUserCount = storageData?.activeUserCount || 0;
   const pendingUserCount = storageData?.pendingUserCount || 0;
   const inactiveUserCount = storageData?.inactiveUserCount || 0;
+  const totalUsersAllowedInLicenseTier =
+    storageData?.totalUsersAllowedInLicenseTier || 0;
 
   const transformApiResponse = (data) => {
     if (!data) {
@@ -209,6 +211,7 @@ const TeamSyncTab = () => {
                 activeUserCount={activeUserCount}
                 inactiveUserCount={inactiveUserCount}
                 pendingUserCount={pendingUserCount}
+                totalUsersAllowedInLicenseTier={totalUsersAllowedInLicenseTier}
               />
             </Grid>
             <Grid item xs={12} md={12} lg={7}>
@@ -220,6 +223,7 @@ const TeamSyncTab = () => {
                 pendingUserCount={pendingUserCount}
                 activeUserCount={activeUserCount}
                 inactiveUserCount={inactiveUserCount}
+                totalUsersAllowedInLicenseTier={totalUsersAllowedInLicenseTier}
                 totalDeptCount={totalDeptCount}
                 setPage={setPage}
                 page={page}
