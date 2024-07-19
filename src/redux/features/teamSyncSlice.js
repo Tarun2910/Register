@@ -75,6 +75,7 @@ export const teamSyncSlice = createSlice({
         resetStorageData();
       })
       .addCase(getStorageData.rejected, (state, action) => {
+        console.log('storing', action);
         state.storageData = {};
         state.storageDataIsLoading = false;
         state.storageDataIsError = true;

@@ -64,6 +64,7 @@ const TableItem = ({
   };
 
   const handleChange = (data, allowedStorageInBytesDisplay) => {
+    console.log(allowedStorageInBytesDisplay, 'kk');
     let newArr = [];
     productData.map((item) => {
       if (item.id == data.id) {

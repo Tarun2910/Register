@@ -82,15 +82,16 @@ export const AddChapter = ({selectedProd}) => {
             xs: 2,
             lg: 4,
           },
+          display: 'flex',
+          alignItems: 'center', // Ensures vertical alignment
+          gap: 1, // Adjust gap between elements
         }}
       >
-        <span>
-          <CustomizedBreadcrumbs
-            label='Adduser'
-            link={`/addUser`}
-            showComponentName={window.location.pathname === `/addUser`}
-          />
-        </span>
+        <CustomizedBreadcrumbs
+          label='Adduser'
+          link={`/addUser`}
+          showComponentName={window.location.pathname === `/addUser`}
+        />
       </Box>
 
       <Formik
