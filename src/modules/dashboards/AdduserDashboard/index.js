@@ -228,7 +228,7 @@ const ProductListing = () => {
 
   useEffect(() => {
     dispatch(getUsersData({searchText: '', pageNumber: page, applicationName}));
-  }, [page, product, applicationName, toggleStatus]);
+  }, [page, toggleStatus]);
 
   useEffect(() => {
     setLoading(usersDataIsLoading);
@@ -282,6 +282,7 @@ const ProductListing = () => {
       .request(config)
       .then((response) => {
         setLoading(false);
+        setToggleStatus((prevStatus) => !prevStatus);
         console.log(JSON.stringify(response.data));
         // const RemainingUsers = response.headers['usersRemaining'];
         const applicationuserRemaining =

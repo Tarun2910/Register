@@ -54,6 +54,7 @@ const ProductTable = ({
               itemsState={itemsState}
               setSelectedUsers={setSelectedUsers}
               selectedUsers={selectedUsers}
+              setToggleStatus={setToggleStatus}
             />
             // ))
           )}
