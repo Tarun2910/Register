@@ -668,6 +668,7 @@ const ProductListing = () => {
               roleName={rowdata?.roleName}
               setTriggerApi={setTriggerApi}
               setOpenRoles={setOpenRoles}
+              roles={rowdata?.user}
             />
             <Tooltip title='CLOSE'>
               <IconButton

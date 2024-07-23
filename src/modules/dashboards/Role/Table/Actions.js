@@ -37,7 +37,9 @@ const OrderActions = ({
   setRowData,
   roleName,
   setOpenRoles,
+  roles,
 }) => {
+  console.log(roles);
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [opendialog, setOpenDialog] = React.useState(false);
@@ -48,6 +50,7 @@ const OrderActions = ({
   const open = Boolean(anchorEl);
 
   useEffect(() => {
+    setselectedUser(roles);
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
@@ -294,4 +297,5 @@ OrderActions.propTypes = {
   setRoleDisplayName: PropTypes.any,
   roleName: PropTypes.any,
   setOpenRoles: PropTypes.any,
+  roles: PropTypes.any,
 };
