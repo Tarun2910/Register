@@ -95,8 +95,21 @@ const TableItem = ({
     ]);
   };
 
+  const handleRowDoubleClick = (data) => {
+    updateDepartment();
+    setSelectedDeptId(data);
+    setbranchCity(data.branchCity);
+    setdeptName(data.deptName);
+    setdeptDisplayName(data.deptDisplayName);
+    setRowData(data);
+  };
+
   return productData.map((data) => (
-    <TableRow key={data.id} className='item-hover'>
+    <TableRow
+      key={data.id}
+      className='item-hover'
+      onDoubleClick={() => handleRowDoubleClick(data)}
+    >
       <StyledTableCell align='left'>
         <Box
           sx={{
@@ -126,7 +139,11 @@ const TableItem = ({
         {' '}
         <Tooltip
           title={
-            disable == 'TRIAL' && `In free Tier You Can't Change the Storage`
+            disable == 'TRIAL'
+              ? `In free Tier You Can't Change the Storage`
+              : !data?.permissions?.id
+              ? 'The user must log in to drive first.'
+              : ''
           }
         >
           <FormControl variant='outlined' style={{minWidth: 120}} size='small'>
@@ -134,7 +151,8 @@ const TableItem = ({
             <Select
               label='STORAGE'
               value={data?.permissions?.allowedStorageInBytesDisplay}
-              // disabled={disable == 'TRIAL'}
+              sx={{height: '1.8rem'}}
+              disabled={!data?.permissions?.id || disable == 'TRIAL'}
               onChange={(event) => handleChange(data, event.target.value)}
             >
               <MenuItem value='' disabled>
@@ -154,7 +172,7 @@ const TableItem = ({
           </FormControl>
         </Tooltip>
       </StyledTableCell>
-      <TableCell align='right'>
+      {/* <TableCell align='right'>
         <OrderActions
           id={data.id}
           data={data}
@@ -167,7 +185,7 @@ const TableItem = ({
           setbranchCity={setbranchCity}
           setRowData={setRowData}
         />
-      </TableCell>
+      </TableCell> */}
     </TableRow>
   ));
 };

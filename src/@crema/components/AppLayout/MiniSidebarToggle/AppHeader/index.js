@@ -123,12 +123,6 @@ const AppHeader = (props) => {
           <AppSearchBar iconPosition='right' placeholder='Search…' />
         </Box>
 
-        {/* {allowMultiLanguage && (
-          <Box sx={{ml: 4}}>
-            <AppLngSwitcher iconOnly={true} tooltipPosition='bottom' />
-          </Box>
-        )} */}
-
         <Box sx={{ml: 4}}>
           <Hidden smDown>
             <Box
@@ -140,13 +134,13 @@ const AppHeader = (props) => {
                 marginRight: -2,
               }}
             >
-              <Box
+              {/* <Box
                 sx={{
                   px: 1.85,
                 }}
               >
                 <AppNotifications />
-              </Box>
+              </Box> */}
               {/* <Box
                 sx={{
                   px: 1.85,
@@ -155,14 +149,20 @@ const AppHeader = (props) => {
                 <AppMessages />
               </Box> */}
 
-              {/* {
+              {allowMultiLanguage && (
+                <Box sx={{ml: 4}}>
+                  <AppLngSwitcher iconOnly={true} tooltipPosition='bottom' />
+                </Box>
+              )}
+
+              {
                 <Box sx={{ml: 4}}>
                   <ThemeModes iconOnly={true} tooltipPosition='bottom' />
                 </Box>
-              } */}
+              }
               <Box
                 sx={{
-                  px: 1.85,
+                  px: 4,
                 }}
               >
                 <AppTooltip title='Logout' tooltipPosition='bottom'>

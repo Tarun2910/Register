@@ -96,8 +96,19 @@ const TableItem = ({
 
   console.log(itemsState, 'itemsState');
 
+  const handleRowDoubleClick = (data) => {
+    updateRole();
+    setRoleName(data?.roleName);
+    setRoleDisplayName(data?.roleDisplayName);
+    setRowData(data);
+  };
+
   return productData.map((data) => (
-    <TableRow key={data.id} className='item-hover'>
+    <TableRow
+      key={data.id}
+      className='item-hover'
+      onDoubleClick={() => handleRowDoubleClick(data)}
+    >
       <StyledTableCell align='left'>
         <Box
           sx={{
@@ -108,6 +119,16 @@ const TableItem = ({
           }}
         >
           <Checkbox size='small' onChange={handleCheckboxChange} />
+        </Box>
+      </StyledTableCell>
+      <StyledTableCell align='left'>
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+          }}
+        >
+          {data?.department?.deptName}
         </Box>
       </StyledTableCell>
 
@@ -137,10 +158,7 @@ const TableItem = ({
           'User not Assigned Yet'
         )}
       </StyledTableCell>
-      <TableCell align='right'>
-        {/* <EditIcon />
-        <VisibilityIcon />
-        <RiSplitCellsHorizontal /> */}
+      {/* <TableCell align='right'>
         <OrderActions
           id={data.id}
           data={data}
@@ -151,12 +169,8 @@ const TableItem = ({
           setRoleName={setRoleName}
           setRoleDisplayName={setRoleDisplayName}
           setRowData={setRowData}
-          // setTotal={setTotal}
-          // setPage={setPage}
-          // setList={setList}
-          // list={list}
         />
-      </TableCell>
+      </TableCell> */}
     </TableRow>
   ));
 };

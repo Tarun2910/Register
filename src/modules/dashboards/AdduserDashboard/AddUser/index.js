@@ -88,7 +88,7 @@ export const AddChapter = ({selectedProd}) => {
         }}
       >
         <CustomizedBreadcrumbs
-          label='Adduser'
+          label='Add User'
           link={`/addUser`}
           showComponentName={window.location.pathname === `/addUser`}
         />
@@ -145,7 +145,7 @@ export const AddChapter = ({selectedProd}) => {
             const formData = new FormData();
             const metaData = productSpec.map((item) => ({
               name: item.Question,
-              email: item.choice1,
+              email: item.choice1.toLowerCase(),
               username: item.choice2,
             }));
 

@@ -5,7 +5,7 @@ import Checkbox from '@mui/material/Checkbox';
 import PropTypes from 'prop-types';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import CancelIcon from '@mui/icons-material/Cancel';
-import {IconButton, Tooltip} from '@mui/material';
+import {Box, IconButton, TableSortLabel, Tooltip} from '@mui/material';
 import axios from 'axios';
 import {toast} from 'react-toastify';
 
@@ -17,6 +17,8 @@ const TableHeading = ({
   setSelectedUsers,
   productData,
   setLoading,
+  onSort,
+  sortOrder,
 }) => {
   console.log(selectedUsers, 'selectedUsers');
   const appName = 'TeamSync';
@@ -76,45 +78,66 @@ const TableHeading = ({
   return (
     <TableHeader>
       <TableCell>
-        <Checkbox
+        {/* <Checkbox
           size='small'
           sx={{padding: '0px', fontSize: '0.77rem'}}
           onChange={handleSelectAll}
           checked={selectedUsers.length === productData.length}
-        />
+        /> */}
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            cursor: 'pointer',
+            color: 'primary.main',
+          }}
+        >
+          <Checkbox
+            size='small'
+            checked={selectedUsers.length === productData.length}
+            onChange={handleSelectAll}
+          />
+        </Box>
       </TableCell>
       <TableCell>
-        {/* {`Name ${String(license)} of ${String(handletiername())}`} */} Name
+        {/* {`Name ${String(license)} of ${String(handletiername())}`}*/} Name
+        {/* <TableSortLabel active direction={sortOrder} onClick={onSort}>
+          Name
+        </TableSortLabel> */}
       </TableCell>
       <TableCell align='left'>User Email</TableCell>
       <TableCell align='left'>Manage Storage</TableCell>
-      <TableCell align='left'>Active Licence</TableCell>
-      <TableCell align='right'>
-        <Tooltip title='Activate Selected' arrow>
-          <IconButton
-            size='small'
-            sx={{fontSize: '0.77rem', padding: '0px'}}
-            onClick={() => handleToggleActive(true)}
-            disabled={selectedUsers.length === 0}
+      <TableCell align='left' sx={{width: '150px', whiteSpace: 'nowrap'}}>
+        Active License
+        <Box component='span' sx={{ml: 4}}>
+          <Tooltip title='Activate Selected' arrow>
+            <IconButton
+              size='small'
+              sx={{fontSize: '0.77rem', padding: '0px', color: 'green'}}
+              onClick={() => handleToggleActive(true)}
+              disabled={selectedUsers.length === 0}
+            >
+              <CheckCircleOutlineIcon />
+            </IconButton>
+          </Tooltip>
+          <Tooltip
+            title='Deactivate Selected'
+            arrow
+            sx={{fontSize: '0.77rem', padding: '0px', color: 'red'}}
           >
-            <CheckCircleOutlineIcon />
-          </IconButton>
-        </Tooltip>
-
-        <Tooltip
-          title='Deactivate Selected'
-          arrow
-          sx={{fontSize: '0.77rem', padding: '0px'}}
-        >
-          <IconButton
-            size='small'
-            onClick={() => handleToggleActive(false)}
-            disabled={selectedUsers.length === 0}
-          >
-            <CancelIcon />
-          </IconButton>
-        </Tooltip>
+            <IconButton
+              size='small'
+              onClick={() => handleToggleActive(false)}
+              disabled={selectedUsers.length === 0}
+            >
+              <CancelIcon />
+            </IconButton>
+          </Tooltip>
+        </Box>
       </TableCell>
+      {/* <TableCell align='right'>
+        
+      </TableCell> */}
     </TableHeader>
   );
 };
@@ -133,4 +156,6 @@ TableHeading.propTypes = {
   setSelectedUsers: PropTypes.any,
   productData: PropTypes.any,
   setLoading: PropTypes.any,
+  onSort: PropTypes.func.isRequired,
+  sortOrder: PropTypes.oneOf(['asc', 'desc']).isRequired,
 };

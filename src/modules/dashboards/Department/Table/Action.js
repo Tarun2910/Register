@@ -101,12 +101,12 @@ const OrderActions = ({
         >
           Edit Department
         </MenuItem>
-        <MenuItem
+        {/* <MenuItem
           style={{fontSize: 14}}
           onClick={() => handlestate(id, displayname, deptName)}
         >
           Add and View Roles
-        </MenuItem>
+        </MenuItem> */}
       </Menu>
     </Box>
   );

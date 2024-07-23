@@ -23,7 +23,7 @@ const StyledTableCell = styled(TableCell)(() => ({
     paddingLeft: 20,
   },
   '&:last-of-type': {
-    paddingRight: 20,
+    paddingRight: 10,
   },
 }));
 
@@ -64,34 +64,19 @@ const TableItem = ({
       (item) =>
         item.active !== productData.find((d) => d.id === item.id).active,
     );
+    const isAnyStorageChanged = itemsState.some(
+      (item) =>
+        item.permissions.allowedStorageInBytes !==
+        productData.find((d) => d.id === item.id).permissions
+          .allowedStorageInBytes,
+    );
 
-    if (isAnyItemInactive) {
+    if (isAnyItemInactive || isAnyStorageChanged) {
       onButtonDisable(false);
     } else {
       onButtonDisable(true);
     }
   }, [itemsState, onItemsStateUpdate]);
-
-  // const handleSwitchChange = (data) => {
-  //   const id = data.id;
-  //   const itemIndex = itemsState.findIndex((item) => item.id === id);
-  //   const isActive = itemsState ? itemsState.active : data.active;
-
-  //   setItemsState((prevItemsState) => {
-  //     const updatedItemsState = [...prevItemsState];
-
-  //     if (itemIndex !== -1) {
-  //       // If the item is already in the state, update only the specific item
-  //       updatedItemsState[itemIndex].active =
-  //         !updatedItemsState[itemIndex].active;
-  //     } else {
-  //       // If the item is not in the state, add it to the state
-  //       updatedItemsState.push({id, active: !data.active});
-  //     }
-
-  //     return updatedItemsState;
-  //   });
-  // };
 
   const handleSwitchChange = (data) => {
     const id = data.id;
@@ -129,30 +114,6 @@ const TableItem = ({
   console.log(itemsState, 'itemsState');
   const adminName = sessionStorage.getItem('AdminName');
   console.log(adminName, 'adminName');
-
-  // const handleChange = (userId, field, newValue) => {
-  //   console.log(userId, field, newValue, 'jdjdj');
-  //   if (field === 'allowedStorageInBytesDisplay') {
-  //     let totalBytes;
-  //     let valueArr = newValue?.split(' ');
-  //     if (valueArr[1] === 'GB') {
-  //       totalBytes = parseFloat(valueArr[0]) * 1024 * 1024 * 1024;
-  //     } else {
-  //       totalBytes = valueArr[0] * 1024 * 1024;
-  //     }
-  //     const newArr = productData.map((user) =>
-  //       user.id === userId
-  //         ? {...user, [field]: newValue, allowedStorageInBytes: totalBytes}
-  //         : user,
-  //     );
-  //     setList(newArr);
-  //   } else {
-  //     const newArr = productData.map((user) =>
-  //       user.id === userId ? {...user, [field]: newValue} : user,
-  //     );
-  //     setList(newArr);
-  //   }
-  // };
 
   const handleChange = (userId, field, newValue) => {
     // Split the newValue to get the numeric part and the unit part
@@ -227,13 +188,28 @@ const TableItem = ({
   return productData.map((data) => (
     <TableRow key={data.id} className='item-hover'>
       <StyledTableCell>
-        <Checkbox
+        {/* <Checkbox
           size='small'
           sx={{padding: '0px', fontSize: '0.77rem'}}
           checked={selectedUsers.some((user) => user.id === data.id)}
           onChange={() => handleCheckboxChange(data)}
-        />
+        /> */}
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            cursor: 'pointer',
+            color: 'primary.main',
+          }}
+        >
+          <Checkbox
+            size='small'
+            checked={selectedUsers.some((user) => user.id === data.id)}
+            onChange={() => handleCheckboxChange(data)}
+          />
+        </Box>
       </StyledTableCell>
+
       <StyledTableCell align='left'>
         <Box
           sx={{
@@ -263,6 +239,7 @@ const TableItem = ({
             <InputLabel>STORAGE</InputLabel>
             <Select
               label='STORAGE'
+              sx={{height: '1.8rem'}}
               value={selectedStorage[data?.permissions?.id] || ''}
               // disabled={disable == 'TRIAL'}
               onChange={(event) =>
@@ -272,7 +249,7 @@ const TableItem = ({
                   event.target.value,
                 )
               }
-              disabled={!data?.permissions?.id}
+              disabled={!data?.permissions?.id || disable == 'TRIAL'}
             >
               <MenuItem value='' disabled>
                 Select Storage
@@ -305,13 +282,10 @@ const TableItem = ({
             }
           />
         </Box>
-        {/* {itemsState.find((item) => item.id === data.id)?.active
-          ? 'Active'
-          : 'Inactive'} */}
       </StyledTableCell>
-      <TableCell align='right'>
+      {/* <TableCell align='right'>
         <OrderActions id={data.id} />
-      </TableCell>
+      </TableCell> */}
     </TableRow>
   ));
 };

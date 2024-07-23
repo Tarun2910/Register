@@ -1,5 +1,5 @@
 import AppLoader from '@crema/components/AppLoader';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import Grid from '@mui/material/Grid';
 import AppGridContainer from '@crema/components/AppGridContainerOne';
 import AppAnimate from '@crema/components/AppAnimate';
@@ -110,6 +110,11 @@ const TeamSyncTab = () => {
     ];
   };
 
+  const cardDetailsData = useMemo(
+    () => formatStorageData(storageData),
+    [storageData],
+  );
+
   const totalUserCount = storageData?.totalUserCount || 0;
   const totalDeptCount = storageData?.totalDeptCount || 0;
   const activeUserCount = storageData?.activeUserCount || 0;
@@ -117,6 +122,31 @@ const TeamSyncTab = () => {
   const inactiveUserCount = storageData?.inactiveUserCount || 0;
   const totalUsersAllowedInLicenseTier =
     storageData?.totalUsersAllowedInLicenseTier || 0;
+
+  const memoizedCardDetails = useMemo(
+    () => formatStorageData(storageData),
+    [storageData],
+  );
+  const memoizedTotalUserCount = useMemo(
+    () => totalUserCount,
+    [totalUserCount],
+  );
+  const memoizedActiveUserCount = useMemo(
+    () => activeUserCount,
+    [activeUserCount],
+  );
+  const memoizedInactiveUserCount = useMemo(
+    () => inactiveUserCount,
+    [inactiveUserCount],
+  );
+  const memoizedPendingUserCount = useMemo(
+    () => pendingUserCount,
+    [pendingUserCount],
+  );
+  const memoizedTotalUsersAllowedInLicenseTier = useMemo(
+    () => totalUsersAllowedInLicenseTier,
+    [totalUsersAllowedInLicenseTier],
+  );
 
   const transformApiResponse = (data) => {
     if (!data) {
@@ -206,12 +236,14 @@ const TeamSyncTab = () => {
           <AppGridContainer>
             <Grid item xs={12} md={12} lg={5}>
               <CardDetails
-                cardDetails={formatStorageData(storageData)}
-                totalUserCount={totalUserCount}
-                activeUserCount={activeUserCount}
-                inactiveUserCount={inactiveUserCount}
-                pendingUserCount={pendingUserCount}
-                totalUsersAllowedInLicenseTier={totalUsersAllowedInLicenseTier}
+                cardDetails={memoizedCardDetails}
+                totalUserCount={memoizedTotalUserCount}
+                activeUserCount={memoizedActiveUserCount}
+                inactiveUserCount={memoizedInactiveUserCount}
+                pendingUserCount={memoizedPendingUserCount}
+                totalUsersAllowedInLicenseTier={
+                  memoizedTotalUsersAllowedInLicenseTier
+                }
               />
             </Grid>
             <Grid item xs={12} md={12} lg={7}>

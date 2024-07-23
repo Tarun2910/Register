@@ -406,6 +406,7 @@ const ProductListing = () => {
                   setList={setList}
                   list={list}
                   onItemsStateUpdate={setUpdatedItemsState}
+                  saveicondisable={disable}
                   onButtonDisable={setDisable}
                   setTableData={setTableData}
                   setItemsState={setItemsState}
@@ -439,7 +440,7 @@ const ProductListing = () => {
           style={{color: '#fff'}}
           aria-label='add'
           onClick={handlesaveChanges}
-          // disabled={disable}
+          disabled={disable}
           size='small'
           sx={{
             position: 'absolute',

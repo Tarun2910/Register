@@ -378,12 +378,16 @@ const ProductListing = () => {
       url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/roles`,
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
+        departmentName: rowdata?.department?.deptName,
       },
       data: {
         roleName: roleName,
-        roleDisplayName: `${rowdata.roleName.split('.')[0]}.${roleDisplayname}`,
-        tenantId: rowdata.tenantId,
-        id: rowdata.id,
+        roleDisplayName: `${
+          rowdata?.roleName?.split('.')[0]
+        }.${roleDisplayname}`,
+        tenantId: rowdata?.tenantId,
+        id: rowdata?.id,
+        deptName: rowdata?.department?.deptName,
       },
     };
 

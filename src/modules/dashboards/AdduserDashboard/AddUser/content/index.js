@@ -300,7 +300,7 @@ const ProductContent = ({
                             onChange={(event) =>
                               handleInputChange(event, index, 'Question')
                             }
-                            label={'FullName'}
+                            label={'Full Name'}
                           />
                         </Grid>
                         <Grid item xs={index === 0 ? 12 : 6} sm={5}>
@@ -366,19 +366,7 @@ const ProductContent = ({
               {!(loading || !isFormValid) && (
                 <Tooltip title='Add User'>
                   <FloatingIconButton
-                    onClick={() => {
-                      setProductSpec([
-                        ...productSpec,
-                        {
-                          id: productSpec.length + 1,
-                          Question: '',
-                          choice1: '',
-                          choice2: '',
-                          choice3: '',
-                          correct: '',
-                        },
-                      ]);
-                    }}
+                    type='submit'
                     disabled={loading || !isFormValid}
                   >
                     <CheckIcon />
