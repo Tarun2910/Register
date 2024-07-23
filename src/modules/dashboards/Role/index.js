@@ -44,8 +44,8 @@ import {toast} from 'react-toastify';
 import {useDispatch, useSelector} from 'react-redux';
 import {getRolesData} from 'redux/features/rolesDataSlice';
 import {Add} from '@mui/icons-material';
-import RolesTable from './Table/RolesTable';
 import AddUserAction from './Table/Actions';
+import RolesTable from './Table/RolesTable';
 
 const useStyles = makeStyles((theme) => ({
   flexBetween: {
@@ -652,7 +652,7 @@ const ProductListing = () => {
         aria-labelledby='draggable-dialog-title'
         PaperComponent={PaperComponent}
         fullWidth
-        maxWidth='xs'
+        maxWidth='md'
       >
         <Box className={classes.flexBetween}>
           <DialogTitle
@@ -682,15 +682,17 @@ const ProductListing = () => {
           </div>
         </Box>
         <DialogContent dividers className={classes.dialogContent}>
-          <RolesTable
-            tableData={rolesList}
-            setOpenRoles={setOpenRoles}
-            setRolesList={setRolesList}
-            setRowData={setRowData}
-            handleupdate={handleupdate}
-            setTriggerApi={setTriggerApi}
-            rowData={rowdata}
-          />
+          <Paper>
+            <RolesTable
+              tableData={rolesList}
+              setOpenRoles={setOpenRoles}
+              setRolesList={setRolesList}
+              setRowData={setRowData}
+              handleupdate={handleupdate}
+              setTriggerApi={setTriggerApi}
+              rowData={rowdata}
+            />
+          </Paper>
         </DialogContent>
       </Dialog>
     </>
