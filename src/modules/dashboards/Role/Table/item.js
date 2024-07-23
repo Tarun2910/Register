@@ -121,16 +121,6 @@ const TableItem = ({
           <Checkbox size='small' onChange={handleCheckboxChange} />
         </Box>
       </StyledTableCell>
-      <StyledTableCell align='left'>
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-          }}
-        >
-          {data?.department?.deptName}
-        </Box>
-      </StyledTableCell>
 
       <StyledTableCell align='left'>
         <Box
@@ -140,6 +130,16 @@ const TableItem = ({
           }}
         >
           {data.roleName}
+        </Box>
+      </StyledTableCell>
+      <StyledTableCell align='left'>
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+          }}
+        >
+          {data?.department?.deptName}
         </Box>
       </StyledTableCell>
       <StyledTableCell align='left'>{data.roleDisplayName}</StyledTableCell>

@@ -58,6 +58,8 @@ const OrderActions = ({
         'Content-Type': 'application/json',
         Authorization: `Bearer ${localStorage.getItem('token')}`,
         appName: 'TeamSync',
+        pageNumber: '0',
+        pageSize: '5000',
       },
     };
 
@@ -255,7 +257,7 @@ const OrderActions = ({
             getOptionDisabled={(option) =>
               roles.some((item) => item.id === option.id)
             }
-            getOptionLabel={(option) => `${option?.name} <${option?.email}>`}
+            getOptionLabel={(option) => `${option?.name} | ${option?.email}`}
             value={selecteduser}
             onChange={(event, value) => setselectedUser(value)}
             filterSelectedOptions
