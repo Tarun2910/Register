@@ -150,27 +150,25 @@ const TableItem = ({
             variant='contained'
             size='small'
             onClick={() => {
+              setRowData(data);
               setOpenRoles(true);
               setRolesList(data?.user);
             }}
           >{`${data?.user?.length} users`}</Button>
         ) : (
-          'User not Assigned Yet'
+          <OrderActions
+            id={data.id}
+            data={data}
+            displayname={data.department.deptDisplayName}
+            deptName={data.department.deptName}
+            setTriggerApi={setTriggerApi}
+            updateRole={updateRole}
+            setRoleName={setRoleName}
+            setRoleDisplayName={setRoleDisplayName}
+            setRowData={setRowData}
+          />
         )}
       </StyledTableCell>
-      {/* <TableCell align='right'>
-        <OrderActions
-          id={data.id}
-          data={data}
-          displayname={data.department.deptDisplayName}
-          deptName={data.department.deptName}
-          setTriggerApi={setTriggerApi}
-          updateRole={updateRole}
-          setRoleName={setRoleName}
-          setRoleDisplayName={setRoleDisplayName}
-          setRowData={setRowData}
-        />
-      </TableCell> */}
     </TableRow>
   ));
 };

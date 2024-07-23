@@ -44,6 +44,8 @@ import {toast} from 'react-toastify';
 import {useDispatch, useSelector} from 'react-redux';
 import {getRolesData} from 'redux/features/rolesDataSlice';
 import {Add} from '@mui/icons-material';
+import RolesTable from './Table/RolesTable';
+import AddUserAction from './Table/Actions';
 
 const useStyles = makeStyles((theme) => ({
   flexBetween: {
@@ -660,19 +662,35 @@ const ProductListing = () => {
           >
             Users
           </DialogTitle>
-          <Tooltip title='CLOSE'>
-            <IconButton
-              onClick={() => setOpenRoles(false)}
+          <div style={{display: 'flex'}}>
+            <AddUserAction
               className={classes.closeButton}
-            >
-              <Cancel />
-            </IconButton>
-          </Tooltip>
+              deptName={rowdata?.department?.deptName}
+              roleName={rowdata?.roleName}
+              setTriggerApi={setTriggerApi}
+              setOpenRoles={setOpenRoles}
+              roles={rowdata?.user}
+            />
+            <Tooltip title='CLOSE'>
+              <IconButton
+                onClick={() => setOpenRoles(false)}
+                className={classes.closeButton}
+              >
+                <Cancel />
+              </IconButton>
+            </Tooltip>
+          </div>
         </Box>
         <DialogContent dividers className={classes.dialogContent}>
-          {rolesList.map((item, index) => (
-            <Chip key={index} label={item.name} className={classes.chip} />
-          ))}
+          <RolesTable
+            tableData={rolesList}
+            setOpenRoles={setOpenRoles}
+            setRolesList={setRolesList}
+            setRowData={setRowData}
+            handleupdate={handleupdate}
+            setTriggerApi={setTriggerApi}
+            rowData={rowdata}
+          />
         </DialogContent>
       </Dialog>
     </>

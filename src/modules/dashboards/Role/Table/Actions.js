@@ -20,6 +20,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import {Fonts} from '@crema/constants/AppEnums';
+import {Add, AddCircle} from '@mui/icons-material';
 
 const OrderActions = ({
   id,
@@ -34,7 +35,11 @@ const OrderActions = ({
   setRoleName,
   setRoleDisplayName,
   setRowData,
+  roleName,
+  setOpenRoles,
+  roles,
 }) => {
+  console.log(roles);
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [opendialog, setOpenDialog] = React.useState(false);
@@ -43,6 +48,29 @@ const OrderActions = ({
   const [roleNameone, setRoleNameone] = React.useState(null);
   const [Isuserassigned, setIsuserAssigned] = React.useState(null);
   const open = Boolean(anchorEl);
+
+  useEffect(() => {
+    let config = {
+      method: 'get',
+      maxBodyLength: Infinity,
+      url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/users?pageNum=${0}`,
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        appName: 'TeamSync',
+      },
+    };
+
+    axios
+      .request(config)
+      .then((response) => {
+        console.log(response, 'response');
+        setUser(response?.data?.content);
+      })
+      .catch((error) => {
+        toast.error(error.message);
+      });
+  }, []);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -108,7 +136,9 @@ const OrderActions = ({
 
   const handleAssignUser = () => {
     let users = [];
+    roles?.map((item) => users.push(item.email));
     selecteduser.map((item) => users.push(item.email));
+    console.log(users);
     let config = {
       method: 'put',
       maxBodyLength: Infinity,
@@ -116,7 +146,7 @@ const OrderActions = ({
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${localStorage.getItem('token')}`,
-        roleName: roleNameone,
+        roleName: roleName,
       },
       data: users,
     };
@@ -127,6 +157,7 @@ const OrderActions = ({
         handleCloseDialog();
         setTriggerApi((prevState) => !prevState);
         handleClose();
+        setOpenRoles(false);
       })
       .catch((error) => {
         toast.error(error.message);
@@ -164,50 +195,9 @@ const OrderActions = ({
   return (
     <>
       <Box>
-        <IconButton
-          aria-controls='alpha-menu'
-          aria-haspopup='true'
-          onClick={handleClick}
-          sx={{
-            padding: '0px', // Reduce padding
-            fontSize: '0.77rem', // Reduce font size
-          }}
-        >
-          <MoreVertIcon fontSize='small' />
+        <IconButton onClick={() => setOpenDialog(true)}>
+          <AddCircle />
         </IconButton>
-        <Menu
-          id='alpha-menu'
-          anchorEl={anchorEl}
-          keepMounted
-          open={open}
-          onClose={handleClose}
-          TransitionComponent={Fade}
-          sx={{
-            '& .MuiPaper-root': {
-              minWidth: '100px', // Reduce menu width
-            },
-          }}
-        >
-          <MenuItem
-            style={{fontSize: 14}}
-            onClick={() => {
-              updateRole();
-              setRoleName(data?.roleName);
-              setRoleDisplayName(data?.roleDisplayName);
-              setRowData(data);
-            }}
-          >
-            Edit Role
-          </MenuItem>
-          <MenuItem
-            style={{fontSize: 14}}
-            onClick={() => {
-              handleOpenDialog();
-            }}
-          >
-            {Isuserassigned ? 'Switch User' : 'Assign User'}
-          </MenuItem>
-        </Menu>
       </Box>
       <Dialog
         sx={{
@@ -262,7 +252,10 @@ const OrderActions = ({
             multiple
             id='tags-outlined'
             options={user || []}
-            getOptionLabel={(option) => option?.name}
+            getOptionDisabled={(option) =>
+              roles.some((item) => item.id === option.id)
+            }
+            getOptionLabel={(option) => `${option?.name} <${option?.email}>`}
             value={selecteduser}
             onChange={(event, value) => setselectedUser(value)}
             filterSelectedOptions
@@ -306,4 +299,7 @@ OrderActions.propTypes = {
   setRoleName: PropTypes.any,
   setRowData: PropTypes.any,
   setRoleDisplayName: PropTypes.any,
+  roleName: PropTypes.any,
+  setOpenRoles: PropTypes.any,
+  roles: PropTypes.any,
 };
