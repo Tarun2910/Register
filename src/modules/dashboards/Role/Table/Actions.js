@@ -35,6 +35,8 @@ const OrderActions = ({
   setRoleName,
   setRoleDisplayName,
   setRowData,
+  roleName,
+  setOpenRoles,
 }) => {
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -140,7 +142,7 @@ const OrderActions = ({
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${localStorage.getItem('token')}`,
-        roleName: roleNameone,
+        roleName: roleName,
       },
       data: users,
     };
@@ -151,6 +153,7 @@ const OrderActions = ({
         handleCloseDialog();
         setTriggerApi((prevState) => !prevState);
         handleClose();
+        setOpenRoles(false);
       })
       .catch((error) => {
         toast.error(error.message);
@@ -289,4 +292,6 @@ OrderActions.propTypes = {
   setRoleName: PropTypes.any,
   setRowData: PropTypes.any,
   setRoleDisplayName: PropTypes.any,
+  roleName: PropTypes.any,
+  setOpenRoles: PropTypes.any,
 };

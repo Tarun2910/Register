@@ -662,7 +662,13 @@ const ProductListing = () => {
             Users
           </DialogTitle>
           <div style={{display: 'flex'}}>
-            <AddUserAction className={classes.closeButton} />
+            <AddUserAction
+              className={classes.closeButton}
+              deptName={rowdata?.department?.deptName}
+              roleName={rowdata?.roleName}
+              setTriggerApi={setTriggerApi}
+              setOpenRoles={setOpenRoles}
+            />
             <Tooltip title='CLOSE'>
               <IconButton
                 onClick={() => setOpenRoles(false)}
