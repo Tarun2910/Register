@@ -44,8 +44,8 @@ import {toast} from 'react-toastify';
 import {useDispatch, useSelector} from 'react-redux';
 import {getRolesData} from 'redux/features/rolesDataSlice';
 import {Add} from '@mui/icons-material';
-import RolesTable from './Table/RolesTable';
 import AddUserAction from './Table/Actions';
+import RolesTable from './Table/RolesTable';
 
 const useStyles = makeStyles((theme) => ({
   flexBetween: {
