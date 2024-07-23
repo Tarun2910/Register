@@ -15,6 +15,7 @@ import {
   Dialog,
   DialogTitle,
   TextField,
+  Tooltip,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import DialogContent from '@mui/material/DialogContent';
@@ -197,9 +198,11 @@ const OrderActions = ({
   return (
     <>
       <Box>
-        <IconButton onClick={() => setOpenDialog(true)}>
-          <AddCircle />
-        </IconButton>
+        <Tooltip title='ASSIGN USER'>
+          <IconButton onClick={() => setOpenDialog(true)}>
+            <AddCircle />
+          </IconButton>
+        </Tooltip>
       </Box>
       <Dialog
         sx={{

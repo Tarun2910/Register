@@ -21,6 +21,7 @@ import TableHeader from '@crema/components/AppTable/TableHeader';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import axios from 'axios';
 import {toast} from 'react-toastify';
+import {CheckBox} from '@mui/icons-material';
 const StyledTableCell = styled(TableCell)(() => ({
   fontSize: '0.77rem',
   padding: 4,
@@ -77,8 +78,14 @@ const RolesTable = ({
       <Table stickyHeader className='table'>
         <TableHead>
           <TableHeader>
-            <TableCell align='left'>Sno.</TableCell>
-            <TableCell align='center'>Name</TableCell>
+            <TableCell align='left'>
+              <Checkbox
+                size='small'
+                checked={false}
+                // onChange={() => handleCheckboxChange(data)}
+              />
+            </TableCell>
+            <TableCell align='left'>Name</TableCell>
             <TableCell align='center'>Email Id</TableCell>
             <TableCell align='center'> </TableCell>
           </TableHeader>
@@ -110,7 +117,12 @@ const RolesTable = ({
                     alignItems: 'center',
                   }}
                 >
-                  {index + 1}
+                  {/* {index + 1} */}
+                  <Checkbox
+                    size='small'
+                    checked={false}
+                    // onChange={() => handleCheckboxChange(data)}
+                  />
                 </Box>
               </StyledTableCell>
               <StyledTableCell align='right'>

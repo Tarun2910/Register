@@ -663,6 +663,14 @@ const ProductListing = () => {
             Users
           </DialogTitle>
           <div style={{display: 'flex'}}>
+            <TextField
+              placeholder='Search Users'
+              variant='outlined'
+              size='small'
+              sx={{height: '1.8rem', borderRadius: '2rem'}}
+              // value={searchQuery}
+              className={classes.searchInput}
+            />
             <AddUserAction
               className={classes.closeButton}
               deptName={rowdata?.department?.deptName}
