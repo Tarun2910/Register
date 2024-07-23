@@ -50,7 +50,6 @@ const OrderActions = ({
   const open = Boolean(anchorEl);
 
   useEffect(() => {
-    setselectedUser(roles);
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
@@ -137,7 +136,9 @@ const OrderActions = ({
 
   const handleAssignUser = () => {
     let users = [];
+    roles?.map((item) => users.push(item.email));
     selecteduser.map((item) => users.push(item.email));
+    console.log(users);
     let config = {
       method: 'put',
       maxBodyLength: Infinity,
@@ -251,7 +252,10 @@ const OrderActions = ({
             multiple
             id='tags-outlined'
             options={user || []}
-            getOptionLabel={(option) => option?.name}
+            getOptionDisabled={(option) =>
+              roles.some((item) => item.id === option.id)
+            }
+            getOptionLabel={(option) => `${option?.name} <${option?.email}>`}
             value={selecteduser}
             onChange={(event, value) => setselectedUser(value)}
             filterSelectedOptions
