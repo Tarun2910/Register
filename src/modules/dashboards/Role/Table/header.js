@@ -10,7 +10,6 @@ const TableHeading = () => {
       <TableCell align='left'>Role Name</TableCell>
       <TableCell align='left'>Role Short Name</TableCell>
       <TableCell align='center'>Assigned User</TableCell>
-      {/* <TableCell align='right'></TableCell> */}
     </TableHeader>
   );
 };

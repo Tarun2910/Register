@@ -153,9 +153,9 @@ const ThemeModes = () => {
           size='large'
         >
           {themeMode === ThemeMode.LIGHT ? (
-            <LightModeOutlinedIcon />
-          ) : (
             <DarkModeOutlinedIcon />
+          ) : (
+            <LightModeOutlinedIcon />
           )}
         </IconButton>
       </AppTooltip>

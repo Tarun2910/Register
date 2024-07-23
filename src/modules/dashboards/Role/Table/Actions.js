@@ -20,6 +20,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import {Fonts} from '@crema/constants/AppEnums';
+import {Add, AddCircle} from '@mui/icons-material';
 
 const OrderActions = ({
   id,
@@ -43,6 +44,29 @@ const OrderActions = ({
   const [roleNameone, setRoleNameone] = React.useState(null);
   const [Isuserassigned, setIsuserAssigned] = React.useState(null);
   const open = Boolean(anchorEl);
+
+  useEffect(() => {
+    let config = {
+      method: 'get',
+      maxBodyLength: Infinity,
+      url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/users?pageNum=${0}`,
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        appName: 'TeamSync',
+      },
+    };
+
+    axios
+      .request(config)
+      .then((response) => {
+        console.log(response, 'response');
+        setUser(response?.data?.content);
+      })
+      .catch((error) => {
+        toast.error(error.message);
+      });
+  }, []);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -164,50 +188,9 @@ const OrderActions = ({
   return (
     <>
       <Box>
-        <IconButton
-          aria-controls='alpha-menu'
-          aria-haspopup='true'
-          onClick={handleClick}
-          sx={{
-            padding: '0px', // Reduce padding
-            fontSize: '0.77rem', // Reduce font size
-          }}
-        >
-          <MoreVertIcon fontSize='small' />
+        <IconButton onClick={() => setOpenDialog(true)}>
+          <AddCircle />
         </IconButton>
-        <Menu
-          id='alpha-menu'
-          anchorEl={anchorEl}
-          keepMounted
-          open={open}
-          onClose={handleClose}
-          TransitionComponent={Fade}
-          sx={{
-            '& .MuiPaper-root': {
-              minWidth: '100px', // Reduce menu width
-            },
-          }}
-        >
-          <MenuItem
-            style={{fontSize: 14}}
-            onClick={() => {
-              updateRole();
-              setRoleName(data?.roleName);
-              setRoleDisplayName(data?.roleDisplayName);
-              setRowData(data);
-            }}
-          >
-            Edit Role
-          </MenuItem>
-          <MenuItem
-            style={{fontSize: 14}}
-            onClick={() => {
-              handleOpenDialog();
-            }}
-          >
-            {Isuserassigned ? 'Switch User' : 'Assign User'}
-          </MenuItem>
-        </Menu>
       </Box>
       <Dialog
         sx={{
