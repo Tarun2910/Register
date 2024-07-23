@@ -60,15 +60,15 @@ const TableItem = ({
     onItemsStateUpdate(itemsState);
 
     console.log(itemsState, productData, 'productData');
-    const isAnyItemInactive = itemsState.some(
+    const isAnyItemInactive = itemsState?.some(
       (item) =>
-        item.active !== productData.find((d) => d.id === item.id).active,
+        item?.active !== productData?.find((d) => d?.id === item?.id).active,
     );
-    const isAnyStorageChanged = itemsState.some(
+    const isAnyStorageChanged = itemsState?.some(
       (item) =>
-        item.permissions.allowedStorageInBytes !==
-        productData.find((d) => d.id === item.id).permissions
-          .allowedStorageInBytes,
+        item?.permissions?.allowedStorageInBytes !==
+        productData?.find((d) => d?.id === item?.id)?.permissions
+          ?.allowedStorageInBytes,
     );
 
     if (isAnyItemInactive || isAnyStorageChanged) {

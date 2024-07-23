@@ -82,6 +82,7 @@ const ProductListing = () => {
   const [product, setProduct] = useState(10);
   const [applicationName, setApplicationName] = useState('TeamSync');
   const [toggleStatus, setToggleStatus] = useState(false);
+  const [sortOrder, setSortOrder] = useState('');
 
   const {
     usersData,
@@ -119,6 +120,11 @@ const ProductListing = () => {
       </Draggable>
     );
   }
+
+  const handleSort = (newSortOrder) => {
+    setSortOrder(newSortOrder);
+    // Make the API call with the new sortOrder
+  };
 
   const navigate = useNavigate();
 
@@ -227,8 +233,15 @@ const ProductListing = () => {
   console.log(product, 'valueofproduct');
 
   useEffect(() => {
-    dispatch(getUsersData({searchText: '', pageNumber: page, applicationName}));
-  }, [page, toggleStatus]);
+    dispatch(
+      getUsersData({
+        sortOrder,
+        searchText: '',
+        pageNumber: page,
+        applicationName,
+      }),
+    );
+  }, [page, toggleStatus, sortOrder]);
 
   useEffect(() => {
     setLoading(usersDataIsLoading);
@@ -274,6 +287,7 @@ const ProductListing = () => {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${localStorage.getItem('token')}`,
         userName: localStorage.getItem('username'),
+        pageNumber: page,
       },
       data: updatedItemsState,
     };
@@ -283,6 +297,7 @@ const ProductListing = () => {
       .then((response) => {
         setLoading(false);
         setToggleStatus((prevStatus) => !prevStatus);
+        setDisable(true);
         console.log(JSON.stringify(response.data));
         // const RemainingUsers = response.headers['usersRemaining'];
         const applicationuserRemaining =
@@ -418,6 +433,8 @@ const ProductListing = () => {
                   handleToggleActiveState={handleToggleActiveState}
                   setToggleStatus={setToggleStatus}
                   setLoading={setLoading}
+                  onSort={handleSort}
+                  sortOrder={sortOrder}
                 />
               </AppsContent>
               <Hidden smUp>
@@ -445,7 +462,7 @@ const ProductListing = () => {
           sx={{
             position: 'absolute',
             bottom: 19,
-            right: 15,
+            right: 65,
             color: blue[500],
           }}
         >
@@ -463,7 +480,7 @@ const ProductListing = () => {
           sx={{
             position: 'absolute',
             bottom: 19,
-            right: 65,
+            right: 15,
             color: blue[500],
           }}
         >

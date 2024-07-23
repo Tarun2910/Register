@@ -32,6 +32,36 @@ const StyledTableCell = styled(TableCell)(() => ({
   },
 }));
 
+const ActiveIcon = styled(CheckCircleIcon)(({active}) => ({
+  color: active ? 'green' : 'gray',
+}));
+
+const InactiveIcon = styled(CancelIcon)(({active}) => ({
+  color: active ? 'red' : 'gray',
+}));
+
+const PendingIcon = styled(HourglassEmptyIcon)(({active}) => ({
+  color: active ? 'yellow' : 'gray',
+}));
+
+const iconStyle = {margin: '0 8px'};
+
+const StatusIcon = ({status}) => {
+  if (status === 'active') {
+    return <ActiveIcon sx={iconStyle} active={true} />;
+  } else if (status === 'inactive') {
+    return <InactiveIcon sx={iconStyle} active={true} />;
+  } else if (status === 'pending') {
+    return <PendingIcon sx={iconStyle} active={true} />;
+  } else {
+    return null; // In case of an unknown status
+  }
+};
+
+StatusIcon.propTypes = {
+  status: PropTypes.string.isRequired,
+};
+
 const TableItem = ({
   productData,
   onItemsStateUpdate,
@@ -43,19 +73,32 @@ const TableItem = ({
   showUsers,
 }) => {
   // const [itemsState, setItemsState] = useState([]);
-  const ActiveIcon = styled(CheckCircleIcon)(({theme, active}) => ({
-    color: active ? theme.palette.success.main : theme.palette.action.disabled,
-  }));
+  // const ActiveIcon = styled(CheckCircleIcon)(({theme, active}) => ({
+  //   color: active ? theme.palette.success.main : theme.palette.action.disabled,
+  // }));
 
-  const InactiveIcon = styled(CancelIcon)(({theme, active}) => ({
-    color: active ? theme.palette.error.main : theme.palette.action.disabled,
-  }));
+  // const InactiveIcon = styled(CancelIcon)(({theme, active}) => ({
+  //   color: active ? theme.palette.error.main : theme.palette.action.disabled,
+  // }));
 
-  const PendingIcon = styled(HourglassEmptyIcon)(({theme, active}) => ({
-    color: active ? 'rgb(255, 215, 0)' : theme.palette.action.disabled,
-  }));
+  // const PendingIcon = styled(HourglassEmptyIcon)(({theme, active}) => ({
+  //   color: active ? 'rgb(255, 215, 0)' : theme.palette.action.disabled,
+  // }));
 
-  console.log(productData, 'productData321');
+  // console.log(productData, 'productData321');
+
+  // // Component to render the icon based on the status
+  // const StatusIcon = ({status}) => {
+  //   if (status === 'active') {
+  //     return <ActiveIcon sx={iconStyle} />;
+  //   } else if (status === 'inactive') {
+  //     return <InactiveIcon sx={iconStyle} />;
+  //   } else if (status === 'pending') {
+  //     return <PendingIcon sx={iconStyle} />;
+  //   } else {
+  //     return null; // In case of an unknown status
+  //   }
+  // };
 
   useEffect(() => {
     // Initialize itemsState with default values from productData
@@ -106,7 +149,7 @@ const TableItem = ({
   //     return updatedItemsState;
   //   });
   // };
-  const iconStyle = {margin: '0 8px'}; // Adjust margin as needed
+  // const iconStyle = {margin: '0 8px'}; // Adjust margin as needed
 
   const handleSwitchChange = (data) => {
     const id = data.id;
@@ -165,7 +208,7 @@ const TableItem = ({
 
   return productData.map((data) => (
     <TableRow key={data.id} className='item-hover' sx={{height: '2rem'}}>
-      <StyledTableCell align='left' sx={{width: 400}}>
+      <StyledTableCell align='left' sx={{width: 330}}>
         <Box
           sx={{
             display: 'flex',
@@ -215,21 +258,15 @@ const TableItem = ({
         </Tooltip>
       </StyledTableCell> */}
       <StyledTableCell align='left'>{data.displayStorage}</StyledTableCell>
-      {showUsers ? (
+      <StyledTableCell align='left'>
+        {data.allowedStorageInBytesDisplay}
+      </StyledTableCell>
+      {showUsers && (
         <StyledTableCell align='center'>
-          <ActiveIcon active={data.status === 'active'} sx={iconStyle} />
+          {/* <ActiveIcon active={data.status === 'active'} sx={iconStyle} />
           <PendingIcon active={data.status === 'pending'} sx={iconStyle} />
-          <InactiveIcon active={data.status === 'inactive'} sx={iconStyle} />
-        </StyledTableCell>
-      ) : (
-        <StyledTableCell align='left'>
-          <OrderActions
-            id={data.id}
-            // setTotal={setTotal}
-            // setPage={setPage}
-            // setList={setList}
-            // list={list}
-          />
+          <InactiveIcon active={data.status === 'inactive'} sx={iconStyle} /> */}
+          <StatusIcon status={data.status} />
         </StyledTableCell>
       )}
     </TableRow>

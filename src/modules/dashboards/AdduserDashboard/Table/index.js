@@ -24,25 +24,9 @@ const ProductTable = ({
   setToggleStatus,
   setLoading,
   saveicondisable,
+  onSort,
+  sortOrder,
 }) => {
-  const [sortedData, setSortedData] = useState(productData);
-  const [sortOrder, setSortOrder] = useState('asc');
-
-  useEffect(() => {
-    setSortedData(productData);
-  }, [productData]);
-
-  const handleSort = () => {
-    const sorted = [...sortedData].sort((a, b) => {
-      if (a.name.toLowerCase() < b.name.toLowerCase())
-        return sortOrder === 'asc' ? -1 : 1;
-      if (a.name.toLowerCase() > b.name.toLowerCase())
-        return sortOrder === 'asc' ? 1 : -1;
-      return 0;
-    });
-    setSortedData(sorted);
-    setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
-  };
   return (
     <AppTableContainer>
       <Table stickyHeader>
@@ -55,7 +39,7 @@ const ProductTable = ({
             setToggleStatus={setToggleStatus}
             productData={productData}
             setLoading={setLoading}
-            onSort={handleSort}
+            onSort={onSort}
             sortOrder={sortOrder}
           />
         </TableHead>
@@ -108,4 +92,6 @@ ProductTable.propTypes = {
   setToggleStatus: PropTypes.any,
   setLoading: PropTypes.any,
   saveicondisable: PropTypes.any,
+  onSort: PropTypes.any,
+  sortOrder: PropTypes.any,
 };

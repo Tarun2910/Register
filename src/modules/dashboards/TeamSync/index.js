@@ -92,35 +92,6 @@ const ProductListing = ({
     console.log(value, 'value');
   };
 
-  // useEffect(() => {
-  //   let config = {
-  //     method: 'get',
-  //     maxBodyLength: Infinity,
-  //     url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/dms_service_LM/api/dms_admin_service/getUserData`,
-
-  //     headers: {
-  //       Authorization: `Bearer ${localStorage.getItem('token')}`,
-  //       pageSize: '10',
-  //       pageNumber: page,
-  //       userName: sessionStorage.getItem('username'),
-  //       deptName: 'ALL_USER',
-  //     },
-  //   };
-  //   setLoading(true);
-  //   axios
-  //     .request(config)
-  //     .then((response) => {
-  //       setLoading(false);
-  //       console.log(response.data);
-  //       setList(response?.data?.data);
-  //       setTotal(response?.data?.count);
-  //     })
-  //     .catch((error) => {
-  //       setLoading(false);
-  //       console.log(error);
-  //     });
-  // }, [page]);
-
   console.log(list, 'list');
 
   const transformApiResponse = (data) => {
@@ -187,94 +158,6 @@ const ProductListing = ({
   const HandleNavigate = () => {
     Navigate('/add-department');
   };
-
-  // const handlesaveChanges = () => {
-  //   // Check if remaining license is less than the count of active users
-  //   const activeUsersCount = updatedItemsState.filter(
-  //     (item) => item.active === true,
-  //   ).length;
-
-  //   const inactiveUsersCount = updatedItemsState.filter(
-  //     (item) => item.active === false,
-  //   ).length;
-
-  //   const TotalLength = activeUsersCount - inactiveUsersCount;
-
-  //   console.log(TotalLength, license, 'activeuserCount');
-
-  //   if (license < TotalLength) {
-  //     handleClickOpen();
-  //   }
-  //   let config = {
-  //     method: 'post',
-  //     maxBodyLength: Infinity,
-  //     url: '/tenants/users/status',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //       Authorization: `Bearer ${localStorage.getItem('token')}`,
-  //     },
-  //     data: updatedItemsState,
-  //   };
-
-  //   axios
-  //     .request(config)
-  //     .then((response) => {
-  //       console.log(JSON.stringify(response.data));
-  //       // const RemainingUsers = response.headers['usersRemaining'];
-  //       setLicense(response?.data?.usersRemaining);
-  //       setList(response?.data?.allUsers?.content);
-  //       setTotal(response?.data?.allUsers?.totalElements);
-  //       setItemsState([]);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // };
-
-  // const updateUsersPermissions = async () => {
-  //   setLoading(true);
-  //   try {
-  //     const response = await axios.post(
-  //       `${window.__ENV__.REACT_APP_MIDDLEWARE}/dms_service_LM/api/dms_admin_service/setUserData`,
-  //       list,
-  //       {
-  //         headers: {
-  //           Authorization: 'Bearer ' + localStorage.getItem('token'),
-  //           username: sessionStorage.getItem('username'),
-  //           deptName: sessionStorage.getItem('username'),
-  //           pageNumber: '0',
-  //           pageSize: '10',
-  //         },
-  //       },
-  //     );
-  //     console.log(response);
-
-  //     // if (searchValue) {
-  //     //   let regex = /^([^\(]+)\s+\(([^)]+)\)$/;
-  //     //   // Executing the regular expression on the input string
-  //     //   let match = searchValue.match(regex);
-
-  //     //   let name = match[1].trim();
-  //     //   let role = match[2].trim();
-
-  //     //   let updatedUser = response.data.data.find(
-  //     //     (user) =>
-  //     //       user?.displayRoleName === role &&
-  //     //       user?.deptDisplayUsername === name,
-  //     //   );
-  //     //   setList([updatedUser]);
-  //     // } else {
-  //     //   setUsersData(response.data.data);
-  //     // }
-
-  //     toast.success('Users Permissions Updated Successfully');
-  //   } catch (error) {
-  //     console.log(error);
-  //     toast.error(error?.response?.data?.error);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
 
   const updateUsersPermissions = async () => {
     setLoading(true);
@@ -407,102 +290,6 @@ const ProductListing = ({
         <Slide direction='right' in mountOnEnter unmountOnExit>
           <Grid item xs={12} lg={12}>
             <AppCard
-              // title={
-              //   <AppsHeader>
-              //     <Box
-              //       display='flex'
-              //       flexDirection='row'
-              //       alignItems='center'
-              //       width={1}
-              //       justifyContent='space-between'
-              //     >
-              //       {/* <AppSearchBar
-              //         iconPosition='right'
-              //         overlap={false}
-              //         onChange={(event) => searchData(event.target.value)}
-              //         placeholder={messages['common.searchHere']}
-              //       /> */}
-
-              //       <Box
-              //         display='flex'
-              //         flexDirection='row'
-              //         alignItems='center'
-              //         justifyContent='flex-end'
-              //       >
-              //         {/* <Button
-              //           sx={{marginRight: '10px'}}
-              //           color='primary'
-              //           variant='contained'
-              //           size='small'
-              //           onClick={handleopenDomain}
-              //         >
-              //           Add domain
-              //         </Button> */}
-
-              //         {/* {showUsers && (
-              //           <FormControl
-              //             variant='outlined'
-              //             sx={{
-              //               minWidth: 100,
-              //               marginRight: '8px',
-              //               fontSize: '0.875rem',
-              //             }} // Adjusted minWidth and marginRight
-              //             disabled={!showUsers}
-              //           >
-              //             <InputLabel sx={{fontSize: '0.875rem'}}>
-              //               Status
-              //             </InputLabel>
-              //             <Select
-              //               sx={{
-              //                 height: '1.5rem',
-              //                 width: '100%',
-              //                 fontSize: '0.875rem',
-              //                 padding: '0.25rem',
-              //               }} // Adjusted height, fontSize, and padding
-              //               value={filterStatus}
-              //               onChange={(e) => setFilterStatus(e.target.value)}
-              //               label='Status'
-              //             >
-              //               <MenuItem value='ALL' sx={{fontSize: '0.875rem'}}>
-              //                 ALL
-              //               </MenuItem>
-              //               <MenuItem
-              //                 value='ACTIVE'
-              //                 sx={{fontSize: '0.875rem'}}
-              //               >
-              //                 ACTIVE
-              //               </MenuItem>
-              //               <MenuItem
-              //                 value='INACTIVE'
-              //                 sx={{fontSize: '0.875rem'}}
-              //               >
-              //                 INACTIVE
-              //               </MenuItem>
-              //               <MenuItem
-              //                 value='PENDING'
-              //                 sx={{fontSize: '0.875rem'}}
-              //               >
-              //                 PENDING
-              //               </MenuItem>
-              //             </Select>
-              //           </FormControl>
-              //         )} */}
-
-              //         {/* <Tooltip title='Update'>
-              //           <IconButton
-              //             sx={{marginRight: '10px'}}
-              //             color='primary'
-              //             size='small'
-              //             onClick={updateUsersPermissions}
-              //             // disabled={disable}
-              //           >
-              //             <UpdateIcon />
-              //           </IconButton>
-              //         </Tooltip> */}
-              //       </Box>
-              //     </Box>
-              //   </AppsHeader>
-              // }
               sx={{
                 minHeight: 'calc(100vh - 100px)',
                 height: '100px',
@@ -558,7 +345,9 @@ const ProductListing = ({
             rowsPerPage={10}
             // count={showUsers ? totalUserCount : totalDeptCount}
             count={
-              filterStatus === 'ALL'
+              list.length === 0
+                ? 0
+                : filterStatus === 'ALL'
                 ? totalUserCount
                 : filterStatus === 'ACTIVE '
                 ? activeUserCount
