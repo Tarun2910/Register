@@ -77,13 +77,14 @@ const RolesTable = ({
       <Table stickyHeader className='table'>
         <TableHead>
           <TableHeader>
-            <TableCell align='left'>Name</TableCell>
+            <TableCell align='left'>Sno.</TableCell>
+            <TableCell align='center'>Name</TableCell>
             <TableCell align='center'>Email Id</TableCell>
             <TableCell align='center'> </TableCell>
           </TableHeader>
         </TableHead>
         <TableBody>
-          {tableData?.map((data) => (
+          {tableData?.map((data, index) => (
             <TableRow
               key={data.id}
               className='item-hover'
@@ -102,7 +103,17 @@ const RolesTable = ({
             
                   </Box>
               </StyledTableCell> */}
-              <StyledTableCell align='left'>
+              <StyledTableCell align='center'>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                  }}
+                >
+                  {index + 1}
+                </Box>
+              </StyledTableCell>
+              <StyledTableCell align='right'>
                 <Box
                   sx={{
                     display: 'flex',
@@ -112,7 +123,7 @@ const RolesTable = ({
                   {data?.name}
                 </Box>
               </StyledTableCell>
-              <StyledTableCell align='left'>{data.email}</StyledTableCell>
+              <StyledTableCell align='center'>{data.email}</StyledTableCell>
               <StyledTableCell align='center'>
                 <Tooltip title='REMOVE'>
                   <IconButton
