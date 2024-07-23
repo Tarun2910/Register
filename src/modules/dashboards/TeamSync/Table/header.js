@@ -65,52 +65,55 @@ const TableHeading = ({
         </>
       </TableCell>
       <TableCell align='left'>Storage Used</TableCell>
-      <TableCell align='center'>
-        {/* <Box display='flex' alignItems='center'> */}
-        Status
-        <IconButton
-          size='small'
-          onClick={handleFilterClick}
-          sx={{
-            marginLeft: '5px',
-            padding: '0px',
-            color: 'primary.main',
-          }}
-        >
-          <FilterListIcon />
-        </IconButton>
-        <Menu
-          anchorEl={filterAnchorEl}
-          open={isFilterMenuOpen}
-          onClose={handleFilterClose}
-        >
-          <MenuItem
-            onClick={() => handleFilterSelect('ALL')}
-            selected={filterStatus === 'ALL'}
+      <TableCell align='left'>Storage Assigned</TableCell>
+      {showUsers && (
+        <TableCell align='center'>
+          {/* <Box display='flex' alignItems='center'> */}
+          Status
+          <IconButton
+            size='small'
+            onClick={handleFilterClick}
+            sx={{
+              marginLeft: '5px',
+              padding: '0px',
+              color: 'primary.main',
+            }}
           >
-            ALL
-          </MenuItem>
-          <MenuItem
-            onClick={() => handleFilterSelect('ACTIVE')}
-            selected={filterStatus === 'ACTIVE'}
+            <FilterListIcon />
+          </IconButton>
+          <Menu
+            anchorEl={filterAnchorEl}
+            open={isFilterMenuOpen}
+            onClose={handleFilterClose}
           >
-            ACTIVE
-          </MenuItem>
-          <MenuItem
-            onClick={() => handleFilterSelect('INACTIVE')}
-            selected={filterStatus === 'INACTIVE'}
-          >
-            INACTIVE
-          </MenuItem>
-          <MenuItem
-            onClick={() => handleFilterSelect('PENDING')}
-            selected={filterStatus === 'PENDING'}
-          >
-            PENDING
-          </MenuItem>
-        </Menu>
-        {/* </Box> */}
-      </TableCell>
+            <MenuItem
+              onClick={() => handleFilterSelect('ALL')}
+              selected={filterStatus === 'ALL'}
+            >
+              ALL
+            </MenuItem>
+            <MenuItem
+              onClick={() => handleFilterSelect('ACTIVE')}
+              selected={filterStatus === 'ACTIVE'}
+            >
+              ACTIVE
+            </MenuItem>
+            <MenuItem
+              onClick={() => handleFilterSelect('INACTIVE')}
+              selected={filterStatus === 'INACTIVE'}
+            >
+              INACTIVE
+            </MenuItem>
+            <MenuItem
+              onClick={() => handleFilterSelect('PENDING')}
+              selected={filterStatus === 'PENDING'}
+            >
+              PENDING
+            </MenuItem>
+          </Menu>
+          {/* </Box> */}
+        </TableCell>
+      )}
     </TableHeader>
   );
 };

@@ -34,6 +34,7 @@ export const getUsersData = createAsyncThunkWithTokenRefresh(
           Authorization: `Bearer ${token}`,
           Accept: 'application/json',
           'Content-Type': 'application/json',
+          sortBy: payload.sortOrder,
           searchText: payload.searchText,
           appName: payload.applicationName,
           pageNumber: payload.pageNumber,

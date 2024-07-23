@@ -71,6 +71,18 @@ const TableHeading = ({
     }
   };
 
+  const handleSort = () => {
+    let newSortOrder = '';
+    if (sortOrder === '') {
+      newSortOrder = 'asc';
+    } else if (sortOrder === 'asc') {
+      newSortOrder = 'desc';
+    } else {
+      newSortOrder = '';
+    }
+    onSort(newSortOrder);
+  };
+
   // Determine if all selected users are active
   const allActive = selectedUsers.every((user) => user.active);
   // Determine if all selected users are inactive
@@ -100,10 +112,15 @@ const TableHeading = ({
         </Box>
       </TableCell>
       <TableCell>
-        {/* {`Name ${String(license)} of ${String(handletiername())}`}*/} Name
-        {/* <TableSortLabel active direction={sortOrder} onClick={onSort}>
+        {/* {`Name ${String(license)} of ${String(handletiername())}`} Name */}
+
+        <TableSortLabel
+          active={sortOrder !== ''}
+          direction={sortOrder === '' ? 'asc' : sortOrder}
+          onClick={handleSort}
+        >
           Name
-        </TableSortLabel> */}
+        </TableSortLabel>
       </TableCell>
       <TableCell align='left'>User Email</TableCell>
       <TableCell align='left'>Manage Storage</TableCell>

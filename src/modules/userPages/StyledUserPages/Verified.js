@@ -52,6 +52,8 @@ const Verifed = () => {
   const navigate = useNavigate();
   const {token} = useParams();
 
+  console.log(token, 'token');
+
   console.log(token);
 
   const togglePasswordVisibility = () => {

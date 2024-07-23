@@ -384,12 +384,13 @@ const ProductListing = () => {
       },
       data: {
         roleName: roleName,
-        roleDisplayName: `${
-          rowdata?.roleName?.split('.')[0]
-        }.${roleDisplayname}`,
+        roleDisplayName: roleDisplayname,
         tenantId: rowdata?.tenantId,
         id: rowdata?.id,
-        deptName: rowdata?.department?.deptName,
+        department: {
+          deptName: rowdata?.department?.deptName,
+          id: rowdata?.department?.id,
+        },
       },
     };
 
