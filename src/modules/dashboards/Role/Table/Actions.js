@@ -258,7 +258,7 @@ const OrderActions = ({
             id='tags-outlined'
             options={user || []}
             getOptionDisabled={(option) =>
-              roles.some((item) => item.id === option.id)
+              roles?.some((item) => item?.id === option?.id)
             }
             getOptionLabel={(option) => `${option?.name} | ${option?.email}`}
             value={selecteduser}
