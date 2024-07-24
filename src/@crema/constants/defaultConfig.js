@@ -223,10 +223,10 @@ const defaultConfig = {
   headerType: HeaderType.FIXED,
   footer: false,
   locale: {
-    languageId: 'english',
+    languageId: 'en',
     locale: 'en',
     name: 'English',
-    icon: 'us',
+    icon: 'A',
   },
   rtlLocale: ['ar'],
 };

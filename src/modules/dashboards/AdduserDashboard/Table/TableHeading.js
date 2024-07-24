@@ -8,6 +8,7 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import {Box, IconButton, TableSortLabel, Tooltip} from '@mui/material';
 import axios from 'axios';
 import {toast} from 'react-toastify';
+import {AiOutlineCheckCircle, AiOutlineCloseCircle} from 'react-icons/ai';
 
 const TableHeading = ({
   license,
@@ -22,6 +23,7 @@ const TableHeading = ({
 }) => {
   console.log(selectedUsers, 'selectedUsers');
   const appName = 'TeamSync';
+  const iconSize = 20;
 
   const handleToggleActive = (activate) => {
     setLoading(true);
@@ -130,24 +132,24 @@ const TableHeading = ({
           <Tooltip title='Activate Selected' arrow>
             <IconButton
               size='small'
-              sx={{fontSize: '0.77rem', padding: '0px', color: 'green'}}
+              sx={{fontSize: iconSize, padding: '0px', color: 'green'}}
               onClick={() => handleToggleActive(true)}
               disabled={selectedUsers.length === 0}
             >
-              <CheckCircleOutlineIcon />
+              <AiOutlineCheckCircle />
             </IconButton>
           </Tooltip>
           <Tooltip
             title='Deactivate Selected'
             arrow
-            sx={{fontSize: '0.77rem', padding: '0px', color: 'red'}}
+            sx={{fontSize: iconSize, padding: '0px', color: 'red'}}
           >
             <IconButton
               size='small'
               onClick={() => handleToggleActive(false)}
               disabled={selectedUsers.length === 0}
             >
-              <CancelIcon />
+              <AiOutlineCloseCircle />
             </IconButton>
           </Tooltip>
         </Box>

@@ -58,7 +58,7 @@ const RolesTable = ({
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${localStorage.getItem('token')}`,
-          roleName: rowData.roleName,
+          roleName: rowData?.roleName,
         },
         data: newArr,
       };

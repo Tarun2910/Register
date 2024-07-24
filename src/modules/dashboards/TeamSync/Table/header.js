@@ -36,7 +36,7 @@ const TableHeading = ({
             component='span'
             onClick={() => !showUsers && setShowUsers(true)}
             sx={{
-              marginLeft: '10px',
+              // marginLeft: '10px',
               color: showUsers ? 'text.secondary' : 'primary.main',
               cursor: showUsers ? 'default' : 'pointer',
               fontWeight: showUsers ? 'normal' : 'bold',
@@ -45,8 +45,7 @@ const TableHeading = ({
             Users
           </Box>
           <Box component='span' sx={{marginLeft: '10px'}}>
-            {' '}
-            /{' '}
+            /
           </Box>
 
           {/* Users - Initially enabled and clickable */}

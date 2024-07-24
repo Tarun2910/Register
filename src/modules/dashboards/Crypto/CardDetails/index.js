@@ -125,12 +125,12 @@ const CardDetails = ({
           sx={{
             fontWeight: Fonts.SEMI_BOLD,
             textAlign: 'start',
-            fontSize: 16,
+            fontSize: 15,
             pb: 1,
             mb: 4,
           }}
         >
-          Active User
+          Active User ({activeUserCount}/{totalUsersAllowedInLicenseTier})
         </Typography>
         <Box
           sx={{

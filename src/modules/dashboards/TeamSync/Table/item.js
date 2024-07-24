@@ -20,6 +20,11 @@ import CustomizedSwitches from 'modules/dashboards/AdduserDashboard/Table/switch
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
 import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
+import {
+  AiOutlineCheckCircle,
+  AiOutlineCloseCircle,
+  AiOutlineClockCircle,
+} from 'react-icons/ai';
 
 const StyledTableCell = styled(TableCell)(() => ({
   fontSize: '0.77rem',
@@ -32,16 +37,21 @@ const StyledTableCell = styled(TableCell)(() => ({
   },
 }));
 
-const ActiveIcon = styled(CheckCircleIcon)(({active}) => ({
+const iconSize = 20;
+
+const ActiveIcon = styled(AiOutlineCheckCircle)(({active}) => ({
   color: active ? 'green' : 'gray',
+  fontSize: iconSize,
 }));
 
-const InactiveIcon = styled(CancelIcon)(({active}) => ({
+const InactiveIcon = styled(AiOutlineCloseCircle)(({active}) => ({
   color: active ? 'red' : 'gray',
+  fontSize: iconSize,
 }));
 
-const PendingIcon = styled(HourglassEmptyIcon)(({active}) => ({
-  color: active ? 'yellow' : 'gray',
+const PendingIcon = styled(AiOutlineClockCircle)(({active}) => ({
+  color: active ? '#FFA500' : 'gray',
+  fontSize: iconSize,
 }));
 
 const iconStyle = {margin: '0 8px'};
@@ -72,34 +82,6 @@ const TableItem = ({
   setList,
   showUsers,
 }) => {
-  // const [itemsState, setItemsState] = useState([]);
-  // const ActiveIcon = styled(CheckCircleIcon)(({theme, active}) => ({
-  //   color: active ? theme.palette.success.main : theme.palette.action.disabled,
-  // }));
-
-  // const InactiveIcon = styled(CancelIcon)(({theme, active}) => ({
-  //   color: active ? theme.palette.error.main : theme.palette.action.disabled,
-  // }));
-
-  // const PendingIcon = styled(HourglassEmptyIcon)(({theme, active}) => ({
-  //   color: active ? 'rgb(255, 215, 0)' : theme.palette.action.disabled,
-  // }));
-
-  // console.log(productData, 'productData321');
-
-  // // Component to render the icon based on the status
-  // const StatusIcon = ({status}) => {
-  //   if (status === 'active') {
-  //     return <ActiveIcon sx={iconStyle} />;
-  //   } else if (status === 'inactive') {
-  //     return <InactiveIcon sx={iconStyle} />;
-  //   } else if (status === 'pending') {
-  //     return <PendingIcon sx={iconStyle} />;
-  //   } else {
-  //     return null; // In case of an unknown status
-  //   }
-  // };
-
   useEffect(() => {
     // Initialize itemsState with default values from productData
     const initialItemsState = productData.map((data) => ({
@@ -129,27 +111,6 @@ const TableItem = ({
       onButtonDisable(true);
     }
   }, [itemsState, onItemsStateUpdate]);
-
-  // const handleSwitchChange = (data) => {
-  //   const id = data.id;
-  //   const itemIndex = itemsState.findIndex((item) => item.id === id);
-
-  //   setItemsState((prevItemsState) => {
-  //     const updatedItemsState = [...prevItemsState];
-
-  //     if (itemIndex !== -1) {
-  //       // If the item is already in the state, update only the specific item
-  //       updatedItemsState[itemIndex].active =
-  //         !updatedItemsState[itemIndex].active;
-  //     } else {
-  //       // If the item is not in the state, add it to the state
-  //       updatedItemsState.push({id, active: !data.active});
-  //     }
-
-  //     return updatedItemsState;
-  //   });
-  // };
-  // const iconStyle = {margin: '0 8px'}; // Adjust margin as needed
 
   const handleSwitchChange = (data) => {
     const id = data.id;
@@ -219,44 +180,7 @@ const TableItem = ({
         </Box>
       </StyledTableCell>
       {/* <StyledTableCell align='left'>{data.deptDisplayUsername}</StyledTableCell> */}
-      {/* <StyledTableCell align='left'>
-        {' '}
-        <Tooltip
-          title={
-            disable == 'TRIAL' && `In free Tier You Can't Change the Storage` 
-          }
-        >
-          <FormControl variant='outlined' style={{minWidth: 120}} size='small'>
-            <InputLabel>STORAGE</InputLabel>
-            <Select
-              label='STORAGE'
-              value={data?.allowedStorageInBytesDisplay}
-              disabled={disable == 'TRIAL'}
-              onChange={(event) =>
-                handleChange(
-                  data.id,
-                  'allowedStorageInBytesDisplay',
-                  event.target.value,
-                )
-              }
-            >
-              <MenuItem value='' disabled>
-                Select Storage
-              </MenuItem>
-              <MenuItem value='200.00 MB'>200 MB</MenuItem>
-              <MenuItem value='400.00 MB'>400 MB</MenuItem>
-              <MenuItem value='600.00 MB'>600 MB</MenuItem>
-              <MenuItem value='800.00 MB'>800 MB</MenuItem>
-              <MenuItem value='1.00 GB'>1 GB</MenuItem>
-              <MenuItem value='1.20 GB'>1.2 GB</MenuItem>
-              <MenuItem value='1.40 GB'>1.4 GB</MenuItem>
-              <MenuItem value='1.60 GB'>1.6 GB</MenuItem>
-              <MenuItem value='1.80 GB'>1.8 GB</MenuItem>
-              <MenuItem value='2.00 GB'>2 GB</MenuItem>
-            </Select>
-          </FormControl>
-        </Tooltip>
-      </StyledTableCell> */}
+
       <StyledTableCell align='left'>{data.displayStorage}</StyledTableCell>
       <StyledTableCell align='left'>
         {data.allowedStorageInBytesDisplay}

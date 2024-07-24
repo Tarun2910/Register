@@ -45,6 +45,20 @@ import {RoutePermittedRole} from '@crema/constants/AppEnums';
 import {TbFileInvoice} from 'react-icons/tb';
 import {SiCivicrm} from 'react-icons/si';
 
+//
+import {FaUser} from 'react-icons/fa';
+import {FaUserTag} from 'react-icons/fa';
+import {MdBusiness} from 'react-icons/md';
+import {FaFolderOpen} from 'react-icons/fa';
+
+//
+import {AiOutlineFolderOpen} from 'react-icons/ai';
+import {MdOutlineBusiness} from 'react-icons/md';
+import {HiOutlineIdentification} from 'react-icons/hi';
+import {FaRegUser} from 'react-icons/fa';
+
+const iconSize = 20;
+
 const routesConfig = [
   // {
   //   id: 'app',
@@ -67,7 +81,7 @@ const routesConfig = [
     title: 'Academy',
     messageId: 'sidebar.app.teamsync',
     type: 'item',
-    icon: <IoFolderOpenOutline />,
+    icon: <AiOutlineFolderOpen size={iconSize} />,
     url: '/teamSync',
   },
   {
@@ -75,7 +89,7 @@ const routesConfig = [
     title: 'Academy',
     messageId: 'sidebar.app.department',
     type: 'item',
-    icon: <MdOutlineLocalFireDepartment />,
+    icon: <MdOutlineBusiness size={iconSize} />,
     url: '/department',
   },
   {
@@ -83,7 +97,7 @@ const routesConfig = [
     title: 'Academy',
     messageId: 'sidebar.app.roles',
     type: 'item',
-    icon: <BsPersonLinesFill />,
+    icon: <HiOutlineIdentification size={iconSize} />,
     url: '/roles',
   },
   {
@@ -91,7 +105,7 @@ const routesConfig = [
     title: 'Academy',
     messageId: 'sidebar.app.dashboard.academy',
     type: 'item',
-    icon: <MdOutlineSpaceDashboard />,
+    icon: <FaRegUser size={iconSize} />,
     url: '/user',
   },
 

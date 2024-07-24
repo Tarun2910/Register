@@ -31,6 +31,8 @@ const CustomizedProgressBars = ({
           width: '100%',
           borderRadius: 5, // Border radius for the combined bar
           overflow: 'hidden', // Hide overflow to maintain border radius
+          boxShadow:
+            ' rgba(0, 0, 0, 0.4) 0px -2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 5px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset',
         }}
       >
         {totalUserCount > 0 && (
@@ -83,11 +85,12 @@ const CustomizedProgressBars = ({
           </>
         )}
       </Box>
-      <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
+      {/*rgba(0, 0, 0, 0.4) 0px -2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 5px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset */}
+      {/* <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
         <Typography variant='body2' color='text.secondary'>
           Total: {activeUserCount}/{totalUsersAllowedInLicenseTier}
         </Typography>
-      </Box>
+      </Box> */}
     </Stack>
   );
 };

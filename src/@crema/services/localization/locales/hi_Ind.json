@@ -16,5 +16,6 @@
   "common.username": "उपयोगकर्ता नाम",
   "common.password": "पासवर्ड",
   "common.login": "लॉग इन करें",
-  "validation.usernameRequired": "कृपया उपयोगकर्ता नाम दर्ज करें!"
+  "validation.usernameRequired": "कृपया उपयोगकर्ता नाम दर्ज करें!",
+  "dashboard.crypto.cardDetails": "स्टोरेज डिटेल्स"
 }
