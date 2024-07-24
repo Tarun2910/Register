@@ -40,7 +40,7 @@ const RolesTable = ({
   setTriggerApi,
   rowData,
 }) => {
-  console.log(rowData);
+  console.log(rowData, 'rowData');
 
   const handleRemoveUser = (event) => {
     let newArr = [];

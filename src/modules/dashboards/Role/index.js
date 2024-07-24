@@ -256,6 +256,8 @@ const ProductListing = () => {
     Navigate('/upgrade');
   };
 
+  console.log(rowdata, 'rowData');
+
   const debouncedSearch = debounce((searchQuery) => {
     setSearchData(searchQuery);
     setPage(0); // Reset page when performing a new search
@@ -675,6 +677,7 @@ const ProductListing = () => {
               className={classes.closeButton}
               deptName={rowdata?.department?.deptName}
               roleName={rowdata?.roleName}
+              rowdata={rowdata}
               setTriggerApi={setTriggerApi}
               setOpenRoles={setOpenRoles}
               roles={rowdata?.user}

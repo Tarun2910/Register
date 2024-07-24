@@ -160,6 +160,7 @@ const TableItem = ({
             id={data.id}
             data={data}
             displayname={data.department.deptDisplayName}
+            rl={data.roleName}
             deptName={data.department.deptName}
             setTriggerApi={setTriggerApi}
             updateRole={updateRole}
