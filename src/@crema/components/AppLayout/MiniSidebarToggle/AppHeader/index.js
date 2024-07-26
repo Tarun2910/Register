@@ -54,7 +54,7 @@ const AppHeader = (props) => {
       <Toolbar
         sx={{
           boxSizing: 'border-box',
-          minHeight: {xs: 56, sm: 70},
+          minHeight: {xs: 50, sm: 50},
           paddingLeft: {xs: 5},
           paddingRight: {xs: 5, md: 7.5},
         }}

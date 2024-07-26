@@ -11,6 +11,21 @@ const AppTableContainer = ({children, sxStyle}) => {
         },
         ...sxStyle,
       }}
+      // sx={{
+      //   maxHeight: 600, // Adjust the height as needed
+      //   overflowY: 'hidden',
+      //   display: 'block',
+      //   '& th': {
+      //     position: 'sticky',
+      //     top: 0,
+      //     zIndex: 1,
+      //     backgroundColor: '#fff', // Ensure header has a background
+      //   },
+      //   '& tr > th, & tr > td': {
+      //     whiteSpace: 'nowrap',
+      //   },
+      //   ...sxStyle,
+      // }}
     >
       {children}
     </TableContainer>

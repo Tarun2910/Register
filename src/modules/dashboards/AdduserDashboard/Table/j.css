@@ -1,0 +1,12 @@
+.tableContainer {
+  max-height: 600px; /* Adjust this value as needed */
+  overflow-y: auto;
+  display: block;
+}
+
+.stickyHeader th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background-color: #fff; /* Ensure the header has a background color */
+}

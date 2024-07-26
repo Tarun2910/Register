@@ -29,6 +29,14 @@ const StyledTableCell = styled(TableCell)(() => ({
   },
 }));
 
+const StyledTableRow = styled(TableRow)(({theme}) => ({
+  '&:hover': {
+    background: '#e0ecf0',
+    borderRadius: '15px',
+    color: '#354c64 !important', // Add your desired hover color here
+  },
+}));
+
 const TableItem = ({
   productData,
   onItemsStateUpdate,
@@ -105,7 +113,7 @@ const TableItem = ({
   };
 
   return productData.map((data) => (
-    <TableRow
+    <StyledTableRow
       key={data.id}
       className='item-hover'
       onDoubleClick={() => handleRowDoubleClick(data)}
@@ -186,7 +194,7 @@ const TableItem = ({
           setRowData={setRowData}
         />
       </TableCell> */}
-    </TableRow>
+    </StyledTableRow>
   ));
 };
 

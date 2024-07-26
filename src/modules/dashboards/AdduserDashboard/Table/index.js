@@ -7,6 +7,7 @@ import TableHeading from './TableHeading';
 import TableItem from './TableItem';
 import AppTableContainer from '@crema/components/AppTableContainer';
 import AppLoader from '@crema/components/AppLoader';
+import './j.css';
 
 const ProductTable = ({
   productData,
@@ -28,9 +29,9 @@ const ProductTable = ({
   sortOrder,
 }) => {
   return (
-    <AppTableContainer>
-      <Table stickyHeader>
-        <TableHead>
+    <AppTableContainer className='tableContainer'>
+      <Table>
+        <TableHead className='stickyHeader'>
           <TableHeading
             license={license}
             handletiername={handletiername}
@@ -47,10 +48,8 @@ const ProductTable = ({
           {loading ? (
             <AppLoader />
           ) : (
-            // productData.map((data) => (
             <TableItem
               productData={productData}
-              // key={data.id}
               onItemsStateUpdate={onItemsStateUpdate}
               onButtonDisable={onButtonDisable}
               setTableData={setTableData}
@@ -62,7 +61,6 @@ const ProductTable = ({
               setToggleStatus={setToggleStatus}
               saveicondisable={saveicondisable}
             />
-            // ))
           )}
         </TableBody>
       </Table>

@@ -112,6 +112,7 @@ const ProductListing = () => {
   const [rowdata, setRowData] = useState('');
   const [rolesList, setRolesList] = useState([]);
   const [openRoles, setOpenRoles] = useState(false);
+  const [tableRolename, setTableRoleName] = useState('');
 
   const classes = useStyles();
   const handleClickOpen = () => {
@@ -153,6 +154,8 @@ const ProductListing = () => {
     setPage(value);
     console.log(value, 'value');
   };
+
+  console.log(rolesData, 'rolesData');
 
   useEffect(() => {
     if (rolesDataIsSuccess) {
@@ -454,6 +457,8 @@ const ProductListing = () => {
                   rolesList={rolesList}
                   setRolesList={setRolesList}
                   setOpenRoles={setOpenRoles}
+                  setTableRoleName={setTableRoleName}
+                  tableRolename={tableRolename}
                 />
               </AppsContent>
               <Hidden smUp>
@@ -681,6 +686,8 @@ const ProductListing = () => {
               setTriggerApi={setTriggerApi}
               setOpenRoles={setOpenRoles}
               roles={rowdata?.user}
+              setTableRoleName={setTableRoleName}
+              tableRolename={tableRolename}
             />
             <Tooltip title='CLOSE'>
               <IconButton
@@ -702,6 +709,8 @@ const ProductListing = () => {
               handleupdate={handleupdate}
               setTriggerApi={setTriggerApi}
               rowData={rowdata}
+              setTableRoleName={setTableRoleName}
+              tableRolename={tableRolename}
             />
           </Paper>
         </DialogContent>

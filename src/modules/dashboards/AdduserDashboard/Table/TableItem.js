@@ -26,6 +26,14 @@ const StyledTableCell = styled(TableCell)(() => ({
     paddingRight: 10,
   },
 }));
+const StyledTableRow = styled(TableRow)(({theme, selected}) => ({
+  backgroundColor: selected ? '#d3d3d3 solid 1px !important' : 'inherit',
+  '&:hover': {
+    background: '#e0ecf0',
+    borderRadius: '15px',
+    color: '#354c64 !important', // Add your desired hover color here
+  },
+}));
 
 const TableItem = ({
   productData,
@@ -186,7 +194,11 @@ const TableItem = ({
   };
 
   return productData.map((data) => (
-    <TableRow key={data.id} className='item-hover'>
+    <StyledTableRow
+      key={data.id}
+      className='item-hover'
+      selected={selectedUsers.some((user) => user.id === data.id)}
+    >
       <StyledTableCell>
         {/* <Checkbox
           size='small'
@@ -286,7 +298,7 @@ const TableItem = ({
       {/* <TableCell align='right'>
         <OrderActions id={data.id} />
       </TableCell> */}
-    </TableRow>
+    </StyledTableRow>
   ));
 };
 

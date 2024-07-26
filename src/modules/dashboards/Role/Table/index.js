@@ -25,6 +25,8 @@ const ProductTable = ({
   rolesList,
   setRolesList,
   setOpenRoles,
+  setTableRoleName,
+  tableRolename,
 }) => {
   return (
     <AppTableContainer>
@@ -54,6 +56,8 @@ const ProductTable = ({
               rolesList={rolesList}
               setRolesList={setRolesList}
               setOpenRoles={setOpenRoles}
+              setTableRoleName={setTableRoleName}
+              tableRolename={tableRolename}
             />
             // ))
           )}
@@ -86,4 +90,6 @@ ProductTable.propTypes = {
   rolesList: PropTypes.any,
   setRolesList: PropTypes.any,
   setOpenRoles: PropTypes.any,
+  setTableRoleName: PropTypes.any,
+  tableRolename: PropTypes.any,
 };

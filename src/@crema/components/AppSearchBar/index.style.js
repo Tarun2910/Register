@@ -42,7 +42,7 @@ export const SearchInputBase = styled(InputBase)(({theme}) => ({
     padding: theme.spacing(2, 2, 2, 0),
     paddingLeft: `calc(1em + ${theme.spacing(6)})`,
     transition: theme.transitions.create('width'),
-    width: 200,
+    width: 300,
     height: 40,
     boxSizing: 'border-box',
     [theme.breakpoints.down('md')]: {
@@ -50,7 +50,7 @@ export const SearchInputBase = styled(InputBase)(({theme}) => ({
     },
     '&:focus': {
       backgroundColor: lighten(theme.palette.background.default, 0.25),
-      width: 240,
+      width: 400,
       [theme.breakpoints.down('md')]: {
         width: 162,
       },

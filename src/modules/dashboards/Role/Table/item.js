@@ -22,6 +22,14 @@ const StyledTableCell = styled(TableCell)(() => ({
   },
 }));
 
+const StyledTableRow = styled(TableRow)(({theme}) => ({
+  '&:hover': {
+    background: '#e0ecf0',
+    borderRadius: '15px',
+    color: '#354c64 !important', // Add your desired hover color here
+  },
+}));
+
 const TableItem = ({
   productData,
   onItemsStateUpdate,
@@ -37,6 +45,8 @@ const TableItem = ({
   rolesList,
   setRolesList,
   setOpenRoles,
+  setTableRoleName,
+  tableRolename,
 }) => {
   // const [itemsState, setItemsState] = useState([]);
 
@@ -103,74 +113,81 @@ const TableItem = ({
     setRowData(data);
   };
 
-  return productData.map((data) => (
-    <TableRow
-      key={data.id}
-      className='item-hover'
-      onDoubleClick={() => handleRowDoubleClick(data)}
-    >
-      <StyledTableCell align='left'>
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            cursor: 'pointer',
-            color: 'primary.main',
-          }}
-        >
-          <Checkbox size='small' onChange={handleCheckboxChange} />
-        </Box>
-      </StyledTableCell>
+  console.log(rolesList, 'test');
 
-      <StyledTableCell align='left'>
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-          }}
-        >
-          {data.roleName}
-        </Box>
-      </StyledTableCell>
-      <StyledTableCell align='left'>
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-          }}
-        >
-          {data?.department?.deptName}
-        </Box>
-      </StyledTableCell>
-      <StyledTableCell align='left'>{data.roleDisplayName}</StyledTableCell>
-      {/* <StyledTableCell align='center'>{data.displayRoleName}</StyledTableCell> */}
-      <StyledTableCell align='center'>
-        {data?.user?.length ? (
-          <Button
-            variant='contained'
-            size='small'
-            onClick={() => {
-              setRowData(data);
-              setOpenRoles(true);
-              setRolesList(data?.user);
+  return productData.map((data) => (
+    <>
+      <StyledTableRow
+        key={data.id}
+        className='item-hover'
+        onDoubleClick={() => handleRowDoubleClick(data)}
+      >
+        <StyledTableCell align='left'>
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              cursor: 'pointer',
+              color: 'primary.main',
             }}
-          >{`${data?.user?.length} users`}</Button>
-        ) : (
-          <OrderActions
-            id={data.id}
-            data={data}
-            displayname={data.department.deptDisplayName}
-            rl={data?.roleName}
-            deptName={data.department.deptName}
-            setTriggerApi={setTriggerApi}
-            updateRole={updateRole}
-            setRoleName={setRoleName}
-            setRoleDisplayName={setRoleDisplayName}
-            setRowData={setRowData}
-          />
-        )}
-      </StyledTableCell>
-    </TableRow>
+          >
+            <Checkbox size='small' onChange={handleCheckboxChange} />
+          </Box>
+        </StyledTableCell>
+
+        <StyledTableCell align='left'>
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+            }}
+          >
+            {data.roleName}
+          </Box>
+        </StyledTableCell>
+        <StyledTableCell align='left'>
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+            }}
+          >
+            {data?.department?.deptDisplayName}
+          </Box>
+        </StyledTableCell>
+        <StyledTableCell align='left'>{data.roleDisplayName}</StyledTableCell>
+        {/* <StyledTableCell align='center'>{data.displayRoleName}</StyledTableCell> */}
+        <StyledTableCell align='center'>
+          {data?.user?.length ? (
+            <Button
+              variant='contained'
+              size='small'
+              onClick={() => {
+                setRowData(data);
+                setOpenRoles(true);
+                setRolesList(data);
+                setTableRoleName(data?.roleName);
+              }}
+            >{`${data?.user?.length} users`}</Button>
+          ) : (
+            <OrderActions
+              id={data.id}
+              data={data}
+              displayname={data.department.deptDisplayName}
+              tableRolename={data?.roleName}
+              deptName={data.department.deptName}
+              setTriggerApi={setTriggerApi}
+              updateRole={updateRole}
+              setRoleName={setRoleName}
+              setRoleDisplayName={setRoleDisplayName}
+              setRowData={setRowData}
+              setOpenRoles={setOpenRoles}
+              setRolesList={setRolesList}
+            />
+          )}
+        </StyledTableCell>
+      </StyledTableRow>
+    </>
   ));
 };
 
@@ -185,4 +202,7 @@ TableItem.propTypes = {
   setRoleDisplayName: PropTypes.any,
   updateRole: PropTypes.any,
   setRowData: PropTypes.any,
+  setTableRoleName: PropTypes.any,
+  tableRolename: PropTypes.any,
+  setRolesList: PropTypes.any,
 };

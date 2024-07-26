@@ -16,7 +16,14 @@ const AppContentViewWrapper = ({children, ...rest}) => {
         width: {xl: '100%'},
 
         backgroundImage:
-          'linear-gradient(118deg, rgb(88 86 86 / 19%), rgb(73 75 77 / 43%)), url(/assets/images/sidebar/thumb/17973908.jpg)',
+          window.location.pathname.includes('/signin') ||
+          window.location.pathname.includes('/userlogin') ||
+          window.location.pathname.includes('/signup') ||
+          window.location.pathname.includes('/check-mail') ||
+          window.location.pathname.includes('/set-password/:token') ||
+          window.location.pathname.includes('/token/:token')
+            ? 'linear-gradient(118deg, rgb(88 86 86 / 19%), rgb(73 75 77 / 43%)), url(/assets/images/sidebar/thumb/17973908.jpg)'
+            : '',
         backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat',
         backgroundPosition: 'center',

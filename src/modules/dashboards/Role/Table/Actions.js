@@ -40,9 +40,10 @@ const OrderActions = ({
   setOpenRoles,
   roles,
   rowdata,
-  rl,
+  tableRolename,
+  setRolesList,
 }) => {
-  console.log(rl, 'hhh');
+  console.log(tableRolename, 'hhh');
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [opendialog, setOpenDialog] = React.useState(false);
@@ -71,11 +72,12 @@ const OrderActions = ({
       .then((response) => {
         console.log(response, 'response');
         setUser(response?.data?.content);
+        // setRowData(response?.data?.content);
       })
       .catch((error) => {
         toast.error(error.message);
       });
-  }, []);
+  }, [setRolesList]);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -141,8 +143,11 @@ const OrderActions = ({
 
   const handleAssignUser = () => {
     let users = [];
+    let updates = [];
     roles?.map((item) => users.push(item.email));
     selecteduser.map((item) => users.push(item.email));
+    roles?.map((item) => updates.push(item));
+    selecteduser.map((item) => updates.push(item));
     console.log(users);
     let config = {
       method: 'put',
@@ -151,7 +156,7 @@ const OrderActions = ({
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${localStorage.getItem('token')}`,
-        roleName: rl,
+        roleName: tableRolename,
       },
       data: users,
     };
@@ -161,8 +166,9 @@ const OrderActions = ({
       .then((response) => {
         handleCloseDialog();
         setTriggerApi((prevState) => !prevState);
+        setRolesList(updates);
         handleClose();
-        // setOpenRoles(false);
+        setOpenRoles(false);
       })
       .catch((error) => {
         toast.error(error.message);
@@ -310,5 +316,6 @@ OrderActions.propTypes = {
   setOpenRoles: PropTypes.any,
   roles: PropTypes.any,
   rowdata: PropTypes.any,
-  rl: PropTypes.any,
+  tableRolename: PropTypes.any,
+  setRolesList: PropTypes.any,
 };

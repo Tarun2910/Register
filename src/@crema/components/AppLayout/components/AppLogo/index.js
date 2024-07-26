@@ -14,7 +14,7 @@ const AppLogo = () => {
   return (
     <Box
       sx={{
-        height: {xs: 56, sm: 70},
+        height: {xs: 56, sm: 60},
         padding: 2.5,
         display: 'flex',
         flexDirection: 'row',
