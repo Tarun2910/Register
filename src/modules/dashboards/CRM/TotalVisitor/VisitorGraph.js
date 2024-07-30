@@ -27,7 +27,7 @@ const VisitorGraph = ({totalVisitors, totalUserCount}) => {
           textAnchor='middle'
           dominantBaseline='middle'
         >
-          {messages['dashboard.crm.totalVisitor']}
+          {messages['UserCount']}
         </text>
         <Pie
           data={totalVisitors}
