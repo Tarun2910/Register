@@ -23,29 +23,25 @@ const initialState = {
 export const getUsersData = createAsyncThunkWithTokenRefresh(
   'users/tableData',
   async (token, currentUser, payload) => {
-    try {
-      console.log(payload);
-      let url =
-        payload.searchText == ''
-          ? `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/users`
-          : `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/users?keyword=${payload.searchText}&pageNum=${payload.pageNumber}`;
-      const response = await axios.get(url, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          sortBy: payload.sortOrder,
-          searchText: payload.searchText,
-          appName: payload.applicationName,
-          pageNumber: payload.pageNumber,
-        },
-        maxBodyLength: Infinity,
-      });
-      console.log(response.data);
-      return response;
-    } catch (e) {
-      console.log(e);
-    }
+    console.log(payload);
+    let url =
+      payload.searchText == ''
+        ? `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/users`
+        : `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/users?keyword=${payload.searchText}&pageNum=${payload.pageNumber}`;
+    const response = await axios.get(url, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        sortBy: payload.sortOrder,
+        searchText: payload.searchText,
+        appName: payload.applicationName,
+        pageNumber: payload.pageNumber,
+      },
+      maxBodyLength: Infinity,
+    });
+    console.log(response.data);
+    return response;
   },
 );
 

@@ -18,25 +18,21 @@ export const getDepartmentsData = createAsyncThunkWithTokenRefresh(
   'departments/data',
   async (token, currentUser, payload) => {
     console.log(payload);
-    try {
-      const response = await axios.get(
-        `${window.__ENV__.REACT_APP_MIDDLEWARE}/dms_service_LM/api/dms_admin_service/getDeptData?search=${payload.searchText}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-            username: localStorage.getItem('username'),
-            pageSize: payload.pageSize,
-            pageNumber: payload.pageNumber,
-          },
-          maxBodyLength: Infinity,
+    const response = await axios.get(
+      `${window.__ENV__.REACT_APP_MIDDLEWARE}/dms_service_LM/api/dms_admin_service/getDeptData?search=${payload.searchText}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          username: localStorage.getItem('username'),
+          pageSize: payload.pageSize,
+          pageNumber: payload.pageNumber,
         },
-      );
-      return response;
-    } catch (e) {
-      console.log(e);
-    }
+        maxBodyLength: Infinity,
+      },
+    );
+    return response;
   },
 );
 
