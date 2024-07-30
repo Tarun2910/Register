@@ -3,7 +3,7 @@ import VisitorGraph from './VisitorGraph';
 import List from '@mui/material/List';
 import PropTypes from 'prop-types';
 import Categories from './Categories';
-import AppCard from '@crema/components/AppCard';
+import AppCard from '@crema/components/AppCardOne';
 import {useIntl} from 'react-intl';
 
 import {styled} from '@mui/material/styles';
@@ -57,18 +57,22 @@ const EarningGraphWrapper = styled('div')(({theme}) => {
   };
 });
 
-export const TotalVisitor = ({totalVisitors}) => {
+export const TotalVisitor = ({totalVisitors, totalUserCount}) => {
   const {messages} = useIntl();
 
   return (
     <AppCard
-      sxStyle={{height: 1}}
-      title={messages['dashboard.crm.totalVisitor']}
-      action={messages['common.viewAll']}
+      // sxStyle={{height: 1}}
+      title={messages['UserCount']}
+      // action={messages['common.viewAll']}
+      contentStyle={{height: '21rem'}}
     >
       <EarningGraphWrapper>
         <div className='earning-item earning-graph-item'>
-          <VisitorGraph totalVisitors={totalVisitors} />
+          <VisitorGraph
+            totalVisitors={totalVisitors}
+            totalUserCount={totalUserCount}
+          />
         </div>
         <div className='earning-item'>
           <List>
@@ -93,4 +97,5 @@ TotalVisitor.defaultProps = {
 
 TotalVisitor.propTypes = {
   totalVisitors: PropTypes.array,
+  totalUserCount: PropTypes.any,
 };

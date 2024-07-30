@@ -12,6 +12,10 @@ import {Box, Button, Typography} from '@mui/material';
 import {useNavigate} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 import {getStorageData, resetStorageData} from 'redux/features/teamSyncSlice';
+import TopStorageUsed from '../Academy/LatestResults';
+import PieChartOrganisation from '../ECommerce/AgeOfAudience';
+// import ActiveUserChart from '../ECommerce/TopInquiries';
+import ActiveUserChart from '../CRM/TotalVisitor';
 
 const TeamSyncTab = () => {
   const {storageData, storageDataIsSuccess} = useSelector(
@@ -22,6 +26,8 @@ const TeamSyncTab = () => {
   const [list, setList] = useState([]);
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(0);
+  const [departmentStat, setDepartmentStat] = useState([]);
+  const [userStat, setUserStat] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -34,6 +40,79 @@ const TeamSyncTab = () => {
       setList(transformedData);
     }
   }, [storageDataIsSuccess]);
+
+  useEffect(() => {
+    let config = {
+      method: 'get',
+      maxBodyLength: Infinity,
+      url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/dms_service_LM/api/dms_admin_service/topConsumers`,
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        top: '5',
+        userName: sessionStorage.getItem('username'),
+        isDepartment: 'false',
+      },
+    };
+
+    axios
+      .request(config)
+      .then((response) => {
+        console.log(response.data);
+
+        const transformedData = response.data.content.map((item) => {
+          const percentage = (
+            (item.currentStorageInBytes / item.allowedStorageInBytes) *
+            100
+          ).toFixed(2);
+          return {
+            id: item.id,
+            chapter: item.userId.replace(/<>/g, '.'), // Assuming 'userId' is the chapter field
+            topic: item.deptDisplayUsername || 'No Department', // Fallback if deptName is null
+            percentage: isNaN(percentage) ? 0 : percentage, // Set to 0 if percentage is NaN
+          };
+        });
+        setUserStat(transformedData);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
+  useEffect(() => {
+    let config = {
+      method: 'get',
+      maxBodyLength: Infinity,
+      url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/dms_service_LM/api/dms_admin_service/topConsumers`,
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        top: '5',
+        userName: sessionStorage.getItem('username'),
+        isDepartment: true,
+      },
+    };
+
+    axios
+      .request(config)
+      .then((response) => {
+        console.log(response.data);
+        const transformedData = response.data.content.map((item) => {
+          const percentage = (
+            (item.currentStorageInBytes / item.allowedStorageInBytes) *
+            100
+          ).toFixed(2);
+          return {
+            id: item.id,
+            chapter: item.userId.replace(/<>/g, '.'), // Assuming 'userId' is the chapter field
+            topic: item.deptDisplayUsername || 'No Department', // Fallback if deptName is null
+            percentage: isNaN(percentage) ? 0 : percentage, // Set to 0 if percentage is NaN
+          };
+        });
+        setDepartmentStat(transformedData);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
 
   const handlegotoupgrade = () => {
     navigate('/upgrade');
@@ -66,7 +145,7 @@ const TeamSyncTab = () => {
         ),
         activeColor: '#F04F47',
         income: `${handleNaN(
-          (data.deptsAggregate.currentlyUsedStorage / 1024 / 1024).toFixed(2),
+          (data.deptsAggregate.totalAllocatedStorage / 1024 / 1024).toFixed(2),
         )} MB`,
       },
 
@@ -83,35 +162,80 @@ const TeamSyncTab = () => {
         ),
         activeColor: '#3D5AFE',
         income: `${handleNaN(
-          (data.usersAggregate.currentlyUsedStorage / 1024 / 1024).toFixed(2),
+          (data.usersAggregate.totalAllocatedStorage / 1024 / 1024).toFixed(2),
         )} MB`,
       },
+      // {
+      //   title: 'Organization',
+      //   value: handleNaN(
+      //     parseFloat(
+      //       (
+      //         (data.organizationStats.currentlyUsedStorage /
+      //           data.organizationStats.totalAllocatedStorage) *
+      //         100
+      //       ).toFixed(2),
+      //     ),
+      //   ),
+      //   activeColor: '#0BBFDB',
+      //   income: `${handleNaN(
+      //     (
+      //       data.organizationStats.currentlyUsedStorage /
+      //       1024 /
+      //       1024 /
+      //       1024
+      //     ).toFixed(2),
+      //   )} GB`,
+      // },
+    ];
+  };
+
+  const transformPieChartData = (data) => {
+    if (!data || !data.organizationStats) {
+      return [];
+    }
+
+    const totalAllocatedStorageGB = (
+      data.organizationStats.totalAllocatedStorage /
+      (1024 * 1024 * 1024)
+    ).toFixed(2);
+    const currentlyUsedStorageGB = (
+      data.organizationStats.currentlyUsedStorage /
+      (1024 * 1024 * 1024)
+    ).toFixed(2);
+    const remainingAllocatedStorageGB = (
+      totalAllocatedStorageGB - currentlyUsedStorageGB
+    ).toFixed(2);
+
+    console.log(
+      totalAllocatedStorageGB,
+      currentlyUsedStorageGB,
+      remainingAllocatedStorageGB,
+      'jj',
+    );
+
+    return [
       {
-        title: 'Organization',
-        value: handleNaN(
-          parseFloat(
-            (
-              (data.organizationStats.currentlyUsedStorage /
-                data.organizationStats.totalAllocatedStorage) *
-              100
-            ).toFixed(2),
-          ),
-        ),
-        activeColor: '#0BBFDB',
-        income: `${handleNaN(
-          (
-            data.organizationStats.currentlyUsedStorage /
-            1024 /
-            1024 /
-            1024
-          ).toFixed(2),
-        )} GB`,
+        id: 1,
+        title: 'Remaining Allocated Storage',
+        value: parseFloat(remainingAllocatedStorageGB), // Convert string to float to maintain consistency
+        color: '#0A8FDC',
+      },
+      {
+        id: 2,
+        title: 'Used Allocated Storage',
+        value: parseFloat(currentlyUsedStorageGB), // Convert string to float to maintain consistency
+        color: '#54B435',
       },
     ];
   };
 
   const cardDetailsData = useMemo(
     () => formatStorageData(storageData),
+    [storageData],
+  );
+
+  const pieChartData = useMemo(
+    () => transformPieChartData(storageData),
     [storageData],
   );
 
@@ -200,6 +324,53 @@ const TeamSyncTab = () => {
     ];
   };
 
+  const fakeData = [
+    {id: 1, chapter: 'Finance', topic: 'Technology', percentage: 25},
+    {
+      id: 12,
+      chapter: 'Information Tech',
+      topic: 'IT & Service',
+      percentage: 44,
+    },
+    {id: 9, chapter: 'Human Resource', topic: 'Ecology', percentage: 40},
+    {id: 8, chapter: 'Tech support', topic: 'Real Estate', percentage: 15},
+    {id: 16, chapter: 'Education', topic: 'Education', percentage: 76},
+  ];
+
+  // const totalVisitors = [
+  //   {name: 'Excited', value: 15, color: '#4de18c'},
+  //   {
+  //     name: 'High Willingness',
+  //     value: 20,
+  //     color: '#43d3ec',
+  //   },
+  //   {
+  //     name: 'Want To Know',
+  //     value: 20,
+  //     color: '#2b7ada',
+  //   },
+  //   {
+  //     name: 'Interested',
+  //     value: 15,
+  //     color: '#cce56f',
+  //   },
+  //   {
+  //     name: 'Low Willingness',
+  //     value: 20,
+  //     color: '#f16262',
+  //   },
+  //   {
+  //     name: 'Not Interested',
+  //     value: 10,
+  //     color: '#f1a856',
+  //   },
+  // ];
+
+  const totalVisitors = [
+    {name: 'Active Users', value: activeUserCount, color: '#4de18c'},
+    {name: 'Inactive Users', value: inactiveUserCount, color: '#f16262'},
+    {name: 'Pending Users', value: pendingUserCount, color: '#f1a856'},
+  ];
   return (
     <>
       {/* <Box
@@ -234,7 +405,7 @@ const TeamSyncTab = () => {
       ) : (
         <AppAnimate animation='transition.slideUpIn' delay={200}>
           <AppGridContainer>
-            <Grid item xs={12} md={12} lg={5}>
+            <Grid item xs={12} md={12} lg={4}>
               <CardDetails
                 cardDetails={memoizedCardDetails}
                 totalUserCount={memoizedTotalUserCount}
@@ -246,19 +417,25 @@ const TeamSyncTab = () => {
                 }
               />
             </Grid>
-            <Grid item xs={12} md={12} lg={7}>
-              <TeamsyncTable
-                storageData={list}
-                list={list}
-                setList={setList}
+            <Grid item xs={12} md={12} lg={5} sx={{pl: '16px !important'}}>
+              <PieChartOrganisation audienceData={pieChartData} />
+            </Grid>
+            <Grid item xs={12} md={12} lg={3} sx={{pl: '16px !important'}}>
+              <TopStorageUsed latestResults={departmentStat} user={false} />
+            </Grid>
+            <Grid item xs={12} md={12} lg={5} sx={{pt: '16px !important'}}>
+              <TopStorageUsed latestResults={userStat} user={true} />
+            </Grid>
+            <Grid
+              item
+              xs={12}
+              md={12}
+              lg={7}
+              sx={{pl: '16px !important', pt: '16px !important'}}
+            >
+              <ActiveUserChart
+                totalVisitors={totalVisitors}
                 totalUserCount={totalUserCount}
-                pendingUserCount={pendingUserCount}
-                activeUserCount={activeUserCount}
-                inactiveUserCount={inactiveUserCount}
-                totalUsersAllowedInLicenseTier={totalUsersAllowedInLicenseTier}
-                totalDeptCount={totalDeptCount}
-                setPage={setPage}
-                page={page}
               />
             </Grid>
           </AppGridContainer>
@@ -269,3 +446,19 @@ const TeamSyncTab = () => {
 };
 
 export default TeamSyncTab;
+
+{
+  /* <TeamsyncTable
+    storageData={list}
+    list={list}
+    setList={setList}
+    totalUserCount={totalUserCount}
+    pendingUserCount={pendingUserCount}
+    activeUserCount={activeUserCount}
+    inactiveUserCount={inactiveUserCount}
+    totalUsersAllowedInLicenseTier={totalUsersAllowedInLicenseTier}
+    totalDeptCount={totalDeptCount}
+    setPage={setPage}
+    page={page}
+  /> */
+}

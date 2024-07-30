@@ -8,7 +8,7 @@ const AppGridContainer = ({children, ...others}) => {
   return (
     <Grid
       container
-      sx={{minHeight: 'calc(100% - 0px)'}}
+      // sx={{minHeight: 'calc(100% - 0px)'}}
       // sx={{minHeight: 'calc(100vh - 170px)'}}
       spacing={isMDDown ? 5 : 8}
       {...others}

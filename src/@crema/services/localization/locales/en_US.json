@@ -457,7 +457,7 @@
   "dashboard.crm.toDoLists": "To-Do lists",
   "dashboard.crm.screenshots": "Screenshots",
   "dashboard.crm.deals": "Deals",
-  "dashboard.crm.totalVisitor": "Total Visitor",
+  "UserCount": "User count",
   "dashboard.crypto.topStories": "Top Stories",
   "dashboard.crypto.ordersActivities": "Orders Activities",
   "dashboard.crypto.topGainersTopLosers": "Top Gainers & Top Losers (24 hours)",
@@ -488,7 +488,7 @@
   "dashboard.eCommerce.sales": "Sales",
   "dashboard.eCommerce.revenue": "Revenue",
   "dashboard.eCommerce.recentOrders": "Recent Orders",
-  "dashboard.eCommerce.ageAudience": "Age of Audience",
+  "Organisation": "Organization Storage",
   "dashboard.eCommerce.siteVisitorsStatistics": "Site Visitors Statistics",
   "dashboard.eCommerce.countries": "Countries",
   "dashboard.eCommerce.marketingCampaign": "Marketing Campaign",
@@ -798,7 +798,7 @@
   "academy.myCourses": "My Courses",
   "academy.notifications": "Notifications",
   "academy.myLearning": "My Learning",
-  "academy.latestResults": "Latest Results",
+  "academy.latestResults": "Top 5 Storage used ",
   "academy.myClass": "My Class",
   "academy.studentRankings": "Student Rankings",
   "academy.averageGrade": "Average Grades",
@@ -920,5 +920,7 @@
   "sidebar.mui.lab.trapFocus": "Trap Focus",
   "sidebar.mui.lab.treeView": "Tree View",
   "sidebar.fusionCharts": "Fusion Charts",
-  "sidebar.froalaEditor": "Froala Editor"
+  "sidebar.froalaEditor": "Froala Editor",
+  "User": "Storage Used By User",
+  "department": "Storage used By Department"
 }

@@ -31,7 +31,7 @@ const AppLogo = () => {
       {/* <Logo fill={theme.palette.primary.main} /> */}
       <img
         src={pic}
-        style={{width: '12rem', maxWidth: '90%', height: 'auto'}}
+        style={{width: '9rem', maxWidth: '100%', height: 'auto'}}
       />
       <Box
         sx={{

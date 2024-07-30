@@ -3,6 +3,7 @@ import {Box, Typography} from '@mui/material';
 import PropTypes from 'prop-types';
 
 const AudienceCell = ({audience}) => {
+  console.log(audience, 'jj');
   return (
     <Box
       sx={{
@@ -27,7 +28,7 @@ const AudienceCell = ({audience}) => {
         {audience.title}
       </Typography>
       <Box sx={{ml: 'auto'}} component='h4'>
-        {audience.value}%
+        {audience.value} GB
       </Box>
     </Box>
   );

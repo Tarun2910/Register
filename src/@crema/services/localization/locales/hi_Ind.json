@@ -17,5 +17,9 @@
   "common.password": "पासवर्ड",
   "common.login": "लॉग इन करें",
   "validation.usernameRequired": "कृपया उपयोगकर्ता नाम दर्ज करें!",
-  "dashboard.crypto.cardDetails": "स्टोरेज डिटेल्स"
+  "dashboard.crypto.cardDetails": "स्टोरेज डिटेल्स",
+  "User": "उपयोगकर्ता द्वारा उपयोग किया जाने वाला स्टोरेज",
+  "department": "विभाग द्वारा उपयोग किया जाने वाला स्टोरेज",
+  "Organisation": "संगठन स्टोरेज",
+  "UserCount": "उपयोगकर्ता गिनती"
 }

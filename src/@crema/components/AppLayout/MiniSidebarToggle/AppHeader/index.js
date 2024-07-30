@@ -109,19 +109,21 @@ const AppHeader = (props) => {
             flexGrow: 1,
           }}
         />
-        <Box
-          sx={{
-            minHeight: 40,
-            position: 'relative',
-            '& .searchRoot': {
-              position: {xs: 'absolute', sm: 'relative'},
-              right: {xs: 0, sm: 'auto'},
-              top: {xs: 0, sm: 'auto'},
-            },
-          }}
-        >
-          <AppSearchBar iconPosition='right' placeholder='Search…' />
-        </Box>
+        {window.location.pathname.split('/').pop() !== 'teamSync' && (
+          <Box
+            sx={{
+              minHeight: 40,
+              position: 'relative',
+              '& .searchRoot': {
+                position: {xs: 'absolute', sm: 'relative'},
+                right: {xs: 0, sm: 'auto'},
+                top: {xs: 0, sm: 'auto'},
+              },
+            }}
+          >
+            <AppSearchBar iconPosition='right' placeholder='Search…' />
+          </Box>
+        )}
 
         <Box sx={{ml: 4}}>
           <Hidden smDown>

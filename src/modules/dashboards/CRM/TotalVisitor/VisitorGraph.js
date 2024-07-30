@@ -4,11 +4,11 @@ import PropTypes from 'prop-types';
 import {Fonts} from '@crema/constants/AppEnums';
 import {useIntl} from 'react-intl';
 
-const VisitorGraph = ({totalVisitors}) => {
+const VisitorGraph = ({totalVisitors, totalUserCount}) => {
   const {messages} = useIntl();
   return (
     <ResponsiveContainer>
-      <PieChart>
+      <PieChart style={{height: '15rem'}}>
         <text
           x='50%'
           fontWeight={Fonts.MEDIUM}
@@ -17,7 +17,7 @@ const VisitorGraph = ({totalVisitors}) => {
           textAnchor='middle'
           dominantBaseline='middle'
         >
-          40,000
+          {totalUserCount}
         </text>
         <text
           x='50%'
@@ -64,4 +64,5 @@ VisitorGraph.defaultProps = {
 
 VisitorGraph.propTypes = {
   totalVisitors: PropTypes.array,
+  totalUserCount: PropTypes.any,
 };

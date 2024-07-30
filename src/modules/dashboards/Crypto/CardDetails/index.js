@@ -1,5 +1,5 @@
 import React from 'react';
-import AppCard from '@crema/components/AppCard';
+import AppCard from '@crema/components/AppCardOne';
 import CardDetailItem from './CardDetailItem';
 import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
@@ -23,7 +23,8 @@ const CardDetails = ({
     <>
       <AppCard
         title={messages['dashboard.crypto.cardDetails']}
-        sx={{height: 'auto'}}
+        // sx={{height: 'auto'}}
+        // sxStyle={{height: 'calc(100vh - 330px)'}}
       >
         <Box
           sx={{
@@ -95,6 +96,7 @@ const CardDetails = ({
                 sx={{
                   px: 2.5,
                   pb: 2.5,
+                  // height: '17.5rem',
                 }}
                 key={index}
               >
@@ -109,6 +111,7 @@ const CardDetails = ({
                 alignItems: 'center',
                 width: '100%',
                 py: 5,
+                height: '12.2rem',
               }}
             >
               <Typography>No Record Available</Typography>

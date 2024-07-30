@@ -4,7 +4,7 @@ import {Box} from '@mui/material';
 import PropTypes from 'prop-types';
 import {useIntl} from 'react-intl';
 import AudienceCell from './AudienceCell';
-import AppCard from '@crema/components/AppCard';
+import AppCard from '@crema/components/AppCardOne';
 import AppList from '@crema/components/AppList';
 
 const AgeOfAudience = ({audienceData}) => {
@@ -12,8 +12,10 @@ const AgeOfAudience = ({audienceData}) => {
 
   return (
     <AppCard
-      sxStyle={{height: 1}}
-      title={messages['dashboard.eCommerce.ageAudience']}
+      // sxStyle={{height: 1}}
+      // sx={{height: 'auto'}}
+
+      title={messages['Organisation']}
       contentStyle={{
         paddingLeft: 0,
         paddingRight: 0,
@@ -25,6 +27,7 @@ const AgeOfAudience = ({audienceData}) => {
       <Box
         sx={{
           padding: '8px 12px',
+          height: '14.3rem',
         }}
       >
         <AudienceChart audienceData={audienceData} />

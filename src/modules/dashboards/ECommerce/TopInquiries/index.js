@@ -1,5 +1,5 @@
 import React from 'react';
-import AppCard from '@crema/components/AppCard';
+import AppCard from '@crema/components/AppCardOne';
 import AppSelect from '@crema/components/AppSelect';
 import {useIntl} from 'react-intl';
 import {Box, Typography} from '@mui/material';
@@ -112,6 +112,7 @@ const TopInquiries = ({topInquiries}) => {
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
+        height: '20.9rem',
       }}
       title={messages['dashboard.eCommerce.topInquiries']}
       action={

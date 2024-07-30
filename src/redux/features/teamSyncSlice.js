@@ -19,7 +19,7 @@ export const getStorageData = createAsyncThunkWithTokenRefresh(
   async (token, currentUser, payload) => {
     try {
       const response = await axios.get(
-        `${window.__ENV__.REACT_APP_MIDDLEWARE}/dms_service_LM/api/dms_admin_service/storageStats`,
+        `${window.__ENV__.REACT_APP_MIDDLEWARE}/dms_service_LM/api/dms_admin_service/aggregateStats`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

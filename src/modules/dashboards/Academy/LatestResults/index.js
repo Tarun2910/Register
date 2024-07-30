@@ -1,5 +1,5 @@
 import React from 'react';
-import AppCard from '@crema/components/AppCard';
+import AppCard from '@crema/components/AppCardOne';
 import AppList from '@crema/components/AppList';
 import Box from '@mui/material/Box';
 import AppLinearProgress from '@crema/components/AppLinearProgress';
@@ -10,9 +10,9 @@ import PropTypes from 'prop-types';
 
 const getColor = (percentage) => {
   if (percentage < 50) {
-    return '#F5585B';
+    return '#0A8FDC';
   }
-  return '#0A8FDC';
+  return '#F5585B';
 };
 
 const ResultItem = ({result}) => {
@@ -48,7 +48,7 @@ const ResultItem = ({result}) => {
         >
           {result.chapter}
         </Box>
-        <Box
+        {/* <Box
           component='p'
           sx={{
             ml: 1,
@@ -59,7 +59,7 @@ const ResultItem = ({result}) => {
           }}
         >
           - {result.topic}
-        </Box>
+        </Box> */}
       </Box>
       <Box
         sx={{
@@ -92,7 +92,7 @@ ResultItem.propTypes = {
   result: PropTypes.object,
 };
 
-const LatestResults = ({latestResults}) => {
+const LatestResults = ({latestResults, user}) => {
   const {messages} = useIntl();
 
   const getData = (data) => {
@@ -100,11 +100,13 @@ const LatestResults = ({latestResults}) => {
   };
   return (
     <AppCard
-      sxStyle={{height: 1}}
-      title={messages['academy.latestResults']}
+      // sxStyle={{minHeight: 'calc(100vh - 330px)'}}
+      // sx={{height: 'auto'}}
+      title={user ? messages['User'] : messages['department']}
       contentStyle={{px: 0}}
     >
       <AppList
+        sx={{height: '19rem'}}
         animation='transition.slideRightBigIn'
         data={getData(latestResults)}
         renderRow={(data, index) => <ResultItem key={index} result={data} />}
@@ -117,4 +119,5 @@ export default LatestResults;
 
 LatestResults.propTypes = {
   latestResults: PropTypes.array,
+  user: PropTypes.any,
 };

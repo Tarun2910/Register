@@ -665,9 +665,9 @@ const ProductListing = () => {
           <DialogTitle
             id='draggable-dialog-title'
             className={classes.dialogTitle}
-            style={{cursor: 'move'}}
+            style={{cursor: 'move', fontSize: 14}}
           >
-            Users
+            ASSIGNED USERS
           </DialogTitle>
           <div style={{display: 'flex'}}>
             <TextField
