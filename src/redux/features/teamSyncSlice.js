@@ -17,26 +17,22 @@ const initialState = {
 export const getStorageData = createAsyncThunkWithTokenRefresh(
   'teamSync/storage',
   async (token, currentUser, payload) => {
-    try {
-      const response = await axios.get(
-        `${window.__ENV__.REACT_APP_MIDDLEWARE}/dms_service_LM/api/dms_admin_service/aggregateStats`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-            username: localStorage.getItem('username'),
-            pageSize: payload.pageSize,
-            pageNumber: payload.pageNumber,
-            searchText: payload.searchText,
-          },
-          maxBodyLength: Infinity,
+    const response = await axios.get(
+      `${window.__ENV__.REACT_APP_MIDDLEWARE}/dms_service_LM/api/dms_admin_service/aggregateStats`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          username: localStorage.getItem('username'),
+          pageSize: payload.pageSize,
+          pageNumber: payload.pageNumber,
+          searchText: payload.searchText,
         },
-      );
-      return response;
-    } catch (e) {
-      console.log(e);
-    }
+        maxBodyLength: Infinity,
+      },
+    );
+    return response;
   },
 );
 

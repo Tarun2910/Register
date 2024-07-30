@@ -27,10 +27,7 @@ export const refreshAccessToken = async (thunkAPI) => {
       `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/public/refreshToken`,
       formData,
       {
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
+        headers: {},
       },
     );
 
@@ -39,6 +36,10 @@ export const refreshAccessToken = async (thunkAPI) => {
 
     return refreshResponse.data;
   } catch (refreshError) {
+    console.log(refreshError);
+    window.location.href = '/signin';
+    localStorage.clear();
+    sessionStorage.clear();
     return refreshError;
   }
 };
@@ -55,10 +56,9 @@ export const createAsyncThunkWithTokenRefresh = (type, requestFunction) =>
       const response = await requestFunction(token, currentUser, payload);
 
       // Return the response data
-      return response.data;
+      return response?.data;
     } catch (error) {
-      //console.log('errorCheck', error)
-
+      console.log(error);
       if (error.response && error.response.status === 504) {
         // Check for gateway timeout error
         throw new Error('Gateway Timeout');
@@ -84,6 +84,7 @@ export const createAsyncThunkWithTokenRefresh = (type, requestFunction) =>
       else if (error.response && error.response.status === 401) {
         // Attempt to refresh the access token
         const refreshedToken = await refreshAccessToken(thunkAPI);
+        console.log(refreshedToken);
 
         // Check for gateway timeout error after token refresh
         if (refreshedToken.response && refreshedToken.response.status === 504) {

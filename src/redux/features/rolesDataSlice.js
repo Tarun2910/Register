@@ -17,26 +17,21 @@ const initialState = {
 export const getRolesData = createAsyncThunkWithTokenRefresh(
   'roles/data',
   async (token, currentUser, payload) => {
-    try {
-      const response = await axios.get(
-        `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/roles?search=${payload.searchText}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-            username: localStorage.getItem('username'),
-            pageSize: payload.pageSize,
-            pageNumber: payload.pageNumber,
-            deptName: 'ALL_USER',
-          },
-          maxBodyLength: Infinity,
+    const response = await axios.get(
+      `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/roles?search=${payload.searchText}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          username: localStorage.getItem('username'),
+          pageSize: payload.pageSize,
+          pageNumber: payload.pageNumber,
+          deptName: 'ALL_USER',
         },
-      );
-      return response;
-    } catch (e) {
-      console.log(e);
-    }
+        maxBodyLength: Infinity,
+      },
+    );
   },
 );
 
