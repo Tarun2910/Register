@@ -62,7 +62,7 @@ const CustomizedProgressBars = ({
               >
                 <Typography
                   variant='body2'
-                  sx={{textAlign: 'center', color: 'black', px: 1}}
+                  sx={{textAlign: 'center', color: 'white', px: 1}}
                 >
                   {pendingUserCount} Pending
                 </Typography>
