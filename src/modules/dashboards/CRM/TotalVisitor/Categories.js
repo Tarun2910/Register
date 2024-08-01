@@ -44,10 +44,12 @@ const EarningCategoryListItem = styled(ListItem)((props) => {
 const Categories = (props) => {
   const {category} = props;
 
+  console.log(category, 'jjs');
+
   return (
     <EarningCategoryListItem
       category={category}
-      secondaryAction={<span>{category.value}% </span>}
+      secondaryAction={<span>{category.percent}% </span>}
     >
       <span className='dot-icon' />
       <ListItemText className='earning-text' primary={`${category.name}:`} />

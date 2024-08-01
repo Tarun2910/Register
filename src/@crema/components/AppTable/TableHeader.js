@@ -12,7 +12,8 @@ const TableHeaderRow = styled(TableRow)(({theme}) => {
       padding: 2,
       fontWeight: Fonts.SEMI_BOLD,
       color: theme.palette.text.primary,
-      backgroundColor: theme.palette.common.white,
+      backgroundColor:
+        theme.palette.mode === 'dark' ? '#2B3137' : theme.palette.common.white,
       '&:first-of-type': {
         paddingLeft: 20,
       },

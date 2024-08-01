@@ -216,7 +216,7 @@ const UserInfo = ({color}) => {
           px: 3,
           display: 'flex',
           alignItems: 'center',
-          cursor: 'pointer',
+          // cursor: 'pointer',
         }}
         className='user-info-view'
       >

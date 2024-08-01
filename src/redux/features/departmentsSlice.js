@@ -25,6 +25,7 @@ export const getDepartmentsData = createAsyncThunkWithTokenRefresh(
           Authorization: `Bearer ${token}`,
           Accept: 'application/json',
           'Content-Type': 'application/json',
+          sortBy: payload.sortOrder,
           username: localStorage.getItem('username'),
           pageSize: payload.pageSize,
           pageNumber: payload.pageNumber,

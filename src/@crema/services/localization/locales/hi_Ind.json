@@ -21,5 +21,8 @@
   "User": "उपयोगकर्ता द्वारा उपयोग किया जाने वाला स्टोरेज",
   "department": "विभाग द्वारा उपयोग किया जाने वाला स्टोरेज",
   "Organisation": "संगठन स्टोरेज",
-  "UserCount": "उपयोगकर्ता गिनती"
+  "UserCount": "उपयोगकर्ता गिनती",
+  "sidebar.app.teamsync": "टीमसिंक",
+  "sidebar.app.department": "विभाग",
+  "sidebar.app.roles": "भूमिका"
 }

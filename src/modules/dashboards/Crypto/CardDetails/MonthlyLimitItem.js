@@ -131,7 +131,7 @@ const MonthlyLimitItem = ({monthlyLimit}) => {
             color: 'text.secondary',
           }}
         >
-          {monthlyLimit.income}
+          {`${monthlyLimit.income}`}
         </Typography>
       </Box>
     </Box>
@@ -144,6 +144,7 @@ MonthlyLimitItem.propTypes = {
   monthlyLimit: PropTypes.shape({
     activeColor: PropTypes.string.isRequired,
     income: PropTypes.string.isRequired,
+    current: PropTypes.any,
     title: PropTypes.string.isRequired,
     value: PropTypes.number.isRequired,
   }).isRequired,

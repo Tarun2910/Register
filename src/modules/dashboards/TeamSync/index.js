@@ -198,7 +198,7 @@ const ProductListing = ({
       console.log(response);
       toast.success('Users Permissions Updated Successfully');
     } catch (error) {
-      console.log(error);
+      console.log(error, 'hdhdh');
       toast.error(error?.response?.data?.error);
     } finally {
       setLoading(false);
