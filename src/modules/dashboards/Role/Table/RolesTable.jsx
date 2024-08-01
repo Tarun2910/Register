@@ -182,6 +182,7 @@ import {
   Tooltip,
 } from '@mui/material';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
+import PersonRemoveAlt1Icon from '@mui/icons-material/PersonRemoveAlt1';
 import axios from 'axios';
 import {toast} from 'react-toastify';
 
@@ -287,7 +288,7 @@ const RolesTable = ({
                   onClick={handleRemoveUsers}
                   disabled={selectedUsers.length === 0}
                 >
-                  <RemoveCircleIcon size='small' />
+                  <PersonRemoveAlt1Icon size='small' />
                 </IconButton>
               </Tooltip>
             </TableCell>

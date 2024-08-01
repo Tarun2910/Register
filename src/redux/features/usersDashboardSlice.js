@@ -26,8 +26,10 @@ export const getUsersData = createAsyncThunkWithTokenRefresh(
     console.log(payload);
     let url =
       payload.searchText == ''
-        ? `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/users`
-        : `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/users?keyword=${payload.searchText}&pageNum=${payload.pageNumber}`;
+        ? `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/users?filter=${
+            payload.filter || 'all'
+          }`
+        : `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/users?keyword=${payload.searchText}&pageNum=${payload.pageNumber}&filter=${payload.filter}`;
     const response = await axios.get(url, {
       headers: {
         Authorization: `Bearer ${token}`,

@@ -22,6 +22,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import {Fonts} from '@crema/constants/AppEnums';
 import {Add, AddCircle} from '@mui/icons-material';
+import PersonAdd from '@mui/icons-material/PersonAdd';
 
 const OrderActions = ({
   id,
@@ -42,6 +43,7 @@ const OrderActions = ({
   rowdata,
   tableRolename,
   setRolesList,
+  icon,
 }) => {
   console.log(tableRolename, 'hhh');
   const navigate = useNavigate();
@@ -207,9 +209,20 @@ const OrderActions = ({
     <>
       <Box>
         <Tooltip title='ASSIGN USER'>
-          <IconButton onClick={() => setOpenDialog(true)}>
-            <AddCircle />
-          </IconButton>
+          {!icon ? (
+            <Button
+              variant='outlined'
+              size='small'
+              onClick={() => setOpenDialog(true)}
+              startIcon={<PersonAdd />} // New icon when there are no users
+            >
+              Assign
+            </Button>
+          ) : (
+            <IconButton onClick={() => setOpenDialog(true)}>
+              <PersonAdd /> {/* New icon when there are no users */}
+            </IconButton>
+          )}
         </Tooltip>
       </Box>
       <Dialog
@@ -318,4 +331,5 @@ OrderActions.propTypes = {
   rowdata: PropTypes.any,
   tableRolename: PropTypes.any,
   setRolesList: PropTypes.any,
+  icon: PropTypes.any,
 };

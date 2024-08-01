@@ -9,7 +9,8 @@ import OrderActions from './Actions';
 import EditIcon from '@mui/icons-material/Edit';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import {RiSplitCellsHorizontal} from 'react-icons/ri';
-import {Button, Checkbox} from '@mui/material';
+import {Button, Checkbox, Tooltip} from '@mui/material';
+import PeopleIcon from '@mui/icons-material/People';
 
 const StyledTableCell = styled(TableCell)(() => ({
   fontSize: '0.77rem',
@@ -159,16 +160,21 @@ const TableItem = ({
         {/* <StyledTableCell align='center'>{data.displayRoleName}</StyledTableCell> */}
         <StyledTableCell align='center'>
           {data?.user?.length ? (
-            <Button
-              variant='contained'
-              size='small'
-              onClick={() => {
-                setRowData(data);
-                setOpenRoles(true);
-                setRolesList(data);
-                setTableRoleName(data?.roleName);
-              }}
-            >{`${data?.user?.length} users`}</Button>
+            <Tooltip title='view user'>
+              <Button
+                variant='outlined'
+                size='small'
+                onClick={() => {
+                  setRowData(data);
+                  setOpenRoles(true);
+                  setRolesList(data);
+                  setTableRoleName(data?.roleName);
+                }}
+                startIcon={<PeopleIcon />} // Adding the icon here
+              >
+                {`${data?.user?.length} users`}
+              </Button>
+            </Tooltip>
           ) : (
             <OrderActions
               id={data.id}

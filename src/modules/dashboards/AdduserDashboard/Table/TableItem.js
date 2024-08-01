@@ -234,6 +234,9 @@ const TableItem = ({
       </StyledTableCell>
       <StyledTableCell align='left'>{data.email}</StyledTableCell>
       <StyledTableCell align='left'>
+        {data.permissions.displayStorage}
+      </StyledTableCell>
+      <StyledTableCell align='left'>
         <Tooltip
           title={
             disable == 'TRIAL'

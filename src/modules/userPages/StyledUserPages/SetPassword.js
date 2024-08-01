@@ -43,7 +43,8 @@ const validationSchema = yup.object({
 
 const SetPassword = () => {
   const theme = useTheme();
-  const {token} = useParams();
+  // const {token} = useParams();
+  const token = window.location.pathname.split('/').pop();
   const {messages} = useIntl();
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);

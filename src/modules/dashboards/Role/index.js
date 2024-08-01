@@ -674,7 +674,7 @@ const ProductListing = () => {
               placeholder='Search Users'
               variant='outlined'
               size='small'
-              sx={{height: '1.8rem', borderRadius: '2rem'}}
+              sx={{height: '1.8rem', borderRadius: '2rem', marginRight: '1rem'}}
               // value={searchQuery}
               className={classes.searchInput}
             />
@@ -688,13 +688,14 @@ const ProductListing = () => {
               roles={rowdata?.user}
               setTableRoleName={setTableRoleName}
               tableRolename={tableRolename}
+              icon={true}
             />
             <Tooltip title='CLOSE'>
               <IconButton
                 onClick={() => setOpenRoles(false)}
                 className={classes.closeButton}
               >
-                <Cancel />
+                <CloseIcon />
               </IconButton>
             </Tooltip>
           </div>

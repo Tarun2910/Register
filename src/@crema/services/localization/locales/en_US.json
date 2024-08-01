@@ -922,5 +922,6 @@
   "sidebar.fusionCharts": "Fusion Charts",
   "sidebar.froalaEditor": "Froala Editor",
   "User": "Storage Used By User",
-  "department": "Storage used By Department"
+  "department": "Storage used By Department",
+  "common.unknownErrorMsg": "error"
 }

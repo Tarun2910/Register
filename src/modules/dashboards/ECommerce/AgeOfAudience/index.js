@@ -27,7 +27,7 @@ const AgeOfAudience = ({audienceData}) => {
       <Box
         sx={{
           padding: '8px 12px',
-          height: '14.3rem',
+          height: audienceData.length !== 0 ? '14.3rem' : '18.9rem',
         }}
       >
         <AudienceChart audienceData={audienceData} />
