@@ -50,7 +50,8 @@ const Verifed = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
-  const {token} = useParams();
+  // const {token} = useParams();
+  const token = window.location.pathname.split('/').pop();
 
   console.log(token, 'token');
 

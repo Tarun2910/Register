@@ -32,6 +32,7 @@ export const getRolesData = createAsyncThunkWithTokenRefresh(
         maxBodyLength: Infinity,
       },
     );
+    return response;
   },
 );
 
@@ -57,7 +58,7 @@ export const rolesSlice = createSlice({
         state.rolesDataIsSuccess = false;
       })
       .addCase(getRolesData.fulfilled, (state, action) => {
-        console.log(action.payload);
+        console.log(action, 'action');
         state.rolesData = action.payload;
         state.rolesDataIsLoading = false;
         state.rolesDataIsError = false;

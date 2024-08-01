@@ -27,6 +27,8 @@ const ProductTable = ({
   saveicondisable,
   onSort,
   sortOrder,
+  setFilter,
+  filter,
 }) => {
   return (
     <AppTableContainer className='tableContainer'>
@@ -42,6 +44,8 @@ const ProductTable = ({
             setLoading={setLoading}
             onSort={onSort}
             sortOrder={sortOrder}
+            setFilter={setFilter}
+            filter={filter}
           />
         </TableHead>
         <TableBody>
@@ -92,4 +96,6 @@ ProductTable.propTypes = {
   saveicondisable: PropTypes.any,
   onSort: PropTypes.any,
   sortOrder: PropTypes.any,
+  setFilter: PropTypes.any,
+  filter: PropTypes.any,
 };

@@ -83,6 +83,7 @@ const ProductListing = () => {
   const [applicationName, setApplicationName] = useState('TeamSync');
   const [toggleStatus, setToggleStatus] = useState(false);
   const [sortOrder, setSortOrder] = useState('');
+  const [filter, setFilter] = useState('all');
 
   const {
     usersData,
@@ -239,9 +240,10 @@ const ProductListing = () => {
         searchText: '',
         pageNumber: page,
         applicationName,
+        filter,
       }),
     );
-  }, [page, toggleStatus, sortOrder]);
+  }, [page, toggleStatus, sortOrder, filter]);
 
   useEffect(() => {
     setLoading(usersDataIsLoading);
@@ -435,6 +437,8 @@ const ProductListing = () => {
                   setLoading={setLoading}
                   onSort={handleSort}
                   sortOrder={sortOrder}
+                  setFilter={setFilter}
+                  filter={filter}
                 />
               </AppsContent>
               <Hidden smUp>

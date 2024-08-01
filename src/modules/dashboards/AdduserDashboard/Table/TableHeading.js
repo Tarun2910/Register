@@ -1,14 +1,22 @@
-import React from 'react';
+import React, {useState} from 'react';
 import TableCell from '@mui/material/TableCell';
 import TableHeader from '@crema/components/AppTable/TableHeader';
 import Checkbox from '@mui/material/Checkbox';
 import PropTypes from 'prop-types';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import CancelIcon from '@mui/icons-material/Cancel';
-import {Box, IconButton, TableSortLabel, Tooltip} from '@mui/material';
+import {
+  Box,
+  IconButton,
+  Menu,
+  MenuItem,
+  TableSortLabel,
+  Tooltip,
+} from '@mui/material';
 import axios from 'axios';
 import {toast} from 'react-toastify';
 import {AiOutlineCheckCircle, AiOutlineCloseCircle} from 'react-icons/ai';
+import FilterListIcon from '@mui/icons-material/FilterList';
 
 const TableHeading = ({
   license,
@@ -20,10 +28,14 @@ const TableHeading = ({
   setLoading,
   onSort,
   sortOrder,
+  setFilter,
+  filter,
 }) => {
   console.log(selectedUsers, 'selectedUsers');
   const appName = 'TeamSync';
   const iconSize = 20;
+  const [filterAnchorEl, setFilterAnchorEl] = useState(null);
+  const isFilterMenuOpen = Boolean(filterAnchorEl);
 
   const handleToggleActive = (activate) => {
     setLoading(true);
@@ -89,6 +101,19 @@ const TableHeading = ({
   const allActive = selectedUsers.every((user) => user.active);
   // Determine if all selected users are inactive
   const allInactive = selectedUsers.every((user) => !user.active);
+
+  const handleFilterClick = (event) => {
+    setFilterAnchorEl(event.currentTarget);
+  };
+
+  const handleFilterClose = () => {
+    setFilterAnchorEl(null);
+  };
+
+  const handleFilterSelect = (value) => {
+    setFilter(value);
+    handleFilterClose();
+  };
   return (
     <TableHeader>
       <TableCell>
@@ -125,10 +150,53 @@ const TableHeading = ({
         </TableSortLabel>
       </TableCell>
       <TableCell align='left'>User Email</TableCell>
+      <TableCell align='left'>Storage Used</TableCell>
       <TableCell align='left'>Manage Storage</TableCell>
       <TableCell align='left' sx={{width: '150px', whiteSpace: 'nowrap'}}>
         Active License
-        <Box component='span' sx={{ml: 4}}>
+        <Box component='span' sx={{ml: 2}}>
+          <IconButton
+            size='small'
+            onClick={handleFilterClick}
+            sx={{
+              marginLeft: '5px',
+              padding: '0px',
+              color: 'primary.main',
+              marginRight: '1rem',
+            }}
+          >
+            <FilterListIcon />
+          </IconButton>
+          <Menu
+            anchorEl={filterAnchorEl}
+            open={isFilterMenuOpen}
+            onClose={handleFilterClose}
+          >
+            <MenuItem
+              onClick={() => handleFilterSelect('all')}
+              selected={filter === 'all'}
+            >
+              ALL
+            </MenuItem>
+            <MenuItem
+              onClick={() => handleFilterSelect('active')}
+              selected={filter === 'active'}
+            >
+              ACTIVE
+            </MenuItem>
+            <MenuItem
+              onClick={() => handleFilterSelect('inactive')}
+              selected={filter === 'inactive'}
+            >
+              INACTIVE
+            </MenuItem>
+            <MenuItem
+              onClick={() => handleFilterSelect('pendiing')}
+              selected={filter === 'pending'}
+            >
+              PENDING
+            </MenuItem>
+          </Menu>
           <Tooltip title='Activate Selected' arrow>
             <IconButton
               size='small'
@@ -154,9 +222,6 @@ const TableHeading = ({
           </Tooltip>
         </Box>
       </TableCell>
-      {/* <TableCell align='right'>
-        
-      </TableCell> */}
     </TableHeader>
   );
 };
@@ -177,4 +242,6 @@ TableHeading.propTypes = {
   setLoading: PropTypes.any,
   onSort: PropTypes.func.isRequired,
   sortOrder: PropTypes.oneOf(['asc', 'desc']).isRequired,
+  setFilter: PropTypes.any,
+  filter: PropTypes.any,
 };
