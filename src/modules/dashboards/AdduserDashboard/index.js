@@ -312,6 +312,7 @@ const ProductListing = () => {
       })
       .catch((error) => {
         setLoading(false);
+        toast.error(error?.response?.data?.error);
         console.log(error);
       });
   };

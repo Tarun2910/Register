@@ -7,6 +7,7 @@ import TableHeading from './header';
 import TableItem from './item';
 import AppTableContainer from '@crema/components/AppTableContainer';
 import AppLoader from '@crema/components/AppLoader';
+import {onSpaceOrEnter} from '@mui/x-date-pickers/internals';
 
 const ProductTable = ({
   productData,
@@ -25,12 +26,14 @@ const ProductTable = ({
   setRowData,
   selectedList,
   setSelectedList,
+  sortOrder,
+  onSort,
 }) => {
   return (
     <AppTableContainer>
       <Table stickyHeader>
         <TableHead>
-          <TableHeading />
+          <TableHeading sortOrder={sortOrder} onSort={onSort} />
         </TableHead>
         <TableBody>
           {loading ? (
@@ -86,6 +89,8 @@ ProductTable.propTypes = {
   setRowData: PropTypes.any,
   selectedList: PropTypes.any,
   setSelectedList: PropTypes.any,
+  sortOrder: PropTypes.any,
+  onSort: PropTypes.any,
 };
 
 // style={{minHeight: '70vh'}}

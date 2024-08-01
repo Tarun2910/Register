@@ -72,6 +72,7 @@ const ProductListing = () => {
   const [rowData, setRowData] = useState('');
   const [selectedDeptId, setSelectedDeptId] = useState(null);
   const [selectedList, setSelectedList] = useState([]);
+  const [sortOrder, setSortOrder] = useState('');
 
   const handleClose = () => {
     setOpen(false);
@@ -127,10 +128,15 @@ const ProductListing = () => {
 
   useEffect(() => {
     dispatch(
-      getDepartmentsData({pageNumber: page, pageSize: 10, searchText: ''}),
+      getDepartmentsData({
+        sortOrder,
+        pageNumber: page,
+        pageSize: 10,
+        searchText: '',
+      }),
     );
     // dispatch(resetDepartmentsData());
-  }, [page, triggerApi]);
+  }, [page, triggerApi, sortOrder]);
 
   useEffect(() => {
     setLoading(departmentsDataIsLoading);
@@ -166,6 +172,11 @@ const ProductListing = () => {
     setbranchCity('');
     setOpenDept(true);
     setIsEdit(false);
+  };
+
+  const handleSort = (newSortOrder) => {
+    setSortOrder(newSortOrder);
+    // Make the API call with the new sortOrder
   };
 
   const handlecloseDept = () => {
@@ -337,6 +348,8 @@ const ProductListing = () => {
                   setRowData={setRowData}
                   selectedList={selectedList}
                   setSelectedList={setSelectedList}
+                  sortOrder={sortOrder}
+                  onSort={handleSort}
                 />
               </AppsContent>
               <Hidden smUp>

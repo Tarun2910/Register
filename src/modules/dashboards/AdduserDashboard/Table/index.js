@@ -33,7 +33,7 @@ const ProductTable = ({
   return (
     <AppTableContainer className='tableContainer'>
       <Table>
-        <TableHead className='stickyHeader'>
+        <TableHead>
           <TableHeading
             license={license}
             handletiername={handletiername}

@@ -73,6 +73,7 @@ const TableHeading = ({
       })
       .catch((error) => {
         setLoading(false);
+        toast.error(error.response.data.error);
         console.error('Error updating users:', error);
       });
   };
@@ -128,11 +129,12 @@ const TableHeading = ({
             display: 'flex',
             alignItems: 'center',
             cursor: 'pointer',
-            color: 'primary.main',
+            // color: 'primary.main',
           }}
         >
           <Checkbox
             size='small'
+            padding='0px'
             checked={selectedUsers.length === productData.length}
             onChange={handleSelectAll}
           />

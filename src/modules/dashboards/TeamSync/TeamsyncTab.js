@@ -147,6 +147,9 @@ const TeamSyncTab = () => {
         income: `${handleNaN(
           (data.deptsAggregate.totalAllocatedStorage / 1024 / 1024).toFixed(2),
         )} MB`,
+        current: `${handleNaN(
+          (data.deptsAggregate.currentlyUsedStorage / 1024 / 1024).toFixed(2),
+        )} MB`,
       },
 
       {
@@ -163,6 +166,9 @@ const TeamSyncTab = () => {
         activeColor: '#3D5AFE',
         income: `${handleNaN(
           (data.usersAggregate.totalAllocatedStorage / 1024 / 1024).toFixed(2),
+        )} MB`,
+        current: `${handleNaN(
+          (data.usersAggregate.currentlyUsedStorage / 1024 / 1024).toFixed(2),
         )} MB`,
       },
       // {
@@ -367,9 +373,24 @@ const TeamSyncTab = () => {
   // ];
 
   const totalVisitors = [
-    {name: 'Active Users', value: activeUserCount, color: '#4de18c'},
-    {name: 'Inactive Users', value: inactiveUserCount, color: '#f16262'},
-    {name: 'Pending Users', value: pendingUserCount, color: '#f1a856'},
+    {
+      name: 'Active Users',
+      value: activeUserCount,
+      percent: ((activeUserCount / totalUserCount) * 100).toFixed(2),
+      color: '#4de18c',
+    },
+    {
+      name: 'Inactive Users',
+      value: inactiveUserCount,
+      percent: ((inactiveUserCount / totalUserCount) * 100).toFixed(2),
+      color: '#f16262',
+    },
+    {
+      name: 'Pending Users',
+      value: pendingUserCount,
+      percent: ((pendingUserCount / totalUserCount) * 100).toFixed(2),
+      color: '#f1a856',
+    },
   ];
   return (
     <>

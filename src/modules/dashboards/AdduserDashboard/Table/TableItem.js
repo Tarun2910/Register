@@ -29,7 +29,8 @@ const StyledTableCell = styled(TableCell)(() => ({
 const StyledTableRow = styled(TableRow)(({theme, selected}) => ({
   backgroundColor: selected ? '#d3d3d3 solid 1px !important' : 'inherit',
   '&:hover': {
-    background: '#e0ecf0',
+    background: theme.palette.mode === 'dark' ? '#b1a5a5d5' : '#e0ecf0',
+
     borderRadius: '15px',
     color: '#354c64 !important', // Add your desired hover color here
   },
