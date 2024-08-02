@@ -193,7 +193,7 @@ const TableHeading = ({
               INACTIVE
             </MenuItem>
             <MenuItem
-              onClick={() => handleFilterSelect('pendiing')}
+              onClick={() => handleFilterSelect('pending')}
               selected={filter === 'pending'}
             >
               PENDING
