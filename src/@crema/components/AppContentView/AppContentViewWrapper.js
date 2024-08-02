@@ -17,7 +17,6 @@ const AppContentViewWrapper = ({children, ...rest}) => {
 
         backgroundImage:
           window.location.pathname.includes('/signin') ||
-          window.location.pathname.includes('/') ||
           window.location.pathname.includes('/userlogin') ||
           window.location.pathname.includes('/signup') ||
           window.location.pathname.includes('/check-mail') ||
