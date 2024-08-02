@@ -66,7 +66,7 @@ const TeamSyncTab = () => {
           ).toFixed(2);
           return {
             id: item.id,
-            chapter: item.userId.replace(/<>/g, '.'), // Assuming 'userId' is the chapter field
+            chapter: item.deptDisplayUsername.replace(/<>/g, '.'), // Assuming 'userId' is the chapter field
             topic: item.deptDisplayUsername || 'No Department', // Fallback if deptName is null
             percentage: isNaN(percentage) ? 0 : percentage, // Set to 0 if percentage is NaN
           };
@@ -102,7 +102,7 @@ const TeamSyncTab = () => {
           ).toFixed(2);
           return {
             id: item.id,
-            chapter: item.userId.replace(/<>/g, '.'), // Assuming 'userId' is the chapter field
+            chapter: item.deptDisplayUsername.replace(/<>/g, '.'), // Assuming 'userId' is the chapter field
             topic: item.deptDisplayUsername || 'No Department', // Fallback if deptName is null
             percentage: isNaN(percentage) ? 0 : percentage, // Set to 0 if percentage is NaN
           };
