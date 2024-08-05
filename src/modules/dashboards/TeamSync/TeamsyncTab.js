@@ -197,7 +197,7 @@ const TeamSyncTab = () => {
 
   const transformPieChartData = (data) => {
     if (!data || !data.organizationStats) {
-      return [];
+      return {pieChartData: [], cellListData: []};
     }
 
     const totalAllocatedStorageGB = (
@@ -212,27 +212,37 @@ const TeamSyncTab = () => {
       totalAllocatedStorageGB - currentlyUsedStorageGB
     ).toFixed(2);
 
-    console.log(
-      totalAllocatedStorageGB,
-      currentlyUsedStorageGB,
-      remainingAllocatedStorageGB,
-      'jj',
-    );
-
-    return [
+    const pieChartData = [
       {
         id: 1,
-        title: 'Remaining Allocated Storage',
-        value: parseFloat(remainingAllocatedStorageGB), // Convert string to float to maintain consistency
+        title: 'Available',
+        value: parseFloat(remainingAllocatedStorageGB),
         color: '#0A8FDC',
       },
       {
         id: 2,
-        title: 'Used Allocated Storage',
-        value: parseFloat(currentlyUsedStorageGB), // Convert string to float to maintain consistency
+        title: 'Used',
+        value: parseFloat(currentlyUsedStorageGB),
         color: '#54B435',
       },
     ];
+
+    const cellListData = [
+      {
+        id: 1,
+        title: 'Used',
+        value: parseFloat(currentlyUsedStorageGB),
+        color: '#54B435',
+      },
+      {
+        id: 2,
+        title: 'Allocated',
+        value: parseFloat(totalAllocatedStorageGB),
+        color: '#0A8FDC',
+      },
+    ];
+
+    return {pieChartData, cellListData};
   };
 
   const cardDetailsData = useMemo(
@@ -240,7 +250,7 @@ const TeamSyncTab = () => {
     [storageData],
   );
 
-  const pieChartData = useMemo(
+  const {pieChartData, cellListData} = useMemo(
     () => transformPieChartData(storageData),
     [storageData],
   );
@@ -438,10 +448,13 @@ const TeamSyncTab = () => {
                 }
               />
             </Grid>
-            <Grid item xs={12} md={12} lg={5} sx={{pl: '16px !important'}}>
-              <PieChartOrganisation audienceData={pieChartData} />
+            <Grid item xs={12} md={12} lg={4} sx={{pl: '16px !important'}}>
+              <PieChartOrganisation
+                audienceData={pieChartData}
+                cellListData={cellListData}
+              />
             </Grid>
-            <Grid item xs={12} md={12} lg={3} sx={{pl: '16px !important'}}>
+            <Grid item xs={12} md={12} lg={4} sx={{pl: '16px !important'}}>
               <TopStorageUsed latestResults={departmentStat} user={false} />
             </Grid>
             <Grid item xs={12} md={12} lg={5} sx={{pt: '16px !important'}}>
