@@ -82,8 +82,8 @@ const AdminSettings = () => {
         `${window.__ENV__.REACT_APP_MIDDLEWARE}/dms_service_LM/api/dms_admin_service/getUserData`,
         {
           headers: {
-            Authorization: 'Bearer ' + localStorage.getItem('token'),
-            username: localStorage.getItem('username'),
+            Authorization: 'Bearer ' + sessionStorage.getItem('token'),
+            username: sessionStorage.getItem('username'),
             deptName: sessionStorage.getItem('department'),
             pageNumber: pageNumber,
             pageSize: pageSize,
@@ -130,8 +130,8 @@ const AdminSettings = () => {
         usersData,
         {
           headers: {
-            Authorization: 'Bearer ' + localStorage.getItem('token'),
-            username: localStorage.getItem('username'),
+            Authorization: 'Bearer ' + sessionStorage.getItem('token'),
+            username: sessionStorage.getItem('username'),
             deptName: sessionStorage.getItem('department'),
             pageNumber: pageNumber,
             pageSize: pageSize,
@@ -196,8 +196,8 @@ const AdminSettings = () => {
         `${window.__ENV__.REACT_APP_MIDDLEWARE}/dms_service_LM/api/dms_admin_service/getUserSmrt`,
         {
           headers: {
-            Authorization: 'Bearer ' + localStorage.getItem('token'),
-            username: localStorage.getItem('username'),
+            Authorization: 'Bearer ' + sessionStorage.getItem('token'),
+            username: sessionStorage.getItem('username'),
             deptName: sessionStorage.getItem('department'),
             patternString: inputValue,
           },

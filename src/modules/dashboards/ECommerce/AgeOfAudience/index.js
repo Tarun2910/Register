@@ -1,6 +1,6 @@
 import React from 'react';
 import AudienceChart from './AudienceChart';
-import {Box} from '@mui/material';
+import {Box, Button} from '@mui/material';
 import PropTypes from 'prop-types';
 import {useIntl} from 'react-intl';
 import AudienceCell from './AudienceCell';
@@ -9,6 +9,10 @@ import AppList from '@crema/components/AppList';
 
 const AgeOfAudience = ({audienceData, cellListData}) => {
   const {messages} = useIntl();
+  const handleBuyNow = (event) => {
+    event.preventDefault();
+    // Implement the desired action, e.g., navigate to a new page or show more content
+  };
 
   return (
     <AppCard
@@ -16,6 +20,11 @@ const AgeOfAudience = ({audienceData, cellListData}) => {
       // sx={{height: 'auto'}}
 
       title={messages['Organisation']}
+      action={
+        <Button variant='outlined' color='primary' onClick={handleBuyNow}>
+          {messages['common.viewAll']}
+        </Button>
+      }
       contentStyle={{
         paddingLeft: 0,
         paddingRight: 0,

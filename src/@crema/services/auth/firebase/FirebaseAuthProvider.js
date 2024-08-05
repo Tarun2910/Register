@@ -184,14 +184,14 @@ const FirebaseAuthProvider = ({
       //   .request(config)
       //   .then((response) => {
       //     console.log(JSON.stringify(response.data));
-      //     localStorage.clear();
+      //     sessionStorage.clear();
       //     sessionStorage.clear();
       //     naviagte('/signin');
       //   })
       //   .catch((error) => {
       //     console.log(error);
       //   });
-      localStorage.clear();
+      sessionStorage.clear();
       sessionStorage.clear();
       naviagte('/signin');
     } catch (error) {

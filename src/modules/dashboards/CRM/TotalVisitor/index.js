@@ -7,6 +7,7 @@ import AppCard from '@crema/components/AppCardOne';
 import {useIntl} from 'react-intl';
 
 import {styled} from '@mui/material/styles';
+import {Button} from '@mui/material';
 
 const EarningGraphWrapper = styled('div')(({theme}) => {
   return {
@@ -59,12 +60,20 @@ const EarningGraphWrapper = styled('div')(({theme}) => {
 
 export const TotalVisitor = ({totalVisitors, totalUserCount}) => {
   const {messages} = useIntl();
+  const handleBuyNow = (event) => {
+    event.preventDefault();
+    // Implement the desired action, e.g., navigate to a new page or show more content
+  };
 
   return (
     <AppCard
       // sxStyle={{height: 1}}
       title={messages['UserCount']}
-      // action={messages['common.viewAll']}
+      action={
+        <Button variant='outlined' color='primary' onClick={handleBuyNow}>
+          {messages['common.viewAll']}
+        </Button>
+      }
       contentStyle={{height: '21rem'}}
     >
       <EarningGraphWrapper>

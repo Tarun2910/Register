@@ -156,7 +156,7 @@ const SigninFirebase = () => {
     try {
       const response = await axios.get(`/kms/users/detail`, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
+          Authorization: `Bearer ${sessionStorage.getItem('token')}`,
         },
       });
       setUserData(response?.data?.roles);
@@ -191,7 +191,7 @@ const SigninFirebase = () => {
       const id = setInterval(() => {
         refreshToken();
       }, 400000);
-      localStorage.setItem('refresh_session', id); // on logout i will unsubscribe from refresh token
+      sessionStorage.setItem('refresh_session', id); // on logout i will unsubscribe from refresh token
       sessionStorage.setItem('re_intiate', true); // to handle the bug of automatically login when re-open app after close
       // ReactDOM.render(<App />, document.getElementById('root'));
       // history.push({
@@ -240,7 +240,7 @@ const SigninFirebase = () => {
       const id = setInterval(() => {
         refreshToken();
       }, 400000);
-      localStorage.setItem('refresh_session', id); // on logout i will unsubscribe from refresh token
+      sessionStorage.setItem('refresh_session', id); // on logout i will unsubscribe from refresh token
       sessionStorage.setItem('re_intiate', true); // to handle the bug of automatically login when re-open app after close
       // ReactDOM.render(<App />, document.getElementById('root'));
       // history.push({
@@ -257,7 +257,7 @@ const SigninFirebase = () => {
 
   const handleRefreshToken = () => {
     // unsubscribe to refresh token api when refresh
-    const id = localStorage.getItem('refresh_session');
+    const id = sessionStorage.getItem('refresh_session');
     clearInterval(id);
     const isSuccess = refreshToken();
     if (isSuccess) {
@@ -266,7 +266,7 @@ const SigninFirebase = () => {
         refreshToken();
       }, 400000);
 
-      localStorage.setItem('refresh_session', id); // on logout i will unsubscribe from refresh token
+      sessionStorage.setItem('refresh_session', id); // on logout i will unsubscribe from refresh token
     }
   };
 
@@ -287,15 +287,15 @@ const SigninFirebase = () => {
         })
       ).json();
       if (login.message) {
-        localStorage.clear();
+        sessionStorage.clear();
         sessionStorage.clear();
         redirectToLogin();
       } // important to clear first because previous logged in might contain some inboxId or imp data
       else if (login.access_token) {
         sessionStorage.setItem('token', login.access_token);
         sessionStorage.setItem('sessionId', login.session_state);
-        localStorage.setItem('refresh_token', login.refresh_token);
-        localStorage.setItem('expires_in', login.expires_in);
+        sessionStorage.setItem('refresh_token', login.refresh_token);
+        sessionStorage.setItem('expires_in', login.expires_in);
         return true;
       } else {
         redirectToLogin();
@@ -308,9 +308,9 @@ const SigninFirebase = () => {
 
   const redirectToLogin = () => {
     // unsubscribe to refresh token api when there is an error in it
-    const id = localStorage.getItem('refresh_session');
+    const id = sessionStorage.getItem('refresh_session');
     clearInterval(id);
-    localStorage.clear();
+    sessionStorage.clear();
     sessionStorage.clear();
   };
 
@@ -328,7 +328,7 @@ const SigninFirebase = () => {
 
   useEffect(() => {
     if (!autoLogin) {
-      localStorage.clear();
+      sessionStorage.clear();
       sessionStorage.clear();
     }
   }, [autoLogin]);

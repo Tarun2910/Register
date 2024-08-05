@@ -49,6 +49,8 @@ import {
   resetUsersDashboard,
 } from 'redux/features/usersDashboardSlice';
 import {Add} from '@mui/icons-material';
+import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
+import {saveAs} from 'file-saver';
 
 const ProductListing = () => {
   const {usersDataIsLoading} = useSelector((state) => state.usersDashboard);
@@ -201,7 +203,7 @@ const ProductListing = () => {
       maxBodyLength: Infinity,
       url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/info`,
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        Authorization: `Bearer ${sessionStorage.getItem('token')}`,
       },
     };
 
@@ -287,8 +289,8 @@ const ProductListing = () => {
       url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/dms_service_LM/api/dms_admin_service/setUserData`,
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-        userName: localStorage.getItem('username'),
+        Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+        userName: sessionStorage.getItem('username'),
         pageNumber: page,
       },
       data: updatedItemsState,
@@ -329,7 +331,7 @@ const ProductListing = () => {
         window.__ENV__.REACT_APP_MIDDLEWARE
       }/tenants/users?keyword=${searchQuery}&pageNum=${'0'}`,
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        Authorization: `Bearer ${sessionStorage.getItem('token')}`,
       },
     };
 
@@ -352,7 +354,7 @@ const ProductListing = () => {
       url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/applications`,
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        Authorization: `Bearer ${sessionStorage.getItem('token')}`,
       },
     };
 
@@ -401,6 +403,33 @@ const ProductListing = () => {
 
   const handlecloseDomain = () => {
     setOpenDomain(false);
+  };
+
+  const handleDownloadUser = () => {
+    let config = {
+      method: 'get',
+      maxBodyLength: Infinity,
+      url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/bulkUserDownload`,
+      headers: {
+        Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+      },
+      responseType: 'blob', // Important: specify response type as 'blob'
+    };
+
+    axios
+      .request(config)
+      .then((response) => {
+        // Create a blob from the response data
+        const blob = new Blob([response.data], {
+          type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        });
+
+        // Use file-saver to save the file
+        saveAs(blob, 'User_Data.xlsx'); // You can customize the file name here
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
@@ -454,6 +483,25 @@ const ProductListing = () => {
           </Grid>
         </Slide>
       </AppGridContainer>
+
+      <Tooltip title='DOWNLOAD USER'>
+        <Fab
+          id='fabBtn'
+          color='primary'
+          style={{color: '#fff'}}
+          aria-label='add'
+          onClick={handleDownloadUser}
+          size='small'
+          sx={{
+            position: 'absolute',
+            bottom: 19,
+            right: 115,
+            color: blue[500],
+          }}
+        >
+          <FileDownloadOutlinedIcon />
+        </Fab>
+      </Tooltip>
 
       <Tooltip title='SAVE CHANGES'>
         <Fab

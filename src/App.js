@@ -52,28 +52,37 @@ import AuthRoutes from '@crema/components/AuthRoutes';
 import AppLayout from '@crema/core/AppLayout';
 import '@crema/mockapi';
 import './styles/index.css';
-import {Provider} from 'react-redux';
+import {Provider, useDispatch, useSelector} from 'react-redux';
 import {store} from 'redux/store';
 import CloseIcon from '@mui/icons-material/Close';
 import {Tooltip} from '@mui/material';
+import {authRefreshAction} from 'redux/features/authSlice';
 
 const ExpiryWarningModal = () => {
-  const showexpiredwarning = localStorage.getItem('showexpiredwarning');
-  const showupcomingexpiry = localStorage.getItem('showupcomingexpiry');
+  const dispatch = useDispatch();
+  // Access state from Redux store
+  const {showexpiredwarning, showupcomingexpiry} = useSelector((state) => ({
+    showexpiredwarning: state.auth.showexpiredwarning,
+    showupcomingexpiry: state.auth.showupcomingexpiry,
+  }));
 
-  const [showexp, setShowExp] = useState(showexpiredwarning);
-  const [showcomexp, setShowComExp] = useState(showupcomingexpiry);
+  // Local state to control visibility of warnings
+  const [showExp, setShowExp] = useState(showexpiredwarning);
+  const [showComExp, setShowComExp] = useState(showupcomingexpiry);
+
+  // Update local state if Redux state changes
+  useEffect(() => {
+    setShowExp(showexpiredwarning);
+    setShowComExp(showupcomingexpiry);
+  }, [showexpiredwarning, showupcomingexpiry]);
 
   useEffect(() => {
-    // Update state from localStorage on mount
-    setShowExp(!!localStorage.getItem('showexpiredwarning'));
-    setShowComExp(!!localStorage.getItem('showupcomingexpiry'));
+    dispatch(authRefreshAction());
   }, []);
 
-  console.log(showupcomingexpiry, 'hh');
   return (
     <>
-      {showexp && (
+      {showExp && (
         <div
           style={{
             position: 'fixed',
@@ -107,7 +116,7 @@ const ExpiryWarningModal = () => {
           </div>
         </div>
       )}
-      {showcomexp && (
+      {showComExp && (
         <div
           style={{
             position: 'fixed',

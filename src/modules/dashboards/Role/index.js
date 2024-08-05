@@ -173,7 +173,7 @@ const ProductListing = () => {
   //   headers: {
   //     Accept: 'application/json',
   //     'Content-Type': 'application/json; charset=utf8',
-  //     Authorization: `Bearer ${localStorage.getItem('token')}`,
+  //     Authorization: `Bearer ${sessionStorage.getItem('token')}`,
   //     pageSize: '10',
   //     pageNumber: page,
   //     userName: sessionStorage.getItem('username'),
@@ -235,7 +235,7 @@ const ProductListing = () => {
   //     url: '/tenants/users/status',
   //     headers: {
   //       'Content-Type': 'application/json',
-  //       Authorization: `Bearer ${localStorage.getItem('token')}`,
+  //       Authorization: `Bearer ${sessionStorage.getItem('token')}`,
   //     },
   //     data: updatedItemsState,
   //   };
@@ -272,7 +272,7 @@ const ProductListing = () => {
   //     maxBodyLength: Infinity,
   //     url: `/tenants/users?keyword=${searchQuery}&pageNum=${'0'}`,
   //     headers: {
-  //       Authorization: `Bearer ${localStorage.getItem('token')}`,
+  //       Authorization: `Bearer ${sessionStorage.getItem('token')}`,
   //     },
   //   };
 
@@ -327,7 +327,7 @@ const ProductListing = () => {
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json; charset=utf8',
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        Authorization: `Bearer ${sessionStorage.getItem('token')}`,
         pageSize: '10',
         pageNumber: page,
         userName: sessionStorage.getItem('username'),
@@ -359,7 +359,7 @@ const ProductListing = () => {
       headers: {
         userId: selecteddept.id,
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        Authorization: `Bearer ${sessionStorage.getItem('token')}`,
       },
       data: [{roleName: roleName, roleDisplayName: roleDisplayname}],
     };
@@ -384,7 +384,7 @@ const ProductListing = () => {
       method: 'put',
       url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/roles`,
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        Authorization: `Bearer ${sessionStorage.getItem('token')}`,
         departmentName: rowdata?.department?.deptName,
       },
       data: {

@@ -16,8 +16,9 @@ const CardDetails = ({
   inactiveUserCount,
   pendingUserCount,
   totalUsersAllowedInLicenseTier,
+  licenseExpiry,
 }) => {
-  console.log(activeUserCount, totalUserCount, 'final');
+  console.log(cardDetails, 'cardDetails');
   const {messages} = useIntl();
   return (
     <>
@@ -31,6 +32,7 @@ const CardDetails = ({
             borderBottom: (theme) => `solid 2px ${theme.palette.divider}`,
             pb: 1,
             mb: 2.5,
+            height: '1.25rem',
           }}
         >
           {/* <Box
@@ -96,7 +98,6 @@ const CardDetails = ({
                 sx={{
                   px: 2.5,
                   pb: 2.5,
-                  // height: '17.5rem',
                 }}
                 key={index}
               >
@@ -126,7 +127,7 @@ const CardDetails = ({
         />
         <Typography
           sx={{
-            fontWeight: Fonts.SEMI_BOLD,
+            fontWeight: Fonts.MEDIUM,
             textAlign: 'start',
             fontSize: 15,
             pb: 1,
@@ -137,19 +138,20 @@ const CardDetails = ({
         </Typography>
         <Box
           sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            mb: 2.5,
+            fontWeight: Fonts.MEDIUM,
+            textAlign: 'start',
+            fontSize: 15,
+            pb: 1,
           }}
         >
-          <CustomizedProgressBars
+          {/* <CustomizedProgressBars
             totalUserCount={totalUserCount}
             activeUserCount={activeUserCount}
             inactiveUserCount={inactiveUserCount}
             pendingUserCount={pendingUserCount}
             totalUsersAllowedInLicenseTier={totalUsersAllowedInLicenseTier}
-          />
+          /> */}
+          License Expiry Date :- {licenseExpiry}
         </Box>
         {/* </Box> */}
       </AppCard>
@@ -166,6 +168,7 @@ CardDetails.propTypes = {
   inactiveUserCount: PropTypes.any.isRequired,
   pendingUserCount: PropTypes.any.isRequired,
   totalUsersAllowedInLicenseTier: PropTypes.any.isRequired,
+  licenseExpiry: PropTypes.any,
 };
 
 // import React from 'react';

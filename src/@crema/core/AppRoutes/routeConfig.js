@@ -56,6 +56,7 @@ import {AiOutlineFolderOpen} from 'react-icons/ai';
 import {MdOutlineBusiness} from 'react-icons/md';
 import {HiOutlineIdentification} from 'react-icons/hi';
 import {FaRegUser} from 'react-icons/fa';
+import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined';
 
 const iconSize = 20;
 
@@ -81,7 +82,7 @@ const routesConfig = [
     title: 'Academy',
     messageId: 'sidebar.app.teamsync',
     type: 'item',
-    icon: <AiOutlineFolderOpen size={iconSize} />,
+    icon: <DashboardOutlinedIcon size={iconSize} />,
     url: '/teamSync',
   },
   {

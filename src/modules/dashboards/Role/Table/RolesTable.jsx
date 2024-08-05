@@ -57,7 +57,7 @@
 //         url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/departments/${rowData.department.deptName}/roles`,
 //         headers: {
 //           'Content-Type': 'application/json',
-//           Authorization: `Bearer ${localStorage.getItem('token')}`,
+//           Authorization: `Bearer ${sessionStorage.getItem('token')}`,
 //           roleName: rowData?.roleName,
 //         },
 //         data: newArr,
@@ -241,7 +241,7 @@ const RolesTable = ({
       url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/departments/${rowData.department.deptName}/roles`,
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        Authorization: `Bearer ${sessionStorage.getItem('token')}`,
         roleName: rowData?.roleName,
       },
       data: newArr,

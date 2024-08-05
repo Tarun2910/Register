@@ -35,7 +35,7 @@ const ProductInfo = ({productInfo, product}) => {
       try {
         const response = await axios.get(`/kms/courses/videos`, {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
+            Authorization: `Bearer ${sessionStorage.getItem('token')}`,
             courseId: product.id,
           },
         });

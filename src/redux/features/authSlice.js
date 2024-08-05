@@ -41,18 +41,6 @@ export const loginAction = createAsyncThunk(
           maxBodyLength: Infinity,
         },
       );
-      if (response.headers['showexpiredwarning']) {
-        localStorage.setItem(
-          'showexpiredwarning',
-          response.headers['showexpiredwarning'],
-        );
-      }
-      if (response.headers['showupcomingexpiry']) {
-        localStorage.setItem(
-          'showupcomingexpiry',
-          response.headers['showupcomingexpiry'],
-        );
-      }
 
       return response.data;
     } catch (error) {
@@ -79,10 +67,10 @@ export const authRefreshAction = createAsyncThunk(
   async (thunkAPI) => {
     try {
       console.log('Auth REF');
-      const refresh_token = localStorage.getItem('refresh_token');
+      const refresh_token = sessionStorage.getItem('refresh_token');
       const formData = new FormData();
-      formData.append('refreshToken', localStorage.getItem('refresh_token'));
-      formData.append('userEmail', localStorage.getItem('username'));
+      formData.append('refreshToken', sessionStorage.getItem('refresh_token'));
+      formData.append('userEmail', sessionStorage.getItem('username'));
       formData.append('appName', 'TeamSync');
 
       const refreshResponse = await axios.post(
@@ -95,8 +83,8 @@ export const authRefreshAction = createAsyncThunk(
       if (refreshResponse.data && refreshResponse.data.access_token) {
         // console.log('refreshResponse', refreshResponse)
 
-        localStorage.setItem('token', refreshResponse.data.access_token);
-        localStorage.setItem('sessionId', refreshResponse.data.session_state);
+        sessionStorage.setItem('token', refreshResponse.data.access_token);
+        sessionStorage.setItem('sessionId', refreshResponse.data.session_state);
 
         return refreshResponse.data;
       } else {
@@ -127,7 +115,7 @@ export const checkTokenValidtyAction = createAsyncThunk(
   'auth/checkTokenValidtyAction',
   async (payload, thunkAPI) => {
     try {
-      const token = localStorage.getItem('token');
+      const token = sessionStorage.getItem('token');
 
       const response = await axios.get(
         `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/info`,
@@ -164,8 +152,8 @@ export const checkTokenValidtyAction = createAsyncThunk(
           );
 
           // console.log('refreshedToken', refreshedToken)
-          localStorage.setItem('token', refreshedToken.payload.access_token);
-          localStorage.setItem(
+          sessionStorage.setItem('token', refreshedToken.payload.access_token);
+          sessionStorage.setItem(
             'sessionId',
             refreshedToken.payload.session_state,
           );
@@ -204,7 +192,7 @@ export const authSlice = createSlice({
   initialState,
   reducers: {
     logOut: () => {
-      localStorage.clear();
+      sessionStorage.clear();
     },
     resetLoginAction(state) {
       // state.loginData = {}
@@ -238,6 +226,8 @@ export const authSlice = createSlice({
         state.loginIsError = false;
         state.loginError = '';
         state.loginIsSuccess = false;
+        state.showexpiredwarning = false;
+        state.showupcomingexpiry = false;
       })
       .addCase(loginAction.fulfilled, (state, action) => {
         console.log('loginAction Inside fulfilled', action);
@@ -247,8 +237,8 @@ export const authSlice = createSlice({
         state.loginIsError = false;
         state.loginError = '';
         state.loginIsSuccess = true;
-        // state.showexpiredwarning = action.headers['showexpiredwarning'];
-        // state.showupcomingexpiry = action.headers['showupcomingexpiry'];
+        state.showexpiredwarning = action.payload.showExpiredWarning;
+        state.showupcomingexpiry = action.payload.showUpcomingExpiry;
       })
       .addCase(loginAction.rejected, (state, action) => {
         // console.log('loginAction Inside error', action)
@@ -258,6 +248,8 @@ export const authSlice = createSlice({
         state.loginIsError = true;
         state.loginError = action.error.message;
         state.loginIsSuccess = false;
+        state.showexpiredwarning = false;
+        state.showupcomingexpiry = false;
       })
 
       // refresh
@@ -333,6 +325,10 @@ export const loginIsError = (state) => state.auth.loginIsError;
 export const loginError = (state) => state.auth.loginError;
 
 export const loginIsSuccess = (state) => state.auth.loginIsSuccess;
+
+export const showexpiredwarning = (state) => state.auth.showexpiredwarning;
+
+export const showupcomingexpiry = (state) => state.auth.showupcomingexpiry;
 
 // refresh
 export const refreshData = (state) => state.auth.refreshData;

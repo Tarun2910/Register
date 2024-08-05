@@ -49,7 +49,7 @@ const LoginPage = (props) => {
 
   // let salt;
 
-  const userName = localStorage.getItem('username');
+  const userName = sessionStorage.getItem('username');
   const autoLogin = sessionStorage.getItem('re_intiate');
 
   console.log(loginData);
@@ -94,9 +94,9 @@ const LoginPage = (props) => {
         // Here means login is successfull
         sessionStorage.setItem('token', response.data.access_token);
         sessionStorage.setItem('sessionId', response.data.session_state);
-        localStorage.setItem('refresh_token', response.data.refresh_token);
-        localStorage.setItem('username', Cred.username);
-        localStorage.setItem('expires_in', response.data.expires_in);
+        sessionStorage.setItem('refresh_token', response.data.refresh_token);
+        sessionStorage.setItem('username', Cred.username);
+        sessionStorage.setItem('expires_in', response.data.expires_in);
         document.body.style.zoom = '95%';
 
         // Login is succesfull so now i am listining for referesh token after some time
@@ -104,7 +104,7 @@ const LoginPage = (props) => {
           refreshToken();
         }, 400000);
         setLoading(false);
-        localStorage.setItem('refresh_session', id); // on logout i will unsubscribe from refresh token
+        sessionStorage.setItem('refresh_session', id); // on logout i will unsubscribe from refresh token
         sessionStorage.setItem('re_intiate', true); // to handle the bug of automatically login when re-open app after close
         ReactDOM.render(<App />, document.getElementById('root'));
         history.push({
@@ -157,9 +157,9 @@ const LoginPage = (props) => {
         // Here means login is successfull
         sessionStorage.setItem('token', response.data.access_token);
         sessionStorage.setItem('sessionId', response.data.session_state);
-        localStorage.setItem('refresh_token', response.data.refresh_token);
-        localStorage.setItem('username', Cred.username);
-        localStorage.setItem('expires_in', response.data.expires_in);
+        sessionStorage.setItem('refresh_token', response.data.refresh_token);
+        sessionStorage.setItem('username', Cred.username);
+        sessionStorage.setItem('expires_in', response.data.expires_in);
         document.body.style.zoom = '95%';
 
         // Login is succesfull so now i am listining for referesh token after some time
@@ -167,7 +167,7 @@ const LoginPage = (props) => {
           refreshToken();
         }, 400000);
         setLoading(false);
-        localStorage.setItem('refresh_session', id); // on logout i will unsubscribe from refresh token
+        sessionStorage.setItem('refresh_session', id); // on logout i will unsubscribe from refresh token
         sessionStorage.setItem('re_intiate', true); // to handle the bug of automatically login when re-open app after close
         ReactDOM.render(<App />, document.getElementById('root'));
         history.push({
@@ -243,9 +243,9 @@ const LoginPage = (props) => {
       //   // Here means login is successfull
       //   sessionStorage.setItem("token", login.access_token);
       //   sessionStorage.setItem("sessionId", login.session_state);
-      //   localStorage.setItem("refresh_token", login.refresh_token);
-      //   localStorage.setItem("username", Cred.username);
-      //   localStorage.setItem("expires_in", login.expires_in);
+      //   sessionStorage.setItem("refresh_token", login.refresh_token);
+      //   sessionStorage.setItem("username", Cred.username);
+      //   sessionStorage.setItem("expires_in", login.expires_in);
       //   document.body.style.zoom = "95%";
 
       //   // Login is succesfull so now i am listining for referesh token after some time
@@ -253,7 +253,7 @@ const LoginPage = (props) => {
       //     refreshToken();
       //   }, 400000);
       //   setLoading(false);
-      //   localStorage.setItem("refresh_session", id); // on logout i will unsubscribe from refresh token
+      //   sessionStorage.setItem("refresh_session", id); // on logout i will unsubscribe from refresh token
       //   sessionStorage.setItem("re_intiate", true); // to handle the bug of automatically login when re-open app after close
       //   ReactDOM.render(<App />, document.getElementById("root"));
       //   history.push({
@@ -297,14 +297,14 @@ const LoginPage = (props) => {
 
   useEffect(() => {
     if (!autoLogin) {
-      localStorage.clear();
+      sessionStorage.clear();
       sessionStorage.clear();
     }
   }, [autoLogin]);
 
   const handleRefreshToken = () => {
     // unsubscribe to refresh token api when refresh
-    const id = localStorage.getItem('refresh_session');
+    const id = sessionStorage.getItem('refresh_session');
     clearInterval(id);
     const isSuccess = refreshToken();
     if (isSuccess) {
@@ -313,7 +313,7 @@ const LoginPage = (props) => {
         refreshToken();
       }, 400000);
 
-      localStorage.setItem('refresh_session', id); // on logout i will unsubscribe from refresh token
+      sessionStorage.setItem('refresh_session', id); // on logout i will unsubscribe from refresh token
       ReactDOM.render(<App />, document.getElementById('root'));
     }
   };
@@ -328,7 +328,7 @@ const LoginPage = (props) => {
       const data = JSON.stringify({
         grant_type: 'refresh_token',
 
-        refresh_token: localStorage.getItem('refresh_token'),
+        refresh_token: sessionStorage.getItem('refresh_token'),
       });
       const login = await (
         await fetch('/auth/refresh-token', {
@@ -338,7 +338,7 @@ const LoginPage = (props) => {
         })
       ).json();
       if (login.message) {
-        localStorage.clear();
+        sessionStorage.clear();
         sessionStorage.clear();
         setCred({
           ...Cred,
@@ -349,8 +349,8 @@ const LoginPage = (props) => {
       else if (login.access_token) {
         sessionStorage.setItem('token', login.access_token);
         sessionStorage.setItem('sessionId', login.session_state);
-        localStorage.setItem('refresh_token', login.refresh_token);
-        localStorage.setItem('expires_in', login.expires_in);
+        sessionStorage.setItem('refresh_token', login.refresh_token);
+        sessionStorage.setItem('expires_in', login.expires_in);
         return true;
       } else {
         redirectToLogin();
@@ -368,9 +368,9 @@ const LoginPage = (props) => {
 
   const redirectToLogin = () => {
     // unsubscribe to refresh token api when there is an error in it
-    const id = localStorage.getItem('refresh_session');
+    const id = sessionStorage.getItem('refresh_session');
     clearInterval(id);
-    localStorage.clear();
+    sessionStorage.clear();
     sessionStorage.clear();
     ReactDOM.render(<LoginPage />, document.getElementById('root'));
   };

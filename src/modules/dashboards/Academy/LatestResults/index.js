@@ -31,7 +31,7 @@ const ResultItem = ({result}) => {
         sx={{
           display: 'flex',
           alignItems: 'center',
-          width: '60%',
+          width: '50%',
           overflow: 'hidden',
         }}
       >
@@ -64,13 +64,13 @@ const ResultItem = ({result}) => {
       <Box
         sx={{
           pl: 4,
-          width: '40%',
+          width: '50%',
           display: 'flex',
           alignItems: 'center',
         }}
       >
         <AppLinearProgress
-          style={{flex: 1, height: '0.25rem'}}
+          style={{flex: 1, height: '0.4rem'}}
           value={result.percentage}
           activeColor={getColor(result.percentage)}
         />
@@ -106,7 +106,7 @@ const LatestResults = ({latestResults, user}) => {
       contentStyle={{px: 0}}
     >
       <AppList
-        sx={{height: '19rem'}}
+        sx={{height: '19.6rem'}}
         animation='transition.slideRightBigIn'
         data={getData(latestResults)}
         renderRow={(data, index) => <ResultItem key={index} result={data} />}

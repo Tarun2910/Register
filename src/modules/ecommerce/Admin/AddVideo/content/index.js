@@ -51,7 +51,7 @@ const ProductContent = ({
         const response = await axios.get(`/kms/courses/${courseId}/chapters`, {
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
+            Authorization: `Bearer ${sessionStorage.getItem('token')}`,
           },
         });
         setChapterData(response?.data);

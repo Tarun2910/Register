@@ -25,7 +25,7 @@ const ProductEditPage = () => {
       try {
         const response = await axios.get(`/kms/courses/${id}`, {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
+            Authorization: `Bearer ${sessionStorage.getItem('token')}`,
           },
         });
         const courseLength = response.headers['totalcourses'];
@@ -42,7 +42,7 @@ const ProductEditPage = () => {
               `/kms/courses/file/${thumbnail}?fileType=thumbnail`,
               {
                 headers: {
-                  Authorization: `Bearer ${localStorage.getItem('token')}`,
+                  Authorization: `Bearer ${sessionStorage.getItem('token')}`,
                 },
                 responseType: 'arraybuffer',
               },

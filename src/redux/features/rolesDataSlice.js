@@ -24,7 +24,7 @@ export const getRolesData = createAsyncThunkWithTokenRefresh(
           Authorization: `Bearer ${token}`,
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          username: localStorage.getItem('username'),
+          username: sessionStorage.getItem('username'),
           pageSize: payload.pageSize,
           pageNumber: payload.pageNumber,
           deptName: 'ALL_USER',

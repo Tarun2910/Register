@@ -91,7 +91,7 @@ const Signin = () => {
   );
 
   useEffect(() => {
-    localStorage.clear();
+    sessionStorage.clear();
     dispatch(resetRefreshction());
     dispatch(resetCheckTokenValidtyAction());
     dispatch(resetgetUserDetailsAction());
@@ -99,10 +99,10 @@ const Signin = () => {
 
   useEffect(() => {
     if (isSuccess) {
-      localStorage.setItem('token', data?.access_token);
-      localStorage.setItem('sessionId', data?.session_state);
-      localStorage.setItem('username', username);
-      localStorage.setItem('refresh_token', data.refresh_token);
+      sessionStorage.setItem('token', data?.access_token);
+      sessionStorage.setItem('sessionId', data?.session_state);
+      sessionStorage.setItem('username', username);
+      sessionStorage.setItem('refresh_token', data.refresh_token);
       dispatch(resetLoginAction());
       dispatch(getUserDetailsAction());
     } else if (isError) {
@@ -110,7 +110,7 @@ const Signin = () => {
       dispatch(resetLoginAction());
     }
     if (userDataIsSuccess) {
-      localStorage.setItem('userData', JSON.stringify(userData));
+      sessionStorage.setItem('userData', JSON.stringify(userData));
       dispatch(resetgetUserDetailsAction());
       console.log('redirect to TS');
       navigate('/teamSync');

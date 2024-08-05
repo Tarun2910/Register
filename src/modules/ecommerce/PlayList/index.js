@@ -64,7 +64,7 @@ const Playlist = () => {
       try {
         const response = await axios.get(`/kms/courses/videos`, {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
+            Authorization: `Bearer ${sessionStorage.getItem('token')}`,
             courseId: id,
           },
         });
@@ -87,7 +87,9 @@ const Playlist = () => {
         setIsLoading(false);
       }
     }
-    const storedTime = localStorage.getItem(`video-${selectedVideo?.id}-time`);
+    const storedTime = sessionStorage.getItem(
+      `video-${selectedVideo?.id}-time`,
+    );
     const currentTime = storedTime ? parseFloat(storedTime) : 0;
 
     if (selectedVideo) {
@@ -101,7 +103,7 @@ const Playlist = () => {
     try {
       const timestampResponse = await axios.post('/kms/courses/timestamp', '', {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
+          Authorization: `Bearer ${sessionStorage.getItem('token')}`,
           videoId: videoId,
           timestamp: timestamp,
         },
@@ -167,7 +169,7 @@ const Playlist = () => {
   };
 
   const updateVideoTime = (videoId, currentTime) => {
-    localStorage.setItem(`video-${videoId}-time`, parseInt(currentTime));
+    sessionStorage.setItem(`video-${videoId}-time`, parseInt(currentTime));
   };
 
   const playVideo = async (video, currentTime) => {
@@ -205,7 +207,7 @@ const Playlist = () => {
         `/kms/courses/file/${video.filterPath}?fileType=kms`,
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
+            Authorization: `Bearer ${sessionStorage.getItem('token')}`,
           },
           responseType: 'arraybuffer',
         },

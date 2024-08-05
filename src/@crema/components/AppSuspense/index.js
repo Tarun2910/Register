@@ -13,7 +13,7 @@ import ConfirmSignupAwsCognito from 'modules/auth/Signup/ConfirmSignupAwsCognito
 import ResetPasswordAwsCognito from 'modules/auth/ForgetPassword/ResetPasswordAwsCognito';
 
 const AppSuspense = (props) => {
-  const jwtToken = localStorage.getItem('token');
+  const jwtToken = sessionStorage.getItem('token');
   let isAuthenticated = false;
   const location = useLocation();
 
