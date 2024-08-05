@@ -13,7 +13,7 @@ const initialState = {
 
 const refreshAccessToken = async (thunkAPI) => {
   try {
-    const refresh_token = localStorage.getItem('refresh_token');
+    const refresh_token = sessionStorage.getItem('refresh_token');
 
     const refreshResponse = await axios.post(
       `${window.__ENV__.REACT_APP_MIDDLEWARE}/auth/refresh-token`,
@@ -29,8 +29,8 @@ const refreshAccessToken = async (thunkAPI) => {
       },
     );
 
-    localStorage.setItem('token', refreshResponse.data.access_token);
-    localStorage.setItem('sessionId', refreshResponse.data.session_state);
+    sessionStorage.setItem('token', refreshResponse.data.access_token);
+    sessionStorage.setItem('sessionId', refreshResponse.data.session_state);
 
     return refreshResponse.data;
   } catch (refreshError) {
@@ -43,9 +43,9 @@ export const getUserDetailsAction = createAsyncThunk(
   async () => {
     try {
       const headers = {};
-      const sessionId = localStorage.getItem('sessionId');
-      const username = localStorage.getItem('username');
-      const token = localStorage.getItem('token');
+      const sessionId = sessionStorage.getItem('sessionId');
+      const username = sessionStorage.getItem('username');
+      const token = sessionStorage.getItem('token');
 
       if (sessionId) {
         headers['sessionId'] = sessionId;

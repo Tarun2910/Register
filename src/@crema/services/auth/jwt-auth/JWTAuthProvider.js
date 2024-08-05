@@ -24,7 +24,7 @@ const JWTAuthAuthProvider = ({
   useEffect(() => {
     const getAuthUser = () => {
       fetchStart();
-      const token = localStorage.getItem('token');
+      const token = sessionStorage.getItem('token');
 
       if (!token) {
         fetchSuccess();
@@ -63,7 +63,7 @@ const JWTAuthAuthProvider = ({
     fetchStart();
     try {
       const {data} = await jwtAxios.post('auth', {email, password});
-      localStorage.setItem('token', data.token);
+      sessionStorage.setItem('token', data.token);
       setAuthToken(data.token);
       const res = await jwtAxios.get('/auth');
       setJWTAuthData({
@@ -86,7 +86,7 @@ const JWTAuthAuthProvider = ({
     fetchStart();
     try {
       const {data} = await jwtAxios.post('users', {name, email, password});
-      localStorage.setItem('token', data.token);
+      sessionStorage.setItem('token', data.token);
       setAuthToken(data.token);
       const res = await jwtAxios.get('/auth');
       setJWTAuthData({
@@ -107,7 +107,7 @@ const JWTAuthAuthProvider = ({
   };
 
   const logout = async () => {
-    localStorage.removeItem('token');
+    sessionStorage.removeItem('token');
     setAuthToken();
     setJWTAuthData({
       user: null,

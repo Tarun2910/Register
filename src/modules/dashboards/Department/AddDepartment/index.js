@@ -68,7 +68,7 @@ export const AddChapter = ({selectedProd, isEdit}) => {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json; charset=utf8',
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
+          Authorization: `Bearer ${sessionStorage.getItem('token')}`,
           deptId: id,
           userName: sessionStorage.getItem('username'),
         },
@@ -181,7 +181,7 @@ export const AddChapter = ({selectedProd, isEdit}) => {
                   headers: {
                     Accept: 'application/json',
                     'Content-Type': 'application/json; charset=utf8',
-                    Authorization: `Bearer ${localStorage.getItem('token')}`,
+                    Authorization: `Bearer ${sessionStorage.getItem('token')}`,
                   },
                 },
               )
@@ -234,7 +234,7 @@ export const AddChapter = ({selectedProd, isEdit}) => {
               url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/multitenant/adminportal/api/createDepartment`,
               headers: {
                 'Content-Type': 'application/json',
-                Authorization: `Bearer ${localStorage.getItem('token')}`,
+                Authorization: `Bearer ${sessionStorage.getItem('token')}`,
               },
               data: metaDataString,
             };

@@ -61,7 +61,7 @@ const ProductSidebar = ({filterData, setFilterData, setList, setTotal}) => {
     try {
       const response = await axios.get(`/kms/courses/by-everything`, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
+          Authorization: `Bearer ${sessionStorage.getItem('token')}`,
           tags: selectedBrandNames,
           keyword: '',
         },

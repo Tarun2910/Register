@@ -169,7 +169,7 @@ const ProductListing = ({
   //     maxBodyLength: Infinity,
   //     url: `/tenants/info`,
   //     headers: {
-  //       Authorization: `Bearer ${localStorage.getItem('token')}`,
+  //       Authorization: `Bearer ${sessionStorage.getItem('token')}`,
   //     },
   //   };
 
@@ -196,7 +196,7 @@ const ProductListing = ({
   //     maxBodyLength: Infinity,
   //     url: `/tenants/users?pageNum=${page}`,
   //     headers: {
-  //       Authorization: `Bearer ${localStorage.getItem('token')}`,
+  //       Authorization: `Bearer ${sessionStorage.getItem('token')}`,
   //     },
   //   };
 
@@ -243,7 +243,7 @@ const ProductListing = ({
       url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/users/status`,
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        Authorization: `Bearer ${sessionStorage.getItem('token')}`,
       },
       data: updatedItemsState,
     };
@@ -280,7 +280,7 @@ const ProductListing = ({
   //       window.__ENV__.REACT_APP_MIDDLEWARE
   //     }/tenants/users?keyword=${searchQuery}&pageNum=${'0'}`,
   //     headers: {
-  //       Authorization: `Bearer ${localStorage.getItem('token')}`,
+  //       Authorization: `Bearer ${sessionStorage.getItem('token')}`,
   //     },
   //   };
 

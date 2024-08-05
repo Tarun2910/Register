@@ -88,7 +88,7 @@ const ProductContent = ({
       url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/users/template`,
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        Authorization: `Bearer ${sessionStorage.getItem('token')}`,
       },
       responseType: 'blob', // Ensure response is treated as a blob
     };
@@ -120,7 +120,7 @@ const ProductContent = ({
       url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/users/template`,
       headers: {
         'Content-Type': 'multipart/form-data',
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        Authorization: `Bearer ${sessionStorage.getItem('token')}`,
       },
       data: formData,
     };

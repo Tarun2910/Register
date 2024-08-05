@@ -4,6 +4,15 @@ import {Box} from '@mui/material';
 import './index.css';
 
 const AppContentViewWrapper = ({children, ...rest}) => {
+  const Auth = sessionStorage.getItem('isAuthenticated');
+  const shouldShowBackgroundImage =
+    window.location.pathname.includes('/signin') ||
+    window.location.pathname.includes('/userlogin') ||
+    window.location.pathname.includes('/signup') ||
+    window.location.pathname.includes('/check-mail') ||
+    window.location.pathname.includes('/set-password') ||
+    window.location.pathname.includes('/token') ||
+    Auth === 'false';
   return (
     <Box
       sx={{
@@ -15,15 +24,9 @@ const AppContentViewWrapper = ({children, ...rest}) => {
         mx: {xl: 'auto'},
         width: {xl: '100%'},
 
-        backgroundImage:
-          window.location.pathname.includes('/signin') ||
-          window.location.pathname.includes('/userlogin') ||
-          window.location.pathname.includes('/signup') ||
-          window.location.pathname.includes('/check-mail') ||
-          window.location.pathname.includes('/set-password/:token') ||
-          window.location.pathname.includes('/token/:token')
-            ? 'linear-gradient(118deg, rgb(88 86 86 / 19%), rgb(73 75 77 / 43%)), url(/assets/images/sidebar/thumb/17973908.jpg)'
-            : '',
+        backgroundImage: shouldShowBackgroundImage
+          ? 'linear-gradient(118deg, rgb(88 86 86 / 19%), rgb(73 75 77 / 43%)), url(/assets/images/sidebar/thumb/17973908.jpg)'
+          : '',
         backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat',
         backgroundPosition: 'center',

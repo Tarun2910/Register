@@ -187,7 +187,7 @@ const ProductListing = ({
         updatedList,
         {
           headers: {
-            Authorization: 'Bearer ' + localStorage.getItem('token'),
+            Authorization: 'Bearer ' + sessionStorage.getItem('token'),
             username: sessionStorage.getItem('username'),
             deptName: sessionStorage.getItem('username'),
             pageNumber: '0',
@@ -217,7 +217,7 @@ const ProductListing = ({
         window.__ENV__.REACT_APP_MIDDLEWARE
       }/tenants/users?keyword=${searchQuery}&pageNum=${'0'}`,
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        Authorization: `Bearer ${sessionStorage.getItem('token')}`,
       },
     };
 

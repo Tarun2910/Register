@@ -102,7 +102,7 @@ const ProductListing = () => {
   //     headers: {
   //       Accept: 'application/json',
   //       'Content-Type': 'application/json; charset=utf8',
-  //       Authorization: `Bearer ${localStorage.getItem('token')}`,
+  //       Authorization: `Bearer ${sessionStorage.getItem('token')}`,
   //       pageSize: '10',
   //       pageNumber: page,
   //       userName: sessionStorage.getItem('username'),
@@ -190,7 +190,7 @@ const ProductListing = () => {
       maxBodyLength: Infinity,
       url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/departments`,
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        Authorization: `Bearer ${sessionStorage.getItem('token')}`,
       },
       data: {
         deptName: deptname,
@@ -225,7 +225,7 @@ const ProductListing = () => {
       method: 'put',
       url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/departments`,
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        Authorization: `Bearer ${sessionStorage.getItem('token')}`,
       },
       data: {
         deptName: deptname,
@@ -266,8 +266,8 @@ const ProductListing = () => {
       url: `${window.__ENV__.REACT_APP_MIDDLEWARE}dms_service_LM/api/dms_admin_service/setDeptData`,
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-        username: localStorage.getItem('username'),
+        Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+        username: sessionStorage.getItem('username'),
         pageNumber: page,
         pageSize: 10,
       },

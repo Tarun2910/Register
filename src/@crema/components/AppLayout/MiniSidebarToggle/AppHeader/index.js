@@ -20,7 +20,7 @@ import {allowMultiLanguage} from '../../../../constants/AppConst';
 import {useAuthMethod} from '@crema/hooks/AuthHooks';
 import LogoutIcon from '@mui/icons-material/Logout';
 import ThemeModes from '@crema/components/AppThemeSetting/ThemeModes';
-import GroupIcon from '@mui/icons-material/Group';
+import {AiOutlineFolderOpen} from 'react-icons/ai';
 import {useNavigate} from 'react-router-dom';
 
 const AppHeader = (props) => {
@@ -144,11 +144,7 @@ const AppHeader = (props) => {
                 marginRight: -2,
               }}
             >
-              <Box
-                sx={{
-                  px: 4,
-                }}
-              >
+              <Box>
                 <AppTooltip title='Switch to TeamSync' tooltipPosition='bottom'>
                   <IconButton
                     className='icon-btn'
@@ -172,7 +168,7 @@ const AppHeader = (props) => {
                     onClick={NavigateToTeamSync}
                     size='large'
                   >
-                    <GroupIcon />
+                    <AiOutlineFolderOpen />
                   </IconButton>
                 </AppTooltip>
               </Box>

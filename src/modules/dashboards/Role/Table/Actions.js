@@ -62,7 +62,7 @@ const OrderActions = ({
       url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/users?pageNum=${0}`,
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        Authorization: `Bearer ${sessionStorage.getItem('token')}`,
         appName: 'TeamSync',
         pageNumber: '0',
         pageSize: '5000',
@@ -93,7 +93,7 @@ const OrderActions = ({
     try {
       const response = await axios.delete(`/kms/courses/${id}`, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
+          Authorization: `Bearer ${sessionStorage.getItem('token')}`,
         },
       });
       const updatedList = list.filter((course) => course.id !== id);
@@ -127,7 +127,7 @@ const OrderActions = ({
       url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/users?pageNum=${0}`,
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        Authorization: `Bearer ${sessionStorage.getItem('token')}`,
         appName: 'TeamSync',
       },
     };
@@ -157,7 +157,7 @@ const OrderActions = ({
       url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/tenants/departments/${deptName}/roles`,
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        Authorization: `Bearer ${sessionStorage.getItem('token')}`,
         roleName: tableRolename,
       },
       data: users,
@@ -185,7 +185,7 @@ const OrderActions = ({
       url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/multitenant/adminportal/api/switchRole`,
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        Authorization: `Bearer ${sessionStorage.getItem('token')}`,
         roleName: roleNameone,
         currentUserName: Isuserassigned,
         newUserName: selecteduser?.deptUsername,

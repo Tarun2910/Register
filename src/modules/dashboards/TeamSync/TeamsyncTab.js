@@ -47,7 +47,7 @@ const TeamSyncTab = () => {
       maxBodyLength: Infinity,
       url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/dms_service_LM/api/dms_admin_service/topConsumers`,
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        Authorization: `Bearer ${sessionStorage.getItem('token')}`,
         top: '5',
         userName: sessionStorage.getItem('username'),
         isDepartment: 'false',
@@ -84,7 +84,7 @@ const TeamSyncTab = () => {
       maxBodyLength: Infinity,
       url: `${window.__ENV__.REACT_APP_MIDDLEWARE}/dms_service_LM/api/dms_admin_service/topConsumers`,
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        Authorization: `Bearer ${sessionStorage.getItem('token')}`,
         top: '5',
         userName: sessionStorage.getItem('username'),
         isDepartment: true,
@@ -260,6 +260,7 @@ const TeamSyncTab = () => {
   const activeUserCount = storageData?.activeUserCount || 0;
   const pendingUserCount = storageData?.pendingUserCount || 0;
   const inactiveUserCount = storageData?.inactiveUserCount || 0;
+  const licenseExpiry = storageData?.licenseExpiry;
   const totalUsersAllowedInLicenseTier =
     storageData?.totalUsersAllowedInLicenseTier || 0;
 
@@ -446,6 +447,7 @@ const TeamSyncTab = () => {
                 totalUsersAllowedInLicenseTier={
                   memoizedTotalUsersAllowedInLicenseTier
                 }
+                licenseExpiry={licenseExpiry}
               />
             </Grid>
             <Grid item xs={12} md={12} lg={4} sx={{pl: '16px !important'}}>

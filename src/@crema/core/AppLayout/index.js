@@ -29,7 +29,7 @@ const AppLayout = () => {
   const AppLayout = Layouts[navStyle];
   const [params] = useUrlSearchParams();
 
-  const jwtToken = localStorage.getItem('token');
+  const jwtToken = sessionStorage.getItem('token');
   let isAuthenticated = false;
 
   if (jwtToken) {

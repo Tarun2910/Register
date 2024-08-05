@@ -56,7 +56,7 @@ export const getApplicationsData = createAsyncThunkWithTokenRefresh(
           Authorization: `Bearer ${token}`,
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          username: localStorage.getItem('username'),
+          username: sessionStorage.getItem('username'),
           searchText: payload.searchText,
         },
         maxBodyLength: Infinity,

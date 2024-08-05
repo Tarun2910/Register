@@ -19,8 +19,8 @@ export const createAxiosConfig = (
 export const refreshAccessToken = async (thunkAPI) => {
   try {
     const formData = new FormData();
-    formData.append('refreshToken', localStorage.getItem('refresh_token'));
-    formData.append('userEmail', localStorage.getItem('username'));
+    formData.append('refreshToken', sessionStorage.getItem('refresh_token'));
+    formData.append('userEmail', sessionStorage.getItem('username'));
     formData.append('appName', 'TeamSync');
 
     const refreshResponse = await axios.post(
@@ -31,14 +31,14 @@ export const refreshAccessToken = async (thunkAPI) => {
       },
     );
 
-    localStorage.setItem('token', refreshResponse.data.access_token);
-    localStorage.setItem('sessionId', refreshResponse.data.session_state);
+    sessionStorage.setItem('token', refreshResponse.data.access_token);
+    sessionStorage.setItem('sessionId', refreshResponse.data.session_state);
 
     return refreshResponse.data;
   } catch (refreshError) {
     console.log(refreshError);
     window.location.href = '/signin';
-    localStorage.clear();
+    sessionStorage.clear();
     sessionStorage.clear();
     return refreshError;
   }
@@ -49,7 +49,7 @@ export const createAsyncThunkWithTokenRefresh = (type, requestFunction) =>
   createAsyncThunk(`${type}`, async (payload, thunkAPI) => {
     try {
       // Get the token from the session storage
-      const token = localStorage.getItem('token');
+      const token = sessionStorage.getItem('token');
       const currentUser = thunkAPI.getState().user.currentUser;
 
       // Make the initial request using the provided function and token

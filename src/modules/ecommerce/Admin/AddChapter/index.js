@@ -119,7 +119,7 @@ export const AddChapter = ({selectedProd}) => {
             axios
               .put(`/kms/courses/${id}`, updatedProd, {
                 headers: {
-                  Authorization: `Bearer ${localStorage.getItem('token')}`,
+                  Authorization: `Bearer ${sessionStorage.getItem('token')}`,
                 },
               })
               .then(() => {
@@ -140,7 +140,7 @@ export const AddChapter = ({selectedProd}) => {
             axios
               .post(`/kms/courses/${id}/chapters`, Data, {
                 headers: {
-                  Authorization: `Bearer ${localStorage.getItem('token')}`,
+                  Authorization: `Bearer ${sessionStorage.getItem('token')}`,
                 },
               })
 

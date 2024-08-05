@@ -43,7 +43,7 @@ const OrderActions = ({
     try {
       const response = await axios.delete(`/kms/courses/${id}`, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
+          Authorization: `Bearer ${sessionStorage.getItem('token')}`,
         },
       });
       const updatedList = list.filter((course) => course.id !== id);
