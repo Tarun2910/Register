@@ -7,7 +7,7 @@ import AudienceCell from './AudienceCell';
 import AppCard from '@crema/components/AppCardOne';
 import AppList from '@crema/components/AppList';
 
-const AgeOfAudience = ({audienceData}) => {
+const AgeOfAudience = ({audienceData, cellListData}) => {
   const {messages} = useIntl();
 
   return (
@@ -34,7 +34,7 @@ const AgeOfAudience = ({audienceData}) => {
       </Box>
 
       <AppList
-        data={audienceData}
+        data={cellListData}
         renderRow={(audience) => (
           <AudienceCell key={'audience-' + audience.id} audience={audience} />
         )}
@@ -47,4 +47,5 @@ export default AgeOfAudience;
 
 AgeOfAudience.propTypes = {
   audienceData: PropTypes.array,
+  cellListData: PropTypes.array,
 };

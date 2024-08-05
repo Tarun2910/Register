@@ -8,6 +8,8 @@ const initialState = {
   loginIsError: false,
   loginError: '',
   loginIsSuccess: false,
+  showexpiredwarning: false,
+  showupcomingexpiry: false,
 
   // refresh
   refreshData: {},
@@ -39,6 +41,18 @@ export const loginAction = createAsyncThunk(
           maxBodyLength: Infinity,
         },
       );
+      if (response.headers['showexpiredwarning']) {
+        localStorage.setItem(
+          'showexpiredwarning',
+          response.headers['showexpiredwarning'],
+        );
+      }
+      if (response.headers['showupcomingexpiry']) {
+        localStorage.setItem(
+          'showupcomingexpiry',
+          response.headers['showupcomingexpiry'],
+        );
+      }
 
       return response.data;
     } catch (error) {
@@ -226,13 +240,15 @@ export const authSlice = createSlice({
         state.loginIsSuccess = false;
       })
       .addCase(loginAction.fulfilled, (state, action) => {
-        // console.log('loginAction Inside fulfilled', action)
+        console.log('loginAction Inside fulfilled', action);
 
         state.loginData = action.payload;
         state.loginIsLoading = false;
         state.loginIsError = false;
         state.loginError = '';
         state.loginIsSuccess = true;
+        // state.showexpiredwarning = action.headers['showexpiredwarning'];
+        // state.showupcomingexpiry = action.headers['showupcomingexpiry'];
       })
       .addCase(loginAction.rejected, (state, action) => {
         // console.log('loginAction Inside error', action)

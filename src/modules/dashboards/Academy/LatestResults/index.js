@@ -9,7 +9,7 @@ import {Fonts} from '@crema/constants/AppEnums';
 import PropTypes from 'prop-types';
 
 const getColor = (percentage) => {
-  if (percentage < 50) {
+  if (percentage < 90) {
     return '#0A8FDC';
   }
   return '#F5585B';
@@ -70,7 +70,7 @@ const ResultItem = ({result}) => {
         }}
       >
         <AppLinearProgress
-          style={{flex: 1}}
+          style={{flex: 1, height: '0.25rem'}}
           value={result.percentage}
           activeColor={getColor(result.percentage)}
         />

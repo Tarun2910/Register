@@ -20,14 +20,21 @@ import {allowMultiLanguage} from '../../../../constants/AppConst';
 import {useAuthMethod} from '@crema/hooks/AuthHooks';
 import LogoutIcon from '@mui/icons-material/Logout';
 import ThemeModes from '@crema/components/AppThemeSetting/ThemeModes';
+import GroupIcon from '@mui/icons-material/Group';
+import {useNavigate} from 'react-router-dom';
 
 const AppHeader = (props) => {
   const {isCollapsed, setCollapsed, toggleNavCollapsed} = props;
   const {logout} = useAuthMethod();
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const navigate = useNavigate();
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
+  };
+
+  const NavigateToTeamSync = () => {
+    window.location.href = 'http://3.7.32.64:3009/Costa/dms/FileManager';
   };
 
   const handleClose = () => {
@@ -104,6 +111,7 @@ const AppHeader = (props) => {
         >
           <AppLogo />
         </Box>
+
         <Box
           sx={{
             flexGrow: 1,
@@ -136,6 +144,38 @@ const AppHeader = (props) => {
                 marginRight: -2,
               }}
             >
+              <Box
+                sx={{
+                  px: 4,
+                }}
+              >
+                <AppTooltip title='Switch to TeamSync' tooltipPosition='bottom'>
+                  <IconButton
+                    className='icon-btn'
+                    sx={{
+                      borderRadius: '50%',
+                      width: 40,
+                      height: 40,
+                      color: (theme) => theme.palette.text.secondary,
+                      backgroundColor: (theme) =>
+                        theme.palette.background.default,
+                      border: 1,
+                      borderColor: 'transparent',
+                      '&:hover, &:focus': {
+                        color: (theme) => theme.palette.text.primary,
+                        backgroundColor: (theme) =>
+                          alpha(theme.palette.background.default, 0.9),
+                        borderColor: (theme) =>
+                          alpha(theme.palette.text.secondary, 0.25),
+                      },
+                    }}
+                    onClick={NavigateToTeamSync}
+                    size='large'
+                  >
+                    <GroupIcon />
+                  </IconButton>
+                </AppTooltip>
+              </Box>
               {/* <Box
                 sx={{
                   px: 1.85,
