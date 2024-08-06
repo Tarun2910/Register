@@ -69,11 +69,11 @@ export const TotalVisitor = ({totalVisitors, totalUserCount}) => {
     <AppCard
       // sxStyle={{height: 1}}
       title={messages['UserCount']}
-      action={
-        <Button variant='outlined' color='primary' onClick={handleBuyNow}>
-          {messages['common.viewAll']}
-        </Button>
-      }
+      // action={
+      //   <Button variant='outlined' color='primary' onClick={handleBuyNow}>
+      //     {messages['common.viewAll']}
+      //   </Button>
+      // }
       contentStyle={{height: '21rem'}}
     >
       <EarningGraphWrapper>

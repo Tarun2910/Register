@@ -16,6 +16,7 @@ import TopStorageUsed from '../Academy/LatestResults';
 import PieChartOrganisation from '../ECommerce/AgeOfAudience';
 // import ActiveUserChart from '../ECommerce/TopInquiries';
 import ActiveUserChart from '../CRM/TotalVisitor';
+import LicenseGrid from '../LicenseGrid';
 
 const TeamSyncTab = () => {
   const {storageData, storageDataIsSuccess} = useSelector(
@@ -438,6 +439,17 @@ const TeamSyncTab = () => {
         <AppAnimate animation='transition.slideUpIn' delay={200}>
           <AppGridContainer>
             <Grid item xs={12} md={12} lg={4}>
+              <LicenseGrid
+                cardDetails={memoizedCardDetails}
+                totalUserCount={memoizedTotalUserCount}
+                activeUserCount={memoizedActiveUserCount}
+                inactiveUserCount={memoizedInactiveUserCount}
+                pendingUserCount={memoizedPendingUserCount}
+                totalUsersAllowedInLicenseTier={
+                  memoizedTotalUsersAllowedInLicenseTier
+                }
+                licenseExpiry={licenseExpiry}
+              />
               <CardDetails
                 cardDetails={memoizedCardDetails}
                 totalUserCount={memoizedTotalUserCount}
@@ -457,22 +469,22 @@ const TeamSyncTab = () => {
               />
             </Grid>
             <Grid item xs={12} md={12} lg={4} sx={{pl: '16px !important'}}>
-              <TopStorageUsed latestResults={departmentStat} user={false} />
+              <ActiveUserChart
+                totalVisitors={totalVisitors}
+                totalUserCount={totalUserCount}
+              />
             </Grid>
-            <Grid item xs={12} md={12} lg={5} sx={{pt: '16px !important'}}>
+            <Grid item xs={12} md={12} lg={6} sx={{pt: '16px !important'}}>
               <TopStorageUsed latestResults={userStat} user={true} />
             </Grid>
             <Grid
               item
               xs={12}
               md={12}
-              lg={7}
+              lg={6}
               sx={{pl: '16px !important', pt: '16px !important'}}
             >
-              <ActiveUserChart
-                totalVisitors={totalVisitors}
-                totalUserCount={totalUserCount}
-              />
+              <TopStorageUsed latestResults={departmentStat} user={false} />
             </Grid>
           </AppGridContainer>
         </AppAnimate>

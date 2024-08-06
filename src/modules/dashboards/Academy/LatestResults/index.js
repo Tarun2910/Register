@@ -106,7 +106,7 @@ const LatestResults = ({latestResults, user}) => {
       contentStyle={{px: 0}}
     >
       <AppList
-        sx={{height: '19.6rem'}}
+        sx={{height: '19rem'}}
         animation='transition.slideRightBigIn'
         data={getData(latestResults)}
         renderRow={(data, index) => <ResultItem key={index} result={data} />}

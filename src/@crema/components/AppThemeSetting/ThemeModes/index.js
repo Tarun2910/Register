@@ -137,7 +137,8 @@ const ThemeModes = () => {
           sx={{
             borderRadius: '50%',
             width: 40,
-            height: 40,
+            height: 35,
+            marginTop: '3px',
             color: (theme) => theme.palette.text.secondary,
             backgroundColor: (theme) => theme.palette.background.default,
             border: 1,

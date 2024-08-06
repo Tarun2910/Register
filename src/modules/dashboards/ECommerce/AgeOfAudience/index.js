@@ -20,11 +20,11 @@ const AgeOfAudience = ({audienceData, cellListData}) => {
       // sx={{height: 'auto'}}
 
       title={messages['Organisation']}
-      action={
-        <Button variant='outlined' color='primary' onClick={handleBuyNow}>
-          {messages['common.viewAll']}
-        </Button>
-      }
+      // action={
+      //   <Button variant='outlined' color='primary' onClick={handleBuyNow}>
+      //     {messages['common.viewAll']}
+      //   </Button>
+      // }
       contentStyle={{
         paddingLeft: 0,
         paddingRight: 0,

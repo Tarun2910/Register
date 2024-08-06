@@ -197,7 +197,8 @@ const AppLngSwitcher = ({iconOnly, tooltipPosition}) => {
       {!iconOnly ? (
         <IconButton
           sx={{
-            height: 40,
+            height: 35,
+            marginTop: '3px',
             fontSize: 16,
             borderRadius: 30,
             padding: '6px 12px',
@@ -235,7 +236,8 @@ const AppLngSwitcher = ({iconOnly, tooltipPosition}) => {
         <AppTooltip title='Language' placement={tooltipPosition}>
           <IconButton
             sx={{
-              height: 40,
+              height: 35,
+              marginTop: '3px',
               width: 40,
               borderRadius: '50%',
               padding: '6px 9px',
