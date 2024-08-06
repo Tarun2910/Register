@@ -196,7 +196,10 @@ const UserInfo = ({color}) => {
 
   const getUserAvatar = () => {
     if (username) {
-      return username.charAt(0).toUpperCase();
+      return username
+        .split(' ') // Split the name into an array of words
+        .map((word) => word.charAt(0).toUpperCase()) // Get the first letter of each word and convert to uppercase
+        .join('');
     }
     if (user?.displayName) {
       return user.displayName.charAt(0).toUpperCase();

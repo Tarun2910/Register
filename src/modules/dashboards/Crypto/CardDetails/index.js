@@ -24,15 +24,15 @@ const CardDetails = ({
     <>
       <AppCard
         title={messages['dashboard.crypto.cardDetails']}
-        // sx={{height: 'auto'}}
+        sx={{marginTop: '1rem'}}
         // sxStyle={{height: 'calc(100vh - 330px)'}}
       >
         <Box
           sx={{
-            borderBottom: (theme) => `solid 2px ${theme.palette.divider}`,
+            // borderBottom: (theme) => `solid 2px ${theme.palette.divider}`,
             pb: 1,
             mb: 2.5,
-            height: '1.25rem',
+            // height: '1.25rem',
           }}
         >
           {/* <Box
@@ -98,6 +98,7 @@ const CardDetails = ({
                 sx={{
                   px: 2.5,
                   pb: 2.5,
+                  height: '13.2rem',
                 }}
                 key={index}
               >
@@ -119,7 +120,7 @@ const CardDetails = ({
             </Box>
           )}
         </Box>
-        <Divider
+        {/* <Divider
           sx={{
             my: 4,
             borderBottom: (theme) => `solid 2px ${theme.palette.divider}`,
@@ -143,16 +144,16 @@ const CardDetails = ({
             fontSize: 15,
             pb: 1,
           }}
-        >
-          {/* <CustomizedProgressBars
+        > */}
+        {/* <CustomizedProgressBars
             totalUserCount={totalUserCount}
             activeUserCount={activeUserCount}
             inactiveUserCount={inactiveUserCount}
             pendingUserCount={pendingUserCount}
             totalUsersAllowedInLicenseTier={totalUsersAllowedInLicenseTier}
           /> */}
-          License Expiry Date :- {licenseExpiry}
-        </Box>
+        {/* License Expiry Date :- {licenseExpiry} */}
+        {/* </Box> */}
         {/* </Box> */}
       </AppCard>
     </>

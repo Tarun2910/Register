@@ -27,7 +27,7 @@ const VisitorGraph = ({totalVisitors, totalUserCount}) => {
           textAnchor='middle'
           dominantBaseline='middle'
         >
-          {messages['UserCount']}
+          {messages['totaluser']}
         </text>
         <Pie
           data={totalVisitors}

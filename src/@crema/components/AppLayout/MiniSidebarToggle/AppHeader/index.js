@@ -55,6 +55,7 @@ const AppHeader = (props) => {
         //   'linear-gradient(to right bottom, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.2))',
         // backdropFilter: 'blur(1rem)',
         boxShadow: '0 0 1rem rgba(0, 0, 0, 0.2)',
+        height: '3.2rem',
       }}
       className='app-bar'
     >
@@ -151,7 +152,8 @@ const AppHeader = (props) => {
                     sx={{
                       borderRadius: '50%',
                       width: 40,
-                      height: 40,
+                      height: 35,
+                      marginTop: '3px',
                       color: (theme) => theme.palette.text.secondary,
                       backgroundColor: (theme) =>
                         theme.palette.background.default,
@@ -209,7 +211,8 @@ const AppHeader = (props) => {
                     sx={{
                       borderRadius: '50%',
                       width: 40,
-                      height: 40,
+                      height: 35,
+                      marginTop: '3px',
                       color: (theme) => theme.palette.text.secondary,
                       backgroundColor: (theme) =>
                         theme.palette.background.default,
