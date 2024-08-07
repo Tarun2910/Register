@@ -55,7 +55,7 @@ import './styles/index.css';
 import {Provider, useDispatch, useSelector} from 'react-redux';
 import {store} from 'redux/store';
 import CloseIcon from '@mui/icons-material/Close';
-import {Tooltip} from '@mui/material';
+import {Button, Tooltip} from '@mui/material';
 import {authRefreshAction} from 'redux/features/authSlice';
 
 const ExpiryWarningModal = () => {
@@ -104,7 +104,20 @@ const ExpiryWarningModal = () => {
         >
           <div style={{flexGrow: 1}}>
             Your account or subscription is nearing expiration. Please renew it
-            to continue enjoying our services.
+            to continue enjoying our services.{' '}
+            <Button
+              variant='text'
+              color='primary'
+              style={{
+                padding: 0,
+                textTransform: 'none',
+                fontSize: 'inherit',
+                minWidth: 'auto',
+                marginLeft: '5px',
+              }}
+            >
+              Buy Now
+            </Button>
           </div>
           <div>
             <Tooltip title='Close'>
@@ -139,6 +152,19 @@ const ExpiryWarningModal = () => {
           <div style={{flexGrow: 1}}>
             Your account or subscription is nearing expiration. Please renew it
             to continue enjoying our services.
+            <Button
+              variant='text'
+              color='primary'
+              style={{
+                padding: 0,
+                textTransform: 'none',
+                fontSize: 'inherit',
+                minWidth: 'auto',
+                marginLeft: '5px',
+              }}
+            >
+              Buy Now
+            </Button>
           </div>
           <div>
             <Tooltip title='Close'>

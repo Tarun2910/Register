@@ -49,7 +49,7 @@ const Categories = (props) => {
   return (
     <EarningCategoryListItem
       category={category}
-      secondaryAction={<span>{category.percent}% </span>}
+      // secondaryAction={<span>{category.percent}% </span>}
     >
       <span className='dot-icon' />
       <ListItemText className='earning-text' primary={`${category.name}:`} />

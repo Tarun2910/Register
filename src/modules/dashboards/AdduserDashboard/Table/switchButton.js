@@ -49,7 +49,7 @@ const IOSSwitch = styled((props) => (
   },
   '& .MuiSwitch-track': {
     borderRadius: 20 / 2, // Adjusted border-radius
-    backgroundColor: theme.palette.mode === 'light' ? '#E9E9EA' : '#39393D',
+    backgroundColor: theme.palette.mode === 'light' ? '#E9E9EA' : '#696972a8',
     opacity: 1,
     transition: theme.transitions.create(['background-color'], {
       duration: 500,
