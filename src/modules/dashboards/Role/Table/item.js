@@ -11,6 +11,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import {RiSplitCellsHorizontal} from 'react-icons/ri';
 import {Button, Checkbox, Tooltip} from '@mui/material';
 import PeopleIcon from '@mui/icons-material/People';
+import {useThemeContext} from '@crema/context/AppContextProvider/ThemeContextProvider';
 
 const StyledTableCell = styled(TableCell)(() => ({
   fontSize: '0.77rem',
@@ -25,7 +26,7 @@ const StyledTableCell = styled(TableCell)(() => ({
 
 const StyledTableRow = styled(TableRow)(({theme}) => ({
   '&:hover': {
-    background: '#e0ecf0',
+    background: theme.palette.mode === 'dark' ? '#b1a5a5d5' : '#e0ecf0',
     borderRadius: '15px',
     color: '#354c64 !important', // Add your desired hover color here
   },
@@ -50,7 +51,7 @@ const TableItem = ({
   tableRolename,
 }) => {
   // const [itemsState, setItemsState] = useState([]);
-
+  const {theme} = useThemeContext();
   useEffect(() => {
     // Initialize itemsState with default values from productData
     const initialItemsState = productData.map((data) => ({
@@ -171,6 +172,9 @@ const TableItem = ({
                   setTableRoleName(data?.roleName);
                 }}
                 startIcon={<PeopleIcon />} // Adding the icon here
+                style={{
+                  color: theme.palette.mode === 'dark' ? '#fff' : '#2997ff',
+                }}
               >
                 {`${data?.user?.length} users`}
               </Button>

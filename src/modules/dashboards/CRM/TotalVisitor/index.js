@@ -26,6 +26,7 @@ const EarningGraphWrapper = styled('div')(({theme}) => {
     '& .earning-item': {
       width: '100%',
       paddingLeft: 8,
+
       paddingRight: 8,
       [theme.breakpoints.up('sm')]: {
         width: '46%',
@@ -34,7 +35,7 @@ const EarningGraphWrapper = styled('div')(({theme}) => {
         width: '45%',
       },
       [theme.breakpoints.up('xl')]: {
-        width: '50%',
+        width: '40%',
       },
     },
     '& .earning-graph-item': {
@@ -47,7 +48,7 @@ const EarningGraphWrapper = styled('div')(({theme}) => {
         width: '55%',
       },
       [theme.breakpoints.up('xl')]: {
-        width: '50%',
+        width: '60%',
       },
       [theme.breakpoints.down('sm')]: {
         display: 'flex',
